@@ -17,7 +17,7 @@ SITE_TITLE = "Second Brain di Divan — Riassunti"
 HERE = os.path.dirname(os.path.abspath(__file__))
 VAULT = os.path.normpath(os.path.join(HERE, "..", "ai"))
 SRC = os.path.join(VAULT, "wiki", "riassunti")
-OUT = os.path.join(HERE, "public")
+OUT = os.path.join(HERE, "docs")
 
 CSS = """
 :root { color-scheme: light dark; }
