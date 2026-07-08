@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stop Prompting Claude. Use Karpathy&#x27;s Method Instead. — riassunto</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto;
+  color: #1a1a1a; background: #fbfbfa;
+}
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; }
+  blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; }
+  hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; }
+  .muted { color: #9aa0a6; }
+}
+a { color: #1a5fb4; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; }
+h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem;
+  border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem;
+  font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; }
+li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem;
+  border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff;
+  border-radius: .7rem; padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; }
+.card .muted { display: block; }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> partendo da un'intervista di <strong>Andrej Karpathy</strong> ad <em>AI Ascent 2026</em>, il video sostiene che quasi tutti "promptano" Claude male e propone un metodo in tre strati per usarlo davvero bene — <strong>Spec</strong>, <strong>Verifier</strong>, <strong>Environment</strong> — con cui, secondo l'autore, si costruisce "10 volte più veloci". Il filo che tiene insieme i tre strati è la frase finale di Karpathy: puoi delegare all'AI il <em>pensiero</em>, ma non la <em>comprensione</em> dell'obiettivo di fondo.</p>
+<h2>Il punto di partenza: gli LLM sono ciechi sul contesto implicito</h2>
+<p>L'autore racconta di aver ascoltato Karpathy — <strong>ex head of AI di Tesla</strong> — parlare ad AI Ascent 2026 e di averne ricavato una tesi inattesa: la maggior parte delle persone usa Claude nel modo sbagliato. Da qui la decisione di approfondire come Karpathy usi concretamente l'AI nel 2026. Il suo metodo, dice l'autore, si scompone in <strong>tre strati semplici</strong> che chiunque può applicare, più "l'unica cosa" su cui Karpathy invita a concentrarsi nell'era dell'AI.</p>
+<p>Il primo strato è lo <strong>Spec</strong>. Gli LLM sono estremamente intelligenti, ma manca loro qualcosa. Karpathy lo dimostra con una domanda banale che l'AI sbaglia sistematicamente: <strong>"Voglio andare all'autolavaggio a lavare la macchina, è a 50 metri. Devo andarci in auto o a piedi?"</strong> I modelli allo stato dell'arte rispondono "a piedi", perché è vicinissimo — ignorando che serve proprio l'auto per lavarla. L'autore all'inizio non ci credeva, così ha posto la stessa domanda a <strong>Claude, Gemini, Grok e ChatGPT</strong>: tutti hanno dato la stessa risposta sbagliata. Questo, dice, rivela l'intera premessa del video: <strong>l'AI è brillante su ciò che è misurabile, ma su cose guidate dal contesto — come "serve l'auto per l'autolavaggio" — non ha alcun segnale su cui agire.</strong></p>
+<p>La domanda diventa quindi: come si colma il divario tra la tua comprensione e le tue informazioni contestuali da un lato, e la potenza computazionale dell'AI dall'altro? La risposta è lo <strong>spec</strong>: il formato con cui consegni la tua comprensione a Claude in un modo che può effettivamente usare.</p>
+<h2>Strato 1 — Lo Spec: oltre il plan mode</h2>
+<p>Un termine noto è la <strong>plan mode</strong> di Claude, che serve a costruire un piano prima di realizzare qualsiasi cosa. Ma per Karpathy la plan mode è <strong>troppo di alto livello</strong>. Nelle sue parole: <em>"In realtà non mi piace nemmeno la plan mode... ovviamente è molto utile, ma penso che qui ci sia qualcosa di più generale: devi lavorare con il tuo agente per progettare uno spec che sia molto dettagliato."</em> L'autore chiarisce che Karpathy non sta dicendo che la plan mode sia inutile: sta dicendo di <strong>andare più a fondo</strong>, collaborando con gli strumenti AI per progettare lo spec vero e proprio. Costruire uno spec che Claude possa usare con successo passa per tre step.</p>
+<h3>Step 1 — Scoprire il vero obiettivo</h3>
+<p>Se dici soltanto "Crea un report di fine mese", quello è un <strong>task</strong>, non l'obiettivo. L'obiettivo reale è la <strong>conclusione</strong> che stai cercando di trarre, la <strong>decisione</strong> che il report deve guidare — ed è qualcosa che l'AI non potrà mai decidere al posto tuo. Il modo per farlo emergere è <strong>dire a Claude di intervistarti</strong> per identificare l'obiettivo del progetto: così l'informazione esce dalla tua testa ed entra nello spec.</p>
+<h3>Step 2 — Essere agili</h3>
+<p>Esistono due modi di completare un task: <strong>waterfall</strong> e <strong>agile</strong>. Nel waterfall prendi un compito grande, lo porti a termine tutto e poi mostri il prodotto finale. Nell'agile spezzi lo stesso compito in <strong>piccoli blocchi</strong> e mostri i risultati lungo tutto il percorso, per assicurarti di andare nella direzione giusta. Le persone sono fortemente inclini a usare gli agenti AI in modo waterfall, perché vogliono dare loro tutto da fare in una volta sola. La mossa migliore è invece lo <strong>specking agile</strong>: <strong>scope stretto, checkpoint chiaro, revisione dell'output, aggiustamento, e ripetere</strong>. Per ottenerlo, si dice a Claude di <strong>tendere verso spec più piccoli e compartimentati</strong>.</p>
+<h3>Step 3 — Essere precisi e usare il proprio cervello</h3>
+<p>Più sei preciso, meno l'AI deve <strong>assumere</strong> — e ogni assunzione che l'AI fa è un'occasione per <strong>derivare</strong> (drift) dal prodotto finale che volevi davvero. Inoltre, quando fai creare uno spec all'AI, devi usare il tuo cervello per <strong>pensare in modo critico</strong> a cosa quello spec dice realmente. Per aiutarti a farlo, puoi istruire Claude con: <strong>"Fammi verificare esplicitamente le decisioni chiave, così non si perde nulla."</strong></p>
+<p>Mettendo insieme questi tre pezzi si ottiene un prompt finale da usare in Claude che produce uno spec <strong>strettamente delimitato, ben ragionato e allineato all'obiettivo reale</strong>. L'autore chiama questo processo <strong>"modern engineering"</strong>, e sostiene che ogni persona di successo dovrà diventarne capace.</p>
+<h2>Strato 2 — Il Verifier: "non stiamo costruendo animali, stiamo evocando fantasmi"</h2>
+<p>Il secondo strato <strong>poggia sopra lo spec</strong> ed è il processo di <strong>verifica</strong>. Una delle cose più frustranti dell'AI è proprio rivedere e verificare l'output: a differenza di un umano, l'AI non riesce ad afferrare le cose non misurabili. Come aiutarla allora a verificare i propri output? Prima serve il <strong>modello mentale</strong> giusto, che Karpathy formula come <strong>animali contro fantasmi</strong>.</p>
+<p>Nell'intervista, Karpathy dice: <em>"L'idea è che non stiamo costruendo animali, stiamo evocando fantasmi."</em> Interrogato sul perché questa cornice conti e su cosa cambi nel modo di costruire, distribuire, valutare e persino fidarsi di questi sistemi, risponde: <em>"Ho scritto di questo perché sto cercando di capire cosa siano queste cose. Se hai un buon modello di ciò che sono o non sono, sarai più competente nell'usarle. Si tratta di accettare che non sono intelligenze animali. Se urli contro di loro, non lavorano né meglio né peggio: non ha alcun impatto. Sono solo una specie di circuiti di simulazione statistica. È più questione di essere sospettosi verso di loro e capirli col tempo."</em></p>
+<h3>La semplificazione: il "bibliotecario robot"</h3>
+<p>L'autore traduce il concetto. Noi persone siamo abituati a interagire con altre persone — gli "animali" di Karpathy — che sono spinti da <strong>motivazioni ed emozioni</strong> che, in un contesto di squadra, aiutano a produrre il risultato. Se dici a una persona "diventa esperto di SEO marketing nei prossimi 14 giorni o sei licenziato", quella persona <strong>si ingegnerà</strong> per riuscirci, perché ha <strong>motivazioni intrinseche</strong>. L'AI non è così.</p>
+<p>Karpathy la descrive come un <strong>fantasma</strong>, ma l'autore trova l'immagine troppo confusa e la scarta a favore di quella del <strong>bibliotecario robot</strong>. Se poni al bibliotecario la stessa domanda sulla SEO, lui suggerirà risorse e risposte <strong>solo in base ai libri presenti nella sua biblioteca</strong>. Se non ha il libro, non può aiutarti. E il problema è che <strong>il bibliotecario non sa di non avere quel libro</strong>: perciò può inventarsi qualcosa con sicurezza. È esattamente ciò che accade quando l'AI azzecca la matematica ma inciampa sul contesto: è brillante quando la biblioteca ha risposte chiare, ma quando non le ha diventa <strong>sicura di sé e sbagliata</strong>, oppure incerta.</p>
+<p>Ne segue che trattarla come un animale (cioè come un umano) non funziona: urlare, supplicare, dire soltanto "fai meglio" non serve. <strong>L'unica leva che hai — quella che la maggior parte delle persone non pensa nemmeno di usare — è la leva della verifica.</strong> Ottimizzando la verifica, giochi all'interno delle regole che l'AI effettivamente segue. Ci sono tre punti su cui concentrarsi.</p>
+<h3>Punto 1 — Definire i criteri di valutazione in anticipo</h3>
+<p>Prima che Claude tocchi qualsiasi cosa — task tecnico o non tecnico — definisci con precisione <strong>come è fatto un buon risultato</strong>. Un modo vago di valutare un output è "Fai in modo che il report sia bello". Un modo preciso è: <strong>"Il report deve avere tre sezioni, ognuna delle quali termina con una raccomandazione."</strong> È lo stesso principio dello strato 1: più sei preciso all'inizio, meno spazio ha Claude per sbagliare. Per applicarlo, si aggiunge al prompt di verifica: <strong>"Delinea i criteri di valutazione che userai per garantire un prodotto finale di alta qualità. Sii preciso."</strong></p>
+<h3>Punto 2 — Usare un secondo modello come critico</h3>
+<p>Come un secondo bibliotecario robot <strong>di un'altra biblioteca</strong>, usato per valutare l'output del primo. Avendo un insieme di libri completamente diverso, potrebbe cogliere perché il primo bibliotecario ha ragione o torto. Tatticamente: se usi <strong>Claude Code</strong>, puoi installare il <strong>plugin Codex</strong>, che permette di interrogare Codex direttamente dentro la tua sessione di Claude Code. Ad esempio: <strong>"Se questo diventa un build complesso, fai rivedere l'output finale a Codex per assicurarti che entrambi i sistemi siano d'accordo."</strong></p>
+<h3>Punto 3 — Tirare dentro segnale esterno dove possibile</h3>
+<p>La domanda è: come portare <strong>contesto aggiuntivo</strong> che aiuti a verificare un output? Due esempi concreti. Primo, tecnico: stai facendo il <strong>deploy di un'app</strong> e non sei sicuro che sia andato a buon fine — invece di indovinare, colleghi la sessione di Claude al sistema su cui è distribuita, così può <strong>verificare direttamente</strong> che il deploy sia riuscito; a quel punto, se dice che il deploy è andato, lo sai con certezza. Secondo, non tecnico: stai lavorando a un <strong>report mensile</strong> — porti dentro i tuoi <strong>report storici</strong> come riferimento per il formato esatto che l'output finale deve avere, alimentando così con dati concreti il processo di verifica.</p>
+<p>Combinando i tre punti si ottiene un prompt da lanciare in Claude che aggiunge un vero e proprio <strong>strato di valutazione</strong> dove ha senso. L'autore sottolinea quanto sia importante citando <strong>Boris Cherny, creatore di Claude Code</strong>: <em>"Se Claude ha un feedback loop, moltiplica di 2-3 volte la qualità del risultato finale."</em></p>
+<h2>Strato 3 — L'Environment: il "laboratorio" che non si può replicare</h2>
+<p>Gli strati 1 e 2 devono vivere da qualche parte, ed è questo il terzo strato: <strong>l'ambiente</strong> in cui costruisci. L'autore lo paragona a un <strong>laboratorio (workshop)</strong>: lo <strong>spec</strong> è il progetto appeso alla parete, il <strong>verifier</strong> è la stazione di controllo qualità vicino alla porta, e l'<strong>environment</strong> è il laboratorio stesso. Servono gli strumenti e il sistema giusti perché l'insieme funzioni ad alto livello.</p>
+<p>Il problema è che la maggior parte delle persone <strong>ricostruisce il laboratorio da zero ogni volta</strong> che usa l'AI. E — precisa l'autore — avere una singola chat con tutta la cronologia della conversazione <strong>non</strong> è ciò di cui sta parlando. Come si crea allora uno spazio di lavoro adeguato che <strong>migliora nel tempo</strong>? Quattro step.</p>
+<h3>Step 1 — Un CLAUDE.md fatto bene</h3>
+<p>Ogni volta che interroghi Claude, il tuo file <strong>CLAUDE.md viene iniettato automaticamente</strong>: è essenzialmente la prima cosa che Claude legge per capire come deve operare. Esempio concreto: puoi scrivere nel CLAUDE.md <strong>"prima di costruire qualcosa di multi-step, includi un piano di verifica"</strong>; così la verifica viene <strong>forzata in ogni build</strong>, senza che tu debba ricordarti di chiederla. L'autore mostra il proprio CLAUDE.md sullo schermo ed evidenzia alcune sezioni: <strong>come funziona il repo</strong> (il repo come suo spazio di lavoro, dal quadro generale ai dettagli); <strong>le skill personalizzate e come sono instradate</strong> e usate; l'<strong>architettura dei dati di training / della conoscenza</strong>, così l'AI sa dove cercare le informazioni; e le <strong>regole di lavoro chiave</strong> da seguire sempre. Il principio: <em>"Rendilo il tuo ambiente. È il tuo mondo, ed è l'AI a viverci dentro. Non dovrebbe essere il contrario."</em></p>
+<h3>Step 2 — Costruire la tua LLM knowledge base</h3>
+<p>Karpathy è diventato virale su Twitter con questo concetto, che chiama la sua <strong>"LLM knowledge base"</strong>. In pratica si crea sulla propria macchina un <strong>sistema di cartelle</strong> in cui ingerire i propri dati di training in un modo che rende facile per Claude capire <strong>dove</strong> stanno le informazioni. È fondamentale, dice l'autore, perché <strong>i tuoi dati sono il tuo fossato (moat)</strong>: è così che inizi a costruire la tua <strong>proprietà intellettuale di dati</strong>.</p>
+<h3>Step 3 — Costruire il tuo set di skill</h3>
+<p>Regola pratica: se prevedi di fare qualcosa <strong>ripetutamente</strong>, creaci una <strong>skill personalizzata</strong>, intesa come un manuale per completare un compito specifico. Più usi le skill, migliori diventano. L'autore cita un detto che ripete al suo team: <strong>"il modo migliore per trovare una perdita in un tubo è farci scorrere l'acqua"</strong> — vale anche per le skill: più le usi, più scopri dove vanno sistemate e dove funzionano bene. Continua a "farci scorrere l'acqua" e il tuo sistema <strong>si compone (compound) nel tempo</strong>.</p>
+<h3>Step 4 — Regole su cosa l'AI può e non può fare, con enforcement reale</h3>
+<p>A seconda del <strong>costo di sbagliare</strong>, servono guardrail diversi. Riprendendo il CLAUDE.md: potresti aggiungere la riga "Non inventare informazioni", ma è una <strong>guida, non una regola dura</strong> — alla fine l'AI può comunque ignorarla. Per le cose critiche da non sbagliare servono <strong>guardrail basati su regole</strong> che l'AI non possa aggirare. Esempio: una cartella chiamata <strong>"Important, Don't Edit"</strong>. Una regola nel CLAUDE.md tipo "Non toccare nulla nella cartella /important don't edit" ti porta forse all'<strong>80%</strong>, ma resta di fatto una <strong>richiesta, non una regola</strong>: Claude può ancora toccare quei file. La soluzione è aggiungere un <strong>hook pre-tool-use</strong> che, prima che Claude usi lo strumento di <strong>write o edit</strong>, controlla quale file sta cercando di modificare. Così Claude <strong>letteralmente non può</strong> fare la modifica: è imposto a <strong>livello di strumento, non di prompt</strong>, e diventa una regola concreta che l'agente non può aggirare.</p>
+<p>Con questo in mente, si suddividono le cose in <strong>tre gruppi</strong>: <strong>always do</strong> (ciò che l'AI può fare in autopilota), <strong>ask first</strong> (tutto ciò che vuoi ricontrollare) e <strong>never do</strong> (le linee da non oltrepassare, assolutamente critiche da non sbagliare). L'autore fornisce anche un prompt che riunisce tutti e quattro i punti dello strato per <strong>auditare il tuo sistema</strong> e creare un ambiente ottimizzato con cui Claude interagisce.</p>
+<h2>La chiusura: si delega il pensiero, non la comprensione</h2>
+<p>Questo è il <strong>metodo Karpathy end-to-end</strong>: lo <strong>spec</strong>, il <strong>verifier</strong> e l'<strong>environment</strong>. Resta però una domanda: qual è l'unica cosa su cui Karpathy pensa dovremmo concentrarci nell'era dell'AI? In un'intervista gli viene chiesto: <em>"Cosa vale ancora la pena imparare a fondo quando l'intelligenza diventa economica, mentre entriamo nella prossima era dell'AI?"</em> Karpathy risponde: <strong>"Puoi esternalizzare il tuo pensiero, ma non puoi esternalizzare la tua comprensione."</strong></p>
+<p>L'autore chiude legando tutto: i tre strati ruotano attorno alla <strong>tua comprensione del quadro più ampio</strong>. Devi capire i tuoi obiettivi e cosa serve per <strong>indirizzare</strong> l'AI, perché è solo così che l'AI inizia a lavorare davvero per te.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=7zZy1QTvokM" target="_blank" rel="noopener">Stop Prompting Claude. Use Karpathy's Method Instead.</a></li>
+<li>Report grezzo: report grezzo</li>
+</ul>
+<p>Omesso (fuffa, come da linee guida):</p>
+<ul>
+<li>Il segmento centrale di autopromozione (~08:22–08:48): benvenuto ai nuovi iscritti, "anti-slop agreement", invito a iscriversi e giveaway di un abbonamento Claude Max commentando cosa si sta costruendo.</li>
+<li>La chiusura promozionale finale: rimando a un altro video ("deep dive su quattro progetti Claude da costruire") e i saluti ("I'll see you over there. Peace.").</li>
+<li>Dettagli non sostanziali: nel report grezzo il nome dell'evento compare come "AISN 2026" nella trascrizione automatica e come "AI Ascent 2026" nella sintesi editoriale; qui è riportato come AI Ascent 2026. Il cognome di Boris Cherny appare come "Cherney" nella trascrizione (refuso delle caption). Non è stato incluso il materiale non-testuale (metriche di montaggio, elenco frame, analisi del hook), non pertinente al contenuto del video.</li>
+</ul>
+</body>
+</html>
