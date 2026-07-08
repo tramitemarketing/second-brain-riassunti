@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stop Prompting Claude. Start Loop Engineering — riassunto</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto;
+  color: #1a1a1a; background: #fbfbfa;
+}
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; }
+  blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; }
+  hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; }
+  .muted { color: #9aa0a6; }
+}
+a { color: #1a5fb4; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; }
+h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem;
+  border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem;
+  font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; }
+li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem;
+  border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff;
+  border-radius: .7rem; padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; }
+.card .muted { display: block; }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<h1>Stop Prompting Claude. Start Loop Engineering — riassunto accurato</h1>
+<p>Il video sostiene una tesi netta: smettere di scrivere prompt a mano, uno dopo l'altro, e iniziare invece a progettare <strong>loop</strong>, cioè prompt che si rilanciano da soli finché un obiettivo preciso non è raggiunto. Austin Marchese parte da due voci autorevoli che dicono la stessa cosa: <strong>Boris Cherny</strong>, il creatore di Claude Code, afferma «non prompto più Claude; il mio lavoro è scrivere loop», e <strong>Peter Steinberger</strong>, creatore di Openclaw, scrive che non si dovrebbero più promptare gli agenti di coding, ma progettare i loop che li promptano. Il presentatore dice di essersi immerso nell'argomento e di aver scoperto che in fondo è semplice: è la gente che lo complica. Divide il video in tre parti: cos'è un loop e quando usarlo; le quattro cose che ogni loop di successo deve avere; come costruire il primo loop, anche senza competenze tecniche.</p>
+<h2>Parte 1 — Cos'è un loop e quando usarlo</h2>
+<p>Un prompt normale gira una volta sola e si ferma; un loop invece è un prompt che gira ripetutamente finché un obiettivo specifico non è completato. In una clip, Cherny spiega che ha dei loop in esecuzione che promptano Claude al posto suo e decidono cosa fare, e che il suo compito è scriverli: invece di promptare Claude cento volte per finire un compito, si progettano loop che raggiungono obiettivi chiari.</p>
+<p>Per decidere se vale la pena costruire un loop, Marchese usa un test a quattro condizioni. La prima è se il compito si ripete: se è una cosa una tantum, basta un prompt normale. La seconda è se esiste una definizione chiara di «fatto»; racconta che da COO di una startup tech da 25 milioni di dollari, per ogni compito voleva un modo chiaro di quantificare se fosse concluso, e allo stesso modo i loop migliori hanno una definizione di «fatto» e un modo per verificare il risultato — cosa che, precisa, è più un'arte che una scienza. La terza è se puoi permetterti di essere «dispendioso»: un loop si rilancia da solo finché non finisce, quindi consuma molti token, e per quanto ci siano modi di limitarli, se si è sempre a corto conviene essere strategici. La quarta è se il loop ha tutti gli strumenti per completare il compito: per esempio, se deve costruire un sito, ha modo di controllare che il sito sia online e accessibile? Questi strumenti servono sia nella fase di verifica sia in quella di esecuzione. Se la risposta è sì a tutte e quattro, si ha un buon candidato per un loop.</p>
+<h2>Parte 2 — I quattro elementi di un loop che funziona</h2>
+<p><strong>Il trigger</strong> è ciò che fa partire il loop. Marchese indica tre modi semplici. Il comando <code>/loop</code> dentro Claude esegue qualcosa a intervalli prestabiliti — fa l'esempio di «/loop ogni sei ore controlla il meteo di oggi e avvisami se devo cambiare i piani in base al mio calendario» — con il limite che gira sul computer locale, quindi se chiudi il portatile si ferma. Il comando <code>/schedule</code> fa girare la stessa cosa nel cloud, a qualsiasi ora e con qualsiasi cadenza, quindi da remoto e non sulla propria macchina. Il terzo modo, quello che lui usa per tutti i suoi loop, sono le skill di orchestrazione personalizzate: un'unica skill che contiene tutte le impostazioni del loop — l'obiettivo, come completarlo, come verificarlo — e che si lancia con un comando unico, per esempio <code>/check-weather-loop</code>.</p>
+<p><strong>Le skill di esecuzione</strong> sono istruzioni salvate che fanno eseguire a Claude sempre la stessa cosa nello stesso modo, come un prompt salvato che si rilancia invece di riscriverlo. Per Marchese è l'elemento più importante, con una regola secca: non si costruisce un loop senza skill già collaudate alle spalle, perché sono quelle skill a sapere esattamente come vuoi che un compito venga svolto. L'esempio è di nuovo il meteo: senza una skill <code>/analyze-workout</code>, l'AI direbbe banalmente «piove, salta la corsa», ma se una skill documenta che a lui piace correre sotto la pioggia la risposta cambia del tutto. Questo è ciò che chiama «skill-driven loop development»: ogni loop deve poggiare su skill esistenti e testate.</p>
+<p><strong>La coppia obiettivo + verifica</strong>: ogni loop ha bisogno di un obiettivo (cosa vuoi ottenere) e di una verifica (la regola che conferma che l'obiettivo è raggiunto), e le due cose vanno insieme, perché non puoi avere un obiettivo se non sei in grado di verificarlo. Nell'esempio tecnico, l'obiettivo è pubblicare un sito su un dominio facendo sì che carichi in meno di due secondi, e la verifica è che l'AI visiti quel dominio, controlli che ci sia il contenuto atteso, calcoli il tempo di caricamento e che la skill <code>/engineer-review</code> approvi le modifiche; così il loop può verificare e ripetere finché non è completo. Per i compiti non tecnici diventa un'arte, perché bisogna costruire un ponte dall'astratto al verificabile: la skill <code>/engineer-review</code>, per esempio, traduce «il codice è buono?» (astratto) in «approvato / non approvato» (verificabile). Lo stesso vale altrove: in un loop <code>/draft-emails</code> l'obiettivo può essere «per ogni email non letta prepara una bozza di risposta» e la verifica «ogni email senza risposta ha una bozza, e quella bozza è stata controllata dalle skill <code>/email-review</code>, <code>/writing-voice</code> e <code>/fact-checker</code>». È per questo che lo sviluppo guidato dalle skill conta così tanto: una volta che hai una skill puoi aggiungerle un elemento di verifica, ad esempio un «approvato/non approvato» o un punteggio da 1 a 10. Un consiglio pratico che dà: far analizzare l'output da un'AI diversa per avere un giudizio meno di parte, per esempio usando il plugin Codex oppure facendo creare a Claude dei sub-agenti dedicati alla verifica.</p>
+<p><strong>La coppia output + memoria</strong>: l'output è ovvio — un documento, del codice aggiornato, un sito online, dei messaggi su Telegram, qualunque cosa il loop debba produrre. La parte che quasi tutti trascurano è la memoria: ogni loop riparte da zero a meno che non si registri cosa è successo, e senza memoria non c'è miglioramento e si sprecano token sbattendo ogni volta sugli stessi problemi. Marchese cita Addy Osman — «l'agente dimentica, il repository no» — e la documentazione di Anthropic, che invita a «fornire un posto dove scrivere note, anche solo un file markdown». Basta documentare i risultati del loop, e un apposito prompt può aggiornare le skill di orchestrazione perché scrivano le lezioni imparate e lo storico delle esecuzioni in un documento.</p>
+<h2>Parte 3 — Costruire il primo loop</h2>
+<p>La chiave è iniziare in piccolo seguendo lo sviluppo guidato dalle skill: chiediti qual è la cosa più piccola che hai già fatto e che sai funzionare, per cui potresti creare un loop; poi applica il test a quattro condizioni e, se lo supera, costruiscilo. Marchese mette a disposizione alcuni prompt pronti — uno per costruire un loop con tutti i concetti visti, uno per far emergere candidati dallo storico delle sessioni passate — e osserva che si può anche fare uno screenshot di un prompt e mandarlo a Claude, perché equivale a scriverlo. La skill di orchestrazione nasconde tutta la complessità di <code>/loop</code> o <code>/goal</code>: basta lanciarla e monitorare i risultati.</p>
+<p>Introduce poi la «loop training mode»: le prime volte che si usa un loop nuovo conviene farlo fermare a ogni passo finché non lo si approva, per verificare che stia davvero facendo quello che si vuole e che non stia bruciando token; l'output tipico è del tipo «controllo veloce prima di consumare i token», dopodiché il loop attende l'approvazione. Una volta che ci si fida, si disattiva la modalità di test, risparmiando tempo e denaro e capendo meglio il processo.</p>
+<p>Infine, una regola pratica: se un obiettivo è poco quantificabile, va spezzato in obiettivi più piccoli con un output a dei checkpoint chiave. Paragona l'AI a uno stagista, a cui dire soltanto «organizza una festa aziendale» è troppo vago, mentre serve fissare punti di controllo su quale data scegliere, dove sarà la sede e quale sarà il tema — decisioni che plasmano tutto il resto. Lo stesso vale per i loop: i momenti in cui, se il loop prende la direzione sbagliata, tutto il resto è compromesso, sono i punti in cui serve la verifica umana; più se ne saltano, più l'AI può andare fuori strada, soprattutto nei compiti non misurabili. Chiude dicendo che ciò che più apprezza del loop engineering è il muscolo di problem solving che costringe ad allenare, e invita a scegliere qualcosa di piccolo e costruirci sopra una skill di orchestrazione.</p>
+<hr>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=YAS4ojuhbW4" target="_blank" rel="noopener">Stop Prompting Claude. Start Loop Engineering</a> — Austin Marchese, 12:15. Visto il 2026-07-07.</li>
+<li>Report grezzo con trascrizione: report</li>
+<li>Concetti collegati: loop-engineering, agent-memory</li>
+<li><em>Omesso perché non informativo:</em> la newsletter/corso di 5 giorni, la richiesta di iscrizione ("anti-slop agreement"), il giveaway dell'abbonamento Claude Max, il rimando ad altri video.</li>
+</ul>
+</body>
+</html>
