@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Come Creare Siti Web FOLLI Con Claude Code e Nano Banana 2</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> Aziz mostra come costruire in ~15 minuti una <strong>landing page prodotto premium</strong> con animazioni cinematiche usando <strong>Claude Code</strong>, anche partendo da zero e senza saper programmare. Il cuore del metodo è un trucco per l'effetto "video-su-scroll": invece di caricare un video pesante, lo si spezza in ~120 <strong>frame</strong> (immagini) e si dice a Claude di mostrare un frame diverso a ogni scroll, ottenendo un effetto stop-motion fluido ma leggerissimo. Attorno a questo ruota una pipeline completa: generare l'immagine prodotto con <strong>Nano Banana 2</strong>, animarla in video con <strong>Cling 3.0</strong> (entrambi via <strong>Kie.ai</strong>), estrarre i frame con una skill, far generare il sito da Claude, prendere il branding da un sito che piace con <strong>Firecrawl</strong>, e infine pubblicare online gratis con <strong>Netlify</strong>.</p>
+<h2>Cos'è Claude Code e come si prepara l'ambiente</h2>
+<p><strong>Claude Code</strong> è una versione di Claude capace di leggere e scrivere codice in autonomia: è come avere uno sviluppatore dentro il proprio computer. In questo video gira dentro <strong>Visual Studio Code</strong> (VS Code), un editor di codice gratuito che si scarica da internet. Una volta installato VS Code, dal pannello laterale delle estensioni si cerca <strong>Claude Code</strong> (l'estensione "Claude Code for VS Code"), la si installa e si accede con il proprio account <strong>Anthropic</strong>. Serve un <strong>piano a pagamento</strong>, Pro o Max: senza quello Claude Code non funziona.</p>
+<p>Per iniziare un progetto si apre una nuova cartella dal pulsante in alto a sinistra. Aziz tiene tutto ordinato: ha una cartella madre chiamata "Cloud Code" e dentro crea <strong>una sottocartella per ogni progetto</strong> (in questo caso "website creation"). Nel pannello sinistro VS Code mostra tutto il contenuto della cartella, comprese le <strong>skill</strong> già installate.</p>
+<h2>La tecnica-chiave: l'effetto "video su scroll" tramite frame</h2>
+<p>Questo è il vero cuore del video. L'idea è simulare un video che si muove mentre l'utente scrolla la pagina, ma <strong>senza caricare un file video pesante</strong>. Il video (nel demo iniziale, una scarpa <strong>Nike Air Force</strong> che ruota su se stessa con zoom sui dettagli) viene spezzato in circa <strong>120 frame</strong>, cioè 120 immagini singole. Ogni immagine è un fotogramma leggermente diverso dal precedente: messe in fila danno un effetto <strong>stop-motion</strong>. A Claude si dice che a ogni scroll deve mostrare il frame successivo, ricostruendo così l'illusione del video.</p>
+<p>Perché farlo invece di caricare il video intero? Perché le singole immagini sono <strong>molto più leggere da caricare</strong>. Aziz ha provato a far caricare il video completo, ma ci sono problemi ricorrenti: il video ci mette a caricarsi durante lo scroll, il sito diventa lento e l'esperienza d'uso finale peggiora. I frame risolvono questo.</p>
+<h3>Cosa sono le skill e le due usate qui</h3>
+<p>Le <strong>skill</strong> sono file <strong>markdown</strong> che raggruppano istruzioni e linee guida che Claude usa per eseguire un task specifico. Se ne trovano a centinaia su <strong>GitHub</strong> cercando "Claude Code Skills": una volta trovata quella che piace, la si scarica e la si installa dentro Claude Code (o caricando il file e chiedendo a Claude di installarla, oppure copiando il link della skill e incollandolo in Claude Code con la richiesta di installarla).</p>
+<p>Per questi siti servono due skill:</p>
+<ul>
+<li><strong>Taste Skill</strong> — trovata su GitHub, realizzata da uno sviluppatore e dal suo team. Dà a Claude istruzioni precise e ordinate su <strong>come realizzare un sito web ben fatto</strong>.</li>
+<li><strong>Video to frames</strong> — skill creata dallo stesso Aziz: prende un video e lo divide in tanti frame (è quella usata per fare i ~120 frame della Nike). Non è però obbligatoria: Claude sa usare <strong>FFmpeg</strong>, uno strumento che installa da solo in autonomia per estrarre i frame dal video. Conviene provare entrambe le strade per vedere quale dà frame migliori.</li>
+</ul>
+<h2>La pipeline completa, passo per passo</h2>
+<h3>1. Generare l'immagine prodotto con Nano Banana 2</h3>
+<p>Il punto di partenza è un'immagine del prodotto, generata con <strong>Nano Banana 2</strong>. Aziz preferisce accedervi tramite <strong>Kie.ai</strong>, un tool che ha accesso alle <strong>API di diversi servizi</strong> (Nano Banana, Cling 3.0 e altri): usando direttamente le API la generazione è <strong>più veloce ed economica</strong>.</p>
+<p>Su Kie.ai si sceglie Nano Banana 2 e si scrive il prompt dell'immagine desiderata. Nell'esempio (una fotocamera) il prompt chiede: <strong>immagine professionale da studio</strong>, <strong>sfondo completamente nero</strong>, <strong>niente ombre, niente mani, niente riflessi</strong>, immagine <strong>premium</strong> di altissima qualità <strong>HDR</strong>. Sotto si può rimuovere l'image input, scegliere l'<strong>aspect ratio</strong> (qui <strong>16:9</strong>) e la risoluzione (<strong>2K o 4K</strong> per più qualità), poi si clicca run. Generata l'immagine, la si scarica: è la base di partenza per il video.</p>
+<h3>2. Trasformare l'immagine in video con Cling 3.0</h3>
+<p>Per animare l'immagine si usa <strong>Cling 3.0</strong> (sempre via Kie.ai, sezione "AI video API"), che Aziz ha trovato dare i risultati migliori. Si può dare un <strong>frame iniziale</strong> e, opzionalmente, un <strong>frame finale</strong>. Nell'esempio della fotocamera parte solo dall'immagine generata, senza reference finale; per il video delle <strong>AirPods</strong>, invece, ha dato come frame iniziale le cuffiette dentro la custodia e come frame finale le cuffiette fuori dalla custodia, così l'animazione va dall'una all'altra.</p>
+<p>Il <strong>prompt cinematico</strong> conviene scriverlo con <strong>Claude o ChatGPT</strong> (indifferente). Esempio usato: "creami un AI video prompt in cui, partendo da questa immagine, la fotocamera si disassembla mostrando i pezzi di cui è formata, nel mentre ruota mostrando anche l'altro lato, e piano piano i pezzi tornano al loro posto, tornando all'immagine iniziale. L'animazione deve essere liscia e cinematica, no mani, no ombre, no riflessi, deve sembrare premium e quasi magico". Si dà sempre l'immagine come reference. Ottenuto il prompt, lo si incolla su Kie.ai (l'audio non serve), si sceglie la durata (<strong>8 secondi</strong> bastano), si tiene conto che la qualità <strong>STD o Pro</strong> cambia il numero di token consumati, e si clicca run. Nel demo il ritorno alla forma iniziale è un po' rapido, ma per un progetto reale conviene solo perdere più tempo a curare il prompt.</p>
+<h3>3. Estrarre i frame dal video</h3>
+<p>Scaricato il video, si torna in Claude Code. Prima si chiede a Claude di creare la <strong>sottocartella del progetto</strong> (es. "fotocamera") dentro la cartella madre; Claude chiede le autorizzazioni per ogni azione e le si concede. Poi si inserisce il video nella sottocartella, manualmente o trascinandolo in Claude e chiedendogli di metterlo lì.</p>
+<p>Si chiede quindi a Claude di usare la skill <strong>Video to frames</strong> per estrarre i frame. Importante: farlo in <strong>plan mode</strong>, la modalità in cui Claude <strong>non esegue nulla ma legge, analizza e propone un piano</strong> che poi si approva. Aziz nota che questo dà risultati molto migliori già alla prima interazione. Approvato il piano ("yes"), Claude estrae tutti i frame e li salva in una sottocartella dedicata.</p>
+<h3>4. Generare il sito con Claude Code</h3>
+<p>Ora si chiede il sito. Il prompt del demo (volutamente semplice) è più o meno: "aiutami a creare una landing page per la fotocamera; deve essere <strong>moderna</strong>, trasmettere professionalità, avere <strong>animazioni fluide</strong> in tutto il sito, testo leggibile, <strong>sfondo completamente nero / dark mode</strong>, e integrarsi visivamente con l'immagine della fotocamera così che sembri una pagina unica e fluida; sito professionale, premium, di alta qualità; se hai domande chiedimi pure".</p>
+<p>Claude legge i frame ed estrae i dettagli da solo: capisce che si tratta di una <strong>Sony Alpha mirrorless</strong> su sfondo nero e usa quell'informazione per il sito. Poiché gli è stato detto di fare domande quando serve, chiede ad esempio la lingua (gli si dice italiano) e le sezioni. In Claude Code si vede in tempo reale cosa sta <strong>pensando</strong> e facendo (si può espandere la tendina dei ragionamenti). Anche senza averlo scritto nel prompt, Claude capisce <strong>da solo</strong> di dover usare la <strong>Taste Skill</strong> (la prima volta eventualmente glielo si dice esplicitamente). Alla fine crea il sito con più sezioni (nell'esempio cinque: hero, dettagli tecnici, specifiche, ecc.) e fornisce un <strong>link</strong> per vederlo, con tutte le <strong>animazioni già inserite in autonomia</strong> e tutti i frame incorporati.</p>
+<p>Le <strong>correzioni si fanno in linguaggio naturale</strong>: nel demo all'inizio c'era un frame della fotocamera che si ripeteva, e Aziz ha semplicemente chiesto a Claude di togliere quell'immagine iniziale; fatto. Tutto questo partendo da un prompt di circa quattro righe e da pochissime informazioni.</p>
+<h3>5. Prendere il branding da un sito che piace (Firecrawl)</h3>
+<p>Consiglio per la parte grafica: se c'è un sito il cui stile piace, si va su <strong>Firecrawl.dev</strong>, si incolla l'URL del sito da cui prendere spunto (nell'esempio <strong>Apple</strong>), si clicca run, si seleziona come formato <strong>branding</strong> e si avvia lo scraping. Firecrawl restituisce tutte le informazioni di branding — <strong>font, colori, stili</strong> e altro. Si <strong>scarica il JSON</strong> e lo si mette nella cartella del progetto in Claude Code. Aziz l'ha fatto per il sito delle AirPods, dandogli il branding di Apple, e Claude ha usato quei font, colori e stili.</p>
+<h3>6. Pubblicare il sito online (Netlify)</h3>
+<p>Il sito creato da Claude è codice <strong>HTML/CSS/JavaScript</strong> che gira <strong>solo in locale</strong>, accessibile solo dal proprio computer. Per metterlo online bisogna caricare i file sul cloud. Aziz usa <strong>Netlify</strong>, piattaforma che permette di <strong>hostare siti gratuitamente</strong> (il piano free basta già per alcuni siti e genera link accessibili).</p>
+<p>Si torna in Claude Code e gli si chiede di aiutare a caricare il sito su Netlify: mostra gli step, apre la pagina per creare l'account o accedere. Fatto l'accesso (conviene un "clear" per ripulire la conversazione), si chiede a Claude, con un semplice prompt, di caricare il sito. In alternativa si potrebbe caricare i file manualmente da Netlify, ma farlo fare a Claude è più veloce. Claude conferma il caricamento e restituisce il <strong>link pubblico</strong> condivisibile con chiunque.</p>
+<p>Poiché Netlify assegna nomi un po' casuali, si può andare su <strong>Projects → Domain Management</strong> e <strong>rinominare</strong> il sito. Quando il sito è definitivo, si può comprare un <strong>dominio</strong> su piattaforme come <strong>GoDaddy, Siteground, Aruba</strong> e collegarlo a Netlify, oppure acquistarne uno direttamente da lì.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=yp3aEi1mdqs</li>
+<li><em>Ingest da sola trascrizione (sottotitoli IT, nessun frame video): le demo dei siti e delle animazioni non sono catturate — è un video molto visivo, qui resta il metodo.</em></li>
+<li>Report grezzo: report grezzo <em>(non presente: ingest da soli sottotitoli)</em></li>
+<li>Concetti collegati: landing-prodotto-premium-claude-code, seo-con-claude, claude-skills, mcp-connectors</li>
+<li><strong>Omesso</strong>: rimandi ad altri video/guide dell'autore (differenze tra i modelli di Claude, guida a Claude Code), inviti finali a like e commenti, dettagli visivi delle demo (aspetto preciso dei siti e delle animazioni).</li>
+</ul>
+</body>
+</html>
