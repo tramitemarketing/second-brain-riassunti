@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How I Fully Automated My Video Editing (Claude Code)</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> L'autore mostra un sistema in cui <strong>l'intero video che stai guardando — intro compresa — è stato montato da Claude Code dall'inizio alla fine</strong>, senza toccare Premiere. Il "sistema" non è un'app magica: è <strong>una cartella di file</strong> (skill, codice, istruzioni in markdown, workflow, preset) che dài in pasto a Claude Code. Butti dentro il girato grezzo e Claude fa il resto: tagli, rimozione di silenzi ed errori, grafiche animate, sottotitoli, musica di sottofondo, export. Puoi costruirtelo <strong>gratis</strong> seguendo il tutorial (Claude ti fa lo scheletro partendo da uno screenshot), oppure comprare la cartella già pronta nella community a pagamento dell'autore. Il flusso ha <strong>7 stadi</strong>; l'esempio reale è l'editing dell'intro, che da 4 minuti di girato grezzo è diventata 47 secondi montati "al primo colpo", con la rifinitura delle grafiche costata circa 2 ore di avanti-indietro (contro le 4-5 ore che l'autore impiegherebbe a mano).</p>
+<h2>Che cos'è davvero questo "sistema"</h2>
+<p>La prima cosa che l'autore chiarisce è che non c'è nessun software proprietario da lanciare. Il progetto è <strong>semplicemente una cartella di file sul computer</strong>, un normale progetto di <strong>Claude Code</strong> come tanti altri. Dentro ci sono tutte le <strong>skill</strong> (le competenze che insegni a Claude), tutto il <strong>codice</strong>, tutte le <strong>istruzioni in markdown</strong> (file di testo che spiegano a Claude cosa fare), più una serie di <strong>workflow</strong> (sequenze di lavoro predefinite), <strong>preset</strong> (impostazioni pronte) e la parte di <strong>packaging</strong> (impacchettamento del risultato finale). In pratica è un grosso contenitore che raccoglie strumenti e istruzioni: apri la cartella dentro Claude Code, gli dai il girato, e lui esegue.</p>
+<p>Ci sono <strong>due modi</strong> per procurarselo. Il modo <strong>gratuito</strong>: segui il video e te lo costruisci da solo. L'autore dice che il trucco per partire è <strong>fare uno screenshot della sua cartella di progetto e darlo a Claude</strong>: da quello Claude ricostruisce da solo l'intera impalcatura (lo "scaffolding", cioè la struttura di base dei file e delle cartelle), e poi lo rifinisci seguendo passo passo il video. Verrà meno lucidato del suo — dice di averci lavorato due settimane quasi no-stop — ma <strong>funziona ed è fattibile</strong>. Il modo <strong>a pagamento</strong> è scaricare la sua cartella già pronta (uno zip "plug and play", cioè da usare così com'è) dalla sua community. <em>(Nota: qui il video ripete più volte l'invito a iscriversi alla community a pagamento — è un plug commerciale. Lo segnalo ma la strada gratuita è reale e l'autore la conferma esplicitamente più volte.)</em></p>
+<h2>I 7 stadi del sistema</h2>
+<h3>1. Intake (presa in carico del girato)</h3>
+<p>Registri una <strong>clip grezza</strong> (in gergo "raw footage", il girato non montato) e la <strong>trascini nella cartella</strong> del progetto, oppure dici semplicemente a Claude "ecco il girato" incollandogli il <strong>percorso del file</strong> (path). Sul Mac, l'autore seleziona il file e usa cmd-opt-C per copiarne il path, poi lo incolla nel prompt. Nulla di più.</p>
+<h3>2. Rough cut (il montaggio grezzo)</h3>
+<p>Il <strong>rough cut</strong> è il primo montaggio "sgrossato": il video già ripulito dei tempi morti, ma prima delle rifiniture. Qui entra in gioco <strong>WhisperX</strong>, un motore di trascrizione che sbobina tutto il parlato del girato <strong>con timestamp a livello di parola</strong> (per ogni singola parola sa a che istante esatto viene pronunciata). Da quella trascrizione Claude decide dove tagliare: elimina i <strong>silenzi</strong>, le <strong>take sbagliate</strong> (i tentativi venuti male), i <strong>filler</strong> (i riempitivi tipo "ehm", "cioè"), ripulisce anche l'audio, e di fatto costruisce lo "script" del video tenendo solo i pezzi buoni.</p>
+<p>L'esempio reale è impressionante: il girato dell'intro era lungo <strong>4 minuti e 10 secondi</strong>, pieno di errori e pause; il rough cut lo ha portato a <strong>47 secondi</strong>, e l'autore dice di averlo trovato <strong>perfetto al primo colpo</strong>, senza bisogno di ritocchi. Quando invece serve correggere, lo fai <strong>in linguaggio naturale</strong>: "su questa frase hai tagliato troppo vicino alla parola, dagli un po' più di spazio davanti", oppure "qui hai lasciato una parola di troppo, toglila". È proprio grazie ai <strong>timestamp a livello di parola</strong> di WhisperX che i tagli cadono in modo chirurgico, esattamente dove servono. Regola importante: <strong>bloccare bene il rough cut prima di passare alle grafiche</strong>, perché cambiarlo dopo è complicato.</p>
+<h3>3. Graphics (le grafiche animate — primo passaggio)</h3>
+<p>Le <strong>motion graphics</strong> sono gli elementi grafici animati che compaiono sopra il video (titoli in movimento, riquadri, schemi, loghi che entrano in scena). Il motore usato è <strong>HyperFrames</strong>, il cui repository (la cartella di codice pubblica del progetto) è <strong>gratuito e disponibile online</strong>. Basta dire "fai le grafiche" e Claude <strong>pianifica una grafica per ogni segmento</strong> del video e poi le crea. Nel caso reale, questa prima passata ha richiesto circa <strong>22 minuti</strong>.</p>
+<p>L'autore è netto su un punto: <strong>questo è lo stadio che fa la differenza tra un video "AI slop" e un video davvero fatto bene</strong>. "AI slop" è la robaccia generata dall'AI senza cura, che si riconosce a occhio. Per evitarla, questo passaggio <strong>richiede prompting da parte tua</strong>: non basta premere un bottone, devi guidare le grafiche con istruzioni precise.</p>
+<h3>4. Second pass (secondo passaggio sulle grafiche)</h3>
+<p>Qui si rifinisce <strong>grafica per grafica</strong>. Si va una per una e si danno indicazioni in linguaggio naturale, ad esempio: "questa spostala in basso perché mi copre la faccia / è sulla fronte", "cambia il colore nel <strong>Claude-orange</strong> (l'arancione di Claude)", "aggiungi il <strong>PNG della mascotte di Claude</strong> che abbiamo già negli asset", "rimpicciolisci", "falla rimbalzare e brillare".</p>
+<p>Il <strong>trucco tecnico</strong> più importante di tutto il progetto è qui: quando modifichi una grafica, il sistema <strong>ri-renderizza soltanto il segmento cambiato</strong>, non tutto il video da capo. ("Renderizzare" = far calcolare al computer il video finale a partire dal progetto; è la parte lenta.) L'autore dice di averci lavorato molto per costruire questo comportamento, ma ripaga: la modifica alla prima grafica dell'esempio è stata renderizzata in circa <strong>3 minuti</strong> invece di dover ricalcolare l'intero video. Puoi procedere una grafica alla volta oppure — dice — infilare tutte le modifiche in un unico lungo prompt. In totale, la rifinitura delle grafiche dell'intro gli è costata circa <strong>2 ore</strong> di "cambio → bozza → cambio → bozza", che considera un ottimo tempo vista la qualità.</p>
+<h3>5. Captions (i sottotitoli — solo short-form)</h3>
+<p>Le <strong>captions</strong> sono i sottotitoli parola-per-parola che si animano in basso o al centro. Servono <strong>solo per i video short-form</strong> (i verticali brevi tipo TikTok/Reels/Shorts); nei long-form non servono o rientrano già nelle grafiche. Il processo è banale: dici "aggiungi le captions" e Claude le mette, sfruttando la <strong>trascrizione già fatta</strong> in fase di rough cut (non serve ri-trascrivere nulla, si limita ad animare le parole).</p>
+<p>Se hai comprato il progetto trovi un <strong>template preset già pronto</strong>; se te lo costruisci gratis, HyperFrames ha già la skill dei sottotitoli integrata ma devi crearti tu il preset. Dettaglio "tecnico da nerd" che l'autore regala: il suo preset usa il font <strong>Coolvetica</strong>, con un <strong>riquadro nero dietro</strong> le parole e le parole che <strong>entrano animandosi</strong> man mano che vengono pronunciate.</p>
+<h3>6. Background music (la musica di sottofondo)</h3>
+<p>Anche qui è semplice: gli dài il <strong>percorso del file</strong> del brano ("usa questa canzone come sottofondo") e Claude la mette sotto al video. La cosa da regolare sono i <strong>decibel</strong> (l'unità che misura il volume: più è basso/negativo, più il suono è flebile). L'autore prova prima a -18 dB, poi riascolta e si assesta su <strong>-23 dB</strong>, così la musica resta "appena percettibile" sullo sfondo senza coprire la voce. Nota: con Premiere o simili trascineresti la traccia a mano più in fretta, ma lui ha voluto integrare anche questo nel sistema.</p>
+<h3>7. Export (esportazione)</h3>
+<p>Ultimo passo: dici "abbiamo finito, esporta" e Claude produce il video finale. Ne mette una <strong>copia nella cartella Downloads</strong> e una nella cartella <strong>outputs del progetto</strong>. Fondamentale: <strong>il progetto resta intatto</strong>, non viene cancellato niente. Così puoi riaprirlo e <strong>ri-editare</strong> o cambiare qualcosa in futuro senza aver perso i progressi.</p>
+<h2>I preset di formato (le scorciatoie di stile)</h2>
+<p>Sopra al motore HyperFrames l'autore ha costruito <strong>tre preset di formato</strong>, cioè tre stili di montaggio pronti tra cui scegliere:</p>
+<ul>
+<li><strong>Short-form explainer</strong> — grafiche nella <strong>metà alta</strong> dello schermo, la <strong>faccia</strong> nella metà bassa, le <strong>captions al centro</strong>. È lo stile "video verticale che spiega qualcosa".</li>
+<li><strong>TikTok raw</strong> — un <strong>hook testuale</strong> (una frase-gancio all'inizio per catturare l'attenzione) più un <strong>taglio grezzo</strong> e le captions. Stile grezzo e diretto.</li>
+<li><strong>Long-form</strong> — esattamente come l'<strong>intro</strong> di questo video: montaggio orizzontale più curato, con le grafiche animate integrate.</li>
+</ul>
+<h2>Prerequisiti tecnici e note pratiche</h2>
+<p>Il <strong>setup</strong> richiede tre installazioni: <strong>HyperFrames</strong> (motore delle grafiche), <strong>WhisperX</strong> (trascrizione con timestamp per parola) e <strong>FFmpeg</strong> (lo strumento standard, da riga di comando, che elabora e converte audio/video sotto il cofano). Se scarichi la cartella pronta è già tutto installato; se parti da zero, dài a Claude il link di HyperFrames e digli di installare il motore, poi aggiungi gli altri due. L'autore stima <strong>5-10 minuti</strong> di setup, "molto minimale".</p>
+<p>Alcune note sparse dette nel video:</p>
+<ul>
+<li>Ha lanciato l'edit su <strong>"ultra code"</strong> (il massimo sforzo di Claude) per la qualità più alta, ma precisa che <strong>non è necessario</strong>: su "extra effort" funziona comunque bene.</li>
+<li>Il sistema <strong>funziona con qualsiasi modello</strong>: non è legato a un modello specifico. Man mano che i modelli migliorano (cita <strong>Codex</strong> come alternativa, e i futuri modelli, persino "se tornasse Fable"), il sistema <strong>migliora da solo</strong> senza dover rifare nulla.</li>
+<li><strong>Tempi</strong>: l'intro completa è costata circa <strong>2 ore</strong> di lavoro avanti-indietro. A mano, dice, un video così gli prenderebbe <strong>4-5 ore</strong>; e chi non sa proprio editare ci metterebbe <strong>giorni</strong> (5 giorni solo per imparare a montare, più il montaggio). Quindi il risparmio di tempo è grosso, soprattutto per chi non è un montatore.</li>
+<li>Chi ha la versione a pagamento ha anche una <strong>"auto poster skill"</strong>: prende il video finito e lo <strong>pubblica in automatico</strong> su Instagram, TikTok e YouTube Shorts.</li>
+<li>L'autore dice di aver studiato i sistemi di editing di <strong>Nate Herk</strong>, <strong>Nick Saraev</strong> e <strong>Chase</strong> ("tutti i tipi dell'AI") prima di costruire il suo, e ritiene il proprio il migliore in circolazione (autovalutazione, da prendere con le pinze).</li>
+</ul>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=XeTAlZiIWHE</li>
+<li><em>Ingest da sola trascrizione (nessun frame video): le anteprime dei tagli e delle grafiche non sono catturate — è un video dimostrativo, qui resta l'architettura del metodo, non l'aspetto visivo delle demo.</em></li>
+<li>Concetti collegati: <code>[[claude-code-video-editing]]</code>, <code>[[claude-skills]]</code>, <code>[[claude-co-work]]</code>, <code>[[ai-content-anti-slop]]</code></li>
+<li><strong>Omesso</strong>: i plug ripetuti alla community Skool a pagamento (lo zip "secret sauce", il download della cartella, le call settimanali, gli inviti finali) e i dettagli visivi delle demo (com'erano esattamente tagli e grafiche a schermo).</li>
+</ul>
+</body>
+</html>
