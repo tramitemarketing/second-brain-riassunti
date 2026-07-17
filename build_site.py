@@ -30,7 +30,8 @@ body { margin: 0; padding: 1.1rem 1.1rem 4rem;
   a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
   code { background: #2a2c30; } hr { border-color: #2a2c30; }
   .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
-  .tag { background: #2a2c30; color: #cbd0d6; } }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
 a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
 h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
 h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
@@ -50,6 +51,9 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 .card:hover { text-decoration: none; border-color: #9ab8e0; }
 .card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
 .card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
 """
 
 # ---------- markdown -> HTML (sottoinsieme usato nei riassunti) ----------
@@ -70,7 +74,11 @@ def inline(s, known):
     s = html.escape(s, quote=False)
     codes = []
     s = re.sub(r"`([^`]+)`", lambda m: codes.append(m.group(1)) or "\x00%d\x00" % (len(codes) - 1), s)
-    s = re.sub(r"\[([^\]]+)\]\((https?://[^)]+)\)", r'<a href="\2" target="_blank" rel="noopener">\1</a>', s)
+    def _link(m):
+        label, url = m.group(1), m.group(2)
+        cls = ' class="btn"' if label.lstrip().startswith("»") else ''
+        return '<a href="%s"%s target="_blank" rel="noopener">%s</a>' % (url, cls, label)
+    s = re.sub(r"\[([^\]]+)\]\((https?://[^)]+)\)", _link, s)
     def _wiki(m):
         target, label = m.group(1).strip(), (m.group(2) or m.group(1)).strip()
         slug = target.split("/")[-1]

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>AI Agents Full Course 8h: Build &amp; Sell (2026) — mappa a sezioni</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> questo NON è ancora un riassunto completo, è una <strong>mappa a sezioni</strong> di un corso-monstre da 7h30 su come <strong>costruire e vendere agenti AI</strong> come agenzia. Il corso è un caso reale end-to-end: l'autore chiude <strong>Jeremy di Design Detailing</strong> (autolavaggio a domicilio in Texas) e gli costruisce agenti vocali AI per riattivare 21.000 vecchi lead. Lo stack ricorrente è <strong>ElevenLabs</strong> (voce) → <strong>Make</strong> → <strong>GoHighLevel</strong> (CRM) → <strong>Twilio</strong>. Per ogni capitolo trovi: cosa c'è dentro, cosa si ruba, e un verdetto onesto se vale approfondire.</p>
+<blockquote>⚙️ <strong>Come funziona questa pagina.</strong> Sotto ogni capitolo c'è un bottone <strong>» Approfondisci</strong>. Cliccalo: si apre una richiesta già pronta (una <em>issue</em> su GitHub) — premi "Submit" e sei a posto. Al prossimo <code>/watch</code> Claude legge le richieste, scrive il riassunto 2-esteso di quel capitolo al posto della scheda, e ripubblica il sito. Scegli col dito, il lavoro pesante arriva dopo.</blockquote>
+<p><em>Ingest da sola trascrizione (nessun frame video). Il video intero sarebbe 1 frame ogni ~4 min: inutile. Se approfondisci il Cap 6 (tecnico), lì Claude ri-guarda con i frame sul wiring.</em></p>
+<hr>
+<h2>1 · Introduction</h2>
+<p><em>0:00–5:26 · Verdetto: ❌ La mappa basta</em></p>
+<p><strong>Cosa c'è:</strong> Intro/hype + reset aspettative ("non fai $5k al primo colpo"). Tesi centrale: tutti sanno <em>costruire</em>, quasi nessuno sa <em>vendere</em> — la vendita è il collo di bottiglia.</p>
+<p><strong>Cosa si ruba:</strong> Parti dal <strong>warm network</strong>; targetizza chi <strong>già gira Facebook ads</strong> ma non ha un agente; lingua non-inglese = mercato meno saturo (vale per l'Italia).</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%201%20%E2%80%94%20Introduction&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%201%20%280%3A00%E2%80%935%3A26%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 1</a></p>
+<h2>2 · Finding &amp; Closing 1st Client</h2>
+<p><em>5:26–46:20 · Verdetto: ✅ Vale</em></p>
+<p><strong>Cosa c'è:</strong> Manda DM al network caldo in diretta e mostra parola-per-parola come porta due detailing shop a una call.</p>
+<p><strong>Cosa si ruba:</strong> <strong>Script DM</strong> (apertura da amico + UNA domanda-dolore, non vendere); primo cliente <strong>gratis</strong> in cambio di testimonial+referral; posizionarsi come autorità <strong>concordando</strong> con l'obiezione e aggiungendo "io in più farei X"; chiusura via Calendly + demo audio promessa.</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%202%20%E2%80%94%20Finding%20%26%20Closing%201st%20Client&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%202%20%285%3A26%E2%80%9346%3A20%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 2</a></p>
+<h2>3 · Building &amp; Selling the Demo</h2>
+<p><em>46:20–1:42:00 · Verdetto: ✅ Oro, e agnostico dalla nicchia</em></p>
+<p><strong>Cosa c'è:</strong> Costruisce la demo dell'agente in ElevenLabs e — soprattutto — la usa per vendere.</p>
+<p><strong>Cosa si ruba:</strong> <strong>Question flow "assumed close"</strong> (non chiede <em>se</em> ma <em>cosa</em>: "che macchina volevi pulire?"); <strong>demo white-label</strong> in preview fullscreen (nasconde prompt e logo); <strong>video-reminder di 25-30s</strong> prima della call che triplica lo show-up (~80%); <strong>prezzo civetta per testimonial</strong> ($1.500 → $500).</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%203%20%E2%80%94%20Building%20%26%20Selling%20the%20Demo&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%203%20%2846%3A20%E2%80%931%3A42%3A00%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 3</a></p>
+<h2>4 · Live Sales Call</h2>
+<p><em>1:42:00–3:23:43 · Verdetto: ⚠️ Vale ma solo la prima ora</em></p>
+<p><strong>Cosa c'è:</strong> La call di vendita reale con Jeremy, col <strong>meta-commento</strong>: ferma il nastro e spiega ogni mossa <em>e ogni suo errore</em>. Difetto: 1h42, dispersiva, chiude male.</p>
+<p><strong>Cosa si ruba:</strong> Gestisci ogni obiezione appena esce; mai contraddire (concorda poi ribalta con figura d'autorità); <strong>usa i dati del cliente come leva</strong> ("hai $32.000 di lavori fermi nel CRM"); demo come arma anti-obiezione; mai abbassare il prezzo tenendo lo stesso servizio; "lo faresti se tuo fratello dicesse no?" per smascherare la vera obiezione.</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%204%20%E2%80%94%20Live%20Sales%20Call&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%204%20%281%3A42%3A00%E2%80%933%3A23%3A43%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 4</a></p>
+<h2>5 · Cold Outreach</h2>
+<p><em>3:23:43–3:58:24 · Verdetto: ✅ Vale</em></p>
+<p><strong>Cosa c'è:</strong> Trovare clienti <strong>senza</strong> rete calda, via Upwork + cold email di massa.</p>
+<p><strong>Cosa si ruba:</strong> <strong>Niching estremo</strong> nel titolo Upwork; <strong>video-proposta Tella di ~2 min</strong> per ogni candidatura; pipeline lead <strong>Apollo.io → trustedleads.io → Instantly</strong>; cold email in lingua di nicchia = <strong>5-10% reply</strong> vs 0,5-1% in inglese; volumi (5-10 proposte/giorno, 100 email/giorno su 5 account pre-warmed).</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%205%20%E2%80%94%20Cold%20Outreach&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%205%20%283%3A23%3A43%E2%80%933%3A58%3A24%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 5</a></p>
+<h2>6 · Full Technical Build</h2>
+<p><em>3:58:24–5:57:00 · Verdetto: ⚠️ Denso, selettivo (con frame video)</em></p>
+<p><strong>Cosa c'è:</strong> Costruisce <strong>3 agenti</strong> (vocale inbound, vocale outbound, testo/SMS) agganciati a GoHighLevel.</p>
+<p><strong>Cosa si ruba:</strong> Pattern <strong>"duplica e ritocca"</strong> (un agente fatto bene, gli altri clonati cambiando solo il flusso); <strong>booking via link SMS</strong> invece di raccogliere dati a voce (azzera errori AI); <strong>webhook come colla universale</strong> (ElevenLabs→Make→CRM); loop generatore→verificatore per rifinire i prompt.</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%206%20%E2%80%94%20Full%20Technical%20Build&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%206%20%283%3A58%3A24%E2%80%935%3A57%3A00%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 6</a></p>
+<h2>7 · Mistakes, Niches &amp; Pricing</h2>
+<p><em>5:57:00–6:27:06 · Verdetto: ✅✅ Il più azionabile del corso</em></p>
+<p><strong>Cosa c'è:</strong> Errori da evitare, come scegliere la nicchia, e — cuore — il <strong>pricing</strong>.</p>
+<p><strong>Cosa si ruba:</strong> <strong>Regola del 5x</strong> (dai sempre 5x ROI al cliente); scala prezzi: primi 5 gratis → ~$100/mese → $500/mese → $5.000/mese; <strong>performance-based 20%</strong> del fatturato generato; <strong>$1.000 upfront + garanzia rimborso + retainer</strong>; nicchie sature da evitare (solar, dentisti, palestre, immobiliare) vs meno battute (HVAC, idraulici, detailing).</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%207%20%E2%80%94%20Mistakes%2C%20Niches%20%26%20Pricing&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%207%20%285%3A57%3A00%E2%80%936%3A27%3A06%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 7</a></p>
+<h2>8 · Deployment, Going Live &amp; Scaling</h2>
+<p><em>6:27:06–7:30:49 · Verdetto: ✅ Operativo, buono come pattern</em></p>
+<p><strong>Cosa c'è:</strong> La meccanica reale del go-live: dominio, funnel, trigger, lancio graduale della campagna di riattivazione.</p>
+<p><strong>Cosa si ruba:</strong> Entrando in un account cliente <strong>controlla tutti i flow esistenti prima di toccare</strong>; <strong>go-live graduale</strong> (agenti uno alla volta, batch da 500 lead, drip mode); tag+pipeline per tracciare KPI; <strong>compliance</strong> (opt-out STOP, consenso, contratto che scarica la liability sul cliente); riusare prompt salvati per scalare a più clienti.</p>
+<p><a href="https://github.com/tramitemarketing/second-brain-riassunti/issues/new?title=Approfondisci%20Cap%208%20%E2%80%94%20Deployment%2C%20Going%20Live%20%26%20Scaling&amp;body=Genera%20il%20riassunto%202-esteso%20APPROFONDITO%20del%20Capitolo%208%20%286%3A27%3A06%E2%80%937%3A30%3A49%29%20del%20corso%20%27AI%20Agents%20Full%20Course%208h%27.%0A%0AVideo%3A%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8OPntXxTRg0%0ATrascrizione%20capitolo%20%28gia%27%20pulita%2C%20sul%20PC%20di%20Divan%29%3A%20scratchpad%2Fch8h%2F%20oppure%20riscaricare%20dai%20sottotitoli.%0A%0ACosa%20fare%3A%20sostituire%20la%20scheda-mappa%20di%20questo%20capitolo%20nella%20pagina%20wiki%2Friassunti%2Fai-agents-full-course-build-sell-2026-07-16.md%20con%20una%20sezione%202-esteso%20completa%2C%20fondere%20le%20tattiche%20nel%20concetto%20%5B%5Bvendere-agenti-ai%5D%5D%2C%20ripubblicare%20il%20sito%2C%20poi%20chiudere%20questa%20issue." class="btn" target="_blank" rel="noopener">» Approfondisci: Cap 8</a></p>
+<hr>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=8OPntXxTRg0</li>
+</ul>
+<ul>
+<li>Stato: <strong>mappa (stadio 1)</strong>. I capitoli diventano riassunti 2-esteso quando clicchi » Approfondisci.</li>
+</ul>
+<ul>
+<li>Concetti collegati (in arrivo): vendere-agenti-ai, ai-service-business, mcp-connectors.</li>
+</ul>
+<ul>
+<li>Omesso per ora: tutto il dettaglio operativo dei singoli capitoli (sta nella trascrizione, si espande a richiesta).</li>
+</ul>
+</body>
+</html>
