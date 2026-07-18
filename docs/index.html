@@ -40,27 +40,100 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 .btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
   color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
 .btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
 </style>
 </head>
 <body>
 <div class="topbar"><a href="index.html">Second Brain di Divan — Riassunti</a></div>
-<h1>Second Brain di Divan — Riassunti</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno.</p><a class="card" href="startup-school/index.html"><span class="tag">Playlist · 7 video</span><h2>Startup School (YC)</h2><span class="muted">Y Combinator</span></a>
-<a class="card" href="13-free-ai-tools-2026-07-16.html"><h2>13 FREE AI Tools That Replace ChatGPT Plus, Claude Pro, and Gemini</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~19 min · 2026-07-16</span></a>
-<a class="card" href="5-proven-ways-to-make-money-with-ai-2026-07-16.html"><h2>5 Proven Ways To Make Money With AI (No Experience)</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~36 min · 2026-07-16</span></a>
-<a class="card" href="ai-agents-full-course-build-sell-2026-07-16.html"><h2>AI Agents Full Course 8h: Build &amp; Sell (2026) — mappa a sezioni</h2><span class="muted">Albert Olgard · ~7h30 · 2026-07-16</span></a>
-<a class="card" href="claude-code-seo-50000-clicks-2026-07-16.html"><h2>Claude Code SEO: How I Got 50,000 Clicks Per Month (Steal This)</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~68 min · 2026-07-16</span></a>
-<a class="card" href="claude-facebook-ads-full-course-2026-07-16.html"><h2>Claude + Facebook Ads (FULL COURSE)</h2><span class="muted">The Moonlighters · ~52 min · 2026-07-16</span></a>
-<a class="card" href="come-creare-siti-web-folli-claude-code-nano-banana-2026-07-16.html"><h2>Come Creare Siti Web FOLLI Con Claude Code e Nano Banana 2</h2><span class="muted">Aziz (Advantage Plus) · ~20 min · 2026-07-16</span></a>
-<a class="card" href="how-i-design-apps-10x-better-2026-07-16.html"><h2>How I Design Apps 10x Better (Free Course)</h2><span class="muted">Chris Ro (ospite di Greg Isenberg) · ~47 min · 2026-07-16</span></a>
-<a class="card" href="how-i-fully-automated-my-video-editing-2026-07-16.html"><h2>How I Fully Automated My Video Editing (Claude Code)</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~22 min · 2026-07-16</span></a>
-<a class="card" href="learn-these-6-ai-skills-now-2026-07-16.html"><h2>Learn These 6 AI Skills Now (Before Everyone Else Does)</h2><span class="muted">Nate Herk · ~20 min · 2026-07-16</span></a>
-<a class="card" href="master-claude-for-marketing-full-course-2026-07-16.html"><h2>Master Claude for Marketing in 72 Minutes (FULL COURSE)</h2><span class="muted">Brock (AI for non techies) · ~72 min · 2026-07-16</span></a>
-<a class="card" href="come-creare-il-tuo-assistente-ai.html"><h2>COME CREARE IL TUO ASSISTENTE AI</h2><span class="muted">Riccardo Zanetti · 01:26:50 · 2026-07-10</span></a>
-<a class="card" href="10-claude-ai-side-hustles-that-can-pay-a-full-time-income-2026-07-07.html"><h2>10 Claude AI Side Hustles That Can Pay A Full-Time Income — riassunto</h2><span class="muted">Shane Hummus · 22:32 · 2026-07-07</span></a>
-<a class="card" href="every-level-of-a-claude-second-brain-explained-2026-07-07.html"><h2>Every Level of a Claude Second Brain Explained — riassunto</h2><span class="muted">Nate Herk · 30:59 · 2026-07-07</span></a>
-<a class="card" href="selling-digital-products-is-dead-do-this-instead-in-2026-2026-07-07.html"><h2>Selling Digital Products is Dead, Do This Instead in 2026 — riassunto</h2><span class="muted">Sue · 14:02 · 2026-07-07</span></a>
-<a class="card" href="stop-prompting-claude-start-loop-engineering-2026-07-07.html"><h2>Stop Prompting Claude. Start Loop Engineering. — riassunto</h2><span class="muted">Austin Marchese · 12:15 · 2026-07-07</span></a>
-<a class="card" href="stop-prompting-claude-use-karpathys-method-instead-2026-07-07.html"><h2>Stop Prompting Claude. Use Karpathy&#x27;s Method Instead. — riassunto</h2><span class="muted">Austin Marchese · 13:18 · 2026-07-07</span></a>
-<a class="card" href="the-agentic-os-setup-that-will-10x-claude-code-2026-07-07.html"><h2>The Agentic OS Setup That Will 10x Claude Code — riassunto</h2><span class="muted">n/d (uploader non presente nel report; il creator promuove il corso &#x27;Chase AI Plus&#x27;) · 31:20 · 2026-07-07</span></a>
+<h1>Second Brain di Divan — Riassunti</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. Quelli già letti si segnano da soli.</p><a class="card" href="startup-school/index.html" data-items="startup-school/how-to-build-a-company-with-ai-from-the-ground-up.html,startup-school/how-to-get-the-most-out-of-vibe-coding.html,startup-school/how-to-build-an-ai-native-services-company.html,startup-school/how-to-get-your-first-10-customers.html,startup-school/pick-one-idea-and-go-deep.html,startup-school/the-sales-playbook-for-founders.html,startup-school/the-startup-playbook-for-hiring-your-first-engineers-and-aes.html"><span class="tag">Playlist · 7 video</span><h2>Startup School (YC)</h2><span class="muted">Y Combinator</span></a>
+<a class="card" href="13-free-ai-tools-2026-07-16.html"><h2>13 FREE AI Tools That Replace ChatGPT Plus, Claude Pro, and Gemini</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~19 min · 16/07/2026</span></a>
+<a class="card" href="5-proven-ways-to-make-money-with-ai-2026-07-16.html"><h2>5 Proven Ways To Make Money With AI (No Experience)</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~36 min · 16/07/2026</span></a>
+<a class="card" href="ai-agents-full-course-build-sell-2026-07-16.html"><h2>AI Agents Full Course 8h: Build &amp; Sell (2026) — mappa a sezioni</h2><span class="muted">Albert Olgard · ~7h30 · 16/07/2026</span></a>
+<a class="card" href="claude-code-seo-50000-clicks-2026-07-16.html"><h2>Claude Code SEO: How I Got 50,000 Clicks Per Month (Steal This)</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~68 min · 16/07/2026</span></a>
+<a class="card" href="claude-facebook-ads-full-course-2026-07-16.html"><h2>Claude + Facebook Ads (FULL COURSE)</h2><span class="muted">The Moonlighters · ~52 min · 16/07/2026</span></a>
+<a class="card" href="come-creare-siti-web-folli-claude-code-nano-banana-2026-07-16.html"><h2>Come Creare Siti Web FOLLI Con Claude Code e Nano Banana 2</h2><span class="muted">Aziz (Advantage Plus) · ~20 min · 16/07/2026</span></a>
+<a class="card" href="how-i-design-apps-10x-better-2026-07-16.html"><h2>How I Design Apps 10x Better (Free Course)</h2><span class="muted">Chris Ro (ospite di Greg Isenberg) · ~47 min · 16/07/2026</span></a>
+<a class="card" href="how-i-fully-automated-my-video-editing-2026-07-16.html"><h2>How I Fully Automated My Video Editing (Claude Code)</h2><span class="muted">n/d (canale non identificato nella trascrizione) · ~22 min · 16/07/2026</span></a>
+<a class="card" href="learn-these-6-ai-skills-now-2026-07-16.html"><h2>Learn These 6 AI Skills Now (Before Everyone Else Does)</h2><span class="muted">Nate Herk · ~20 min · 16/07/2026</span></a>
+<a class="card" href="master-claude-for-marketing-full-course-2026-07-16.html"><h2>Master Claude for Marketing in 72 Minutes (FULL COURSE)</h2><span class="muted">Brock (AI for non techies) · ~72 min · 16/07/2026</span></a>
+<a class="card" href="come-creare-il-tuo-assistente-ai.html"><h2>COME CREARE IL TUO ASSISTENTE AI</h2><span class="muted">Riccardo Zanetti · 01:26:50 · 10/07/2026</span></a>
+<a class="card" href="10-claude-ai-side-hustles-that-can-pay-a-full-time-income-2026-07-07.html"><h2>10 Claude AI Side Hustles That Can Pay A Full-Time Income — riassunto</h2><span class="muted">Shane Hummus · 22:32 · 07/07/2026</span></a>
+<a class="card" href="every-level-of-a-claude-second-brain-explained-2026-07-07.html"><h2>Every Level of a Claude Second Brain Explained — riassunto</h2><span class="muted">Nate Herk · 30:59 · 07/07/2026</span></a>
+<a class="card" href="selling-digital-products-is-dead-do-this-instead-in-2026-2026-07-07.html"><h2>Selling Digital Products is Dead, Do This Instead in 2026 — riassunto</h2><span class="muted">Sue · 14:02 · 07/07/2026</span></a>
+<a class="card" href="stop-prompting-claude-start-loop-engineering-2026-07-07.html"><h2>Stop Prompting Claude. Start Loop Engineering. — riassunto</h2><span class="muted">Austin Marchese · 12:15 · 07/07/2026</span></a>
+<a class="card" href="stop-prompting-claude-use-karpathys-method-instead-2026-07-07.html"><h2>Stop Prompting Claude. Use Karpathy&#x27;s Method Instead. — riassunto</h2><span class="muted">Austin Marchese · 13:18 · 07/07/2026</span></a>
+<a class="card" href="the-agentic-os-setup-that-will-10x-claude-code-2026-07-07.html"><h2>The Agentic OS Setup That Will 10x Claude Code — riassunto</h2><span class="muted">n/d (uploader non presente nel report; il creator promuove il corso &#x27;Chase AI Plus&#x27;) · 31:20 · 07/07/2026</span></a>
+<script>
+(function () {
+  var remoto = null;
+  function st(href) {
+    var p, loc = null;
+    try {
+      p = new URL(href, location.href).pathname;
+      loc = JSON.parse(localStorage.getItem('sb2:' + p) || 'null');
+    } catch (e) { return null; }
+    var rem = remoto && remoto.pages ? remoto.pages[p] : null;
+    if (!loc) return rem || null;
+    if (!rem) return loc;
+    return (rem.p || 0) > (loc.p || 0) ? rem : loc;   // vince chi ha letto di più
+  }
+  function disegna() {
+  [].slice.call(document.querySelectorAll('a.card')).forEach(function (a) {
+    var vecchio = a.querySelector('.pill');
+    if (vecchio) vecchio.remove();
+    var items = a.getAttribute('data-items'), tag, n = 0, tot = 0;
+    if (items) {                                   // card di una playlist
+      items.split(',').forEach(function (h) {
+        tot++;
+        var s = st(h);
+        if (s && s.p >= 90) n++;
+      });
+      if (!n) return;
+      tag = document.createElement('span');
+      tag.className = 'pill' + (n === tot ? ' done' : '');
+      tag.textContent = n === tot ? '✓ Letti tutti' : n + '/' + tot + ' letti';
+    } else {                                       // card di un singolo riassunto
+      var s = st(a.getAttribute('href'));
+      if (!s || !s.p) return;
+      tag = document.createElement('span');
+      tag.className = 'pill' + (s.p >= 90 ? ' done' : '');
+      tag.textContent = s.p >= 90 ? '✓ Letto' : s.p + '%';
+      if (s.p >= 90) a.className += ' read';
+    }
+    var h2 = a.querySelector('h2');
+    if (h2) h2.appendChild(tag);
+  });
+  }
+  disegna();
+  // poi chiedo al server se su un altro dispositivo ho letto altro
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) { if (st) { remoto = st; disegna(); } });
+  }
+})();
+</script>
 </body>
 </html>

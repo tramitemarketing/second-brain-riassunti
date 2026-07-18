@@ -1,0 +1,9 @@
+{
+  "name": "brain-sync",
+  "main": "src/index.js",
+  "compatibility_date": "2026-07-18",
+  "kv_namespaces": [
+    { "binding": "LETTURE", "id": "6d961c0ec1d343ba808793379a2029b4" }
+  ],
+  "observability": { "enabled": true }
+}

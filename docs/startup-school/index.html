@@ -40,16 +40,89 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 .btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
   color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
 .btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
 </style>
 </head>
 <body>
 <div class="topbar"><a href="../index.html">← Tutti i riassunti</a></div>
-<h1>Startup School (YC)</h1><p class="muted">7 video · Y Combinator</p><a class="card" href="how-to-build-a-company-with-ai-from-the-ground-up.html"><h2>How To Build A Company With AI From The Ground Up</h2><span class="muted">10:27 · 2026-07-09</span><span class="desc">Costruire una startup AI-native: closed loop, azienda queryable, software factory e nuovi ruoli</span></a>
-<a class="card" href="how-to-build-an-ai-native-services-company.html"><h2>How to Build an AI-Native Services Company</h2><span class="muted">11:22 · 2026-07-09</span><span class="desc">Playbook YC per fondare da zero aziende di servizi AI-native: mercato, team, prodotto, prezzi, P&amp;L.</span></a>
-<a class="card" href="how-to-get-the-most-out-of-vibe-coding.html"><h2>How To Get The Most Out Of Vibe Coding</h2><span class="muted">16:39 · 2026-07-09</span><span class="desc">Consigli pratici per il vibe coding: piano, Git, test, debug e scelta di strumenti e stack.</span></a>
-<a class="card" href="how-to-get-your-first-10-customers.html"><h2>How to Get Your First 10 Customers</h2><span class="muted">13:46 · 2026-07-09</span><span class="desc">Le tattiche concrete per trovare e chiudere i primi 10 clienti, facendo cose che non scalano.</span></a>
-<a class="card" href="pick-one-idea-and-go-deep.html"><h2>Pick One Idea and Go Deep</h2><span class="muted">11:30 · 2026-07-09</span><span class="desc">Perché smettere di cercare l&#x27;idea perfetta, sceglierne una e andare in profondità genera più informazione</span></a>
-<a class="card" href="the-sales-playbook-for-founders.html"><h2>The Sales Playbook For Founders</h2><span class="muted">18:49 · 2026-07-09</span><span class="desc">Come chiudere i primi contratti B2B: dal design partnership ai contratti ricorrenti con opt-out.</span></a>
-<a class="card" href="the-startup-playbook-for-hiring-your-first-engineers-and-aes.html"><h2>The Startup Playbook for Hiring Your First Engineers and AEs</h2><span class="muted">43:21 · 2026-07-09</span><span class="desc">Come fare sourcing e assumere i primi ingegneri e venditori (AE) di una startup, trattando l&#x27;hiring come vendita.</span></a>
+<h1>Startup School (YC)</h1><p class="muted">7 video · Y Combinator</p><a class="card" href="how-to-build-a-company-with-ai-from-the-ground-up.html"><h2>How To Build A Company With AI From The Ground Up</h2><span class="muted">10:27 · 09/07/2026</span><span class="desc">Costruire una startup AI-native: closed loop, azienda queryable, software factory e nuovi ruoli</span></a>
+<a class="card" href="how-to-get-the-most-out-of-vibe-coding.html"><h2>How To Get The Most Out Of Vibe Coding</h2><span class="muted">16:39 · 09/07/2026</span><span class="desc">Consigli pratici per il vibe coding: piano, Git, test, debug e scelta di strumenti e stack.</span></a>
+<a class="card" href="how-to-build-an-ai-native-services-company.html"><h2>How to Build an AI-Native Services Company</h2><span class="muted">11:22 · 09/07/2026</span><span class="desc">Playbook YC per fondare da zero aziende di servizi AI-native: mercato, team, prodotto, prezzi, P&amp;L.</span></a>
+<a class="card" href="how-to-get-your-first-10-customers.html"><h2>How to Get Your First 10 Customers</h2><span class="muted">13:46 · 09/07/2026</span><span class="desc">Le tattiche concrete per trovare e chiudere i primi 10 clienti, facendo cose che non scalano.</span></a>
+<a class="card" href="pick-one-idea-and-go-deep.html"><h2>Pick One Idea and Go Deep</h2><span class="muted">11:30 · 09/07/2026</span><span class="desc">Perché smettere di cercare l&#x27;idea perfetta, sceglierne una e andare in profondità genera più informazione</span></a>
+<a class="card" href="the-sales-playbook-for-founders.html"><h2>The Sales Playbook For Founders</h2><span class="muted">18:49 · 09/07/2026</span><span class="desc">Come chiudere i primi contratti B2B: dal design partnership ai contratti ricorrenti con opt-out.</span></a>
+<a class="card" href="the-startup-playbook-for-hiring-your-first-engineers-and-aes.html"><h2>The Startup Playbook for Hiring Your First Engineers and AEs</h2><span class="muted">43:21 · 09/07/2026</span><span class="desc">Come fare sourcing e assumere i primi ingegneri e venditori (AE) di una startup, trattando l&#x27;hiring come vendita.</span></a>
+<script>
+(function () {
+  var remoto = null;
+  function st(href) {
+    var p, loc = null;
+    try {
+      p = new URL(href, location.href).pathname;
+      loc = JSON.parse(localStorage.getItem('sb2:' + p) || 'null');
+    } catch (e) { return null; }
+    var rem = remoto && remoto.pages ? remoto.pages[p] : null;
+    if (!loc) return rem || null;
+    if (!rem) return loc;
+    return (rem.p || 0) > (loc.p || 0) ? rem : loc;   // vince chi ha letto di più
+  }
+  function disegna() {
+  [].slice.call(document.querySelectorAll('a.card')).forEach(function (a) {
+    var vecchio = a.querySelector('.pill');
+    if (vecchio) vecchio.remove();
+    var items = a.getAttribute('data-items'), tag, n = 0, tot = 0;
+    if (items) {                                   // card di una playlist
+      items.split(',').forEach(function (h) {
+        tot++;
+        var s = st(h);
+        if (s && s.p >= 90) n++;
+      });
+      if (!n) return;
+      tag = document.createElement('span');
+      tag.className = 'pill' + (n === tot ? ' done' : '');
+      tag.textContent = n === tot ? '✓ Letti tutti' : n + '/' + tot + ' letti';
+    } else {                                       // card di un singolo riassunto
+      var s = st(a.getAttribute('href'));
+      if (!s || !s.p) return;
+      tag = document.createElement('span');
+      tag.className = 'pill' + (s.p >= 90 ? ' done' : '');
+      tag.textContent = s.p >= 90 ? '✓ Letto' : s.p + '%';
+      if (s.p >= 90) a.className += ' read';
+    }
+    var h2 = a.querySelector('h2');
+    if (h2) h2.appendChild(tag);
+  });
+  }
+  disegna();
+  // poi chiedo al server se su un altro dispositivo ho letto altro
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) { if (st) { remoto = st; disegna(); } });
+  }
+})();
+</script>
 </body>
 </html>
