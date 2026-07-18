@@ -121,6 +121,31 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 <p><a href="https://www.youtube.com/watch?v=DH7REvnQ1y4" target="_blank" rel="noopener">The Sales Playbook For Founders</a> — Y Combinator, Startup School. Durata: 18:49.</p>
 <p>Cosa ho omesso: solo elementi non sostanziali — la sigla musicale iniziale ("[Music]"), i saluti e i ringraziamenti di chiusura, l'invito a lasciare i propri consigli nei commenti e il rimando generico all'altro video YC sul pricing B2B (di cui però ho mantenuto il concetto di <em>value equation</em> perché usato nel corpo della lezione). Tutti gli esempi, i numeri (90%, 5-10%, 48 ore, 20%, 100→80 persone, 1M$, 200k$, 1.000 query, 1%, 7-14 giorni, 10-20k$, 30/60 giorni, 4M$/2M$), i nomi (Figma, Vanta, SOC 2, HIPAA, ISO 27001, Houston, Francia) e i framework citati sono stati conservati.</p>
 <script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
 (function () {
   var KEY = 'sb2:' + location.pathname;
   var WPS = 4;             // parole al secondo (~240 wpm)

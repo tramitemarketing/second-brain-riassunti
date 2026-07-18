@@ -148,7 +148,7 @@ def md_to_html(text, known):
 # Indirizzo del piccolo server (Worker Cloudflare) che tiene i progressi di lettura
 # uguali su tutti i dispositivi. Se è vuoto, il sito funziona lo stesso: i progressi
 # restano nel browser di ciascun dispositivo.
-SYNC_API = ""   # <- si riempie dopo il deploy del Worker (wrangler deploy)
+SYNC_API = "https://brain-sync.tramitemarketing-it.workers.dev"
 
 # Ponte verso il server dei progressi: due sole funzioni, prendi e manda.
 SYNC_JS = r"""
@@ -402,7 +402,8 @@ HOME_JS = r"""
 """
 
 def page(title, body, topbar, script=""):
-    js = ("<script>%s</script>\n" % script) if script else ""
+    # il ponte col server dei progressi va prima: gli altri script lo usano
+    js = ("<script>%s\n%s</script>\n" % (SYNC_JS.replace("__API__", SYNC_API), script)) if script else ""
     return ("<!doctype html>\n<html lang=\"it\">\n<head>\n<meta charset=\"utf-8\">\n"
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
             "<meta name=\"robots\" content=\"noindex\">\n<title>%s</title>\n<style>%s</style>\n"

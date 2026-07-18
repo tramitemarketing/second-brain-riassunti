@@ -168,6 +168,31 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 <p>Cosa è stato omesso (solo fuffa): saluti e presentazioni di rito, i ringraziamenti finali ("thanks for having me"), l'invito a contattare Juicebox per aiuto, e i riferimenti generici agli screenshot di prodotto usati come supporto visivo (di cui però ho riportato i contenuti sostanziali: criteri di ricerca, metriche, promemoria LinkedIn). Nessun numero, nome, aneddoto o framework citato è stato tralasciato.</p>
 <blockquote>⚠️ Nota sul dato "reply rate vs interested rate": la trascrizione, letteralmente, dice "your response rate is roughly half of your interested rate", frase che risulta invertita rispetto all'esempio numerico dato subito dopo (reply ~15% → interested ~metà). Ho reso la relazione nel senso coerente con gli esempi (interested rate ≈ metà del reply rate); verificare sull'originale se serve il dettaglio esatto.</blockquote>
 <script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
 (function () {
   var KEY = 'sb2:' + location.pathname;
   var WPS = 4;             // parole al secondo (~240 wpm)

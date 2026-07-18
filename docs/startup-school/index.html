@@ -77,6 +77,31 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 <a class="card" href="the-sales-playbook-for-founders.html"><h2>The Sales Playbook For Founders</h2><span class="muted">18:49 · 09/07/2026</span><span class="desc">Come chiudere i primi contratti B2B: dal design partnership ai contratti ricorrenti con opt-out.</span></a>
 <a class="card" href="the-startup-playbook-for-hiring-your-first-engineers-and-aes.html"><h2>The Startup Playbook for Hiring Your First Engineers and AEs</h2><span class="muted">43:21 · 09/07/2026</span><span class="desc">Come fare sourcing e assumere i primi ingegneri e venditori (AE) di una startup, trattando l&#x27;hiring come vendita.</span></a>
 <script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
 (function () {
   var remoto = null;
   function st(href) {

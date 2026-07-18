@@ -88,6 +88,31 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 <a class="card" href="stop-prompting-claude-use-karpathys-method-instead-2026-07-07.html"><h2>Stop Prompting Claude. Use Karpathy&#x27;s Method Instead. — riassunto</h2><span class="muted">Austin Marchese · 13:18 · 07/07/2026</span></a>
 <a class="card" href="the-agentic-os-setup-that-will-10x-claude-code-2026-07-07.html"><h2>The Agentic OS Setup That Will 10x Claude Code — riassunto</h2><span class="muted">n/d (uploader non presente nel report; il creator promuove il corso &#x27;Chase AI Plus&#x27;) · 31:20 · 07/07/2026</span></a>
 <script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
 (function () {
   var remoto = null;
   function st(href) {

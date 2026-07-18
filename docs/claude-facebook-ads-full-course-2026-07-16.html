@@ -143,6 +143,31 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 <li><strong>Cosa è stato omesso</strong> (onesto): i plug ripetuti a school.com/fbads e all'agenzia The Moonlighters (community, SOP, prompt "raffinati", inviti finali e "link nel primo commento"); i click-per-click dell'interfaccia (dove sta ogni pulsante, i passaggi "skip, skip, skip" in Co-work); i dettagli visivi di dashboard e creative generati, non ricostruibili dalla sola trascrizione.</li>
 </ul>
 <script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
 (function () {
   var KEY = 'sb2:' + location.pathname;
   var WPS = 4;             // parole al secondo (~240 wpm)
