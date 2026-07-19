@@ -11,6 +11,7 @@ import os
 import re
 import html
 import glob
+import urllib.parse
 
 SITE_TITLE = "Second Brain di Divan — Riassunti"
 
@@ -401,14 +402,21 @@ HOME_JS = r"""
 })();
 """
 
+# Iconcina del sito: il "play" rosso dei video. Sta dentro la pagina (data URI),
+# così non c'è nessun file da caricare e funziona anche nelle sottocartelle.
+ICONA_SVG = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">'
+             '<rect x="2" y="11" width="60" height="42" rx="11" fill="#e8262d"/>'
+             '<path d="M26 22.5 44 32 26 41.5z" fill="#fff"/></svg>')
+ICONA = '<link rel="icon" href="data:image/svg+xml,%s">' % urllib.parse.quote(ICONA_SVG)
+
 def page(title, body, topbar, script=""):
     # il ponte col server dei progressi va prima: gli altri script lo usano
     js = ("<script>%s\n%s</script>\n" % (SYNC_JS.replace("__API__", SYNC_API), script)) if script else ""
     return ("<!doctype html>\n<html lang=\"it\">\n<head>\n<meta charset=\"utf-8\">\n"
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-            "<meta name=\"robots\" content=\"noindex\">\n<title>%s</title>\n<style>%s</style>\n"
+            "<meta name=\"robots\" content=\"noindex\">\n<title>%s</title>\n%s\n<style>%s</style>\n"
             "</head>\n<body>\n%s\n%s\n%s</body>\n</html>\n"
-            % (html.escape(title), CSS, topbar, body, js))
+            % (html.escape(title), ICONA, CSS, topbar, body, js))
 
 def read_md(path):
     with open(path, encoding="utf-8") as fh:
@@ -491,13 +499,13 @@ def main():
             "html": '<a class="card" href="%s.html"><h2>%s</h2><span class="muted">%s</span></a>'
                     % (slug, html.escape(title), html.escape(sub(meta)))})
 
-    # --- homepage: playlist prima, poi video singoli (ognuno per data desc) ---
-    home_cards.sort(key=lambda c: (c["kind"] != "playlist", c["visto"] and c["visto"] or ""), reverse=False)
-    pl = [c["html"] for c in home_cards if c["kind"] == "playlist"]
-    vd = sorted([c for c in home_cards if c["kind"] == "video"], key=lambda c: c["visto"], reverse=True)
+    # --- homepage: tutto in ordine di data, dal più recente (playlist incluse) ---
+    home_cards.sort(key=lambda c: c["visto"] or "", reverse=True)
+    pl = [c for c in home_cards if c["kind"] == "playlist"]
+    vd = [c for c in home_cards if c["kind"] == "video"]
     body = ('<h1>%s</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. '
             'Quelli già letti si segnano da soli.</p>'
-            % html.escape(SITE_TITLE)) + "\n".join(pl + [c["html"] for c in vd])
+            % html.escape(SITE_TITLE)) + "\n".join(c["html"] for c in home_cards)
     tb = '<div class="topbar"><a href="index.html">%s</a></div>' % html.escape(SITE_TITLE)
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page(SITE_TITLE, body, tb, HOME_JS))
