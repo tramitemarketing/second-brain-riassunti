@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>This AI Agent Builds $15K Cinematic Websites on Autopilot (Claude Code + Nano Banana 2)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> Jay mostra un <strong>agente</strong> (cioè un'AI che lavora da sola, a passi, senza che tu le stia dietro) che prende il sito web esistente di un'attività e ne sforna una versione nuova, "cinematica" — con animazioni che si muovono mentre scrolli — e la pubblica online. Il motore non è un software: è <strong>una skill</strong>, cioè un file di testo (<code>skill.md</code>) che fa da manuale di istruzioni all'agente e lo porta attraverso <strong>quattro passi</strong>: analizza il marchio, genera la scena video, costruisce il sito, lo pubblica. Gli strumenti usati sono <strong>Nano Banana</strong> (immagini, via le API di Google, con 300 dollari di credito omaggio), <strong>Kling 3.0</strong> (immagine → video, via <strong>WaveSpeed</strong>), un pacchetto di <strong>31 "moduli cinematici"</strong> già pronti da incastrare nelle pagine, e <strong>Vercel</strong> per mettere il sito online gratis. Il messaggio operativo forte è: <strong>non serve comprare il kit</strong> — basta dare all'agente il link della documentazione ufficiale di ogni strumento, e lui impara a usarlo da solo. Attenzione però: il titolo parla di siti da 15.000 dollari "in autopilota", e nel video <strong>non c'è né un prezzo, né un cliente, né una vendita</strong> — vedi la sezione finale sull'onestà.</p>
+<h2>Cosa produce l'agente (la vetrina iniziale)</h2>
+<p>Prima di spiegare come funziona, Jay fa scorrere una decina di siti costruiti dall'agente "in pochi minuti l'uno". Vale la pena elencarli perché fanno capire il <strong>tipo</strong> di risultato:</p>
+<ul>
+<li>una <strong>pizzeria</strong>, con la pizza che campeggia sullo sfondo e, scrollando, un <strong>accordion</strong> (un elenco a fisarmonica: clicchi una voce e si apre) per il menù;</li>
+<li>un <strong>fioraio</strong>, dove scrollando i pezzi si compongono fino a formare l'immagine di un fiore, e dove il <strong>puntatore del mouse lascia dietro di sé una scia di foto</strong> dei fiori del negozio;</li>
+<li>una landing (pagina di atterraggio, cioè la pagina singola su cui mandi il traffico) per <strong>Monos</strong>, marchio di valigie;</li>
+<li>un <strong>servizio di pulizia scarpe</strong> a Sydney, con la sezione "come funziona" resa interattiva;</li>
+<li>un <strong>birrificio</strong>, con la storia del marchio raccontata nei suoi colori;</li>
+<li>una <strong>pasticceria</strong> di cupcake a Sydney, con animazioni pensate proprio per chi scrolla;</li>
+<li>una <strong>gioielleria</strong> dove si sfogliano le categorie, un'azienda di <strong>cioccolato</strong>, un marchio di <strong>orologi</strong>;</li>
+<li>un <strong>profumo</strong>, dove scrollando la boccetta "esplode" in fiori — e qui Jay sottolinea che l'agente ha ripreso dal sito originale anche la <strong>storia del marchio</strong> e alcune parole chiave;</li>
+<li>un <strong>ramen</strong>, dove il pulsante "esplora il menù" porta davvero alla sezione menù;</li>
+<li><strong>Room Craft</strong>, sito dimostrativo di un servizio tipo IKEA che consegna e monta stanze complete: scrollando, gli scatoloni si aprono e la camera da letto si compone pezzo per pezzo. Jay lo indica come il caso in cui l'animazione <strong>racconta esattamente il servizio</strong>.</li>
+</ul>
+<h2>Il motore è una skill, non un programma</h2>
+<p>Il kit si chiama <strong>Cinematic Sites</strong> ed è nato per la community dell'autore. Ma il punto tecnico è semplice: quello che comanda tutto è <strong>un solo file markdown</strong>, <code>skill.md</code>. Una <strong>skill</strong> è appunto un file di testo che spiega all'agente cosa fare, in che ordine e con quali comandi — vedi claude-skills. Non c'è codice proprietario da comprare: c'è un manuale scritto bene.</p>
+<p>Questo rende il metodo <strong>portabile</strong>: Jay dice esplicitamente che funziona su <strong>Claude Code</strong>, su <strong>OpenClaw</strong> <em>(nome incerto: le sottotitolazioni automatiche scrivono "Open Claw")</em>, o su qualunque altra piattaforma agentica. Per la dimostrazione lui usa un <strong>agente su Telegram</strong> che però dietro le quinte <strong>è Claude Code</strong>: tiene una sessione sempre aperta nel terminale e la collega a Telegram con la funzione <strong>Telegram Channels</strong>. In pratica comanda l'agente dal telefono chattando.</p>
+<h3>I quattro passi codificati nella skill</h3>
+<p>Quando gli dai un sito da rifare, l'agente esegue:</p>
+<ol>
+<li><strong>Analisi del marchio</strong> — estrae colori, palette, dettagli aziendali dal sito esistente.</li>
+<li><strong>Generazione della scena</strong> — crea il "video eroe" (l'animazione principale) che mostra il prodotto in azione mentre scorri la pagina.</li>
+<li><strong>Costruzione del sito</strong> — scrive l'HTML usando tutto quello che ha capito nel passo 1.</li>
+<li><strong>Pubblicazione</strong> — mette il sito online con <strong>Vercel</strong>, così è raggiungibile da chiunque.</li>
+</ol>
+<h2>Il demo completo: il ramen di Sydney</h2>
+<p>Il caso reale è <strong>Ichiraku Canteen</strong> <em>(nome dedotto dalle sottotitolazioni automatiche, incerto)</em>, un ristorante di ramen a Sydney il cui sito attuale "non ha praticamente niente dentro: è solo una pagina di prenotazione". Candidato perfetto.</p>
+<p>Il prompt di partenza è disarmante nella sua semplicità: <em>"puoi usare la skill Cinematic Sites per migliorare questo sito? E per questa sessione, vai passo per passo così possiamo osservarti mentre lo fai"</em>. Jay chiarisce subito che quella seconda frase serve <strong>solo per il video</strong>: in condizioni normali lo si lascia correre da solo su tutti e quattro i passi.</p>
+<h3>Passo 1 — La "brand card" come punto di controllo</h3>
+<p>L'agente legge il sito e ne estrae colori, palette e identità. Non servono strumenti esterni: c'è l'<strong>opzione</strong> di usare <strong>Firecrawl</strong> (servizio che raschia i siti web e ne restituisce i contenuti strutturati), ma siccome piattaforme come <strong>Claude Code</strong>, <strong>Antigravity</strong> o OpenClaw sanno già leggere una pagina HTML, il risultato è comunque buono senza pagare nulla.</p>
+<p>Il risultato è una <strong>brand card</strong>: una scheda del marchio, sputata fuori come pagina HTML che si apre e si guarda. Contiene il <strong>settore</strong>, la <strong>palette di colori</strong>, la <strong>tipografia</strong> (con dei caratteri giapponesi, tocco che Jay apprezza), un <strong>titolo</strong>, un <strong>sottotitolo (tagline)</strong>, una <strong>frase suggerita per la sezione principale</strong> e una <strong>direzione tematica</strong> generale.</p>
+<p>Qui sta il pezzo di metodo più importante, e la skill lo prevede esplicitamente: <strong>un punto di pausa (pause point) prima di andare avanti</strong>. È uno <strong>stadio di verifica</strong> — approvi il marchio prima che l'agente costruisca sopra. È lo stesso principio del generatore-con-checkpoint che sta dentro spec-driven-prompting: fermarsi dove l'errore costerebbe caro a valle.</p>
+<h3>Passo 2 — Le scene: tre idee, poi immagine, poi video</h3>
+<p>Per default la skill fa proporre all'agente <strong>tre idee</strong> di animazione principale, ciascuna con un'emoji per orientarsi (puoi chiedergliene di più, o lasciare che scelga da solo). Per il ramen le tre proposte sono state:</p>
+<ol>
+<li><strong>vapore che sale</strong> da una ciotola di ramen tonkotsu su un bancone di legno scuro;</li>
+<li>il <strong>brodo versato</strong>, inquadratura dall'alto, brodo dorato che scende lentamente in una ciotola di ceramica scura;</li>
+<li>un <strong>campo largo</strong> su un bancone di ramen vuoto.</li>
+</ol>
+<p>Jay sceglie con un messaggio in linguaggio naturale: <em>"la uno e la due mi piacciono. Però voglio un ramen a base di gamberi. Puoi generarmi le immagini prima di animarle in video?"</em>.</p>
+<p><strong>Le immagini si generano con Nano Banana.</strong> Nel file della skill è scritto il <strong>codice per chiamare le API di Google</strong> — cioè il canale diretto per parlare col modello senza passare da un sito intermedio. Il perché di questa scelta è puramente economico e va segnato: <strong>ogni account Gmail riceve 300 dollari di credito di benvenuto</strong> su Google, che "durano parecchio" se li spendi solo in <strong>Nano Banana</strong> o <strong>Veo</strong>. Alla prima installazione, la skill ti mostra anche <strong>dove trovare le tue chiavi API</strong> da passare all'agente.</p>
+<p>E qui arriva il consiglio replicabile: se vuoi insegnare da zero al tuo agente a usare Nano Banana, <strong>dagli il link della documentazione ufficiale di Google</strong> e lascia che se la spulci per trovare i comandi giusti — funziona per <strong>Nano Banana, Nano Banana 2 e Nano Banana Pro</strong>. Frase secca di Jay: <strong>non serve passare da rivenditori terzi come Higgsfield o Freepik per usare gli stessi modelli</strong> (vedi higgsfield, nano-banana-pro).</p>
+<p><strong>Le due immagini generate finiscono in una "generations tab"</strong>, una scheda del suo <strong>command center</strong> (centro di comando) collegato a Claude Code: una specie di <strong>Google Flow Studio o Higgsfield fatto in casa</strong>, dove le immagini e i video generati si vedono a colpo d'occhio, si scaricano, e cliccandoci sopra <strong>si copia il percorso del file</strong> — così è banale ripassarlo all'agente. Piccolo pezzo di infrastruttura personale, non un prodotto.</p>
+<p><strong>Da immagine a video con Kling.</strong> Scelta la foto migliore, Jay ne copia il percorso e scrive: <em>"questa è ottima, è pronta per l'animazione. Voglio che gli ingredienti si depositino nella ciotola e poi la camera zoomi sul ramen per mostrarne la ricchezza"</em>. E chiede <strong>due video invece di uno</strong>, con una motivazione che vale come principio generale: <strong>questi modelli sono probabilistici, più tentativi fai più aumenti le probabilità di beccare quello buono</strong>.</p>
+<p>L'accesso a <strong>Kling</strong> avviene tramite <strong>WaveSpeed</strong> <em>(nelle sottotitolazioni "Wave Speed")</em>, un <strong>aggregatore di modelli AI</strong>: come Higgsfield o Freepik, ma <strong>senza abbonamento mensile</strong> — paghi quello che usi — e con un catalogo più ampio (nella vetrina si vedono <strong>Nano Banana</strong>, <strong>Seedream</strong>, <strong>Kling</strong> e altri). Jay cita le alternative — <strong>fal.ai</strong> <em>(nelle sottotitolazioni "File.ai")</em> e <strong>Kie.ai</strong> <em>("key.ai")</em> — ma dice di preferire WaveSpeed <strong>per affidabilità</strong>. Il modello preciso usato in questo progetto è <strong>Kling V3 image-to-video</strong> (da immagine a video).</p>
+<p>Il funzionamento sotto il cofano è lineare: l'agente chiama quel modello, <strong>carica l'immagine</strong> appena fatta con Nano Banana, <strong>scrive il prompt</strong>, lancia e riceve indietro il video. E anche qui il consiglio per replicare: sui siti tipo WaveSpeed o Kie.ai <strong>copi il contenuto della pagina di documentazione del modello e lo incolli nel tuo agente</strong> — così gli passi tutta la documentazione di <strong>Kling 3.0 Pro</strong> in un colpo. È esattamente quello che ha fatto Jay. Il vantaggio finale: <strong>non devi più andare a mano su Google Flow Studio o simili a digitare prompt</strong>; la skill standardizza il tutto e ti dà più controllo.</p>
+<p>Dei due video generati, Jay sceglie <strong>non il più spettacolare ma il più stabile</strong>: il secondo aveva un bello zoom di camera ma risultava <strong>traballante</strong>, quindi tiene il primo perché "più consistente". Piccolo dettaglio, ma dice qualcosa sul mestiere.</p>
+<h3>Passo 3 — La costruzione: frame-on-scroll e moduli cinematici</h3>
+<p>Passato il percorso del video finale, il comando è: <em>"questo è il video definitivo. Ora vai al passo tre e costruisci il sito"</em>.</p>
+<p>Dentro la skill, questo passo contiene <strong>regole sull'architettura dei siti</strong> e <strong>molti controlli sul design system</strong> (l'insieme coerente di colori, caratteri, spaziature). E soprattutto <strong>codifica l'effetto cinematico</strong>: preso il video, l'agente <strong>ne estrae i singoli fotogrammi e li mappa sull'azione di scorrimento</strong>, così che scrollando si scorrano i frame uno dopo l'altro e sembri un video. È <strong>esattamente la tecnica frame-on-scroll</strong> già descritta in landing-prodotto-premium-claude-code — la novità è che qui non la spieghi ogni volta a mano: <strong>è scritta una volta nella skill</strong> e l'agente la riapplica sempre.</p>
+<p>Il secondo ingrediente sono i <strong>cinematic modules</strong>: un pacchetto di <strong>oltre 30 componenti</strong> (Jay dice <strong>31</strong> in chiusura) già pronti da innestare in qualunque sito. Quelli nominati:</p>
+<ul>
+<li>effetto <strong>reveal text</strong> (testo che si svela);</li>
+<li>componenti modulari per lo <strong>scrolling</strong>;</li>
+<li>l'effetto <strong>kinetic text</strong> (testo in movimento) visto nei demo;</li>
+<li>effetto <strong>macchina da scrivere</strong>;</li>
+<li>effetto <strong>glitch</strong> (disturbo tipo schermo rotto);</li>
+<li><strong>image trail</strong> — la scia di immagini che segue il mouse, quella del fioraio;</li>
+<li><strong>flip cards</strong> (schede che si girano), utili secondo lui per le <strong>testimonianze</strong>;</li>
+<li>l'animazione del fiore che si compone, che tecnicamente è <strong>solo un'animazione SVG "draw"</strong> (un disegno vettoriale che si traccia da solo);</li>
+<li>l'<strong>accordion slider</strong>, che usa più avanti.</li>
+</ul>
+<p>Questo pacchetto Jay lo <strong>regala gratis</strong> perché "è difficile da ricreare"; il kit completo <code>Cinematic Sites</code> invece sta dentro la sua community a pagamento.</p>
+<p>Il sito esce <strong>praticamente in un colpo solo</strong> (one shot): branding giapponese, ciotola che si anima allo scroll, caratteri giapponesi. Jay li fa tradurre per sicurezza — dicono <em>"c'è una storia in ogni ciotola"</em> — e nota che l'agente ha recuperato da solo <strong>indirizzo e orari di apertura</strong>, oltre a costruire le sezioni <strong>storia</strong>, <strong>menù</strong> e <strong>visita</strong> con la navigazione funzionante.</p>
+<p>Poi la rifinitura, sempre a parole: <em>"voglio che il menù usi il modulo accordion, mi sembra un bel modo di mostrare le ciotole di ramen"</em>. L'agente capisce di quale modulo si parla <strong>perché la skill gli dà accesso al catalogo dei moduli</strong> — l'<strong>accordion slider</strong>, quello in cui passando il mouse su ogni immagine questa si espande (esiste anche in variante verticale). Rifatto, il menù è a fisarmonica.</p>
+<h3>Passo 4 — Online con Vercel</h3>
+<p>L'ultimo passo è "una banalità" per l'agente: <strong>pubblicare su Vercel</strong>, servizio che <strong>ospita siti gratuitamente</strong>. Anche qui la ricetta per insegnarglielo è la stessa delle altre: <strong>passa all'agente la documentazione di Vercel</strong> e saprà fare da solo. Alla fine il sito è <strong>live a un indirizzo pubblico</strong>, che puoi mandare al cliente come <strong>sito dimostrativo</strong> su cui raccogliere feedback.</p>
+<p>Il riepilogo di Jay: si è partiti da qualcosa che "non è nemmeno un sito, è solo un modulo di prenotazione" e si è arrivati a una pagina con sfondo cinematico, esperienza più ricca e resa decisamente più <strong>premium</strong>.</p>
+<h2>Il principio riutilizzabile, al di là del kit</h2>
+<p>Se si toglie il prodotto in vendita, il video insegna <strong>tre cose che valgono da sole</strong>:</p>
+<ol>
+<li><strong>La skill è il prodotto.</strong> Tutto il valore sta in un file markdown che codifica una pipeline ripetibile a quattro passi con punti di verifica umana. Chiunque può scriversene uno.</li>
+<li><strong>La documentazione ufficiale è il modo di dare capacità nuove a un agente.</strong> Nano Banana, Kling, Vercel: in tutti e tre i casi la ricetta è identica — dagli il link o incolla la pagina, e l'agente ricava i comandi. Non servono integrazioni pronte né rivenditori.</li>
+<li><strong>Costo quasi zero se scegli i canali giusti:</strong> API dirette di Google (300 dollari di credito omaggio per account Gmail), WaveSpeed a consumo invece che in abbonamento, Vercel gratis.</li>
+</ol>
+<h2>Onestà: cosa il video NON dimostra</h2>
+<p>Va detto chiaramente, perché il titolo promette parecchio.</p>
+<p><strong>"$15K" non compare mai nel video.</strong> Non c'è un prezzo, non c'è un cliente pagante, non c'è una trattativa, non c'è un preventivo, non c'è nessun ragionamento su quanto si possa vendere un sito del genere. La cifra vive <strong>solo nel titolo</strong>. Il sito finale viene descritto come <strong>"demo site" da mandare al cliente per raccogliere feedback</strong> — cioè uno strumento di acquisizione, non un lavoro consegnato e fatturato. Chi cerca la parte commerciale (come si trova il cliente, come si prezza, come si chiude) qui non la trova: per quella vedi ai-service-business.</p>
+<p><strong>"On autopilot" è vero a metà.</strong> Il video mostra il contrario dell'autopilota: Jay chiede esplicitamente all'agente di andare <strong>passo per passo</strong>, e interviene <strong>quattro volte</strong> — approva la brand card, sceglie e corregge il concept della scena (gamberi), sceglie il video meno traballante fra due, chiede la modifica all'accordion. Dice che si può lasciarlo correre da solo, ma <strong>non lo mostra</strong>. Onestamente: è un <strong>agente a stadi con checkpoint umani</strong>, che è probabilmente meglio dell'autopilota vero, ma non è quello che dice il titolo.</p>
+<p><strong>Tutti i siti mostrati sono demo, non lavori commissionati.</strong> Vengono da marchi esistenti rifatti a scopo dimostrativo (Monos, un IKEA immaginario chiamato Room Craft, attività locali di Sydney). Non c'è nessuna prova che qualcuno li abbia comprati.</p>
+<p><strong>Densità complessiva:</strong> il video è <strong>denso di metodo per un video da 16 minuti</strong> — la pipeline è completa, gli strumenti sono nominati per nome con le alternative, i prompt sono mostrati testualmente. Però è anche <strong>costruito come imbuto di vendita</strong>: il kit completo sta dietro la community a pagamento (citata almeno tre volte), il pacchetto di moduli gratuito serve da esca, e la parte più delicata — cioè <strong>cosa c'è scritto esattamente dentro <code>skill.md</code></strong> — viene fatta vedere di sfuggita ma <strong>mai riportata per intero</strong>. Sai qual è l'architettura, non hai il testo.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=bUt1WpDlI6E</li>
+<li><em>Ingest da sola trascrizione (nessun frame video): è un video molto visivo, qui resta il metodo.</em></li>
+<li>Concetti collegati: landing-prodotto-premium-claude-code, claude-skills, spec-driven-prompting, design-app-che-spiccano, ai-service-business, nano-banana-pro, kling, higgsfield</li>
+<li><strong>Nomi incerti</strong> (storpiati dalle sottotitolazioni automatiche, non indovinati): "Open Claw" → probabilmente <strong>OpenClaw</strong>; "key.ai" → <strong>Kie.ai</strong>; "File.ai" → <strong>fal.ai</strong>; "Sea Dream" → <strong>Seedream</strong>; "ViO" → <strong>Veo</strong>; "Wave Speed" → <strong>WaveSpeed</strong>; "Ichiraku Canteen" (nome del ristorante); "Robo Labs" / "RoboNuggets" (nome della community); "Cling" → <strong>Kling</strong>.</li>
+<li><strong>Omesso</strong>: presentazione personale dell'autore (decennio di lavoro con i marchi, master in data science), promozione ripetuta della community RoboNuggets e della sua "Agentic AI Masterclass", riferimenti a founder che avrebbero chiuso il primo cliente in poche settimane, inviti a iscriversi e a prendere i link in descrizione, rimando al video su "Claude Code come assistente 24/7", e tutti i dettagli puramente visivi dei siti dimostrativi (aspetto preciso delle animazioni, che dalla sola trascrizione non sono ricostruibili).</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

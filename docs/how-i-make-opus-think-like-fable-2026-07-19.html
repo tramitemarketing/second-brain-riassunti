@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How I Make Opus Think Like Fable (5 easy steps)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> l'autore ha bruciato qualche migliaio di dollari di crediti su <strong>Fable 5</strong> e la sua conclusione è che il modello non è il vantaggio competitivo — lo è il <strong>processo</strong>. Da qui la mossa pratica: farsi spiegare da Fable <em>come ragiona</em>, congelarlo in un file di skill chiamato <strong>"Fable mode"</strong> costruito su cinque "cancelli" (scoping, evidenze, attacco avversariale, verifica, resoconto), e poi darlo in pasto a modelli più economici come <strong>Opus 4.8</strong>, <strong>Sonnet</strong> e <strong>Haiku</strong>. Nei suoi test i risultati restano quasi identici a costi fino a tre volte inferiori.</p>
+<h2>Il modello non è il fossato</h2>
+<p>L'apertura è la tesi di tutto il video. Immagina due persone: un principiante dell'AI e uno come <strong>Andrej Karpathy</strong> (nella trascrizione automatica compare come "Andre Karpathy"). Dai al principiante Fable 5, il modello più potente, e a Karpathy un <strong>Sonnet 3.7</strong>, cioè roba vecchia. Karpathy costruirà comunque qualcosa di migliore. Il motivo, dice l'autore, è che conta molto di più <em>come</em> istruisci il modello, e quali <strong>sistemi e loop</strong> gli costruisci attorno, di quanto sia intelligente il modello in sé.</p>
+<p>La prova che porta è un esperimento suo. Usando i <strong>dynamic workflow</strong> di Claude Code — cioè far progettare al modello, al volo, una squadra di sotto-agenti invece di usarne una fissa preparata prima — ha lanciato la stessa identica batteria di test in tre configurazioni: Fable che orchestra sotto-agenti Fable, Fable che orchestra sotto-agenti <strong>Opus</strong>, Fable che orchestra sotto-agenti <strong>Sonnet</strong>. Risultato: qualità sostanzialmente <strong>uguale nei tre casi</strong>, ma il giro tutto-Fable è costato "esponenzialmente" di più. La frase che riassume la scoperta è la migliore del video: <em>non puoi tenerti l'intelligenza del modello, ma puoi tenerti il suo processo</em>.</p>
+<p>Vale la pena mettere subito il caveat: sono test personali, senza numeri pubblicati, senza descrizione dei task, senza ripetizioni. È aneddoto, non benchmark.</p>
+<h2>Passo 1 — Trattare il modello grosso come un insegnante, non come un mulo da soma</h2>
+<p>Quando è arrivato Fable, dice, tutti l'hanno usato spingendolo al limite: <strong>Anthropic</strong> stessa ha comunicato che è bravo sui <strong>task lunghi</strong> — pianificare verso un obiettivo, eseguire, verificare — e in effetti lo è. Ma il gioco vero è il <strong>model routing</strong>: capire quanta intelligenza serve davvero per un dato compito ed evitare di pagare un modello di punta per qualcosa che un modello più piccolo e più economico chiude con la stessa qualità. Secondo lui questa sarà una delle competenze decisive dei prossimi anni.</p>
+<p>Il ribaltamento mentale che propone: invece di far pianificare <em>ed</em> eseguire tutto a Fable, si estrae <strong>il modo in cui Fable pensa</strong> e lo si fa applicare ai modelli più piccoli. Racconta di aver fatto rileggere a Fable le proprie configurazioni e le proprie skill per farsele migliorare, e di essersi accorto che lo stava trattando non da dipendente ma da <strong>co-fondatore o dirigente</strong> — l'immagine che usa è quella dell'<strong>ingegnere senior in uscita che impacchetta tutto ciò che sa</strong> per consegnarlo alla nuova infornata di junior che prenderà il suo posto.</p>
+<h2>Passo 2 — Rubare le regole dai system prompt trapelati</h2>
+<p>Di recente sono <strong>trapelati i system prompt</strong> di Claude Fable 5 (l'autore li ha letti lui e li ha fatti leggere a Fable stesso). I punti che ha estratto sono tutti sulla stessa linea — non fidarti di te stesso, verifica:</p>
+<ul>
+<li><strong>"Il riconoscimento parziale dal training non è conoscenza attuale"</strong>: se una cosa ti sembra di ricordarla, verificala comunque.</li>
+<li><strong>"Un prompt che lascia intendere che un file esista non significa che esista"</strong>: controlla che le cose ci siano davvero, prima di lavorarci sopra.</li>
+<li><strong>Rispondi prima, chiedi dopo</strong>: affronta anche una richiesta ambigua invece di bloccarti, e semmai fai <strong>una sola domanda</strong> di chiarimento, al massimo.</li>
+<li><strong>Sugli errori</strong>: riconosci cosa è andato storto, resta sul problema, mantieni il rispetto di sé — cioè niente sviolinate né autoflagellazione.</li>
+<li><strong>Scala di sforzo tarata sul compito</strong>: <em>una</em> ricerca per un fatto secco, <strong>tre-cinque</strong> per un compito medio, <strong>cinque-dieci</strong> per ricerche e confronti approfonditi.</li>
+</ul>
+<p>L'ultimo punto introduce il tema del passo successivo: non basta scegliere il modello giusto, serve anche il <strong>livello di effort</strong> giusto.</p>
+<h2>Passo 3 — Tarare l'effort (più non è meglio)</h2>
+<p>Cita il grafico pubblicato sul blog di rilascio di <strong>Cloud Fable 5 e Mythos 5</strong> <em>(nomi come li riporta la trascrizione automatica; "Cloud" è quasi certamente "Claude", su "Mythos" resto incerto)</em>: sull'asse Y il punteggio, sull'asse X il costo, e ogni modello — <strong>Fable 5</strong>, <strong>Opus 4.8</strong>, <strong>GPT 5.5</strong> — rappresentato a diversi livelli di sforzo.</p>
+<p>Il dato che tira fuori: <strong>Fable 5 su effort "low" sta più o meno dove sta Opus 4.8 su "high"</strong> — Fable un filo più caro e un filo più buono, ma nella stessa zona. Il consiglio spiccio è che chi lascia sempre l'effort sul valore di default, sia su Fable che su Opus, si sta perdendo la parte interessante.</p>
+<p>Ma — ed è la nota onesta del video — <strong>alzare l'effort non è sempre un miglioramento</strong>. Lui personalmente sta quasi sempre su <strong>"high"</strong>, perché quando passa a <strong>"xhigh" o "max"</strong> (nella trascrizione "X higher max") il modello va molto più lungo, costa molto di più, <strong>pensa troppo, si rimangia le proprie decisioni</strong> e finisce per consegnare qualcosa di <em>peggiore</em> rispetto a Opus 4.8 su high o Fable su high.</p>
+<h2>Passo 4 — Impacchettare il metodo in una skill: "Fable mode"</h2>
+<p>Qui c'è la parte più concreta e riusabile. Il consiglio operativo: se hai ricevuto da Fable un risultato che ti è piaciuto tantissimo senza saper spiegare bene perché, <strong>fai analizzare quel risultato al modello stesso</strong> (Fable o Opus), meglio ancora se hai ancora accesso alla sessione in cui è stato prodotto. Le domande da fargli sono queste: <em>A cosa hai pensato per arrivare qui? Come ci sei arrivato? Cosa hai fatto per dimostrare che funzionava? Come hai ottenuto un output così buono?</em> Poi prendi quello che esce e <strong>lo trasformi in una skill</strong>.</p>
+<p>Il prompt che dà per generarla, quasi alla lettera: <em>"Scrivi un file di skill completo e installabile che faccia operare Opus 4.8 con il tuo giudizio, la tua pianificazione, le tue abitudini di verifica e di ragionamento"</em>, attivabile con un trigger tipo <strong>"Fable mode"</strong>.</p>
+<p>La skill che ne ha ricavato gira su <strong>cinque cancelli</strong> (gates) — e questi cinque sono, di fatto, gli unici "cinque passi" che il video enumera davvero:</p>
+<ol>
+<li><strong>Scoping prima di lavorare</strong> — delimitare il problema.</li>
+<li><strong>Evidenze prima del ragionamento</strong> — prima raccogli i fatti, poi ragionaci sopra.</li>
+<li><strong>Ragionare in modo avversariale</strong> ("attacking").</li>
+<li><strong>Verificare prima di dichiarare finito</strong>.</li>
+<li><strong>Calibrare / riportare</strong> — il resoconto onesto di cosa è stato fatto.</li>
+</ol>
+<p>Sul primo cancello insiste su una distinzione che secondo lui è il vero valore aggiunto di Fable: c'è <strong>pianificare</strong> ("ecco tutti gli step, vai") e c'è <strong>fare l'avvocato del diavolo</strong> — chiedersi cosa può andare storto, esplorare tutte le incognite del piano. È esattamente lì che Fable è forte. Ed è per questo che il suo schema funziona: <strong>Fable pianifica ogni passo e ogni possibile inciampo, disegna il workflow, e poi lascia che sia Sonnet a eseguire</strong> riportando tutto indietro a Fable, che a quel punto continua a progettare gli step successivi. Da qui il "momento lampadina": il giro Fable+Sonnet rende quanto il giro Fable+Fable, a una frazione del costo.</p>
+<p>Precisa anche che la skill è <strong>agnostica rispetto al modello</strong>: descrive la disciplina di lavoro di Fable in modo che possa eseguirla chiunque, incluso <strong>GPT 5.5</strong> o modelli <strong>open source</strong>. Oltre ai cinque cancelli il file contiene alcune "standing habits", abitudini permanenti, che però nel video non vengono lette.</p>
+<h2>Passo 5 — La tabella di routing: costo, intelligenza, gusto</h2>
+<p>Sopra la skill si innesta bene la seconda pratica: dare al proprio Claude una <strong>tabella dei modelli disponibili nel kit e di quando usarli</strong>, così che il modello intelligente sappia da solo quando scaricare il lavoro su quelli piccoli. Nella tabella si possono includere anche deleghe esterne, tipo "delega a <strong>Codex</strong>" o "delega a un modello open source".</p>
+<p>Le colonne che usa lui sono tre, più eventuali categorie tue:</p>
+<ul>
+<li><strong>Costo</strong>, espresso come punteggio dove <strong>più alto = più economico</strong>;</li>
+<li><strong>Intelligenza</strong> — quanto ti sembra sveglio, quanto ti capisce, quanto è bravo per esempio a rivedere codice;</li>
+<li><strong>Gusto</strong> ("taste") — creatività, pensiero laterale, design di interfacce e UX.</li>
+</ul>
+<p>Serve, dice, quando progetti squadre di agenti o dynamic workflow che mescolano più Sonnet, più Haiku e qualche Opus. E la motivazione economica è esplicita: quando le aziende inizieranno a fare i conti sulle <strong>unit economics</strong>, o quando hai tu stesso un budget AI mensile, è questa roba a separare chi ottiene molto di più spendendo molto di meno.</p>
+<p>Il test finale che porta: <strong>Opus come orchestratore</strong>, caricato col prompt "Fable mode" del passo precedente, contro tre configurazioni di lavoratori — tutti Sonnet, tutti Opus, tutti Haiku. La versione con l'orchestratore Opus che delega a <strong>"scout" Haiku</strong> è risultata <strong>circa tre volte più economica con un risultato identico</strong>.</p>
+<h2>Chiusura: quello che possiedi è il processo</h2>
+<p>L'ultima riflessione nasce dai commenti di chi va nel panico all'idea che <strong>Fable venga tolto</strong>. L'autore riferisce che secondo Anthropic tornerà sugli abbonamenti, ma senza data. La morale che ne trae: fra modelli che spariscono e governi che iniziano a metterci le mani, <strong>non possediamo nulla — non possediamo i modelli</strong>. Quello che possiamo possedere sono <strong>i processi, i sistemi, le metodologie, il modo in cui pensiamo l'uso di questi modelli</strong>. E, aggiunge, l'<strong>hardware</strong> e i <strong>modelli locali</strong> — argomento su cui promette di tornare.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=XTBWVVcF3Pk</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: loop-engineering, spec-driven-prompting, claude-skills, agent-memory.</li>
+</ul>
+<p><strong>Incertezze sui nomi.</strong> La trascrizione è auto-generata e storpia parecchio: "Cloud Fable 5" è quasi certamente <strong>Claude Fable 5</strong>; "Sonic" è <strong>Sonnet</strong>; "Andre Karpathy" è <strong>Andrej Karpathy</strong>; "X higher max" è il livello di effort <strong>xhigh / max</strong>. Su <strong>"Mythos 5"</strong> resto genuinamente incerto: compare una sola volta, accanto a Fable 5, come modello annunciato nello stesso blog di rilascio.</p>
+<p><strong>Rapporto con quanto già in vault.</strong> Il video <strong>conferma</strong> loop-engineering su tre punti — la verifica come cancello prima di dichiarare "fatto", il ragionamento avversariale (che è la versione operativa del "secondo modello come critico"), e le skill collaudate come mattone del loop — e lo <strong>estende</strong> con una leva che in vault non c'era: la <strong>separazione fra chi pensa e chi esegue</strong> come scelta economica, non solo di qualità. Conferma anche spec-driven-prompting nella distinzione fra pianificare e fare l'avvocato del diavolo. <strong>Non contraddice nulla.</strong></p>
+<p><strong>Cosa non convince (onestà).</strong> Il video è denso di idee ma povero di prove: tutti i confronti ("risultato identico", "tre volte più economico", "esponenzialmente più caro") sono impressioni personali senza task descritti, senza metrica, senza ripetizioni. Il pezzo davvero riusabile è <strong>uno solo</strong>: il prompt per estrarre il metodo in una skill e i cinque cancelli. Il resto — tabella costo/intelligenza/gusto, "trattalo come un insegnante" — è buon senso già noto, e la parte sui system prompt trapelati è materiale di seconda mano riassunto in fretta.</p>
+<p><strong>Omesso di proposito:</strong> il rimando alla "free skill community" dell'autore e alle istruzioni per scaricare da lì il file "Fable mode"; la richiesta di like; l'invito a commentare per suggerire argomenti futuri; i saluti finali.</p>
+<p><strong>Non recuperabile dalla trascrizione:</strong> il contenuto effettivo del file "Fable mode" e delle sue "standing habits" (mostrato a schermo ma mai letto), e i valori esatti del grafico punteggio/costo del blog di rilascio.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

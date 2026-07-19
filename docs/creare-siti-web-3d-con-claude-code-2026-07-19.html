@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Create €5,000 3D Websites Using Claude Code (Ultimate Guide)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> una guida per costruire con <strong>Claude Code</strong> una landing page "che si muove" — un sito dove, scrollando, un prodotto si anima come in un video — da rivendere ad aziende. Il metodo vero è: generi 9 immagini del prodotto, le trasformi in clip video, le unisci in un unico filmato con <strong>Canva</strong>, lo dai a Claude Code e lui costruisce il sito attorno a quel video, poi lo pubblichi gratis con <strong>GitHub</strong> + <strong>Vercel</strong>. <strong>Attenzione onesta:</strong> è il video di una scuola a pagamento, molto promozionale, e il "3D" del titolo è marketing — non c'è vero 3D (nessuna libreria tridimensionale nel browser), è lo stesso effetto "video su scroll" già in landing-prodotto-premium-claude-code. La cifra "€5.000" è solo dichiarata, mai dimostrata.</p>
+<h2>L'idea di fondo</h2>
+<p>Il pitch: i siti aziendali statici (entri, leggi, fine) sono "noiosi"; oggi con l'AI chiunque ne genera uno in 3 secondi con un prompt, quindi non valgono niente. Ciò che invece si può vendere caro è il sito <strong>dinamico</strong>, quello in cui scrollando "tutto si muove e si apre". La percezione di valore è alta ("come l'ha fatto?"), ma — dice l'autore — costruirlo è facile. Da qui la promessa di rivenderlo a professionisti e aziende "a migliaia di euro".</p>
+<h2>La pipeline passo-passo</h2>
+<p>Il flusso completo mostrato nel video:</p>
+<ol>
+<li><strong>Genera le immagini del prodotto.</strong> Su <strong>ElevenLabs</strong> (la nota piattaforma di voci AI, che ora fa anche immagini e video) si sceglie l'opzione <em>immagine</em> e si incolla un prompt. Nell'esempio il prodotto è una bustina di tè di un marchio premium indiano. L'autore usa <strong>GPT Image 2</strong>, ma dice che va bene anche <strong>Nano Banana 2</strong> (nano-banana-pro). Impostazioni: rapporto <strong>16:9</strong>, risoluzione portata a <strong>2K</strong> ("se vuoi un sito fatto bene devi alzare la risoluzione"). Servono <strong>9 immagini</strong> in tutto, ognuna salvata con un nome preciso e ordinato (immagine 1, 2, 3… "erbe che orbitano", ecc.) perché l'ordine conta nei passaggi dopo.</li>
+</ol>
+<ol>
+<li><strong>Trasforma le immagini in video.</strong> Sempre su ElevenLabs, opzione <em>video</em>: si carica un <strong>fotogramma iniziale</strong> e uno <strong>finale</strong> (es. immagine 1 → immagine 2), più un prompt che descrive il movimento. Modello consigliato: <strong>Seedance 2.0</strong> (nella trascrizione "Sidens 2.0", <em>incerto</em>), ma per spendere meno crediti l'autore usa <strong>Veo 3.1 Lite</strong>. Impostazioni: 16:9, 1080p, 6 secondi, audio disattivato. Si ripete per ogni coppia di immagini (immagine 2→3, 3→4…) finché non si hanno tutti i video, ciascuno rinominato in ordine (V1 = la bustina, V2 = le erbe che cadono, V3 = ingredienti nella tazza, V4 = infusione, V5 = mani che avvolgono).</li>
+</ol>
+<ol>
+<li><strong>Unisci i video in uno solo con Canva.</strong> Su <strong>Canva</strong> si crea un progetto <em>video orizzontale</em>, si caricano tutte le clip e le si mette in sequenza una dopo l'altra (Canva le accoda in automatico). Si esporta il filmato finale a <strong>1080p</strong>. (Va bene anche <strong>CapCut</strong>, ma dice che Canva è il più semplice.)</li>
+</ol>
+<ol>
+<li><strong>Fai costruire il sito a Claude Code.</strong> Si installa <strong>Visual Studio Code</strong> (l'editor di codice gratuito), ci si aggiunge l'estensione <strong>Claude Code</strong>, si apre una cartella di progetto e si trascina dentro il video finale. Poi si dà un prompt del tipo: <em>"stai costruendo un sito narrativo di lusso, basato sullo scorrimento, per un marchio di tè indiano premium"</em> — specificando lo stack tecnologico, la meccanica principale (lo scroll che comanda il video), la schermata di caricamento, l'header fisso, la barra di avanzamento dello scroll e le sovrapposizioni di testo. Claude Code genera l'intero sito e restituisce un indirizzo <strong>localhost</strong> per vederlo in locale.</li>
+</ol>
+<ol>
+<li><strong>Pubblica gratis.</strong> Si chiede a Claude Code di caricare i file su <strong>GitHub</strong> (repository gratuita), poi da <strong>Vercel</strong> (nella trascrizione "Virel/Virchel", <em>hosting gratuito</em>) si importa il progetto e si clicca <em>distribuisci</em>: in pochi secondi il sito è online con un suo dominio.</li>
+</ol>
+<h2>Il verdetto onesto</h2>
+<p>Il metodo tecnico è reale e replicabile, ma il video è <strong>prevalentemente un imbuto di vendita</strong> verso una "Scuola IA" a pagamento (con lista d'attesa e "5 posti"): i pezzi che contano davvero per fare soldi — <em>come si vende alle aziende</em>, il <em>backend con i pagamenti</em>, il <em>prezzo reale</em> — non vengono mostrati, sono rimandati al corso. Due cose da tenere a mente:</p>
+<ul>
+<li><strong>Non è vero 3D.</strong> È un video su scroll (frame agganciati allo scorrimento), la stessa famiglia di landing-prodotto-premium-claude-code, non un sito tridimensionale con motori come Three.js/WebGL. Il "3D" è nel titolo per effetto.</li>
+<li><strong>La cifra €5.000 non è dimostrata</strong>, è un'affermazione di vendita. Vale come segnale del <em>possibile</em> valore percepito, non come dato.</li>
+</ul>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=7_bOPeSmzxE</li>
+<li><em>Ingest da sola trascrizione (sottotitoli IT, nessun frame video): è un video molto visivo, qui resta il metodo.</em></li>
+<li>Concetti collegati: landing-prodotto-premium-claude-code, claude-skills, seo-con-claude</li>
+<li><strong>Differenza (delta) rispetto a landing-prodotto-premium-claude-code:</strong> stessa idea di fondo (video-su-scroll), ma qui la catena di tool è diversa — <strong>ElevenLabs</strong> per immagini <em>e</em> video (invece di Kie.ai + Kling) e <strong>Canva</strong> per montare le clip in un unico filmato (invece di spezzare un video in ~120 frame). Manca del tutto il pezzo tecnico dei frame e dell'ottimizzazione del caricamento che l'altro video curava.</li>
+<li><strong>Omesso</strong>: promozione ripetuta della Scuola IA e della lista d'attesa, il discorso su Amazon che licenzia 150.000 persone e sul "l'AI non ti estingue ma ti evolve" (retorica motivazionale), gli inviti a iscriversi; i prompt esatti (l'autore li tiene nel suo documento a parte). Nomi storpiati dai sottotitoli e segnalati come incerti: "Sidens 2.0" (probabilmente Seedance 2.0), "Virel" (Vercel).</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

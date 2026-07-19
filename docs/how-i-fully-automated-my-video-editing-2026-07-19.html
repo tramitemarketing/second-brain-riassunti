@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How I Fully Automated My Video Editing (Claude Code) — secondo taglio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> Un secondo autore mostra il <strong>suo</strong> modo di far montare i video da Claude Code, ed è una ricetta <strong>diversa</strong> da quella già in wiki. Qui il flusso è spaccato in due tronconi: i <strong>tagli del parlato</strong> li fa a mano-ma-veloce dentro <strong>Descript</strong> (un editor che si usa come Word, dove cancelli le parole dalla trascrizione e sparisce il pezzo di video), e le <strong>grafiche animate</strong> le fa Claude Code con <strong>Remotion</strong>, una libreria che genera video scrivendo codice React. In mezzo ci sono <strong>FFmpeg</strong> per tirare fuori l'audio e le <strong>API Whisper di OpenAI</strong> per trascriverlo con i tempi. Il punto forte del racconto: prima ci metteva <strong>da 3 a 6 ore</strong> a montare un video, oppure pagava un montatore "qualche centinaio di dollari"; adesso descrive come vuole il video e il resto va da sé, con lo stesso stile ripetuto identico su ogni video senza rifare il lavoro da capo.</p>
+<h2>Perché non fa fare tutto a Claude</h2>
+<p>L'autore è onesto su un limite e lo dice subito: i <strong>tagli del parlato</strong> li tiene fuori da Claude Code. Il motivo è che, per quanto scriva bene il prompt, restano sempre "piccole cose" da sistemare — frasi ripetute, pezzi tolti che invece servivano — e a lui interessa <strong>verificare di persona che quello che dice nel video sia accurato</strong>. Dice che l'AI "fa un buon lavoro sulla maggior parte", ma non è perfetta. Quindi tiene un passaggio umano, però lo rende velocissimo appoggiandosi a un'interfaccia fatta apposta.</p>
+<p>Vale la pena notare il contrasto: l'altro sistema già in wiki fa fare i tagli direttamente a Claude via trascrizione. Qui l'autore ha scelto <strong>il controllo umano sul contenuto parlato</strong> e ha automatizzato solo la parte visiva. È una scelta di dove mettere il confine, non un dettaglio tecnico.</p>
+<h2>Troncone 1 — I tagli in Descript</h2>
+<p><strong>Descript</strong> è l'unico strumento fuori da Claude Code in tutto il flusso. Funziona così: carichi il file video, lui te lo trascrive, e <strong>modificare la trascrizione modifica il video</strong>. Cancelli una frase dal testo e quel pezzo di girato sparisce; copi un pezzo di testo e duplichi quel pezzo di video. Cliccando su una parola qualsiasi il video salta esattamente al punto in cui la stai pronunciando.</p>
+<h3>Il template personalizzato</h3>
+<p>La chiave della velocità è che l'autore si è costruito un <strong>template proprio</strong> dentro Descript. Ci arriva da <em>browse more templates</em> → <em>all templates</em> → <em>created by me</em>. Il template è essenzialmente un prompt, e lui lo mostra ammettendo che è <strong>"incredibilmente basilare — probabilmente potrei lavorarci"</strong>. Il testo è, in sostanza:</p>
+<blockquote>"Rimuovi tutte le frasi ripetute. Di solito l'ultima frase ripetuta è quella giusta, dopo tutti gli errori."</blockquote>
+<p>Tutto qui. Eppure dice che fa un buon lavoro nel togliere la spazzatura dei ciak sbagliati, quando ripeti la stessa frase cinque volte finché non esce bene. Preme <em>use template</em> e Descript inizia a processare.</p>
+<p>Due note pratiche: Descript è un'<strong>applicazione cloud</strong>, quindi il video va caricato sui loro server, e <strong>il caricamento è la parte più lenta di tutto il processo</strong> — nel suo caso il file era da <strong>3 GB</strong>, perché gira in alta qualità.</p>
+<h3>La rifinitura manuale e i buchi tra le parole</h3>
+<p>A caricamento finito trova già la trascrizione pronta, il prompt già applicato e <strong>una parte dei tagli già fatta</strong>. Da lì rilegge lo script per intero: seleziona e cancella quello che non gli serve, riporta dentro quello che era stato tolto a torto.</p>
+<p>Poi il trucco più concreto del video. Va nel pannello <strong>AI tools</strong> a destra e usa <strong>shorten word gaps</strong> (accorcia i buchi tra le parole): gli fa <strong>trovare tutti i silenzi più lunghi di 0,2 secondi e riportarli tutti a 0,2 secondi</strong>. Il senso è togliere le pause morte tra un ciak e l'altro, che altrimenti si sentono come esitazioni. Dice che 0,2 secondi è il valore che tiene di solito.</p>
+<p>Il risultato su questo video: <strong>da circa 20 minuti di girato grezzo a 12 minuti</strong> montati.</p>
+<h3>La musica prima dell'export</h3>
+<p>Prima di passare a Claude aggiunge già la <strong>musica di sottofondo</strong>, dentro Descript. La prende da <strong>Epidemic Sound</strong>, e la ragione è pratica: <strong>quella musica non fa scattare i reclami per copyright</strong>. Precisa che va bene qualunque altra fonte, è solo la sua abitudine. Poi lancia l'<strong>export in locale</strong> sul computer.</p>
+<h2>Troncone 2 — Le grafiche con Claude Code</h2>
+<h3>L'app desktop, non VS Code</h3>
+<p>Apre il progetto nella <strong>app desktop di Claude</strong>, non in Visual Studio Code, e il motivo lo svela dopo: <strong>l'app desktop ha un pannello di anteprima integrato</strong>, quindi può guardare il video montato dentro la stessa finestra in cui parla con Claude.</p>
+<p>Il progetto è <strong>una singola cartella riusata per tutti i suoi video</strong>, dove nel tempo si sono accumulati i messaggi con cui l'ha costruita: è lì che vive "l'editor video definitivo". Invece di spiegarne il contenuto a mano, fa una cosa furba per il video: <strong>chiede a Claude di descrivere il proprio setup</strong>, con il prompt</p>
+<blockquote>"Puoi spiegarmi velocemente come sei riuscito a montare i video, così posso spiegare a qualcun altro come lavori?"</blockquote>
+<p>e legge la risposta a schermo.</p>
+<h3>Lo stack che Claude si auto-descrive</h3>
+<p><strong>Remotion</strong> è il pezzo grosso. È uno strumento che permette di <strong>fare montaggio video scrivendo codice</strong> — grafiche, testi, elementi animati — usando <strong>React e TypeScript</strong>. L'autore la mette così: "possiamo praticamente <strong>prompare un video</strong> o una serie di grafiche e farle montare sul video". Remotion porta con sé anche un <strong>timeline</strong>, cioè la barra temporale su cui vedi tutte le clip e le grafiche disposte nel tempo (si chiama <strong>Remotion Studio</strong>). L'autore fa notare che sul sito di Remotion c'è <strong>supporto esplicito per Claude Code</strong> e che "prompt a video" è un loro caso d'uso dichiarato.</p>
+<p>Sull'installazione è categorico e rassicurante: <strong>non serve essere tecnici</strong>. Non devi cercare i comandi di installazione, non devi capire niente. Vai su Claude Code e gli dici "installami Remotion" — <strong>fa tutto lui</strong>.</p>
+<p><strong>FFmpeg</strong> è il secondo pezzo, e serve a una cosa sola: <strong>estrarre l'audio dai file video</strong>.</p>
+<p>Le <strong>API Whisper di OpenAI</strong> sono il terzo: prendono quell'audio e lo <strong>trascrivono con i timestamp</strong>. Il senso di questo passaggio è preciso: senza i tempi, Remotion non saprebbe <strong>quando</strong> far comparire una grafica. Con la trascrizione temporizzata, invece, Claude può creare grafiche <strong>pertinenti a quello che stai dicendo</strong> e piazzarle <strong>nel punto giusto</strong> del video.</p>
+<h3>I cinque passi della pipeline</h3>
+<p>Come li elenca Claude stesso:</p>
+<ol>
+<li><strong>Trascrive</strong> il video che gli hai dato.</li>
+<li><strong>Mappa le grafiche</strong> dalla trascrizione ai punti del video in cui devono comparire.</li>
+<li><strong>Costruisce il video</strong> usando Remotion, cioè generando React e TypeScript per grafiche e animazioni.</li>
+<li><strong>Anteprima in Remotion Studio</strong>, con il timeline completo da scorrere.</li>
+<li><strong>Renderizza il video</strong> in locale, pronto da caricare su YouTube.</li>
+</ol>
+<h3>Come lo lancia davvero</h3>
+<p>Il prompt operativo è banale quanto quello di Descript:</p>
+<blockquote>"Ecco un nuovo video long-form. Puoi montarlo per favore?"</blockquote>
+<p>Claude risponde con <strong>l'elenco di tutti i passi che intende fare e di tutte le grafiche che intende creare</strong>. L'autore legge, dice <strong>"looks good"</strong>, e Claude parte. Alla fine stampa che <strong>lo Studio è in esecuzione a un certo indirizzo, pronto per l'anteprima</strong>.</p>
+<p>Nota sul metodo: c'è un <strong>punto di approvazione umano prima di eseguire</strong>. Claude propone il piano, l'umano lo conferma. Non è "premi e spera".</p>
+<h2>Che cosa esce fuori</h2>
+<p>Clicca sull'indirizzo e l'anteprima si apre <strong>nel pannello di destra dell'app desktop di Claude</strong>: è l'editor di Remotion, con il video già montato dentro. Scorrendo il timeline vede una fila di <strong>riquadri blu</strong>, e ogni riquadro blu è <strong>una singola grafica che Claude ha deciso da solo di creare e piazzare</strong> in quel punto.</p>
+<p>Mette la riproduzione a <strong>2x</strong> per mostrarle in fretta. Ci sono soprattutto <strong>animazioni testuali</strong>, ma anche grafiche vere: cita in particolare una <strong>tabella di confronto costruita a partire dal contenuto di cui stava parlando</strong>, e degli <strong>elenchi</strong>. La sua valutazione è che <strong>l'intero video è montato, senza fare niente a mano</strong>, e che potrebbe pubblicarlo così com'è.</p>
+<p>Non nasconde i difetti: dice che <strong>qualcosa andrebbe sistemato</strong> — per esempio un testo da rimpicciolire perché stia meglio dentro il riquadro. Ma la correzione è a costo quasi zero, perché <strong>Claude ha ancora accesso al progetto</strong> e basta chiedergli di cambiarlo.</p>
+<p>Un avvertimento che vale la pena tenere: le grafiche <strong>si possono rendere molto più personali</strong>, e lui dice di <strong>averci lavorato un po'</strong> proprio per allontanarsi dall'aspetto standard di Remotion. Tradotto: se lo installi e basta, i tuoi video avranno l'aria "di default" di chiunque altro faccia la stessa cosa.</p>
+<p>Alla fine, il video che stai guardando è esattamente il prodotto di questo flusso — dichiara che <strong>tagli, transizioni e sovrimpressioni sono tutte fatte dall'AI</strong>, e che gli resta solo qualche controllo prima di renderizzare e caricare.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=G0EH0xdy2-E</li>
+<li><em>Ingest da sola trascrizione (nessun frame video): non ho visto le grafiche, il timeline né l'interfaccia di Descript — resta il metodo, non l'aspetto visivo delle demo.</em></li>
+<li>Riassunto gemello (sistema diverso, stesso titolo): <code>[[how-i-fully-automated-my-video-editing-2026-07-16]]</code></li>
+<li>Concetti collegati: <code>[[claude-code-video-editing]]</code>, <code>[[claude-skills]]</code></li>
+<li><strong>Omesso</strong>: il blocco pubblicitario a metà video sulla community a pagamento "AI Launchpad" (corsi su voice agent e n8n, partnership con BookedIN, "oltre 3 milioni di dollari di sconti software" su n8n/Make/Stripe/Webflow/Lovable, supporto tecnico illimitato) e l'invito finale a guardare un altro video. Menzionato ma non sviluppato: offre gratis, nella sua community, il <strong>foglio di sintesi generato da Claude</strong> con la descrizione dello stack, da caricare nel proprio Claude per replicare il setup.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

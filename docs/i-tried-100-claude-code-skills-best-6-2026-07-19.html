@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Tried 100+ Claude Code Skills. These 6 Are The Best</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> dopo 400 ore dentro <strong>Claude Code</strong>, l'autore dice che le skill "spettacolari" che girano su YouTube non servono a niente per chi vende automazioni alle aziende: quelle che i clienti pagano sono sei skill noiosissime che fanno tre cose — far risparmiare tempo, far risparmiare soldi, togliere errori. Le sei sono <strong>Skill Creator</strong> (la fabbrica che costruisce tutte le altre), <strong>Superpowers</strong> (obbliga Claude a lavorare come uno sviluppatore senior: pianifica, testa, si autorivede), <strong>GSD</strong> (spezza il lavoro in sotto-agenti con contesto pulito, contro il degrado di sessione), <strong>/review e /ultra review</strong> (revisione del codice, già dentro Claude Code, nessuna installazione), <strong>Context Mode</strong> (filtra la spazzatura dei tool e ricostruisce la sessione dopo la compattazione) e <strong>ClaudeMem</strong> (memoria che sopravvive tra sessioni diverse). Più una settima bonus, la skill ufficiale <strong>front-end design</strong>. Chiusura sul commerciale: non vendere il workflow, vendi il risultato.</p>
+<h2>Da dove nasce la lista</h2>
+<p>L'autore ha lavorato con <strong>agenzie immobiliari</strong>, aziende <strong>HVAC</strong> (impianti di riscaldamento e condizionamento — negli USA è un settore enorme di piccole imprese), <strong>coach</strong> e <strong>agenzie di marketing</strong>. Settori diversissimi, ma dice di aver visto tornare sempre gli stessi problemi, e quindi sempre le stesse skill. Il suo consiglio a chi vuole vendere AI nel 2026 è di non complicarsi la vita: partire da quello che le aziende già pagano.</p>
+<p>Fa anche una precisazione tecnica che vale la pena tenere: nel video chiama tutto "skill", ma alcune di queste sono tecnicamente <strong>plugin</strong>. Una <strong>skill</strong> è un pacchetto che insegna a Claude a fare meglio un lavoro specifico — in pratica è il file markdown di istruzioni. Un <strong>plugin</strong> è l'involucro più grande attorno alla skill: può contenerne diverse, più cose extra come <strong>hook</strong> (agganci che scattano in automatico in certi momenti della sessione) e <strong>server MCP</strong> (connettori verso strumenti esterni). Il plugin cambia il comportamento di Claude Code sotto il cofano. Lui li chiama tutti "skill" perché, dice, la categoria tecnica non è il punto: il punto è che ognuna rende Claude visibilmente più bravo.</p>
+<h2>1. Skill Creator — la fabbrica delle altre skill</h2>
+<p>È una delle <strong>skill ufficiali di Anthropic</strong>. Il funzionamento è banale: descrivi a parole tue, in inglese semplice, cosa vuoi; Claude scrive la bozza della skill, la prova, la corregge e te la impacchetta in qualcosa di riutilizzabile per sempre. Non devi mettere mano a mano al file <code>SKILL.md</code> <em>(nel video le auto-caption lo storpiano in "skill.md5" — il file vero è <code>SKILL.md</code>)</em>, non devi capire la formattazione, non devi sapere quali sono le condizioni di attivazione. Parli a Claude come spiegheresti il lavoro a un collega e ti ritrovi con una skill che gira uguale ogni volta. Puoi anche dargli in pasto una <strong>SOP</strong> (procedura operativa scritta, il classico documento "come si fa questa cosa in azienda") e lui te la trasforma in skill riutilizzabile.</p>
+<p>Il problema che risolve: quasi tutti quelli che iniziano con Claude Code provano a scriversi le skill a mano e sbattono subito contro un muro — non conoscono la struttura, non sanno cosa distingue una skill affidabile da una ballerina, e finiscono o per mollare o per mettere insieme qualcosa che si rompe appena il cliente la tocca.</p>
+<p>L'onestà dell'autore su questa: <strong>il cliente non paga questa skill</strong>. Nessuno ti dà soldi per lo Skill Creator. Ma ogni singola skill che venderai all'azienda HVAC, all'agenzia immobiliare o al coach esce da qui. È la fabbrica che produce il prodotto, quindi indirettamente è quella che rende possibili tutti gli altri incassi.</p>
+<p><strong>Esempio concreto mostrato:</strong> un'agenzia immobiliare ti dice che perde ore ogni settimana a scrivere le descrizioni degli immobili. Senza Skill Creator dovresti scrivere tutto il <code>SKILL.md</code> a mano, capire le condizioni di attivazione, testare più volte, e probabilmente romperlo un paio di volte — ci arrivi lo stesso, ma ci metti molto di più. Con Skill Creator lo spieghi in modo naturale e lui costruisce, testa e impacchetta. Comprime la curva di apprendimento.</p>
+<p><strong>Installazione:</strong> <code>/plugin install skill creator</code> <em>(dettato a voce, la sintassi esatta era mostrata a schermo e messa in descrizione al video)</em>. L'autore lo installa <strong>a livello globale, sullo user scope</strong> — cioè valido per tutti i progetti — così qualunque cosa stia facendo, se serve costruire una skill parte da sola senza doverci pensare.</p>
+<h2>2. Superpowers — costringere Claude a lavorare da senior</h2>
+<p>Il nome, dice lui, è azzeccato perché letteralmente dà superpoteri a Claude. Quello che fa è <strong>imporre a Claude il metodo di lavoro di uno sviluppatore senior</strong>: invece di buttarsi subito a scrivere codice, fa un passo indietro e prima pianifica tutto. Lavora in un <strong>ambiente isolato</strong>, così non ti rompe niente nel progetto principale. Scrive i <strong>test prima del codice</strong>. Fa brainstorming. E si rivede il proprio lavoro <strong>in due passate distinte</strong>: una per controllare se rispetta davvero la specifica richiesta, una per la qualità del codice.</p>
+<p>Il problema che risolve è quello che l'autore chiama il fallimento numero uno di Claude Code: <strong>codice sbrigativo e sciatto</strong>. Chiedi una cosa, Claude corre a scriverla, in superficie sembra a posto, poi la lanci e si sbriciola. Oppure — peggio — la lancia il tuo cliente e si sbriciola lì. Superpowers rallenta Claude quel tanto che basta a fargli ragionare davvero il problema, e non gli lascia saltare i passaggi.</p>
+<p>Serve, dice, per qualunque progetto che finisca davvero in produzione: il sistema di smistamento chiamate di un'azienda HVAC, lo strumento di reportistica su misura di un'agenzia di marketing. A questi clienti non frega niente di quante righe di codice hai scritto, gli interessa che il sistema regga quando ci sta sopra il loro fatturato. Senza un metodo come Superpowers, Claude può scrivere tutta l'automazione in un colpo solo e mancare un caso limite; con Superpowers pianifica, scrive i test, cerca i casi limite e trova i buchi prima che arrivino al cliente.</p>
+<p>Qui fa un'osservazione onesta che vale più di tutto il resto: <strong>non è realistico pensare di risolvere tutto in un colpo solo</strong>. Quando costruisci, gran parte del tuo lavoro è <strong>QA</strong> (quality assurance, il controllo qualità). Se alla prima passata arrivi all'<strong>80%</strong> invece che al <strong>60%</strong>, hai vinto. Meno cicli di debug significa meno tempo a riparare e <strong>meno token spesi</strong>.</p>
+<p>Cita <strong>oltre 150.000 stelle su GitHub</strong> come prova che è una delle skill di community più popolari <em>(numero da prendere con le pinze: 150k stelle sarebbe da progetto tra i più famosi al mondo, plausibilmente ha detto o letto male e sono 15.000)</em>. Il comando di installazione era mostrato a schermo e in descrizione. Rimanda anche a un suo video dedicato solo a Superpowers, con l'analisi di quanti token consuma.</p>
+<h2>3. GSD — contesto pulito, un sotto-agente per compito</h2>
+<p><strong>GSD</strong> sta per "get \[shit\] done", portare a casa il lavoro <em>(nel video l'acronimo è pronunciato solo a metà)</em>. La distinzione che fa è netta: **se Superpowers riguarda <em>come</em> Claude scrive il codice, GSD riguarda <em>l'ambiente</em> in cui lo scrive**.</p>
+<p>Il muro contro cui sbatte prima o poi ogni utente di Claude Code: apri la sessione, va tutto benissimo, Claude azzecca tutto, e poi verso metà della <strong>finestra di contesto</strong> (lo spazio di memoria di lavoro che il modello ha per la conversazione) comincia a sfaldarsi. Il codice diventa sciatto, Claude si dimentica i requisiti che avevi dato all'inizio, salta passaggi, taglia gli angoli, e ti dice che le cose sono fatte quando non lo sono. Questo fenomeno si chiama <strong>context rot</strong>, il marcire del contesto.</p>
+<p>GSD lo risolve con la <strong>context engineering</strong> (l'arte di gestire cosa entra e cosa resta fuori dalla memoria del modello). Invece di lasciare che una grande sessione unica degradi lentamente, <strong>genera sotto-agenti freschi per ogni compito</strong>, e ognuno parte con una finestra di contesto pulita che contiene solo quello che gli serve sapere. Così la sessione principale resta pulita e ogni compito ha a disposizione tutta la potenza del contesto invece degli avanzi.</p>
+<p>Ha anche dei <strong>cancelli di qualità</strong> (quality gate) integrati che intercettano problemi reali durante l'esecuzione: la <strong>rilevazione dello scivolamento di obiettivo</strong> <em>(nella trascrizione "scope production detection", quasi certamente <strong>scope creep detection</strong> o simile)</em> becca il pianificatore quando lascia cadere in silenzio un requisito che avevi chiesto; l'<strong>enforcement di sicurezza</strong> àncora la verifica al tuo modello di minaccia. L'autore sottolinea che sono controlli che non ti verrebbe in mente di fare a mano, <strong>soprattutto se non vieni dallo sviluppo software</strong> — ed è esattamente per questo che averli automatizzati conta.</p>
+<p>C'è anche una <strong>modalità autonoma</strong>: gli passi una specifica e te ne vai. Pianifica, esegue, fa i commit e attraversa tutto il progetto senza che tu debba stargli dietro.</p>
+<p><strong>Avvertenza onesta:</strong> GSD <strong>non è un plugin che ti fa risparmiare token</strong> — tutti quei sotto-agenti i token li consumano. Quello che ti risparmia sono le ore che avresti buttato a rifare il lavoro che Claude aveva rotto perché si era dimenticato cosa gli avevi chiesto.</p>
+<p>La sintesi dell'autore: <em>Superpowers dà a Claude il processo (pianifica, testa, rivedi, ripeti); GSD gli dà il contesto pulito perché quel processo funzioni ogni volta.</em></p>
+<p><strong>Installazione:</strong> un comando da terminale (mostrato a schermo), poi dentro Claude Code si digita <code>/gsd-help</code> per vedere tutti gli altri comandi disponibili nel plugin.</p>
+<h2>4. /review e /ultra review — già dentro Claude Code, quasi nessuno le usa</h2>
+<p>La quarta non si installa: <strong>è già dentro Claude Code</strong> e la maggior parte della gente non la sfrutta. È il comando <code>/review</code> e il suo cugino più muscoloso <code>/ultra review</code>.</p>
+<p><strong><code>/review</code></strong>: finito di scrivere il codice, lo digiti e Claude fa una <strong>revisione strutturata</strong> di quello che hai appena costruito. Cerca bug, casi limite e problemi di progettazione — tutta la roba che segnalerebbe un revisore attento. Gira <strong>in locale</strong>, è veloce e non costa niente oltre ai token che consumi normalmente.</p>
+<p><strong><code>/ultra review</code></strong>: uscito insieme a <strong>Opus 4.7</strong>. Invece di girare in locale, <strong>carica il tuo branch in una sandbox in cloud</strong> e lancia in parallelo una <strong>flotta di agenti revisori</strong>. Ognuno attacca il codice da un'angolazione diversa: logica, sicurezza, prestazioni, casi limite. La parte davvero interessante: <strong>prima che un bug finisca nella tua lista, dev'essere riprodotto e verificato in modo indipendente</strong>. Quindi non ti ritrovi una pila di pignolerie stilistiche e falsi positivi, ma bug confermati.</p>
+<p>Dove sta nel flusso di lavoro: pianifichi con Superpowers, esegui con contesto pulito grazie a GSD, e <strong>prima di fare merge</strong> di qualcosa di importante lanci <code>/ultra review</code> per beccare i bug che Claude si è perso da solo.</p>
+<p><strong>Requisiti e paletti, tutti dichiarati:</strong></p>
+<ul>
+<li>serve <strong>Claude Code versione 2.1.86 o successiva</strong>;</li>
+<li>devi essere <strong>loggato con un account Claude</strong> — la sola chiave API non basta;</li>
+<li><code>/ultra review</code> può metterci <strong>10-20 minuti</strong>, ma gira in background e intanto tu continui a lavorare;</li>
+<li><strong>non è gratis</strong>: i piani <strong>Pro e Max</strong> hanno <strong>3 run gratuite</strong> di prova (l'autore avvisa che potrebbe essere cambiato quando guardi il video), dopo di che si va sui <strong>5-20 dollari a esecuzione</strong> a seconda della dimensione.</li>
+</ul>
+<p><strong>Quando usare cosa:</strong> <code>/review</code> per un riscontro veloce su tutto; <code>/ultra review</code> quando stai per fare merge di qualcosa che conta davvero — un grosso refactoring, o qualsiasi cosa tocchi pagamenti, autenticazione o migrazioni di database. Il tipo di commit dove un bug in produzione ti costa molto più dei soldi e del tempo dell'ultra review.</p>
+<h2>5. Context Mode — buttare fuori la spazzatura e sopravvivere alla compattazione</h2>
+<p>Il problema di partenza: <strong>ogni chiamata a uno strumento scarica dati grezzi nella tua finestra di contesto</strong>. Uno snapshot di <strong>Playwright</strong> (lo strumento che pilota il browser) può pesare <strong>56 kilobyte</strong>; venti issue di GitHub possono pesarne <strong>59</strong>. Dopo circa <strong>mezz'ora</strong> di lavoro vero, il <strong>40% della tua finestra di contesto è pura spazzatura</strong>: output di log, dati grezzi, roba che a Claude non serviva neanche guardare. E quando Claude finisce lo spazio e <strong>compatta</strong> la conversazione (la riassume per far posto), si dimentica quali file stava modificando, quali compiti erano in corso e cosa gli avevi chiesto per ultimo.</p>
+<p>Context Mode aggredisce <strong>entrambe le metà</strong> del problema.</p>
+<p><strong>Prima metà — tiene fuori la spazzatura.</strong> Quando Claude lancia un comando o scarica una URL, Context Mode instrada quella chiamata <strong>attraverso una sandbox</strong>: il codice gira in un sotto-processo isolato, l'output grezzo viene catturato lì, e nella finestra di contesto rientra <strong>solo la parte che a Claude serve davvero</strong>. Numeri dai loro benchmark pubblicati:</p>
+<ul>
+<li>uno snapshot Playwright da <strong>56 KB → 299 byte</strong>;</li>
+<li>un log di accesso da <strong>46 KB → 155 byte</strong>;</li>
+<li>su un'intera sessione, <strong>315 KB</strong> di output grezzo diventano <strong>5 KB</strong> totali.</li>
+</ul>
+<p>L'autore precisa che sono <strong>numeri dichiarati da loro</strong> e che puoi verificare i tuoi lanciando in qualunque momento <code>/contextmode:ctx-stats</code>.</p>
+<p><strong>Seconda metà — la memoria della sessione</strong>, la parte che lui dice di non sapere di volere finché non ce l'ha avuta. Context Mode <strong>traccia ogni evento significativo della sessione in un database SQL locale</strong>: ogni file che modifichi, ogni compito che crei, ogni decisione che prendi, ogni errore che salta fuori. Quando Claude compatta la conversazione, tutto questo non va perso: Context Mode <strong>ricostruisce uno snapshot della sessione e glielo reinietta</strong>. Il modello riparte esattamente da dove eravate rimasti, con i file, i compiti e l'ultimo prompt intatti.</p>
+<p>Effetto pratico dichiarato: <strong>sessioni che prima si sfaldavano intorno ai 30 minuti ora reggono 3 ore</strong> senza rallentamenti, e smetti di sprecare prompt per ricordare a Claude un contesto che aveva già.</p>
+<p><strong>Installazione:</strong> due comandi (mostrati a schermo), poi si riavvia Claude Code. Il plugin si installa da solo il server MCP, gli hook e le istruzioni di instradamento.</p>
+<h2>6. ClaudeMem — la memoria che attraversa le sessioni</h2>
+<p>Se Context Mode tiene pulita la sessione <strong>corrente</strong>, <strong>ClaudeMem</strong> è quello che porta la conoscenza <strong>da una sessione all'altra</strong>.</p>
+<p>Il problema: Claude Code <strong>riparte da zero ogni volta</strong>. Apri una sessione nuova e ti ritrovi a rispiegare il progetto per la quinta volta questo mese, e ogni nuova conversazione ti costa forse <strong>10 minuti e migliaia di token</strong> solo per rimetterlo in pari. Puoi provare a tamponare con i file <code>CLAUDE.md</code> e i file di memoria — che restano importanti, sono file di testo semplice dove scrivi le istruzioni permanenti del progetto — ma <strong>vanno mantenuti a mano</strong>: se ti dimentichi di aggiornarli, quel contesto Claude se lo perde.</p>
+<p>ClaudeMem se ne fa carico da solo. <strong>Si aggancia al ciclo di vita della sessione</strong> e cattura automaticamente cosa è successo: le modifiche ai file, le decisioni, i bug risolti, i comandi. Poi usa <strong>l'Agent SDK di Claude</strong> per comprimere tutto in <strong>riassunti semantici</strong> e li salva in un <strong>database SQLite locale con ricerca vettoriale</strong> (cioè per significato, non per parola esatta). Quando apri una sessione nuova, le parti rilevanti rientrano da sole. In più <strong>genera e aggiorna da solo i file <code>CLAUDE.md</code> a livello di cartella</strong>: la documentazione del progetto, in pratica, si scrive da sé mentre lavori.</p>
+<p><strong>La parte che fa davvero risparmiare token è il recupero.</strong> Invece di rovesciare in contesto tutte le osservazioni passate, ClaudeMem usa una <strong>ricerca a tre strati</strong>: prima restituisce un <strong>indice compatto</strong> delle osservazioni; poi puoi tirare fuori una <strong>linea temporale</strong> attorno a quelle che contano; e solo alla fine va a prendere <strong>i dettagli completi</strong> del passaggio di consegne che ti serve. Il repository dichiara circa <strong>10 volte</strong> di risparmio di token sul recupero rispetto a scaricare tutto all'inizio della sessione.</p>
+<p>In pratica: smetti di pagare la "tassa di avvio" a ogni nuova sessione, smetti di ripeterti, e riprendi un progetto che non tocchi da due settimane con Claude che già sa cosa stai facendo, cosa avevate deciso e dove eravate rimasti. E siccome <strong>gira tutto in locale sulla tua macchina, con un visualizzatore web</strong>, puoi andare a vedere con i tuoi occhi cosa Claude si ricorda del progetto.</p>
+<p><strong>Installazione:</strong> dal marketplace dei plugin dentro Claude Code, con i due comandi mostrati a schermo. <strong>Avvertenza presa dal repository stesso: NON lanciare il comando <code>npm install</code></strong> — quello installa solo la libreria SDK e non funziona niente, perché <strong>gli hook non si registrano mai</strong>. Bisogna restare sui due comandi del marketplace.</p>
+<h2>Bonus: la settima, front-end design</h2>
+<p>Per chi fa design di siti o costruisce presentazioni, l'autore aggiunge una settima: la <strong>skill ufficiale front-end design di Anthropic</strong>. Si installa con un comando (a schermo) e anche questa lui consiglia di installarla <strong>globalmente</strong>. Serve a far sembrare quello che disegni in Claude Code <strong>molto meno "generato dall'AI"</strong>.</p>
+<p>Nota collegata: questo tipo di capacità è ormai integrato nativamente in <strong>Claude Design</strong>, il nuovo prodotto di <strong>Anthropic Labs</strong>. Ma se poi riporti quel progetto dentro Claude Code, la skill front-end design ti serve comunque.</p>
+<h2>Come venderle: l'esito, non il workflow</h2>
+<p>La chiusura pratica. L'errore che vede fare a tutti è <strong>provare a vendere il workflow</strong>. Non è quello che compra il cliente: <strong>si vende l'esito</strong>. Si vende "ti faccio risparmiare 10 ore a settimana", "ti taglio gli errori amministrativi e l'errore umano", "ti velocizzo i lead" o "te ne porto di più". Quello sì che lo pagano. Invece di proporre di costruire un workflow AI, stai proponendo di far risparmiare tempo, tagliare costi e liberare il titolare perché si concentri sul profitto.</p>
+<p>Il modo di partire, se sei all'inizio: <strong>non provare a usare tutte e sei subito</strong>. Ne prendi <strong>una</strong>, la impari, ci costruisci qualche workflow e fai vedere una <strong>demo</strong> a un titolare d'azienda. Non gli interesserà la tua esperienza, gli interesserà il valore di quello che gli stai mostrando. Man mano che capisci come queste skill si incastrano tra loro, costruisci automazioni migliori, più in fretta e — si spera — a costo minore: il che significa più demo, più contenuti, e più pezzi della tua stessa attività automatizzati. Tutta quell'esperienza serve poi a comunicare meglio il valore ai titolari.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=eRS3CmvrOvA — <em>I Tried 100+ Claude Code Skills. These 6 Are The Best</em></li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: claude-skills, claude-co-work, agent-memory, loop-engineering, spec-driven-prompting, ai-service-business, design-app-che-spiccano</li>
+</ul>
+<h3>Onestà sulle fonti e sui nomi</h3>
+<ul>
+<li><strong>Nessun prodotto dell'autore tra le sei.</strong> Tutte e sei (più la bonus) sono strumenti di terzi: due ufficiali Anthropic (<strong>Skill Creator</strong>, <strong>front-end design</strong>), uno nativo di Claude Code (<strong>/review</strong> e <strong>/ultra review</strong>), tre di community (<strong>Superpowers</strong>, <strong>GSD</strong>, <strong>Context Mode</strong>, <strong>ClaudeMem</strong>). L'autore non vende nessuna di queste.</li>
+<li><strong>Dove c'è promozione:</strong> il rimando a un suo video dedicato a Superpowers; la "guida risorse" gratuita dentro la sua <strong>community Skool</strong> gratuita (link in descrizione); il rimando finale a un altro suo video su come fa soldi nel 2026; la richiesta di like. Tutto questo è stato tolto dal riassunto, tranne la menzione qui.</li>
+<li><strong>Autore non identificato:</strong> nella trascrizione non dice mai il proprio nome né quello del canale. Da qui <code>autore: n/d</code>. Si presenta come qualcuno con 400 ore su Claude Code che lavora con PMI (immobiliare, HVAC, coach, agenzie).</li>
+<li><strong>Nomi/numeri incerti per colpa delle auto-caption:</strong></li>
+<li><code>skill.md5</code> → è quasi certamente <strong><code>SKILL.md</code></strong>;</li>
+<li>"GSD sta per <em>get done</em>" → l'acronimo standard è <strong>"Get Shit Done"</strong>, l'autore probabilmente ha censurato la parola;</li>
+<li>"scope production detection" → verosimilmente <strong>scope creep detection</strong> (rilevazione dello scivolamento dei requisiti);</li>
+<li><strong>"oltre 150.000 stelle GitHub" per Superpowers</strong> — cifra sospetta, plausibilmente 15.000. <strong>Da verificare prima di ripeterla a qualcuno.</strong></li>
+<li>i comandi di installazione esatti erano mostrati <strong>a schermo e in descrizione</strong>, mai dettati per intero: nel riassunto compaiono solo <code>/plugin install skill creator</code> (dettato), <code>/gsd-help</code> e <code>/contextmode:ctx-stats</code>. <strong>Gli altri comandi vanno recuperati dalla descrizione del video.</strong></li>
+<li><strong>Nota di attenzione sui numeri di Context Mode e ClaudeMem:</strong> i risparmi (56 KB → 299 byte, 315 KB → 5 KB, "10x sul recupero") sono <strong>benchmark auto-dichiarati dai rispettivi repository</strong>, non misurazioni indipendenti dell'autore. Lui stesso lo dice esplicitamente per Context Mode.</li>
+</ul>
+<h3>Cosa è stato omesso</h3>
+<ul>
+<li>Sponsor e inviti: link alla community Skool gratuita e alla guida risorse, rimando al suo video "come faccio soldi nel 2026", rimando al suo video su Superpowers, richiesta di like/iscrizione.</li>
+<li>La parentesi in cui precisa di non essere un avatar AI ma una persona reale.</li>
+<li>Nient'altro di sostanziale: comandi, numeri, avvertenze e esempi sono tutti riportati.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>32 Tricks to Level Up Claude Code in 16 Mins</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> Una carrellata rapidissima di 32 accorgimenti per usare <strong>Claude Code</strong> (l'assistente di programmazione che gira dentro il terminale) passando da principiante a utente esperto. Il filo conduttore vero sono tre cose: <strong>tenere pulito il contesto</strong> (cioè quanto Claude riesce a tenere a mente in una singola conversazione), <strong>fargli verificare da solo il proprio lavoro</strong> invece di consegnartelo grezzo, e <strong>parallelizzare</strong> il lavoro su più agenti e più copie del progetto. Il video è denso ma superficiale: ogni trucco dura venti secondi, quindi vale come mappa di cose da approfondire, non come manuale. L'autore non si nomina mai nella trascrizione.</p>
+<h2>Le fondamenta: il file che spiega il progetto</h2>
+<p>Il primo gesto su qualsiasi progetto già esistente è aprire la cartella e digitare <strong><code>/init</code></strong>. Claude scansiona tutto il codice, le cartelle e i file, e genera un file <strong><code>CLAUDE.md</code></strong>: in pratica il bigliettino con le risposte per quel progetto, dove finiscono l'architettura, le convenzioni usate e i file chiave. Il vantaggio è che non devi rispiegare il progetto da capo a ogni sessione. Se invece parti da zero, quel file te lo fai costruire a voce, raccontando qual è l'obiettivo, quali tecnologie vuoi usare e quali sono le regole e le cartelle importanti.</p>
+<p>Quel file va poi <strong>tenuto vivo</strong>: ogni volta che si scopre qualcosa di nuovo sul progetto, o si crea una nuova competenza riutilizzabile, si aggiorna. L'idea è che Claude annoti man mano gli schemi ricorrenti, le trappole e le convenzioni emerse durante la sessione, così alla sessione dopo parte già informato e non ripete gli stessi errori.</p>
+<p>C'è però una trappola: il <code>CLAUDE.md</code> funziona di fatto come <strong>istruzione di sistema</strong>, viene caricato in ogni singola conversazione e quindi ogni riga si mangia una fetta di memoria disponibile. La regola pratica dell'autore è tenerlo <strong>tra le 150 e le 200 righe al massimo</strong>; se cresce oltre, va sfoltito. La soluzione elegante è farlo diventare un <strong>indice che rimanda ad altri file</strong>: le guide di stile, il contesto di business, la documentazione di riferimento stanno in file separati, e il <code>CLAUDE.md</code> si limita a dire dove trovarli. Claude non ha bisogno di sapere sempre lo stato preciso di un progetto, ma ha bisogno di sapere dove andarlo a leggere quando serve.</p>
+<h2>Contesto e memoria: il vero collo di bottiglia</h2>
+<p>Buona parte dei trucchi ruota attorno al risparmio di memoria. Il consiglio più banale e più ignorato è <strong>tenere il contesto piccolo</strong>: non riversare tutto il codice dentro la conversazione, dare solo quello che serve al compito di adesso, spezzare i problemi grossi in passi piccoli e mirati. Meno rumore c'è, meglio Claude lavora.</p>
+<p>Per rendersene conto a colpo d'occhio si imposta una <strong>status line</strong> con <code>/status line</code>, dicendo a Claude cosa vuoi vedere: modello in uso, percentuale di contesto occupato, costo. Genera uno scriptino che resta in fondo al terminale come un cruscotto in miniatura, utile soprattutto per accorgersi in tempo del <strong>degrado da contesto pieno</strong> (quando la conversazione è così carica che le risposte peggiorano).</p>
+<p>Quando qualcosa non torna, <strong><code>/context</code></strong> apre il cofano: mostra in percentuale cosa sta divorando i token, che siano le istruzioni di sistema, il contenuto dei file o i <strong>server MCP</strong> (i connettori che collegano Claude a strumenti esterni). Così invece di indovinare, diagnostichi e ristrutturi.</p>
+<p>Sul quando alleggerire, la soglia suggerita è il <strong>60%</strong>: a quel punto si lancia <strong><code>/compact</code></strong>, che comprime la cronologia della conversazione senza buttare via il succo. Il dettaglio interessante è che a <code>/compact</code> si possono dare istruzioni su cosa salvare, per esempio "comprimi ma tieni tutte le decisioni sull'integrazione delle API e lo schema del database". Se invece si passa a un compito completamente diverso, meglio <strong><code>/clear</code></strong> e ripartire da zero: tanto il <code>CLAUDE.md</code> e gli altri file restano, quindi non si riparte davvero da niente.</p>
+<p>Sempre in ottica risparmio, un trucco più avanzato è <strong>usare direttamente gli endpoint delle API al posto dei server MCP</strong>. Gli MCP sono comodi perché espongono tutti gli strumenti disponibili, ma caricano l'intera definizione di quegli strumenti nella memoria. Se stai stretto di token e ti serve, poniamo, solo leggere un database di <strong>Notion</strong>, non ha senso spiegare a Claude anche tutte le altre funzioni: si scrive a mano quell'unico indirizzo e si risparmiano moltissimi token.</p>
+<p>Infine, la disciplina più semplice: <strong>fermarsi presto</strong>. Se ti accorgi che Claude ha imboccato la strada sbagliata, non aspettare che finisca — premi <strong>Esc</strong>, correggi la rotta e riformula. Ogni token speso nella direzione sbagliata è contesto buttato.</p>
+<h2>Come si parla a Claude</h2>
+<p>Il consiglio ripetuto più volte è partire sempre in <strong>modalità piano</strong>, che si attiva ciclando con <strong>Shift+Tab</strong>. In quella modalità Claude legge e indaga ma non tocca nulla: espone i passi, fa domande di chiarimento e disegna l'approccio prima di scrivere una riga di codice. Solo quando il piano ti convince esci dalla modalità e gli dici di eseguire. Da solo, questo riduce drasticamente il numero di correzioni successive.</p>
+<p>Sopra ci si costruisce un atteggiamento: <strong>trattarlo come un programmatore junior</strong>, non come un esecutore. Invece di ordinare "scrivimi una funzione che fa X", conviene passargli il problema — "come dovremmo gestire il tracciamento della crescita?" — e lasciarlo ragionare, per poi chiedergli di spiegare le assunzioni che ha fatto. Nella stessa direzione va il trucco di <strong>costringerlo a fare domande</strong>: in modalità piano lo fa già da sé, ma glielo si può imporre chiedendogli di invocare il suo strumento di domanda all'utente e di <em>continuare a farti domande finché non è sicuro al 95% di aver capito cosa serve</em>. Questo allineamento iniziale risparmia tre o quattro giri di revisioni.</p>
+<p>Quando il risultato arriva ed è soltanto discreto, la mossa è <strong>contestarlo con durezza</strong>: "buttalo, fammene una versione più elegante", oppure "non è abbastanza buono, riprova con un approccio completamente diverso". Alzando l'asticella la seconda risposta è spesso nettamente migliore, perché ora sa anche cosa <em>non</em> fare. Il passaggio che quasi tutti si dimenticano è l'ultimo: una volta ottenuta la versione buona, <strong>fargli aggiornare sé stesso</strong> — la competenza riutilizzabile o il <code>CLAUDE.md</code> — così quell'errore non si ripresenta.</p>
+<p>Per i problemi davvero difficili esiste <strong>ultra think</strong>: si scrive letteralmente quella parola, l'interfaccia si colora, e Claude si alloca il massimo budget di ragionamento, <strong>circa 32.000 token</strong>, prima di rispondere. Va usato per decisioni di architettura, debug complicati, rifacimenti grossi, o quando dopo un paio di tentativi non ne esce nulla di buono — non per una correzione banale.</p>
+<h2>Fargli controllare il proprio lavoro</h2>
+<p>Qui sta la parte più utile del video. Claude, quando inizia a costruire, si scrive una <strong>lista di cose da fare</strong>: il trucco è infilare i controlli dentro quella lista. Se una voce è "costruisci il sito", la voce immediatamente successiva deve essere "fai uno screenshot del sito e verifica che sia tutto a posto", e quella dopo ancora "apri gli strumenti per sviluppatori di Chrome e controlla che non ci siano errori di funzionamento". Così la qualità è dentro il piano di esecuzione, non dopo. Si può rincarare con la regola: <em>non passare alla voce successiva finché non sei sicuro al 95% che questa sia a posto</em>. La logica dichiarata è che con l'AI è difficile azzeccare tutto al primo colpo, ma è molto meglio un primo colpo che arriva al 90% che uno che si ferma al 60-65%.</p>
+<p>Il perno tecnico di tutto questo è che <strong>Claude vede le immagini</strong>. Gli si passano messaggi d'errore in forma di schermata, o siti che ti piacciono come ispirazione, e soprattutto si costruisce un ciclo di autocontrollo: "fai uno screenshot del sito e dimmi se l'impaginazione è giusta" — lui scatta, analizza visivamente e ti dice cosa non va. L'autore racconta che, per i siti, gli fa fare <strong>tre giri di costruzione e screenshot prima ancora di mostrargli la prima versione</strong>, e che quella prima versione è molto migliore di quelle che otteneva prima.</p>
+<p>Il gemello funzionale dello screenshot sono gli <strong>strumenti per sviluppatori di Chrome</strong>: Claude apre il browser, interagisce con l'applicazione e verifica che i pulsanti e i flussi funzionino davvero. Dove lo screenshot copre l'estetica, questo copre il comportamento, ed è particolarmente prezioso sul lavoro di interfaccia. Come effetto collaterale può anche compilare moduli e navigare al posto tuo, il che significa che dove non esiste un'API si può comunque automatizzare a mano. Sui <strong>captcha</strong> l'autore è vago e dubbioso — dice che "probabilmente" potrebbe risolverli ma che conviene piuttosto essere già autenticati e lasciargli solo il compito di navigare e cliccare; è un passaggio confuso, da prendere con le pinze.</p>
+<p>C'è poi la variante creativa: <strong>clonare i siti che ti piacciono come ispirazione</strong>. Si passano screenshot del sito di riferimento dicendo "fallo assomigliare a questo", e volendo anche pezzi del codice di stile vero e proprio. Il risultato riprende gli schemi di design invece di produrre la solita roba generica sfornata dall'AI. L'avvertenza è di usarlo come modello di partenza e metterci del proprio, non come fotocopia.</p>
+<h2>Lavorare in parallelo</h2>
+<p>Il primo livello sono i <strong>sotto-agenti</strong>: basta chiedere nel prompt di usarli e Claude apre agenti isolati, ognuno con la propria memoria separata e, volendo, il proprio modello, che lavorano in contemporanea su ricerca, test o approcci alternativi e alla fine riferiscono al thread principale. Il thread principale resta pulito e tu hai in pratica una squadra invece di un singolo sviluppatore.</p>
+<p>Da lì nasce il trucco sui costi: <strong>far girare i sotto-agenti su Haiku</strong> (il modello piccolo ed economico) tenendo <strong>Opus</strong> (quello grosso) sul thread principale. L'esempio concreto è un sotto-agente che deve spulciare un mucchio di articoli, macinare centinaia di migliaia di token e restituire all'agente principale solo un riassunto o i punti salienti: non ha senso far leggere tutta quella roba al modello caro se poi ne servono quattro righe.</p>
+<p>Il limite dei sotto-agenti è che non si parlano tra loro. Le <strong>squadre di agenti</strong> superano proprio questo: condividono la lista dei compiti, comunicano, possono assegnarsi lavoro a vicenda, e tu puoi rivolgerti direttamente al singolo agente invece di passare sempre dal capo. Costano di più e durano di più, ma su un progetto grosso danno un risultato più coerente.</p>
+<p>Sul fronte dei file, il problema è che due sessioni nella stessa cartella si sovrascrivono a vicenda. La soluzione sono i <strong>worktree di Git</strong>, cioè copie parallele del progetto molto più efficienti di una copia vera della cartella. Si lancia <strong><code>claude --worktree &amp;lt;nome-funzionalità&amp;gt;</code></strong> e Claude crea uno spazio di lavoro isolato su un suo ramo; si apre un altro terminale, si ripete con un nome diverso e si ottiene un altro ramo. Se ne possono tenere tre, quattro, cinque in parallelo sullo stesso progetto senza che si pestino i piedi, e alla fine si uniscono i rami come si farebbe normalmente con Git.</p>
+<h2>Automazione, comodità e sessioni sempre accese</h2>
+<p>Claude Code ha ora un comando nativo <strong><code>/voice</code></strong> per dettargli le istruzioni a voce direttamente dal terminale, ancora in fase di distribuzione graduale; in alternativa si usa una qualunque app di dettatura di sistema per parlare ovunque.</p>
+<p>Se sbagli strada, <strong><code>/rewind</code></strong> riporta la conversazione a un punto precedente senza ricominciare da capo: annullamento rapido e pulito.</p>
+<p>Con <strong><code>/hooks</code></strong> — o semplicemente chiedendolo a parole — si impostano gli <strong>agganci di notifica</strong>: l'uso preferito dall'autore è farsi emettere un suono quando una sessione finisce, così può tenere aperte anche quindici sessioni in parallelo, lavorare ad altro, e tornare solo su quella che lo chiama.</p>
+<p>Per le cose ricorrenti c'è <strong><code>/loop</code></strong>: "ogni 5 minuti controlla il rilascio in produzione" e Claude rilancia quel prompt nella stessa sessione ogni cinque minuti, finché non chiudi. Serve a sorvegliare una richiesta di modifica, i registri degli errori, una compilazione, interrompendoti solo quando serve davvero; e accetta anche promemoria singoli in linguaggio naturale ("ricordami alle 15:00 di sentire il team su X"). L'avvertenza: questi cicli <strong>durano al massimo 3 giorni</strong>. Per automazioni programmate più lunghe servono le <strong>attività pianificate dell'app desktop</strong>, con la differenza che ogni esecuzione parte come sessione a sé e quindi non si porta dietro la memoria della conversazione.</p>
+<p>Per l'autonomia vera, si ospita Claude Code su un <strong>VPS</strong> (un server in affitto sempre acceso): resta in funzione anche a portatile chiuso, ci si collega via <strong>SSH</strong> quando serve, e ci si può parlare da <strong>Telegram</strong> in qualsiasi momento. Ideale per i lavori lunghi che non vuoi stare a sorvegliare da un terminale locale. Complementare a questo c'è il <strong>controllo da remoto dal telefono</strong>, funzionalità recente: si avvia un lavoro alla scrivania e lo si continua a guidare dal telefono o da un qualunque browser, mentre il codice resta comunque sulla propria macchina — è solo il collegamento a essere remoto.</p>
+<p>Un uso laterale ma potente è l'<strong>analisi dati senza scrivere SQL</strong>: si collegano a Claude Code strumenti da riga di comando come <strong><code>bq</code> di BigQuery</strong>, si chiede in italiano "quali sono state le prime dieci fonti di ricavo dello scorso trimestre", e lui traduce nella query giusta, la esegue e risponde. Vale per qualunque strumento che abbia un'interfaccia a riga di comando.</p>
+<h2>Permessi: velocità senza giocare col fuoco</h2>
+<p>Il trucco che l'autore presenta come correzione dei suoi stessi video precedenti riguarda <strong><code>--dangerously-skip-permissions</code></strong>, l'opzione che lascia correre Claude senza chiedere approvazione a ogni passo. È veloce, ma "pericolosamente" sta nel nome per un motivo. L'alternativa sensata è entrare nelle impostazioni dei permessi e <strong>autorizzare esplicitamente i comandi che si sa essere innocui</strong>, e <strong>vietare esplicitamente quelli distruttivi</strong> come cancellazioni e rimozioni. Si ottiene la stessa velocità e la stessa autonomia senza il rischio. Dettaglio operativo importante: <strong>la lista dei divieti ha la precedenza su quella delle autorizzazioni</strong>.</p>
+<h2>Documentazione sempre aggiornata</h2>
+<p>L'ultimo trucco, presentato come il più incisivo, è il server <strong>MCP Context 7</strong>. Il problema che risolve è che Claude ha una data limite nell'addestramento e quindi ogni tanto suggerisce funzioni o API che nel frattempo sono state rinominate, dismesse o proprio eliminate. Context 7 tiene documentazione tecnica aggiornata e legata alla versione specifica, con esempi di codice reale, per migliaia di librerie diffuse — vengono citate <strong>Next.js</strong>, <strong>React</strong>, <strong>MongoDB</strong> — e la inietta nella conversazione <em>prima</em> che Claude cominci a scrivere. Si installa con un comando solo e da lì in poi tutti gli agenti di programmazione lavorano su informazioni attuali. <em>(Nota: la trascrizione automatica dice "up to eight version-specific technical documentation", passaggio evidentemente storpiato — probabilmente "up-to-date"; il numero "otto" non è affidabile.)</em></p>
+<h2>Competenze riutilizzabili: automatizzare le proprie procedure</h2>
+<p>Merita un capitolo a sé il trucco delle <strong>competenze personalizzate</strong> (skill): file di prompt riutilizzabili che si mettono nella cartella <strong><code>.claude/skills</code></strong>. Un file <code>techdebt.md</code> che spiega esattamente come scovare il debito tecnico, un <code>codereview.md</code> che sa come si revisiona il codice di quel progetto. Si richiamano a parole o direttamente come comando <code>/</code>, ed eseguono lo stesso identico flusso ogni volta. Si possono anche versionare su <strong>GitHub</strong>, e allora tutta la squadra le ha subito a disposizione: in pratica è il modo di trasformare le proprie procedure operative in automatismi.</p>
+<h2>Onestà sul video</h2>
+<p>È un video-lista: trentadue voci in sedici minuti, quindi ogni trucco riceve venti secondi e nessuno viene mostrato davvero in azione. Molti dei "trucchi" sono di fatto solo il nome di una funzionalità con una frase di spiegazione, e alcuni (tenere il contesto piccolo, spezzare i problemi) sono buon senso. Il valore è come mappa di cose da andare a provare, non come guida. La numerazione dell'autore inoltre sbanda verso la fine: dice "numero 28" due volte (una per l'analisi dati con BigQuery e una per ultra think), quindi la voce che chiama 28 la seconda volta è in realtà la 29. La chiusura è promozionale — un PDF riassuntivo dentro una community gratuita — ed è stata omessa.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=jqoFP9QapXI</li>
+<li><em>Ingest da sola trascrizione (nessun frame video)</em></li>
+<li>Concetti collegati: claude-skills, claude-co-work, loop-engineering, agent-memory, spec-driven-prompting, mcp-connectors</li>
+</ul>
+<p><strong>Cosa è stato omesso (onestamente):</strong></p>
+<ul>
+<li>Il rimando all'app di dettatura vocale usata dall'autore ("link in descrizione") — pubblicità di uno strumento non nominato.</li>
+<li>La chiusura completa: PDF riassuntivo gratuito, invito a entrare nella community gratuita su School/Skool, richiesta di mettere like, ringraziamenti finali.</li>
+<li>Le frasi di raccordo tra le tre sezioni del video ("ok, questi erano i trucchi da principiante, ora saliamo di livello") e le ripetizioni interne (il trucco di Haiku per i sotto-agenti viene anticipato al numero 11 e ripetuto al 13: qui è raccontato una volta sola).</li>
+</ul>
+<p><strong>Punti incerti nella trascrizione automatica:</strong></p>
+<ul>
+<li>Il nome dello strumento è trascritto ovunque come "Cloudcode"/"Cloud": è <strong>Claude Code</strong> / <strong>Claude</strong>, e il file è <strong><code>CLAUDE.md</code></strong> (nella trascrizione "cloud.md").</li>
+<li>La descrizione di Context 7 ("up to eight version-specific documentation") è corrotta; il senso è documentazione aggiornata e specifica per versione.</li>
+<li>Il passaggio sui captcha è vago e autocontraddittorio già nell'originale: riportato come tale, non ripulito.</li>
+<li>L'autore non si nomina mai e non nomina il proprio canale nella trascrizione: campo <code>autore</code> lasciato a <code>n/d</code>.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

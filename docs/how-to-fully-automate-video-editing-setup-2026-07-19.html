@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How To Fully Automate Video Editing with Claude Code (Setup + Guide)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p><strong>In sintesi:</strong> È la <strong>guida di installazione</strong> dello stesso sistema di montaggio automatico già visto in <a href="how-i-fully-automated-my-video-editing-2026-07-16.html">how-i-fully-automated-my-video-editing-2026-07-16</a>, ma raccontata dal lato "come me lo metto in piedi". Il punto forte è che <strong>non installi quasi niente a mano</strong>: prendi il link GitHub di una skill gratuita e open source che si chiama <strong>Video Use</strong>, lo incolli nella tab code di Claude, dici "installamelo", e Claude si tira dietro da solo il repository, <strong>FFmpeg</strong>, la registrazione della skill e ti chiede la chiave API quando le serve. La trascrizione qui <strong>non</strong> è WhisperX ma <strong>ElevenLabs Scribe</strong> (a pagamento, con chiave API), che dà i timestamp parola per parola. Poi il flusso è quello noto: rough cut → grafiche → seconda passata → sottotitoli → musica → export. Il tutto <strong>senza terminale, senza Premiere Pro</strong>, solo dentro l'app di Claude, con <strong>Claude Fable 5</strong> come modello.</p>
+<h2>La promessa del video (e cosa cambia rispetto all'altro)</h2>
+<p>L'autore apre dicendo che tutto quello che stai guardando — le animazioni, le motion graphics, gli overlay di testo, le transizioni — l'ha fatto <strong>Claude Fable 5</strong>. Lui ha buttato dentro una clip grezza, ha scritto <strong>un prompt</strong>, e ha lasciato correre: Claude ha tagliato i tempi morti, costruito le grafiche, aggiunto i sottotitoli, messo la musica ed esportato. La frase che ripete più volte è <strong>"no terminal, no editing background, no Premiere Pro"</strong>: si lavora solo nell'app di Claude che probabilmente hai già aperta.</p>
+<p>La logica dietro è quella del <strong>"Claude è un agente solo che legge il tuo girato e lo capisce, e concatena strumenti professionali veri"</strong> per portare una clip grezza fino all'export finito. La divisione dei ruoli che propone: <strong>Claude si prende l'80% noioso, tu resti in carico del 20% che conta davvero</strong> (le scelte creative).</p>
+<h2>Il setup vero e proprio</h2>
+<h3>Video Use: la skill che fa il lavoro</h3>
+<p>Il cuore di tutto è una skill che si chiama <strong>Video Use</strong>. È <strong>gratuita e open source</strong>, e l'autore la definisce "il cervello dell'intera cosa". Quello che fa: <strong>legge la trascrizione</strong>, trova le take venute male e i silenzi in mezzo, e decide i tagli giusti.</p>
+<p>Quando arriva il momento di mettere le motion graphics sopra al video, <strong>Video Use non le fa lui</strong>: passa la palla a un motore di rendering che si chiama <strong>HyperFrames</strong>, che costruisce ogni grafica <strong>come codice</strong>. Quindi la gerarchia è: <strong>Video Use guida il montaggio e chiama HyperFrames per disegnare i visual</strong>. Il dettaglio pratico importante è che <strong>tu non tocchi mai HyperFrames direttamente</strong> — una sola skill fa da interfaccia per tutto.</p>
+<h3>Come si installa (la parte che qui è dettagliata)</h3>
+<p>Il metodo di installazione è deliberatamente pigro, ed è il pezzo nuovo di questo video:</p>
+<ol>
+<li><strong>Prendi il link GitHub</strong> della skill Video Use.</li>
+<li><strong>Lo incolli nella tab code</strong> di Claude.</li>
+<li><strong>Dici a Claude di installartelo.</strong></li>
+</ol>
+<p>Da lì Claude fa tutto in sequenza, e l'autore elenca esattamente i passaggi che vede accadere:</p>
+<ul>
+<li><strong>legge prima il file</strong> (si guarda cosa c'è nel repo prima di agire);</li>
+<li><strong>installa il repository</strong>;</li>
+<li><strong>collega FFmpeg</strong> ("wire up FFmpeg");</li>
+<li><strong>registra la skill</strong> dentro Claude;</li>
+<li><strong>ti chiede la chiave API quando gli serve</strong>, non prima.</li>
+</ul>
+<p>Su <strong>FFmpeg</strong> l'autore spende una riga di spiegazione: è lo strumento che <strong>cuce insieme le clip e renderizza il file finale</strong>, e Claude lo installa <strong>nello stesso passaggio</strong>, quindi non è un prerequisito separato di cui preoccuparsi — fa parte del flusso.</p>
+<p>Quando ha finito, Claude semplicemente <strong>dice che è pronto e aspetta che tu butti dentro il girato</strong>. Fine del setup software.</p>
+<h3>ElevenLabs Scribe: da dove viene la precisione</h3>
+<p>L'ultimo pezzo, e secondo l'autore quello decisivo, è <strong>ElevenLabs Scribe</strong> — il servizio di trascrizione. Qui fa il confronto polemico: <strong>la maggior parte degli editor AI trascrive il video e poi tira a indovinare sui tagli</strong>. Scribe invece dà a Claude i <strong>timestamp a livello di parola</strong> (word-level): sa <strong>esattamente quando ogni singola parola inizia e finisce, al millisecondo</strong>. È per questo che i tagli cadono puliti <strong>invece di tagliare le parole a metà mentre le stai dicendo</strong>.</p>
+<p>La procedura è minima: vai su <strong>ElevenLabs</strong>, prendi la tua <strong>chiave API</strong>, e <strong>la prima volta che Claude esegue un montaggio te la chiede e la incolli lì</strong>. Non devi andare a cercare dove va messa: è Claude a chiederla al momento giusto. E con questo, dice, <strong>il setup è finito</strong>.</p>
+<h2>Il primo montaggio: rough cut</h2>
+<p>Il girato di prova è <strong>un paio di minuti, una sola take, ed è volutamente un disastro</strong>: c'è <strong>dead space</strong> (tempi morti), un mucchio di <strong>filler</strong> (gli "um", "uh", "like", "you know"), una <strong>lunga pausa</strong> in cui perde il filo, e un punto in cui <strong>ripete la stessa frase tre volte</strong>.</p>
+<p>Il file va <strong>dentro la cartella del progetto</strong>, e nella <strong>tab code</strong> si scrive <strong>una sola cosa</strong>: <em>"start a new project for the video clip and do a rough cut"</em>.</p>
+<p>Sotto il cofano succede questo: <strong>Scribe trascrive tutta la registrazione con i timestamp per parola</strong>; <strong>Claude legge la trascrizione</strong> e <strong>marca esattamente dove sta ogni pausa, ogni filler, ogni falsa partenza</strong>, trova le ripetizioni, e prepara la versione pulita.</p>
+<h3>Il passaggio che gli altri video saltano: il piano da approvare</h3>
+<p>Qui l'autore si ferma apposta perché — dice — <strong>è la cosa che gli altri video di solito saltano</strong>: <strong>Claude non parte a testa bassa a fare il montaggio</strong>. Prima <strong>ti mostra il suo piano e aspetta il tuo OK</strong>. Tu ci dai un'occhiata veloce, vedi cosa ha intenzione di fare, <strong>approvi</strong>, e <strong>solo a quel punto FFmpeg cuce insieme le sole parti pulite</strong>.</p>
+<p>Il risultato sull'esempio: <strong>4 minuti di girato diventano meno di un minuto di audio pulito</strong>. Le <strong>tre take della stessa frase collassano in una sola buona</strong> — la frase ripetuta era <em>"I want to talk to you about how to actually make a good coffee at home without spending a ton of money on it"</em>. L'autore sottolinea la qualità dei tagli: <strong>ogni taglio cade dove deve, niente clipping, niente mezze parole, nessun respiro mozzato a metà frase</strong>, e soprattutto <strong>suona come se avesse voluto dirlo così</strong>.</p>
+<h3>Correggere si fa parlando</h3>
+<p>Se qualcosa non torna — per esempio una parola scappata — <strong>la correzione è una frase</strong>. Esempio letterale dato: <em>"you left a 'basically' in at the start of that line, cut it"</em>. Claude <strong>trova la parola esatta nella trascrizione e si aggiusta</strong>. Niente scrubbing sulla timeline a caccia del punto, <strong>niente strumento lama (razor tool), solo una frase</strong>.</p>
+<h3>Bloccare il rough cut</h3>
+<p>Consiglio dato prima di procedere: <strong>fissa il rough cut adesso</strong>, perché <strong>una volta che ci vanno sopra le grafiche, tornare indietro a cambiare il montaggio diventa un casino</strong>.</p>
+<h2>Le grafiche</h2>
+<p>Per questa fase l'autore <strong>apre una chat nuova</strong>, per tenere le cose pulite, e dà <strong>un solo prompt</strong>: <em>"plan a motion graphic for each segment and then build them"</em>.</p>
+<p>Claude <strong>rilegge la trascrizione</strong>, capisce di cosa parla ogni segmento, <strong>decide quale visual lo supporterebbe meglio</strong>, e <strong>ne costruisce uno per sezione</strong>: <strong>text card</strong>, <strong>callout animati</strong>, ogni tanto una <strong>data viz</strong> (grafico di dati), i <strong>piazzamenti del logo</strong>. Il punto sottolineato è che <strong>decide in base a quello che stai effettivamente dicendo</strong>, non a caso.</p>
+<h3>La prima passata è all'80%</h3>
+<p>Onestà dell'autore: <strong>il primo passaggio viene forte, ma è circa all'80%</strong>. Quello che manca è <strong>il gusto</strong> — la parte che fa sembrare il video <strong>del tuo canale</strong> invece che <strong>output generico da AI</strong>. E quello arriva <strong>nella seconda passata</strong>, che di nuovo <strong>è solo parlare</strong>. Esempi di richieste che fa:</p>
+<ul>
+<li><em>"make the Claude orange, not default blue"</em> (metti l'arancione di Claude, non il blu di default);</li>
+<li><em>"drop my logo PNG onto the intro graphic"</em> (metti il PNG del mio logo sulla grafica di intro);</li>
+<li><em>"that intro is too fast, slow it down"</em> (quell'intro è troppo veloce, rallentala).</li>
+</ul>
+<h3>Il dettaglio che rende sopportabile la rifinitura</h3>
+<p>Il motivo per cui questa fase non è un supplizio: <strong>ogni modifica ri-renderizza solo la sezione che hai cambiato</strong>. Se sistemi una grafica al minuto 2, <strong>Claude ricostruisce quella sezione e lascia stare tutto il resto</strong>. Il risultato è che <strong>il loop di correzione è veloce</strong>, e si può andare <strong>grafica per grafica</strong> mettendoci il proprio occhio.</p>
+<h2>Gli ultimi tre passaggi</h2>
+<h3>Sottotitoli</h3>
+<p>Vengono per primi <strong>perché la trascrizione con i timestamp per parola ce l'hai già</strong>: quindi <strong>le caption non costano niente in più</strong>. Claude conosce già ogni parola e ogni istante, <strong>l'unica cosa che gli dici è come mostrarle</strong>.</p>
+<p>Il font preferito dall'autore è <strong>Coolvetica</strong>: <strong>pulito, leggibile</strong>, e dà "quella botta" a schermo. Le <strong>parole si animano man mano che vengono pronunciate</strong> — non è un'immagine statica né un ticker che scorre, <strong>sono le parole che atterrano in sincrono</strong>. Il prompt è uno solo: <em>"add captions using the existing transcript"</em>, e via.</p>
+<h3>Musica</h3>
+<p>Si <strong>trova la traccia giusta sul proprio PC</strong>, si <strong>punta Claude a quel file</strong>, e <strong>gli si dice il livello</strong>. Per un <strong>talking head</strong> (video in cui parli in camera) la musica di sottofondo l'autore la mette <strong>intorno a -22 / -23 decibel</strong>, che è di solito il punto giusto — ma avverte che <strong>devi provare tu per capire cosa funziona meglio nel tuo caso</strong>. Claude la stende <strong>a quel livello per tutta la durata del video</strong>: <strong>niente keyframing, niente dissolvenze manuali</strong>, solo <strong>un percorso file e un numero</strong>.</p>
+<h3>Export</h3>
+<p>Ultimo comando: <em>"export the final video"</em>. Claude <strong>renderizza</strong>, <strong>lascia una copia nei Downloads</strong>, e <strong>mantiene tutto il progetto intatto nella cartella di progetto</strong>. Niente va perso: <strong>se domani vuoi cambiare una singola grafica, il progetto è ancora lì che ti aspetta</strong>.</p>
+<h2>Il riassunto dell'autore</h2>
+<p>Chiudendo: ha buttato dentro il girato grezzo, <strong>Claude l'ha letto, tagliato, ha costruito motion graphics per ogni segmento, l'ha sottotitolato, gli ha messo la musica e ha esportato il file finito</strong>. La formula con cui riassume il rapporto uomo-macchina: <strong>"io ho fatto le scelte creative, non ho mai micro-gestito la timeline"</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=dX_UtTmZR9E</li>
+<li><em>Ingest da sola trascrizione (nessun frame video): tutte le demo a schermo — l'aspetto delle grafiche, la timeline, la schermata di installazione, il piano mostrato da Claude prima dei tagli — non sono catturate. Qui resta la procedura, non il visivo.</em></li>
+<li>report grezzo <em>(non presente: ingest fatto dalla sola trascrizione)</em></li>
+<li>Concetti collegati: <code>[[claude-code-video-editing]]</code>, <code>[[claude-skills]]</code>, <code>[[ai-content-anti-slop]]</code></li>
+<li>Video correlato (stesso sistema, taglio "cosa fa" invece di "come si installa"): <code>[[how-i-fully-automated-my-video-editing-2026-07-16]]</code></li>
+<li><strong>Omesso</strong>: i due plug alla community Skool gratuita (prompt e file "tutti dentro la community", i 50K iscritti) e la chiusura promozionale (iscriviti al canale, altri video su ricerca/scrittura/scheduling/posting, metti like).</li>
+<li><strong>Nota di discordanza tra fonti</strong>: qui la trascrizione è fatta con <strong>ElevenLabs Scribe</strong> (chiave API), mentre nell'altro video dello stesso sistema era <strong>WhisperX</strong> (gratuito, locale). Entrambi danno timestamp a livello di parola — sono due strade alternative per lo stesso risultato, non una contraddizione, ma cambia il costo e il fatto che Scribe richiede un account e una chiave.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>
