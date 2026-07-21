@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> questo NON è ancora un riassunto completo, è una <strong>mappa a sezioni</strong> di un corso-monstre da 7h30 su come <strong>costruire e vendere agenti AI</strong> come agenzia. Il corso è un caso reale end-to-end: l'autore chiude <strong>Jeremy di Design Detailing</strong> (autolavaggio a domicilio in Texas) e gli costruisce agenti vocali AI per riattivare 21.000 vecchi lead. Lo stack ricorrente è <strong>ElevenLabs</strong> (voce) → <strong>Make</strong> → <strong>GoHighLevel</strong> (CRM) → <strong>Twilio</strong>. Per ogni capitolo trovi: cosa c'è dentro, cosa si ruba, e un verdetto onesto se vale approfondire.</p>
+<img class="cover" loading="lazy" alt="AI Agents Full Course 8h: Build &amp; Sell (2026) — mappa a sezioni" src="https://i.ytimg.com/vi/8OPntXxTRg0/hqdefault.jpg"><p><strong>In sintesi:</strong> questo NON è ancora un riassunto completo, è una <strong>mappa a sezioni</strong> di un corso-monstre da 7h30 su come <strong>costruire e vendere agenti AI</strong> come agenzia. Il corso è un caso reale end-to-end: l'autore chiude <strong>Jeremy di Design Detailing</strong> (autolavaggio a domicilio in Texas) e gli costruisce agenti vocali AI per riattivare 21.000 vecchi lead. Lo stack ricorrente è <strong>ElevenLabs</strong> (voce) → <strong>Make</strong> → <strong>GoHighLevel</strong> (CRM) → <strong>Twilio</strong>. Per ogni capitolo trovi: cosa c'è dentro, cosa si ruba, e un verdetto onesto se vale approfondire.</p>
 <blockquote>⚙️ <strong>Come funziona questa pagina.</strong> Sotto ogni capitolo c'è un bottone <strong>» Approfondisci</strong>. Cliccalo: si apre una richiesta già pronta (una <em>issue</em> su GitHub) — premi "Submit" e sei a posto. Al prossimo <code>/watch</code> Claude legge le richieste, scrive il riassunto 2-esteso di quel capitolo al posto della scheda, e ripubblica il sito. Scegli col dito, il lavoro pesante arriva dopo.</blockquote>
 <p><em>Ingest da sola trascrizione (nessun frame video). Il video intero sarebbe 1 frame ogni ~4 min: inutile. Se approfondisci il Cap 6 (tecnico), lì Claude ri-guarda con i frame sul wiring.</em></p>
 <hr>

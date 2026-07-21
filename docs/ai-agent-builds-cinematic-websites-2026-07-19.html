@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Jay mostra un <strong>agente</strong> (cioè un'AI che lavora da sola, a passi, senza che tu le stia dietro) che prende il sito web esistente di un'attività e ne sforna una versione nuova, "cinematica" — con animazioni che si muovono mentre scrolli — e la pubblica online. Il motore non è un software: è <strong>una skill</strong>, cioè un file di testo (<code>skill.md</code>) che fa da manuale di istruzioni all'agente e lo porta attraverso <strong>quattro passi</strong>: analizza il marchio, genera la scena video, costruisce il sito, lo pubblica. Gli strumenti usati sono <strong>Nano Banana</strong> (immagini, via le API di Google, con 300 dollari di credito omaggio), <strong>Kling 3.0</strong> (immagine → video, via <strong>WaveSpeed</strong>), un pacchetto di <strong>31 "moduli cinematici"</strong> già pronti da incastrare nelle pagine, e <strong>Vercel</strong> per mettere il sito online gratis. Il messaggio operativo forte è: <strong>non serve comprare il kit</strong> — basta dare all'agente il link della documentazione ufficiale di ogni strumento, e lui impara a usarlo da solo. Attenzione però: il titolo parla di siti da 15.000 dollari "in autopilota", e nel video <strong>non c'è né un prezzo, né un cliente, né una vendita</strong> — vedi la sezione finale sull'onestà.</p>
+<img class="cover" loading="lazy" alt="This AI Agent Builds $15K Cinematic Websites on Autopilot (Claude Code + Nano Banana 2)" src="https://i.ytimg.com/vi/bUt1WpDlI6E/hqdefault.jpg"><p><strong>In sintesi:</strong> Jay mostra un <strong>agente</strong> (cioè un'AI che lavora da sola, a passi, senza che tu le stia dietro) che prende il sito web esistente di un'attività e ne sforna una versione nuova, "cinematica" — con animazioni che si muovono mentre scrolli — e la pubblica online. Il motore non è un software: è <strong>una skill</strong>, cioè un file di testo (<code>skill.md</code>) che fa da manuale di istruzioni all'agente e lo porta attraverso <strong>quattro passi</strong>: analizza il marchio, genera la scena video, costruisce il sito, lo pubblica. Gli strumenti usati sono <strong>Nano Banana</strong> (immagini, via le API di Google, con 300 dollari di credito omaggio), <strong>Kling 3.0</strong> (immagine → video, via <strong>WaveSpeed</strong>), un pacchetto di <strong>31 "moduli cinematici"</strong> già pronti da incastrare nelle pagine, e <strong>Vercel</strong> per mettere il sito online gratis. Il messaggio operativo forte è: <strong>non serve comprare il kit</strong> — basta dare all'agente il link della documentazione ufficiale di ogni strumento, e lui impara a usarlo da solo. Attenzione però: il titolo parla di siti da 15.000 dollari "in autopilota", e nel video <strong>non c'è né un prezzo, né un cliente, né una vendita</strong> — vedi la sezione finale sull'onestà.</p>
 <h2>Cosa produce l'agente (la vetrina iniziale)</h2>
 <p>Prima di spiegare come funziona, Jay fa scorrere una decina di siti costruiti dall'agente "in pochi minuti l'uno". Vale la pena elencarli perché fanno capire il <strong>tipo</strong> di risultato:</p>
 <ul>

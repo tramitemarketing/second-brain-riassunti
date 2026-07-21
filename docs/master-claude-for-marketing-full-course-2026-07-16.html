@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Un corso pratico su come far girare tutto il marketing dentro <strong>Claude Co-work</strong> (la modalità di Claude che lavora davvero sui file del tuo computer, non solo chatta). L'impianto è sempre lo stesso: Claude è il <strong>cervello</strong>, i <strong>connettori/MCP</strong> sono gli strumenti esterni (Gmail, Firecrawl, Higgsfield, Clay, Supabase, Zapier, Blot, SEMrush), le <strong>skill</strong> confezionano i task ripetibili (scrivere una mail nella tua voce, creare un'infografica, un ad UGC), e <strong>workspace + memory</strong> danno il contesto del tuo brand. Dalla clonazione della tua voce alla generazione di immagini e video, dal trovare clienti e scrivere l'outreach fino a schedulare i post e ottimizzare la SEO dentro gli LLM: tutto senza uscire da Claude.</p>
+<img class="cover" loading="lazy" alt="Master Claude for Marketing in 72 Minutes (FULL COURSE)" src="https://i.ytimg.com/vi/_8TUhqsgyXk/hqdefault.jpg"><p><strong>In sintesi:</strong> Un corso pratico su come far girare tutto il marketing dentro <strong>Claude Co-work</strong> (la modalità di Claude che lavora davvero sui file del tuo computer, non solo chatta). L'impianto è sempre lo stesso: Claude è il <strong>cervello</strong>, i <strong>connettori/MCP</strong> sono gli strumenti esterni (Gmail, Firecrawl, Higgsfield, Clay, Supabase, Zapier, Blot, SEMrush), le <strong>skill</strong> confezionano i task ripetibili (scrivere una mail nella tua voce, creare un'infografica, un ad UGC), e <strong>workspace + memory</strong> danno il contesto del tuo brand. Dalla clonazione della tua voce alla generazione di immagini e video, dal trovare clienti e scrivere l'outreach fino a schedulare i post e ottimizzare la SEO dentro gli LLM: tutto senza uscire da Claude.</p>
 <h2>L'idea di fondo: Claude come cervello, gli strumenti attorno</h2>
 <p>L'autore, <strong>Brock</strong> (canale "AI for non techies"), dice di usare <strong>Claude Co-work</strong> ogni giorno da cinque mesi per mandare avanti la sua attività. Il concetto ripetuto per tutto il video è semplice: <strong>Claude è il cervello</strong>; da solo però non sa fare certe cose (non genera immagini, non trova contatti affidabili, non scrapa i social). Per questo gli si attaccano attorno degli strumenti tramite <strong>connettori</strong> e <strong>MCP</strong>.</p>
 <p>Un <strong>MCP</strong> ("Model Context Protocol") è spiegato come un <strong>adattatore universale</strong>: la "presa" che permette di collegare un tool esterno dentro Claude così che Claude possa usarlo. Un <strong>connettore</strong> è la stessa idea vista dal lato app (Gmail, Clay, Supabase, ecc.). Una <strong>skill</strong> è un pacchetto di istruzioni per un compito specifico, salvato e richiamabile. Il <strong>workspace</strong> e i file di contesto danno a Claude la memoria del tuo brand.</p>

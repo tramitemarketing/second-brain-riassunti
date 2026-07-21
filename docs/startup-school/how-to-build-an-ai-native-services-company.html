@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> Alcune delle aziende più grandi del prossimo decennio non saranno affatto software, ma <strong>società di servizi</strong> — compagnie assicurative, studi legali, società di revisione — ricostruite da zero con l'AI che fa la maggior parte del lavoro. Sono le cosiddette <strong>AI native service companies</strong>: vendono al cliente <em>l'esito finale</em> invece di un co-pilot da usare internamente, e aggrediscono mercati da migliaia di miliardi di dollari. Questo video è un playbook per chi vuole fondarne una da zero: come scegliere il mercato, formare il team, costruire il prodotto, servire i clienti, gestire il conto economico e perché quasi mai conviene comprare un'azienda esistente.</p>
+<img class="cover" loading="lazy" alt="How to Build an AI-Native Services Company" src="https://i.ytimg.com/vi/gSNFJbgoaHI/hqdefault.jpg"><p><strong>In sintesi:</strong> Alcune delle aziende più grandi del prossimo decennio non saranno affatto software, ma <strong>società di servizi</strong> — compagnie assicurative, studi legali, società di revisione — ricostruite da zero con l'AI che fa la maggior parte del lavoro. Sono le cosiddette <strong>AI native service companies</strong>: vendono al cliente <em>l'esito finale</em> invece di un co-pilot da usare internamente, e aggrediscono mercati da migliaia di miliardi di dollari. Questo video è un playbook per chi vuole fondarne una da zero: come scegliere il mercato, formare il team, costruire il prodotto, servire i clienti, gestire il conto economico e perché quasi mai conviene comprare un'azienda esistente.</p>
 <h2>Che cos'è un'azienda di servizi AI-native e perché ora</h2>
 <p>L'idea di fondo è che i più grandi vincitori del prossimo decennio potrebbero non essere software business, ma <strong>società di servizi rifatte da zero con l'AI</strong>: assicuratori, studi legali e simili in cui l'intelligenza artificiale svolge quasi tutto il lavoro. I mercati sono enormi — <strong>tax, audit, assicurazioni, legale, parti della sanità</strong> e così via, tutti da migliaia di miliardi di dollari.</p>
 <p>Questa opportunità <strong>non esisteva nemmeno un paio di anni fa</strong>: sono stati i progressi dei modelli a sbloccare questo nuovo tipo di business, dove l'azienda <strong>consegna l'outcome al cliente</strong> invece di costruire un co-pilot che il cliente usa internamente. Sono aziende che appaiono e funzionano diversamente dalla maggior parte delle startup di oggi. Il video è rivolto a chi <em>sta pensando</em> di avviare una società, non a chi ne gestisce già una, e raccoglie elementi ovvi e non ovvi osservati da <strong>YC</strong>. Una premessa onesta: siamo ancora all'inizio; come in tutto ciò che riguarda l'AI, il mercato si muove in fretta e si impara strada facendo — ma i primi successi sono già entusiasmanti.</p>

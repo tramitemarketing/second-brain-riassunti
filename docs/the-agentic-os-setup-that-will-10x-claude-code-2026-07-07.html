@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> costruire il proprio "Agentic OS" sopra Claude Code non serve per avere una dashboard scenografica alla Jarvis, ma perché il vero valore sta "sotto il cofano" — skill, loop engineering, memoria e stato. Il creator propone un'architettura a quattro livelli (backbone, memoria/stato, interfaccia, distribuzione) e ripete che il 90% del valore sta nei primi due, invisibili; i livelli visivi sono solo la ciliegina sulla torta.</p>
+<img class="cover" loading="lazy" alt="The Agentic OS Setup That Will 10x Claude Code — riassunto" src="https://i.ytimg.com/vi/HRw-vP0j8OM/hqdefault.jpg"><p><strong>In sintesi:</strong> costruire il proprio "Agentic OS" sopra Claude Code non serve per avere una dashboard scenografica alla Jarvis, ma perché il vero valore sta "sotto il cofano" — skill, loop engineering, memoria e stato. Il creator propone un'architettura a quattro livelli (backbone, memoria/stato, interfaccia, distribuzione) e ripete che il 90% del valore sta nei primi due, invisibili; i livelli visivi sono solo la ciliegina sulla torta.</p>
 <h2>Il vero valore è sotto il cofano</h2>
 <p>Il video apre con un'affermazione volutamente provocatoria: se non sai costruire il tuo <strong>agentic OS</strong> sei rimasto indietro, ma non per il motivo che pensi. Non serve una <strong>dashboard fancy</strong> o un <strong>setup alla Jarvis</strong>, perché non è lì che sta il valore di questi sistemi. Il valore, dice testualmente, è "tutto quello che non si vede": <strong>loop engineering</strong>, <strong>skill architecture</strong>, <strong>state management</strong>, la creazione di un <strong>second brain</strong> e la capacità di impacchettare tutto in un prodotto coerente e personalizzato che lavora per te. La cosa importante è che le competenze necessarie a costruire un sistema del genere si applicano a qualsiasi progetto tu affronti con Claude Code — ed è per questo che vale la pena capirle. Il creator parla di Claude Code, ma precisa che lo stesso ragionamento vale con altri strumenti come <strong>Codex</strong> o persino un <strong>modello locale</strong>.</p>
 <p>Chi guarda un AIOS di questo tipo — sia esso web o basato su Obsidian — tende a cadere in uno di due errori speculari. Il primo gruppo si perde nello <strong>spettacolo visivo</strong>: tutti quei bottoni, metriche e parti in movimento che non trovi nel terminale di Claude Code fanno esclamare "wow, che figata, lo voglio". Il secondo gruppo lo liquida come <strong>"smoke and mirrors"</strong>, fumo negli occhi, convinto che non ci sia niente che sposti davvero l'ago. Secondo il creator entrambi mancano il punto: quello che ignorano sono i <strong>fondamentali di AI</strong> che lavorano sotto il cofano e che trasformano un AIOS da app web dall'aria fighetta in un'"arma personalizzata" con cui attaccare qualsiasi problema, con Claude Code o con qualsiasi modello.</p>

@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> David Paffenholz, co-fondatore e CEO di <strong>Juicebox</strong> (piattaforma AI di sourcing usata da Ramp, Cursor e Perplexity), spiega come trovare e chiudere i primi ingegneri e <strong>Account Executive (AE)</strong> di una startup. La tesi centrale, ripetuta ovunque: <strong>l'assunzione è vendita</strong>. I candidati migliori non fanno domanda — lavorano già altrove — quindi bisogna fare sourcing proattivo (identico all'outbound sales), scrivere outreach personalizzato, e soprattutto <em>vendere</em> l'azienda al candidato prima ancora di intervistarlo. La velocità e il coinvolgimento diretto dei fondatori sono le armi principali contro le big tech e le aziende growth-stage.</p>
+<img class="cover" loading="lazy" alt="The Startup Playbook for Hiring Your First Engineers and AEs" src="https://i.ytimg.com/vi/i_PjjXKNpA4/hqdefault.jpg"><p><strong>In sintesi:</strong> David Paffenholz, co-fondatore e CEO di <strong>Juicebox</strong> (piattaforma AI di sourcing usata da Ramp, Cursor e Perplexity), spiega come trovare e chiudere i primi ingegneri e <strong>Account Executive (AE)</strong> di una startup. La tesi centrale, ripetuta ovunque: <strong>l'assunzione è vendita</strong>. I candidati migliori non fanno domanda — lavorano già altrove — quindi bisogna fare sourcing proattivo (identico all'outbound sales), scrivere outreach personalizzato, e soprattutto <em>vendere</em> l'azienda al candidato prima ancora di intervistarlo. La velocità e il coinvolgimento diretto dei fondatori sono le armi principali contro le big tech e le aziende growth-stage.</p>
 <h2>Perché le prime assunzioni contano così tanto</h2>
 <p>Da startup, si è concentrati su mille cose — arrivare ai prossimi qualche migliaio di <strong>MRR</strong>, assumere, spedire nuove feature — ed è facile non focalizzarsi sulle persone specifiche che si portano a bordo, privilegiando la <strong>velocità</strong>. La velocità è ottima, ma le prime assunzioni contano moltissimo: definiscono <strong>cultura, velocità e futuro</strong> dell'azienda. Il talento dei primi giorni plasma tutto per chi arriva dopo: le assunzioni future guarderanno al primo ingegnere e al primo AE come punti di riferimento. E, cosa forse ancora più importante, c'è un rapporto bidirezionale — tu plasmi loro e loro plasmano il modo in cui gestisci l'azienda.</p>
 <p>Il concetto chiave: <strong>la cultura è definita dalle prime 10 persone</strong>, e poi dalle successive 40, per un totale delle prime <strong>50 persone</strong>. Oggi Juicebox è un team di <strong>20</strong> persone, e ha messo tanta cura nella scelta dei primi 10 quanta nei 10 successivi.</p>

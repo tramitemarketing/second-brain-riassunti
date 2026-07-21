@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> l'autore ha bruciato qualche migliaio di dollari di crediti su <strong>Fable 5</strong> e la sua conclusione è che il modello non è il vantaggio competitivo — lo è il <strong>processo</strong>. Da qui la mossa pratica: farsi spiegare da Fable <em>come ragiona</em>, congelarlo in un file di skill chiamato <strong>"Fable mode"</strong> costruito su cinque "cancelli" (scoping, evidenze, attacco avversariale, verifica, resoconto), e poi darlo in pasto a modelli più economici come <strong>Opus 4.8</strong>, <strong>Sonnet</strong> e <strong>Haiku</strong>. Nei suoi test i risultati restano quasi identici a costi fino a tre volte inferiori.</p>
+<img class="cover" loading="lazy" alt="How I Make Opus Think Like Fable (5 easy steps)" src="https://i.ytimg.com/vi/XTBWVVcF3Pk/hqdefault.jpg"><p><strong>In sintesi:</strong> l'autore ha bruciato qualche migliaio di dollari di crediti su <strong>Fable 5</strong> e la sua conclusione è che il modello non è il vantaggio competitivo — lo è il <strong>processo</strong>. Da qui la mossa pratica: farsi spiegare da Fable <em>come ragiona</em>, congelarlo in un file di skill chiamato <strong>"Fable mode"</strong> costruito su cinque "cancelli" (scoping, evidenze, attacco avversariale, verifica, resoconto), e poi darlo in pasto a modelli più economici come <strong>Opus 4.8</strong>, <strong>Sonnet</strong> e <strong>Haiku</strong>. Nei suoi test i risultati restano quasi identici a costi fino a tre volte inferiori.</p>
 <h2>Il modello non è il fossato</h2>
 <p>L'apertura è la tesi di tutto il video. Immagina due persone: un principiante dell'AI e uno come <strong>Andrej Karpathy</strong> (nella trascrizione automatica compare come "Andre Karpathy"). Dai al principiante Fable 5, il modello più potente, e a Karpathy un <strong>Sonnet 3.7</strong>, cioè roba vecchia. Karpathy costruirà comunque qualcosa di migliore. Il motivo, dice l'autore, è che conta molto di più <em>come</em> istruisci il modello, e quali <strong>sistemi e loop</strong> gli costruisci attorno, di quanto sia intelligente il modello in sé.</p>
 <p>La prova che porta è un esperimento suo. Usando i <strong>dynamic workflow</strong> di Claude Code — cioè far progettare al modello, al volo, una squadra di sotto-agenti invece di usarne una fissa preparata prima — ha lanciato la stessa identica batteria di test in tre configurazioni: Fable che orchestra sotto-agenti Fable, Fable che orchestra sotto-agenti <strong>Opus</strong>, Fable che orchestra sotto-agenti <strong>Sonnet</strong>. Risultato: qualità sostanzialmente <strong>uguale nei tre casi</strong>, ma il giro tutto-Fable è costato "esponenzialmente" di più. La frase che riassume la scoperta è la migliore del video: <em>non puoi tenerti l'intelligenza del modello, ma puoi tenerti il suo processo</em>.</p>

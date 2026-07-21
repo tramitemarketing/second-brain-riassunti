@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Una rassegna di 13 strumenti AI gratuiti (più 3 bonus che girano sul tuo PC) che, secondo l'autore, fanno quello che fanno gli abbonamenti a pagamento tipo ChatGPT Plus, Claude Pro e Gemini. Sono divisi in quattro blocchi — i "cervelli" (chat/LLM), i creativi (immagini, infografiche), i builder e agenti (fanno il lavoro al posto tuo), e le sorprese (video, editing, musica). Per ogni tool: cosa fa, cosa ti dà il piano gratis e quale abbonamento ti fa cancellare. Attenzione però: è un roundup promozionale, i limiti dei piani gratis cambiano di continuo, e alcuni nomi erano storpiati nei sottotitoli automatici.</p>
+<img class="cover" loading="lazy" alt="13 FREE AI Tools That Replace ChatGPT Plus, Claude Pro, and Gemini" src="https://i.ytimg.com/vi/1R8hqJSB_TY/hqdefault.jpg"><p><strong>In sintesi:</strong> Una rassegna di 13 strumenti AI gratuiti (più 3 bonus che girano sul tuo PC) che, secondo l'autore, fanno quello che fanno gli abbonamenti a pagamento tipo ChatGPT Plus, Claude Pro e Gemini. Sono divisi in quattro blocchi — i "cervelli" (chat/LLM), i creativi (immagini, infografiche), i builder e agenti (fanno il lavoro al posto tuo), e le sorprese (video, editing, musica). Per ogni tool: cosa fa, cosa ti dà il piano gratis e quale abbonamento ti fa cancellare. Attenzione però: è un roundup promozionale, i limiti dei piani gratis cambiano di continuo, e alcuni nomi erano storpiati nei sottotitoli automatici.</p>
 <p>Prima un paio di termini che tornano spesso, spiegati alla buona:</p>
 <ul>
 <li><strong>Context window</strong> (finestra di contesto): quanta roba il modello riesce a "tenere in testa" in una sola conversazione. Più è grande, più documenti lunghi gli puoi dare senza che si dimentichi l'inizio. Si misura in <em>token</em> (pezzetti di parola).</li>

@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Shane Hummus (canale YouTube con oltre 1 milione di iscritti) presenta dieci "side hustle" costruiti attorno a <strong>Claude AI</strong>, tutti servizi di scrittura o produzione di contenuti a pagamento in cui l'AI abbatte il costo del lavoro mentre l'umano resta il "direttore creativo". Ogni idea è ancorata a un nome o a un'azienda reale usati come prova sociale, con cifre di guadagno molto alte e la tesi di fondo che su Claude oggi si è "early" come sul web nel 1995.</p>
+<img class="cover" loading="lazy" alt="10 Claude AI Side Hustles That Can Pay A Full-Time Income — riassunto" src="https://i.ytimg.com/vi/nkf8SP71wo4/hqdefault.jpg"><p><strong>In sintesi:</strong> Shane Hummus (canale YouTube con oltre 1 milione di iscritti) presenta dieci "side hustle" costruiti attorno a <strong>Claude AI</strong>, tutti servizi di scrittura o produzione di contenuti a pagamento in cui l'AI abbatte il costo del lavoro mentre l'umano resta il "direttore creativo". Ogni idea è ancorata a un nome o a un'azienda reale usati come prova sociale, con cifre di guadagno molto alte e la tesi di fondo che su Claude oggi si è "early" come sul web nel 1995.</p>
 <h2>Il gancio: Anthropic e la scala di Claude</h2>
 <p>Il video apre con una statistica shock: esiste un'azienda appena valutata <strong>380 miliardi di dollari</strong> di cui la persona media ha a malapena sentito parlare, ovvero <strong>Anthropic</strong>, i creatori di <strong>Claude AI</strong>. Nel 2026 Claude genererebbe <strong>14 miliardi di dollari di ricavi annualizzati</strong>, definita la crescita di fatturato più rapida di qualunque azienda nella storia recente del tech. Da qui la premessa: Claude è il migliore in assoluto in alcune skill molto pagate sul mercato del lavoro, e in molti stanno già facendo soldi con lui.</p>
 <p>A supporto, due aneddoti. Il primo: un uomo giapponese di 47 anni avrebbe fatto <strong>13.000 dollari in un mese</strong> con Claude e un abbonamento da <strong>20 dollari al mese</strong>, sfruttando Claude e "un finto influencer" (Hummus invita a cercarlo su Google senza spiegare oltre). Il secondo è personale e diventa poi il side hustle numero uno: Hummus ha usato Claude per pianificare una vacanza di un mese in <strong>Thailandia</strong> per tutta la famiglia, riunita per la prima volta dopo più di sei anni; un'agenzia di viaggi di lusso aveva preventivato <strong>60.000 dollari</strong> per organizzarla ("non è una vacanza, è l'anticipo per una casa"), mentre Claude ha fatto il lavoro gratis e per certi versi meglio. A rafforzare la propria credibilità, Hummus cita il proprio canale da oltre un milione di iscritti e il fatto di aver aiutato i suoi clienti a generare oltre <strong>100 milioni di dollari</strong> di risultati con diversi modelli di business promossi su YouTube — molti dei quali ricorreranno nel video. Sottolinea che nessuna di queste idee è teorica o del tipo "guadagna 5 dollari al giorno" da TikTok: sono cose con cui persone reali fanno soldi veri adesso.</p>

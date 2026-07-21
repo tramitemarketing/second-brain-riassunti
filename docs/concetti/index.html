@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,26 +99,26 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="../index.html">← Tutti i riassunti</a></div>
-<h1>Concetti</h1><p class="muted">La conoscenza fusa per argomento, non per video. 20 pagine.</p><a class="card" href="agent-memory.html"><h2>Memoria per agenti AI</h2></a>
-<a class="card" href="ai-content-anti-slop.html"><h2>Anti-slop: far sì che il contenuto AI non sembri AI</h2><span class="desc">l&#x27;output grezzo di un LLM è &quot;slop&quot; — sbrodolo generico e noioso . Per renderlo pubblicabile servono tre mosse ricorrenti in tutti i corsi: iniettare v…</span></a>
-<a class="card" href="ai-service-business.html"><h2>AI Service Business (AISB)</h2></a>
-<a class="card" href="claude-co-work.html"><h2>Claude Co-work (il &quot;sistema operativo&quot; di Claude)</h2><span class="desc">Claude Co-work è la modalità dell&#x27;app desktop di Claude in cui Claude lavora davvero sui file di una cartella del tuo computer , non solo chiacchiera.…</span></a>
-<a class="card" href="claude-code-video-editing.html"><h2>Claude Code come editor video (pipeline a skill)</h2><span class="desc">trasformare Claude Code in un montatore video: butti il girato grezzo in una cartella-progetto piena di skill, codice e istruzioni markdown, e Claude …</span></a>
-<a class="card" href="claude-skills.html"><h2>Claude skills (task confezionati e ri-triggerabili)</h2><span class="desc">una skill è un blocco di istruzioni per un compito specifico — salvato una volta e richiamabile con /nome-skill — così non riscrivi il prompt lungo og…</span></a>
-<a class="card" href="design-app-che-spiccano.html"><h2>Design di app che spiccano (stand out)</h2><span class="desc">oggi chiunque &quot;vibe-coda&quot; un&#x27;app in 24 ore, quindi il mercato è pieno di app statiche che si vede che sono fatte con l&#x27;AI. Per spiccare non serve più …</span></a>
-<a class="card" href="facebook-ads-con-claude.html"><h2>Facebook ads con Claude (reporting, detection, creative flywheel)</h2><span class="desc">gestire le campagne Facebook con Claude via Facebook Ads MCP — reporting e digest schedulati, anomaly detection  e winner detection , fino a un creati…</span></a>
-<a class="card" href="landing-prodotto-premium-claude-code.html"><h2>Landing page prodotto premium con Claude Code (frame-on-scroll)</h2><span class="desc">costruire una landing page prodotto con animazioni cinematiche  in ~15 minuti con Claude Code, anche partendo da zero. Il trucco tecnico centrale è l&#x27;…</span></a>
-<a class="card" href="loop-engineering-guida-completa.html"><h2>Loop engineering — la guida completa</h2><span class="desc">smettere di promptare l&#x27;agente a mano e costruire il sistema che lo prompta al posto tuo: un ciclo che va avanti da solo finché un obiettivo verificab…</span></a>
-<a class="card" href="loop-engineering.html"><h2>Loop engineering</h2></a>
-<a class="card" href="mcp-connectors.html"><h2>MCP e connettori (le &quot;mani&quot; di Claude)</h2><span class="desc">un MCP  è un adattatore universale che collega uno strumento esterno a Claude, così Claude può davvero usarlo. I connettori si aggiungono in Customize…</span></a>
-<a class="card" href="metodo-clear-side-hustle.html"><h2>Metodo CLEAR (valutare un side hustle AI)</h2><span class="desc">un framework per scegliere quale business/side-hustle AI avviare quando ci sono troppe opzioni e non sai da dove partire. Dai un voto da 1 a 5 a cinqu…</span></a>
-<a class="card" href="model-routing.html"><h2>Model routing (il modello non è il fossato, il processo sì)</h2><span class="desc">la qualità di quello che ottieni dall&#x27;AI dipende molto più da come la usi — quali sistemi e loop le costruisci attorno — che da quanto è potente il mo…</span></a>
-<a class="card" href="produttivita-claude-code.html"><h2>Produttività con Claude Code (contesto, parallelismo, autoverifica)</h2><span class="desc">i comandi e le abitudini che separano chi usa Claude Code da principiante da chi lo usa da esperto. Tre pilastri: tenere pulito il contesto, fargli ve…</span></a>
-<a class="card" href="second-brain-a-livelli.html"><h2>Second brain a livelli</h2></a>
-<a class="card" href="sei-skill-ai-carriera.html"><h2>Le 6 skill AI per non restare indietro (a prova di carriera)</h2><span class="desc">sei competenze per rendere la tua carriera &quot;a prova di AI&quot; senza cambiare mestiere — trovare la versione AI-native di quello che già fai. Diverse dai …</span></a>
-<a class="card" href="seo-con-claude.html"><h2>SEO con Claude Code (blog + service page a scala)</h2><span class="desc">costruire e rankare un sito con Claude Code puntando su due tattiche: blog post a scala  e service page . Claude automatizza ricerca keyword, scrittur…</span></a>
-<a class="card" href="spec-driven-prompting.html"><h2>Spec-driven prompting</h2></a>
-<a class="card" href="verifica-business-pitch-video.html"><h2>Verificare un video &quot;business/side-hustle&quot;</h2></a>
+<h1>Concetti</h1><p class="muted">La conoscenza fusa per argomento, non per video. 20 pagine.</p><a class="card" href="loop-engineering-guida-completa.html"><span class="txt"><h2>Loop engineering — la guida completa</h2><span class="desc">smettere di promptare l&#x27;agente a mano e costruire il sistema che lo prompta al posto tuo: un ciclo che va avanti da solo finché un obiettivo verificab…</span></span></a>
+<a class="card" href="model-routing.html"><span class="txt"><h2>Model routing (il modello non è il fossato, il processo sì)</h2><span class="desc">la qualità di quello che ottieni dall&#x27;AI dipende molto più da come la usi — quali sistemi e loop le costruisci attorno — che da quanto è potente il mo…</span></span></a>
+<a class="card" href="produttivita-claude-code.html"><span class="txt"><h2>Produttività con Claude Code (contesto, parallelismo, autoverifica)</h2><span class="desc">i comandi e le abitudini che separano chi usa Claude Code da principiante da chi lo usa da esperto. Tre pilastri: tenere pulito il contesto, fargli ve…</span></span></a>
+<a class="card" href="claude-skills.html"><span class="txt"><h2>Claude skills (task confezionati e ri-triggerabili)</h2><span class="desc">una skill è un blocco di istruzioni per un compito specifico — salvato una volta e richiamabile con /nome-skill — così non riscrivi il prompt lungo og…</span></span></a>
+<a class="card" href="claude-code-video-editing.html"><span class="txt"><h2>Claude Code come editor video (pipeline a skill)</h2><span class="desc">trasformare Claude Code in un montatore video: butti il girato grezzo in una cartella-progetto piena di skill, codice e istruzioni markdown, e Claude …</span></span></a>
+<a class="card" href="loop-engineering.html"><span class="txt"><h2>Loop engineering</h2></span></a>
+<a class="card" href="sei-skill-ai-carriera.html"><span class="txt"><h2>Le 6 skill AI per non restare indietro (a prova di carriera)</h2><span class="desc">sei competenze per rendere la tua carriera &quot;a prova di AI&quot; senza cambiare mestiere — trovare la versione AI-native di quello che già fai. Diverse dai …</span></span></a>
+<a class="card" href="landing-prodotto-premium-claude-code.html"><span class="txt"><h2>Landing page prodotto premium con Claude Code (frame-on-scroll)</h2><span class="desc">costruire una landing page prodotto con animazioni cinematiche  in ~15 minuti con Claude Code, anche partendo da zero. Il trucco tecnico centrale è l&#x27;…</span></span></a>
+<a class="card" href="ai-service-business.html"><span class="txt"><h2>AI Service Business (AISB)</h2></span></a>
+<a class="card" href="metodo-clear-side-hustle.html"><span class="txt"><h2>Metodo CLEAR (valutare un side hustle AI)</h2><span class="desc">un framework per scegliere quale business/side-hustle AI avviare quando ci sono troppe opzioni e non sai da dove partire. Dai un voto da 1 a 5 a cinqu…</span></span></a>
+<a class="card" href="design-app-che-spiccano.html"><span class="txt"><h2>Design di app che spiccano (stand out)</h2><span class="desc">oggi chiunque &quot;vibe-coda&quot; un&#x27;app in 24 ore, quindi il mercato è pieno di app statiche che si vede che sono fatte con l&#x27;AI. Per spiccare non serve più …</span></span></a>
+<a class="card" href="mcp-connectors.html"><span class="txt"><h2>MCP e connettori (le &quot;mani&quot; di Claude)</h2><span class="desc">un MCP  è un adattatore universale che collega uno strumento esterno a Claude, così Claude può davvero usarlo. I connettori si aggiungono in Customize…</span></span></a>
+<a class="card" href="claude-co-work.html"><span class="txt"><h2>Claude Co-work (il &quot;sistema operativo&quot; di Claude)</h2><span class="desc">Claude Co-work è la modalità dell&#x27;app desktop di Claude in cui Claude lavora davvero sui file di una cartella del tuo computer , non solo chiacchiera.…</span></span></a>
+<a class="card" href="ai-content-anti-slop.html"><span class="txt"><h2>Anti-slop: far sì che il contenuto AI non sembri AI</h2><span class="desc">l&#x27;output grezzo di un LLM è &quot;slop&quot; — sbrodolo generico e noioso . Per renderlo pubblicabile servono tre mosse ricorrenti in tutti i corsi: iniettare v…</span></span></a>
+<a class="card" href="facebook-ads-con-claude.html"><span class="txt"><h2>Facebook ads con Claude (reporting, detection, creative flywheel)</h2><span class="desc">gestire le campagne Facebook con Claude via Facebook Ads MCP — reporting e digest schedulati, anomaly detection  e winner detection , fino a un creati…</span></span></a>
+<a class="card" href="seo-con-claude.html"><span class="txt"><h2>SEO con Claude Code (blog + service page a scala)</h2><span class="desc">costruire e rankare un sito con Claude Code puntando su due tattiche: blog post a scala  e service page . Claude automatizza ricerca keyword, scrittur…</span></span></a>
+<a class="card" href="second-brain-a-livelli.html"><span class="txt"><h2>Second brain a livelli</h2></span></a>
+<a class="card" href="verifica-business-pitch-video.html"><span class="txt"><h2>Verificare un video &quot;business/side-hustle&quot;</h2></span></a>
+<a class="card" href="spec-driven-prompting.html"><span class="txt"><h2>Spec-driven prompting</h2></span></a>
+<a class="card" href="agent-memory.html"><span class="txt"><h2>Memoria per agenti AI</h2></span></a>
 <script>
 window.SB = (function () {
   var API = 'https://brain-sync.tramitemarketing-it.workers.dev';

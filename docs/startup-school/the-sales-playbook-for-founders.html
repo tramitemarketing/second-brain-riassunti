@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> chiudere i primi contratti B2B è un percorso a stadi che va da una fase iniziale povera — un <strong>design partnership</strong> non pagato, lungo e mal definito — fino alla "mossa da professionisti": un processo di vendita rapido, ben delimitato e stretto che sfocia subito in <strong>ricavi ricorrenti contrattualizzati</strong>. L'errore di gran lunga più comune non è correre troppo, ma restare bloccati troppo a lungo nelle fasi iniziali; l'obiettivo è avanzare attraverso questa sequenza il più velocemente possibile per chiudere nuovo ARR ogni settimana.</p>
+<img class="cover" loading="lazy" alt="The Sales Playbook For Founders" src="https://i.ytimg.com/vi/DH7REvnQ1y4/hqdefault.jpg"><p><strong>In sintesi:</strong> chiudere i primi contratti B2B è un percorso a stadi che va da una fase iniziale povera — un <strong>design partnership</strong> non pagato, lungo e mal definito — fino alla "mossa da professionisti": un processo di vendita rapido, ben delimitato e stretto che sfocia subito in <strong>ricavi ricorrenti contrattualizzati</strong>. L'errore di gran lunga più comune non è correre troppo, ma restare bloccati troppo a lungo nelle fasi iniziali; l'obiettivo è avanzare attraverso questa sequenza il più velocemente possibile per chiudere nuovo ARR ogni settimana.</p>
 <h2>La progressione e dove i founder si bloccano</h2>
 <p>In YC si lavora con moltissimi founder che affrontano il processo di vendita B2B per la prima volta, e ricorrono alcuni errori molto comuni e facilmente evitabili. Esiste una progressione tipica che il founder B2B attraversa: parte tipicamente da un design partnership non pagato, lungo e mal definito, e arriva idealmente a un processo di vendita rapido, ben delimitato e stretto che produce da subito ricavi ricorrenti contrattualizzati. L'obiettivo per la maggior parte delle aziende early stage è percorrere questa sequenza il più rapidamente possibile, così da chiudere nuovo <strong>ARR</strong> ogni settimana e far crescere l'azienda.</p>
 <p>La statistica chiave è che nel <strong>90%</strong> dei casi — la stragrande maggioranza — i founder restano incastrati proprio nelle fasi iniziali, cioè nei lunghissimi design partnership non pagati; il compito di chi li affianca è spingerli ad avanzare al livello successivo il più in fretta possibile. Solo occasionalmente, nel <strong>5-10%</strong> dei casi, capita il problema opposto: founder che provano a fare "speedrun" dell'intero processo saltando direttamente alla fine, prima che il prodotto sia abbastanza maturo o senza abbastanza <strong>social proof</strong> (cioè altri clienti soddisfatti disposti a garantire per te). Ma è raro: onestamente, la maggior parte dei founder è troppo lenta nell'avanzare.</p>

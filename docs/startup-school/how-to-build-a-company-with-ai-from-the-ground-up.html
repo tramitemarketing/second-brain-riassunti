@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> l'AI non va vista come strumento che aumenta la produttività, ma come il <strong>sistema operativo</strong> su cui gira l'intera azienda. Chi fonda oggi dovrebbe costruire una startup <em>AI-native</em> dal giorno zero: ogni processo trasformato in un <strong>closed loop</strong> auto-migliorante, l'intera organizzazione resa <strong>interrogabile dall'AI</strong>, il prodotto sviluppato con <strong>software factory</strong> (spec + test → agenti che scrivono il codice), e una struttura con pochissimi livelli umani e tre soli archetipi di ruolo. Il risultato: risultati enormi con team molto più piccoli, spingendo sul consumo di token invece che sull'organico.</p>
+<img class="cover" loading="lazy" alt="How To Build A Company With AI From The Ground Up" src="https://i.ytimg.com/vi/EN7frwQIbKc/hqdefault.jpg"><p><strong>In sintesi:</strong> l'AI non va vista come strumento che aumenta la produttività, ma come il <strong>sistema operativo</strong> su cui gira l'intera azienda. Chi fonda oggi dovrebbe costruire una startup <em>AI-native</em> dal giorno zero: ogni processo trasformato in un <strong>closed loop</strong> auto-migliorante, l'intera organizzazione resa <strong>interrogabile dall'AI</strong>, il prodotto sviluppato con <strong>software factory</strong> (spec + test → agenti che scrivono il codice), e una struttura con pochissimi livelli umani e tre soli archetipi di ruolo. Il risultato: risultati enormi con team molto più piccoli, spingendo sul consumo di token invece che sull'organico.</p>
 <h2>Il vero salto: non più produttività, ma nuove capacità</h2>
 <p>La relatrice, <strong>Diana</strong>, partner di <strong>YC</strong>, parte da una tesi netta: l'AI non cambierà soltanto la velocità con cui si scrive software o quali flussi di lavoro si automatizzano. Cambierà <strong>il modo stesso in cui le startup vanno gestite</strong> — quali ruoli esisteranno e quali prodotti diventano possibili.</p>
 <p>Il problema è che quasi tutti parlano di AI in termini di <strong>produttività</strong>: quanto rende più efficienti gli ingegneri, o "aggiungiamo un copilot ai flussi esistenti e spediamo più feature". Questa cornice, sostiene Diana, <strong>manca il punto</strong>. Lo spostamento in corso non è un aumento di produttività, ma l'arrivo di <strong>capacità completamente nuove</strong>: la persona giusta con strumenti AI può oggi costruire funzionalità che prima richiedevano <strong>un intero team</strong> o erano semplicemente <strong>impossibili</strong>.</p>

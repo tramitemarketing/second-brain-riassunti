@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> È la <strong>guida di installazione</strong> dello stesso sistema di montaggio automatico già visto in <a href="how-i-fully-automated-my-video-editing-2026-07-16.html">how-i-fully-automated-my-video-editing-2026-07-16</a>, ma raccontata dal lato "come me lo metto in piedi". Il punto forte è che <strong>non installi quasi niente a mano</strong>: prendi il link GitHub di una skill gratuita e open source che si chiama <strong>Video Use</strong>, lo incolli nella tab code di Claude, dici "installamelo", e Claude si tira dietro da solo il repository, <strong>FFmpeg</strong>, la registrazione della skill e ti chiede la chiave API quando le serve. La trascrizione qui <strong>non</strong> è WhisperX ma <strong>ElevenLabs Scribe</strong> (a pagamento, con chiave API), che dà i timestamp parola per parola. Poi il flusso è quello noto: rough cut → grafiche → seconda passata → sottotitoli → musica → export. Il tutto <strong>senza terminale, senza Premiere Pro</strong>, solo dentro l'app di Claude, con <strong>Claude Fable 5</strong> come modello.</p>
+<img class="cover" loading="lazy" alt="How To Fully Automate Video Editing with Claude Code (Setup + Guide)" src="https://i.ytimg.com/vi/dX_UtTmZR9E/hqdefault.jpg"><p><strong>In sintesi:</strong> È la <strong>guida di installazione</strong> dello stesso sistema di montaggio automatico già visto in <a href="how-i-fully-automated-my-video-editing-2026-07-16.html">how-i-fully-automated-my-video-editing-2026-07-16</a>, ma raccontata dal lato "come me lo metto in piedi". Il punto forte è che <strong>non installi quasi niente a mano</strong>: prendi il link GitHub di una skill gratuita e open source che si chiama <strong>Video Use</strong>, lo incolli nella tab code di Claude, dici "installamelo", e Claude si tira dietro da solo il repository, <strong>FFmpeg</strong>, la registrazione della skill e ti chiede la chiave API quando le serve. La trascrizione qui <strong>non</strong> è WhisperX ma <strong>ElevenLabs Scribe</strong> (a pagamento, con chiave API), che dà i timestamp parola per parola. Poi il flusso è quello noto: rough cut → grafiche → seconda passata → sottotitoli → musica → export. Il tutto <strong>senza terminale, senza Premiere Pro</strong>, solo dentro l'app di Claude, con <strong>Claude Fable 5</strong> come modello.</p>
 <h2>La promessa del video (e cosa cambia rispetto all'altro)</h2>
 <p>L'autore apre dicendo che tutto quello che stai guardando — le animazioni, le motion graphics, gli overlay di testo, le transizioni — l'ha fatto <strong>Claude Fable 5</strong>. Lui ha buttato dentro una clip grezza, ha scritto <strong>un prompt</strong>, e ha lasciato correre: Claude ha tagliato i tempi morti, costruito le grafiche, aggiunto i sottotitoli, messo la musica ed esportato. La frase che ripete più volte è <strong>"no terminal, no editing background, no Premiere Pro"</strong>: si lavora solo nell'app di Claude che probabilmente hai già aperta.</p>
 <p>La logica dietro è quella del <strong>"Claude è un agente solo che legge il tuo girato e lo capisce, e concatena strumenti professionali veri"</strong> per portare una clip grezza fino all'export finito. La divisione dei ruoli che propone: <strong>Claude si prende l'80% noioso, tu resti in carico del 20% che conta davvero</strong> (le scelte creative).</p>

@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Aziz mostra come costruire in ~15 minuti una <strong>landing page prodotto premium</strong> con animazioni cinematiche usando <strong>Claude Code</strong>, anche partendo da zero e senza saper programmare. Il cuore del metodo è un trucco per l'effetto "video-su-scroll": invece di caricare un video pesante, lo si spezza in ~120 <strong>frame</strong> (immagini) e si dice a Claude di mostrare un frame diverso a ogni scroll, ottenendo un effetto stop-motion fluido ma leggerissimo. Attorno a questo ruota una pipeline completa: generare l'immagine prodotto con <strong>Nano Banana 2</strong>, animarla in video con <strong>Cling 3.0</strong> (entrambi via <strong>Kie.ai</strong>), estrarre i frame con una skill, far generare il sito da Claude, prendere il branding da un sito che piace con <strong>Firecrawl</strong>, e infine pubblicare online gratis con <strong>Netlify</strong>.</p>
+<img class="cover" loading="lazy" alt="Come Creare Siti Web FOLLI Con Claude Code e Nano Banana 2" src="https://i.ytimg.com/vi/yp3aEi1mdqs/hqdefault.jpg"><p><strong>In sintesi:</strong> Aziz mostra come costruire in ~15 minuti una <strong>landing page prodotto premium</strong> con animazioni cinematiche usando <strong>Claude Code</strong>, anche partendo da zero e senza saper programmare. Il cuore del metodo è un trucco per l'effetto "video-su-scroll": invece di caricare un video pesante, lo si spezza in ~120 <strong>frame</strong> (immagini) e si dice a Claude di mostrare un frame diverso a ogni scroll, ottenendo un effetto stop-motion fluido ma leggerissimo. Attorno a questo ruota una pipeline completa: generare l'immagine prodotto con <strong>Nano Banana 2</strong>, animarla in video con <strong>Cling 3.0</strong> (entrambi via <strong>Kie.ai</strong>), estrarre i frame con una skill, far generare il sito da Claude, prendere il branding da un sito che piace con <strong>Firecrawl</strong>, e infine pubblicare online gratis con <strong>Netlify</strong>.</p>
 <h2>Cos'è Claude Code e come si prepara l'ambiente</h2>
 <p><strong>Claude Code</strong> è una versione di Claude capace di leggere e scrivere codice in autonomia: è come avere uno sviluppatore dentro il proprio computer. In questo video gira dentro <strong>Visual Studio Code</strong> (VS Code), un editor di codice gratuito che si scarica da internet. Una volta installato VS Code, dal pannello laterale delle estensioni si cerca <strong>Claude Code</strong> (l'estensione "Claude Code for VS Code"), la si installa e si accede con il proprio account <strong>Anthropic</strong>. Serve un <strong>piano a pagamento</strong>, Pro o Max: senza quello Claude Code non funziona.</p>
 <p>Per iniziare un progetto si apre una nuova cartella dal pulsante in alto a sinistra. Aziz tiene tutto ordinato: ha una cartella madre chiamata "Cloud Code" e dentro crea <strong>una sottocartella per ogni progetto</strong> (in questo caso "website creation"). Nel pannello sinistro VS Code mostra tutto il contenuto della cartella, comprese le <strong>skill</strong> già installate.</p>

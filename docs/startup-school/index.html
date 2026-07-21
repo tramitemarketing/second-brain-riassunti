@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,13 +99,13 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="../index.html">← Tutti i riassunti</a></div>
-<h1>Startup School (YC)</h1><p class="muted">7 video · Y Combinator</p><a class="card" href="how-to-build-a-company-with-ai-from-the-ground-up.html"><h2>How To Build A Company With AI From The Ground Up</h2><span class="muted">10:27 · 09/07/2026</span><span class="desc">Costruire una startup AI-native: closed loop, azienda queryable, software factory e nuovi ruoli</span></a>
-<a class="card" href="how-to-get-the-most-out-of-vibe-coding.html"><h2>How To Get The Most Out Of Vibe Coding</h2><span class="muted">16:39 · 09/07/2026</span><span class="desc">Consigli pratici per il vibe coding: piano, Git, test, debug e scelta di strumenti e stack.</span></a>
-<a class="card" href="how-to-build-an-ai-native-services-company.html"><h2>How to Build an AI-Native Services Company</h2><span class="muted">11:22 · 09/07/2026</span><span class="desc">Playbook YC per fondare da zero aziende di servizi AI-native: mercato, team, prodotto, prezzi, P&amp;L.</span></a>
-<a class="card" href="how-to-get-your-first-10-customers.html"><h2>How to Get Your First 10 Customers</h2><span class="muted">13:46 · 09/07/2026</span><span class="desc">Le tattiche concrete per trovare e chiudere i primi 10 clienti, facendo cose che non scalano.</span></a>
-<a class="card" href="pick-one-idea-and-go-deep.html"><h2>Pick One Idea and Go Deep</h2><span class="muted">11:30 · 09/07/2026</span><span class="desc">Perché smettere di cercare l&#x27;idea perfetta, sceglierne una e andare in profondità genera più informazione</span></a>
-<a class="card" href="the-sales-playbook-for-founders.html"><h2>The Sales Playbook For Founders</h2><span class="muted">18:49 · 09/07/2026</span><span class="desc">Come chiudere i primi contratti B2B: dal design partnership ai contratti ricorrenti con opt-out.</span></a>
-<a class="card" href="the-startup-playbook-for-hiring-your-first-engineers-and-aes.html"><h2>The Startup Playbook for Hiring Your First Engineers and AEs</h2><span class="muted">43:21 · 09/07/2026</span><span class="desc">Come fare sourcing e assumere i primi ingegneri e venditori (AE) di una startup, trattando l&#x27;hiring come vendita.</span></a>
+<h1>Startup School (YC)</h1><p class="muted">7 video · Y Combinator</p><a class="card" href="how-to-build-a-company-with-ai-from-the-ground-up.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/EN7frwQIbKc/hqdefault.jpg"><span class="txt"><h2>How To Build A Company With AI From The Ground Up</h2><span class="muted">10:27 · 09/07/2026</span><span class="desc">Costruire una startup AI-native: closed loop, azienda queryable, software factory e nuovi ruoli</span></span></a>
+<a class="card" href="how-to-get-the-most-out-of-vibe-coding.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/BJjsfNO5JTo/hqdefault.jpg"><span class="txt"><h2>How To Get The Most Out Of Vibe Coding</h2><span class="muted">16:39 · 09/07/2026</span><span class="desc">Consigli pratici per il vibe coding: piano, Git, test, debug e scelta di strumenti e stack.</span></span></a>
+<a class="card" href="how-to-build-an-ai-native-services-company.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/gSNFJbgoaHI/hqdefault.jpg"><span class="txt"><h2>How to Build an AI-Native Services Company</h2><span class="muted">11:22 · 09/07/2026</span><span class="desc">Playbook YC per fondare da zero aziende di servizi AI-native: mercato, team, prodotto, prezzi, P&amp;L.</span></span></a>
+<a class="card" href="how-to-get-your-first-10-customers.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/_FBivfgOvuE/hqdefault.jpg"><span class="txt"><h2>How to Get Your First 10 Customers</h2><span class="muted">13:46 · 09/07/2026</span><span class="desc">Le tattiche concrete per trovare e chiudere i primi 10 clienti, facendo cose che non scalano.</span></span></a>
+<a class="card" href="pick-one-idea-and-go-deep.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/R56RJFZBasQ/hqdefault.jpg"><span class="txt"><h2>Pick One Idea and Go Deep</h2><span class="muted">11:30 · 09/07/2026</span><span class="desc">Perché smettere di cercare l&#x27;idea perfetta, sceglierne una e andare in profondità genera più informazione</span></span></a>
+<a class="card" href="the-sales-playbook-for-founders.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/DH7REvnQ1y4/hqdefault.jpg"><span class="txt"><h2>The Sales Playbook For Founders</h2><span class="muted">18:49 · 09/07/2026</span><span class="desc">Come chiudere i primi contratti B2B: dal design partnership ai contratti ricorrenti con opt-out.</span></span></a>
+<a class="card" href="the-startup-playbook-for-hiring-your-first-engineers-and-aes.html"><img class="thumb" loading="lazy" alt="" src="https://i.ytimg.com/vi/i_PjjXKNpA4/hqdefault.jpg"><span class="txt"><h2>The Startup Playbook for Hiring Your First Engineers and AEs</h2><span class="muted">43:21 · 09/07/2026</span><span class="desc">Come fare sourcing e assumere i primi ingegneri e venditori (AE) di una startup, trattando l&#x27;hiring come vendita.</span></span></a>
 <script>
 window.SB = (function () {
   var API = 'https://brain-sync.tramitemarketing-it.workers.dev';

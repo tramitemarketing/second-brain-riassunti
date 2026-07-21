@@ -72,6 +72,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -468,6 +476,19 @@ def read_md(path):
     with open(path, encoding="utf-8") as fh:
         return parse_frontmatter(fh.read())
 
+def id_video(meta):
+    """L'id YouTube preso dal campo source: del frontmatter (se c'e')."""
+    m = re.search(r"(?:v=|youtu\.be/)([A-Za-z0-9_-]{11})", meta.get("source", ""))
+    return m.group(1) if m else ""
+
+def copertina(vid, classe="cover", alt=""):
+    """Miniatura del video servita da YouTube."""
+    if not vid:
+        return ""
+    return ('<img class="%s" loading="lazy" alt="%s" '
+            'src="https://i.ytimg.com/vi/%s/hqdefault.jpg">'
+            % (classe, html.escape(alt, quote=True), vid))
+
 def data_it(s):
     """2026-07-16 -> 16/07/2026 (come si scrivono le date in Italia)."""
     s = (s or "").strip()
@@ -500,15 +521,17 @@ def main():
             autore = autore or meta.get("autore", "")
             title = meta.get("title") or slug
             tb = '<div class="topbar"><a href="index.html">← %s</a> · <a href="../index.html">Home</a></div>' % html.escape(pname)
+            vid = id_video(meta)
             with open(os.path.join(OUT, d, slug + ".html"), "w", encoding="utf-8") as fh:
-                fh.write(page(title, md_to_html(text, known), tb, READER_JS))
+                fh.write(page(title, copertina(vid, "cover", title) + md_to_html(text, known),
+                              tb, READER_JS))
             try:
                 ordine = int(str(meta.get("ordine", "")).strip())
             except ValueError:
                 ordine = 10 ** 6          # senza "ordine:" finisce in coda, ma stabile
             vids.append({"slug": slug, "title": title, "durata": meta.get("durata", ""),
                          "visto": meta.get("visto", ""), "descr": meta.get("descrizione", ""),
-                         "ordine": ordine})
+                         "ordine": ordine, "vid": vid})
         # ordine cronologico: prima la data di visione, poi il campo "ordine" del
         # frontmatter (utile quando più video sono stati visti lo stesso giorno)
         vids.sort(key=lambda v: (v["visto"], v["ordine"], v["title"]))
@@ -517,8 +540,10 @@ def main():
         for v in vids:
             meta_line = " · ".join(x for x in [v["durata"], data_it(v["visto"])] if x)
             desc = ('<span class="desc">%s</span>' % html.escape(v["descr"])) if v["descr"] else ""
-            rows.append('<a class="card" href="%s.html"><h2>%s</h2><span class="muted">%s</span>%s</a>'
-                        % (v["slug"], html.escape(v["title"]), html.escape(meta_line), desc))
+            rows.append('<a class="card" href="%s.html">%s<span class="txt"><h2>%s</h2>'
+                        '<span class="muted">%s</span>%s</span></a>'
+                        % (v["slug"], copertina(v["vid"], "thumb", ""), html.escape(v["title"]),
+                           html.escape(meta_line), desc))
         pintro = ('<h1>%s</h1><p class="muted">%d video · %s</p>'
                   % (html.escape(pname), len(vids), html.escape(autore)))
         tb = '<div class="topbar"><a href="../index.html">← Tutti i riassunti</a></div>'
@@ -527,9 +552,11 @@ def main():
         # card in homepage (data-items: serve a contare quanti video ho già letto)
         items = ",".join("%s/%s.html" % (d, v["slug"]) for v in vids)
         home_cards.append({"kind": "playlist", "visto": vids[-1]["visto"],
-            "html": '<a class="card" href="%s/index.html" data-items="%s"><span class="tag">Playlist · %d video</span>'
-                    '<h2>%s</h2><span class="muted">%s</span></a>'
-                    % (d, html.escape(items, quote=True), len(vids), html.escape(pname), html.escape(autore))})
+            "html": '<a class="card" href="%s/index.html" data-items="%s">%s<span class="txt">'
+                    '<span class="tag">Playlist · %d video</span>'
+                    '<h2>%s</h2><span class="muted">%s</span></span></a>'
+                    % (d, html.escape(items, quote=True), copertina(vids[-1]["vid"], "thumb", ""),
+                       len(vids), html.escape(pname), html.escape(autore))})
 
     # --- video singoli (file sciolti) ---
     loose = sorted(glob.glob(os.path.join(SRC, "*.md")))
@@ -539,15 +566,21 @@ def main():
         meta, text = read_md(f)
         title = meta.get("title") or slug
         tb = '<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>'
+        vid = id_video(meta)
         with open(os.path.join(OUT, slug + ".html"), "w", encoding="utf-8") as fh:
-            fh.write(page(title, md_to_html(text, known_loose), tb, READER_JS))
+            fh.write(page(title, copertina(vid, "cover", title) + md_to_html(text, known_loose),
+                          tb, READER_JS))
         home_cards.append({"kind": "video", "visto": meta.get("visto", ""),
-            "html": '<a class="card" href="%s.html"><h2>%s</h2><span class="muted">%s</span></a>'
-                    % (slug, html.escape(title), html.escape(sub(meta)))})
+            "html": '<a class="card" href="%s.html">%s<span class="txt"><h2>%s</h2>'
+                    '<span class="muted">%s</span></span></a>'
+                    % (slug, copertina(vid, "thumb", ""), html.escape(title),
+                       html.escape(sub(meta)))})
 
     # --- concetti (wiki/concepts): la conoscenza fusa per argomento ---
     cpath = os.path.join(VAULT, "wiki", "concepts")
-    concetti = sorted(glob.glob(os.path.join(cpath, "*.md"))) if os.path.isdir(cpath) else []
+    # ordine cronologico: i concetti toccati piu' di recente vanno in cima
+    concetti = sorted(glob.glob(os.path.join(cpath, "*.md")),
+                      key=os.path.getmtime, reverse=True) if os.path.isdir(cpath) else []
     if concetti:
         os.makedirs(os.path.join(OUT, "concetti"), exist_ok=True)
         known_c = {os.path.splitext(os.path.basename(f))[0] for f in concetti}
@@ -564,7 +597,7 @@ def main():
             with open(os.path.join(OUT, "concetti", slug + ".html"), "w", encoding="utf-8") as fh:
                 fh.write(page(title, md_to_html(text, known_c), tb, READER_JS))
             desc = ('<span class="desc">%s…</span>' % html.escape(gist)) if gist else ""
-            righe.append('<a class="card" href="%s.html"><h2>%s</h2>%s</a>'
+            righe.append('<a class="card" href="%s.html"><span class="txt"><h2>%s</h2>%s</span></a>'
                          % (slug, html.escape(title), desc))
         tb = '<div class="topbar"><a href="../index.html">← Tutti i riassunti</a></div>'
         intro = ('<h1>Concetti</h1><p class="muted">La conoscenza fusa per argomento, '

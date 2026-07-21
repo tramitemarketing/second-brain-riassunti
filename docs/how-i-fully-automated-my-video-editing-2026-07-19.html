@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Un secondo autore mostra il <strong>suo</strong> modo di far montare i video da Claude Code, ed è una ricetta <strong>diversa</strong> da quella già in wiki. Qui il flusso è spaccato in due tronconi: i <strong>tagli del parlato</strong> li fa a mano-ma-veloce dentro <strong>Descript</strong> (un editor che si usa come Word, dove cancelli le parole dalla trascrizione e sparisce il pezzo di video), e le <strong>grafiche animate</strong> le fa Claude Code con <strong>Remotion</strong>, una libreria che genera video scrivendo codice React. In mezzo ci sono <strong>FFmpeg</strong> per tirare fuori l'audio e le <strong>API Whisper di OpenAI</strong> per trascriverlo con i tempi. Il punto forte del racconto: prima ci metteva <strong>da 3 a 6 ore</strong> a montare un video, oppure pagava un montatore "qualche centinaio di dollari"; adesso descrive come vuole il video e il resto va da sé, con lo stesso stile ripetuto identico su ogni video senza rifare il lavoro da capo.</p>
+<img class="cover" loading="lazy" alt="How I Fully Automated My Video Editing (Claude Code) — secondo taglio" src="https://i.ytimg.com/vi/G0EH0xdy2-E/hqdefault.jpg"><p><strong>In sintesi:</strong> Un secondo autore mostra il <strong>suo</strong> modo di far montare i video da Claude Code, ed è una ricetta <strong>diversa</strong> da quella già in wiki. Qui il flusso è spaccato in due tronconi: i <strong>tagli del parlato</strong> li fa a mano-ma-veloce dentro <strong>Descript</strong> (un editor che si usa come Word, dove cancelli le parole dalla trascrizione e sparisce il pezzo di video), e le <strong>grafiche animate</strong> le fa Claude Code con <strong>Remotion</strong>, una libreria che genera video scrivendo codice React. In mezzo ci sono <strong>FFmpeg</strong> per tirare fuori l'audio e le <strong>API Whisper di OpenAI</strong> per trascriverlo con i tempi. Il punto forte del racconto: prima ci metteva <strong>da 3 a 6 ore</strong> a montare un video, oppure pagava un montatore "qualche centinaio di dollari"; adesso descrive come vuole il video e il resto va da sé, con lo stesso stile ripetuto identico su ogni video senza rifare il lavoro da capo.</p>
 <h2>Perché non fa fare tutto a Claude</h2>
 <p>L'autore è onesto su un limite e lo dice subito: i <strong>tagli del parlato</strong> li tiene fuori da Claude Code. Il motivo è che, per quanto scriva bene il prompt, restano sempre "piccole cose" da sistemare — frasi ripetute, pezzi tolti che invece servivano — e a lui interessa <strong>verificare di persona che quello che dice nel video sia accurato</strong>. Dice che l'AI "fa un buon lavoro sulla maggior parte", ma non è perfetta. Quindi tiene un passaggio umano, però lo rende velocissimo appoggiandosi a un'interfaccia fatta apposta.</p>
 <p>Vale la pena notare il contrasto: l'altro sistema già in wiki fa fare i tagli direttamente a Claude via trascrizione. Qui l'autore ha scelto <strong>il controllo umano sul contenuto parlato</strong> e ha automatizzato solo la parte visiva. È una scelta di dove mettere il confine, non un dettaglio tecnico.</p>

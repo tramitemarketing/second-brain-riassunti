@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> i primi 10 clienti non arrivano da un tool ma dal fondatore in persona che lavora la propria rete calda, si presenta di persona e fa cose che non scalano; l'automazione (Apollo, Clay, sequenze email) ha senso solo dopo, quando hai già un messaggio validato che vale la pena scalare. La lezione è una raccolta di tattiche concrete che decine di fondatori YC hanno condiviso su richiesta.</p>
+<img class="cover" loading="lazy" alt="How to Get Your First 10 Customers" src="https://i.ytimg.com/vi/_FBivfgOvuE/hqdefault.jpg"><p><strong>In sintesi:</strong> i primi 10 clienti non arrivano da un tool ma dal fondatore in persona che lavora la propria rete calda, si presenta di persona e fa cose che non scalano; l'automazione (Apollo, Clay, sequenze email) ha senso solo dopo, quando hai già un messaggio validato che vale la pena scalare. La lezione è una raccolta di tattiche concrete che decine di fondatori YC hanno condiviso su richiesta.</p>
 <h2>Da dove nasce questa lezione</h2>
 <p><strong>Max</strong>, visiting partner di <strong>Y Combinator</strong>, affronta la domanda che sente ripetere di continuo dai fondatori: "Credo di sapere chi è il mio cliente target. Ora, come lo trovo davvero e come avvio una conversazione?". La Startup School ha già dato molti buoni consigli sulla <em>strategia</em> della vendita nelle fasi iniziali — fare cose che non scalano, la vendita fatta dai fondatori (<strong>founder sales</strong>), l'importanza di far pagare il prodotto — e quei consigli vanno interiorizzati. Qui però il tema sono le <strong>tattiche</strong> per ottenere i primi 10 clienti. Il materiale nasce da un post che Max ha pubblicato internamente su <strong>Bookface</strong> (il social network interno di YC) chiedendo ai fondatori come avessero effettivamente chiuso i loro primi 10 clienti: decine hanno risposto, e il video è la sintesi di quelle esperienze.</p>
 <h2>La domanda da porsi prima di tutto: dove passa il tempo il tuo cliente?</h2>

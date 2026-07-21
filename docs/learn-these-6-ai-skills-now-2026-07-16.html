@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> L'AI sostituirà milioni di lavori come i social hanno sostituito i giornali e Netflix il cavo, ma non serve cambiare mestiere o aprire un'azienda per restare a galla: bastano sei skill che rendono "a prova di futuro" la carriera che già hai. Le sei sono: diventare <strong>la persona AI</strong> del tuo giro, coltivare <strong>gusto e giudizio</strong> su ciò che l'AI produce, imparare il <strong>context engineering</strong> (dare all'AI il contesto giusto, più che il prompt perfetto), aumentare la <strong>velocità di iterazione</strong> senza perdere qualità, costruire il tuo <strong>Jarvis</strong> (un'AI che agisce da sola, ma sapendo quando NON serve l'AI), e crearti una <strong>"assicurazione contro la disoccupazione"</strong> con più fonti di reddito attorno a un'unica passione. Il filo comune: l'expertise è relativa, il contesto è tuo e ti rende unico, e vince chi itera in fretta ma sa quando fermarsi.</p>
+<img class="cover" loading="lazy" alt="Learn These 6 AI Skills Now (Before Everyone Else Does)" src="https://i.ytimg.com/vi/3XIGcM7VICc/hqdefault.jpg"><p><strong>In sintesi:</strong> L'AI sostituirà milioni di lavori come i social hanno sostituito i giornali e Netflix il cavo, ma non serve cambiare mestiere o aprire un'azienda per restare a galla: bastano sei skill che rendono "a prova di futuro" la carriera che già hai. Le sei sono: diventare <strong>la persona AI</strong> del tuo giro, coltivare <strong>gusto e giudizio</strong> su ciò che l'AI produce, imparare il <strong>context engineering</strong> (dare all'AI il contesto giusto, più che il prompt perfetto), aumentare la <strong>velocità di iterazione</strong> senza perdere qualità, costruire il tuo <strong>Jarvis</strong> (un'AI che agisce da sola, ma sapendo quando NON serve l'AI), e crearti una <strong>"assicurazione contro la disoccupazione"</strong> con più fonti di reddito attorno a un'unica passione. Il filo comune: l'expertise è relativa, il contesto è tuo e ti rende unico, e vince chi itera in fretta ma sa quando fermarsi.</p>
 <h2>Perché queste skill (il quadro)</h2>
 <p>Nate Herk parte da un'idea semplice: l'AI è reale e non se ne va. Come i social hanno mangiato giornali e cartelloni, e Netflix ha ammazzato la TV via cavo, l'AI cambierà e rimpiazzerà milioni di lavori — <strong>incluso il tuo</strong> — a meno che tu non impari sei competenze. Il bello è che queste skill valgono <strong>qualunque sia il tuo ruolo o la carriera che insegui</strong>: non ti obbligano a mollare tutto per aprire una startup o cambiare mestiere. Servono a blindare la carriera che hai già. L'ultima skill, promette, è la più strana ma funziona.</p>
 <h2>Skill 1 — Diventare "la persona AI"</h2>

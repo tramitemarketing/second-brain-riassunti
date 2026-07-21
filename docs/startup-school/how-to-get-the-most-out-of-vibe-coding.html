@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> <strong>Tom</strong>, partner di <strong>YC</strong>, dopo un mese di esperimenti con il <strong>vibe coding</strong> su alcuni progetti collaterali, sostiene che è sorprendentemente efficace e che ci si può migliorare in modo misurabile adottando le buone pratiche giuste. La tesi di fondo è controintuitiva: le tecniche migliori per far scrivere codice a un LLM sono le stesse che userebbe un bravo sviluppatore professionista, quindi conviene costringere l'AI a seguire quei processi (piano scritto, controllo di versione, test di alto livello, reset frequenti) invece di sperare in un colpo solo.</p>
+<img class="cover" loading="lazy" alt="How To Get The Most Out Of Vibe Coding" src="https://i.ytimg.com/vi/BJjsfNO5JTo/hqdefault.jpg"><p><strong>In sintesi:</strong> <strong>Tom</strong>, partner di <strong>YC</strong>, dopo un mese di esperimenti con il <strong>vibe coding</strong> su alcuni progetti collaterali, sostiene che è sorprendentemente efficace e che ci si può migliorare in modo misurabile adottando le buone pratiche giuste. La tesi di fondo è controintuitiva: le tecniche migliori per far scrivere codice a un LLM sono le stesse che userebbe un bravo sviluppatore professionista, quindi conviene costringere l'AI a seguire quei processi (piano scritto, controllo di versione, test di alto livello, reset frequenti) invece di sperare in un colpo solo.</p>
 <h2>Il vibe coding come nuova disciplina</h2>
 <p>Tom paragona questa fase a com'era la <strong>prompt engineering</strong> un anno o due fa: ogni settimana si scoprivano trucchi nuovi e la gente li condivideva sui social. La sua osservazione centrale è che le tecniche che funzionano meglio coincidono con quelle di un <strong>software engineer professionista</strong>. All'obiezione "ma allora non è vibe coding, è solo software engineering" risponde che la distinzione è <strong>irrilevante</strong>: l'obiettivo è usare questi strumenti per ottenere i risultati migliori, punto.</p>
 <h2>I consigli dei founder del YC Spring Batch</h2>

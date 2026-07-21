@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> un corso passo-passo per collegare <strong>Claude</strong> direttamente al proprio account <strong>Facebook Ads</strong> tramite un <strong>MCP</strong> (un connettore che dà a Claude accesso agli strumenti e ai dati della piattaforma), e poi costruirci sopra, mattone dopo mattone, un sistema che riporta i numeri, avvisa quando qualcosa va storto, riconosce gli annunci vincenti e alimenta un ciclo automatico di produzione creativa. L'autore lavora in un'agenzia (The Moonlighters) che gestisce oltre <strong>100 brand</strong> e usa questo metodo ogni giorno. Il filo conduttore: costruire oggi le fondamenta (connessioni, report, "skill", workflow) perché tra sei mesi o un anno Claude sarà molto più forte e chi ha già le fondamenta migliorerà in modo esponenziale. L'avvertimento finale, ripetuto forte: questi strumenti <strong>esaltano</strong> un bravo media buyer, non lo sostituiscono, e va sempre tenuto un filtro umano prima di spendere soldi veri.</p>
+<img class="cover" loading="lazy" alt="Claude + Facebook Ads (FULL COURSE)" src="https://i.ytimg.com/vi/0Z6Rgo6iiUA/hqdefault.jpg"><p><strong>In sintesi:</strong> un corso passo-passo per collegare <strong>Claude</strong> direttamente al proprio account <strong>Facebook Ads</strong> tramite un <strong>MCP</strong> (un connettore che dà a Claude accesso agli strumenti e ai dati della piattaforma), e poi costruirci sopra, mattone dopo mattone, un sistema che riporta i numeri, avvisa quando qualcosa va storto, riconosce gli annunci vincenti e alimenta un ciclo automatico di produzione creativa. L'autore lavora in un'agenzia (The Moonlighters) che gestisce oltre <strong>100 brand</strong> e usa questo metodo ogni giorno. Il filo conduttore: costruire oggi le fondamenta (connessioni, report, "skill", workflow) perché tra sei mesi o un anno Claude sarà molto più forte e chi ha già le fondamenta migliorerà in modo esponenziale. L'avvertimento finale, ripetuto forte: questi strumenti <strong>esaltano</strong> un bravo media buyer, non lo sostituiscono, e va sempre tenuto un filtro umano prima di spendere soldi veri.</p>
 <h2>Cosa impari e in che ordine</h2>
 <p>L'autore dichiara in apertura un percorso di dieci tappe più le limitazioni finali, e lo segue tutto: (1) <strong>setup</strong> della connessione, (2) <strong>capacità base</strong> di dialogo con i dati, (3) <strong>reporting a grandi blocchi</strong>, (4) <strong>reporting schedulato</strong> (i riepiloghi automatici quotidiani), (5) <strong>anomaly detector</strong> (rilevatore di anomalie), (6) <strong>winner detection</strong> (rilevatore di annunci vincenti), (7) <strong>connettere il contesto business</strong> (il pezzo che quasi tutti saltano), (8) <strong>creative recommendations</strong> (raccomandazioni creative), (9) <strong>creative workflows</strong> (i flussi di produzione automatica), (10) <strong>future workflows</strong> (dove andrà tutto questo), e infine le (11) <strong>limitazioni / red flag</strong>. La logica è cumulativa: senza i punti 1-9 non si può costruire il 10.</p>
 <h2>1. Setup: collegare il Facebook Ads MCP</h2>

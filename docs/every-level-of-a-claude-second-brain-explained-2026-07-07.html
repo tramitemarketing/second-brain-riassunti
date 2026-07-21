@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Nate Herk descrive cinque livelli progressivi per costruire un "second brain" personale usabile da Claude Code (o da qualsiasi altro agente AI), dal semplice <code>CLAUDE.md</code> come router fino a un "Brain OS" sempre attivo. Il messaggio di fondo è che salire di livello non significa "meglio": bisogna scegliere il livello più basso e semplice che risolve un dolore reale, ragionando a ritroso da come si vuole usare il dato in futuro.</p>
+<img class="cover" loading="lazy" alt="Every Level of a Claude Second Brain Explained — riassunto" src="https://i.ytimg.com/vi/DTCyvo6cC54/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk descrive cinque livelli progressivi per costruire un "second brain" personale usabile da Claude Code (o da qualsiasi altro agente AI), dal semplice <code>CLAUDE.md</code> come router fino a un "Brain OS" sempre attivo. Il messaggio di fondo è che salire di livello non significa "meglio": bisogna scegliere il livello più basso e semplice che risolve un dolore reale, ragionando a ritroso da come si vuole usare il dato in futuro.</p>
 <h2>Perché un second brain, e cosa è davvero</h2>
 <p>Il video si apre mostrando tre viste a grafo di dati molto diversi: un grafo Obsidian rado in cui il contesto inizia a formarsi con qualche nodo ed entità, un grafo Obsidian molto più denso con cluster ben distinti in cui si vede come i nodi si relazionano tra loro, e infine un <strong>relationship mapping</strong> vero e proprio in cui non ci sono solo file che si linkano l'un l'altro ma si vede come tutto si incastra. È la stessa immagine "prova visiva" che l'autore usa come amo iniziale per mostrare dove può arrivare un second brain maturo.</p>
 <p>L'idea di un <strong>AI second brain</strong> è esplosa, spiega Herk, perché tutti stiamo cercando di tirare fuori dalla nostra testa quante più informazioni possibile e metterle nei nostri sistemi: è lì il vero valore. Come dice testualmente, <strong>"il tuo fossato è il tuo dato, è la tua proprietà intellettuale"</strong>. Il problema non è avere i dati, ma organizzarli in un sistema tale da poterli usare con modelli AI diversi e da poterli richiamare in modo sensato, invece di far allucinare il modello o sprecare tempo e token a cercare dappertutto.</p>

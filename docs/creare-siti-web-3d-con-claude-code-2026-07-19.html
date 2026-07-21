@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> una guida per costruire con <strong>Claude Code</strong> una landing page "che si muove" — un sito dove, scrollando, un prodotto si anima come in un video — da rivendere ad aziende. Il metodo vero è: generi 9 immagini del prodotto, le trasformi in clip video, le unisci in un unico filmato con <strong>Canva</strong>, lo dai a Claude Code e lui costruisce il sito attorno a quel video, poi lo pubblichi gratis con <strong>GitHub</strong> + <strong>Vercel</strong>. <strong>Attenzione onesta:</strong> è il video di una scuola a pagamento, molto promozionale, e il "3D" del titolo è marketing — non c'è vero 3D (nessuna libreria tridimensionale nel browser), è lo stesso effetto "video su scroll" già in landing-prodotto-premium-claude-code. La cifra "€5.000" è solo dichiarata, mai dimostrata.</p>
+<img class="cover" loading="lazy" alt="Create €5,000 3D Websites Using Claude Code (Ultimate Guide)" src="https://i.ytimg.com/vi/7_bOPeSmzxE/hqdefault.jpg"><p><strong>In sintesi:</strong> una guida per costruire con <strong>Claude Code</strong> una landing page "che si muove" — un sito dove, scrollando, un prodotto si anima come in un video — da rivendere ad aziende. Il metodo vero è: generi 9 immagini del prodotto, le trasformi in clip video, le unisci in un unico filmato con <strong>Canva</strong>, lo dai a Claude Code e lui costruisce il sito attorno a quel video, poi lo pubblichi gratis con <strong>GitHub</strong> + <strong>Vercel</strong>. <strong>Attenzione onesta:</strong> è il video di una scuola a pagamento, molto promozionale, e il "3D" del titolo è marketing — non c'è vero 3D (nessuna libreria tridimensionale nel browser), è lo stesso effetto "video su scroll" già in landing-prodotto-premium-claude-code. La cifra "€5.000" è solo dichiarata, mai dimostrata.</p>
 <h2>L'idea di fondo</h2>
 <p>Il pitch: i siti aziendali statici (entri, leggi, fine) sono "noiosi"; oggi con l'AI chiunque ne genera uno in 3 secondi con un prompt, quindi non valgono niente. Ciò che invece si può vendere caro è il sito <strong>dinamico</strong>, quello in cui scrollando "tutto si muove e si apre". La percezione di valore è alta ("come l'ha fatto?"), ma — dice l'autore — costruirlo è facile. Da qui la promessa di rivenderlo a professionisti e aziende "a migliaia di euro".</p>
 <h2>La pipeline passo-passo</h2>

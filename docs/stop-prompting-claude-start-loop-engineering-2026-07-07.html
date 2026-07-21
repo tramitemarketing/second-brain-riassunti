@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Il video sostiene che il salto di livello successivo nell'uso degli agenti AI non è scrivere prompt migliori un task alla volta, ma progettare <strong>loop</strong> — prompt che si rilanciano da soli, ripetutamente e in autonomia, finché un obiettivo definito non è verificato come raggiunto. Attorno a questa tesi l'autore costruisce un metodo pratico in tre parti: capire cos'è un loop e quando usarlo (un test a 4 condizioni), i 4 blocchi che ogni loop robusto deve avere, e come costruire il primo loop partendo da un task piccolo già collaudato.</p>
+<img class="cover" loading="lazy" alt="Stop Prompting Claude. Start Loop Engineering. — riassunto" src="https://i.ytimg.com/vi/YAS4ojuhbW4/hqdefault.jpg"><p><strong>In sintesi:</strong> Il video sostiene che il salto di livello successivo nell'uso degli agenti AI non è scrivere prompt migliori un task alla volta, ma progettare <strong>loop</strong> — prompt che si rilanciano da soli, ripetutamente e in autonomia, finché un obiettivo definito non è verificato come raggiunto. Attorno a questa tesi l'autore costruisce un metodo pratico in tre parti: capire cos'è un loop e quando usarlo (un test a 4 condizioni), i 4 blocchi che ogni loop robusto deve avere, e come costruire il primo loop partendo da un task piccolo già collaudato.</p>
 <h2>Il cold open: due creatori dicono la stessa cosa</h2>
 <p>Il video apre con l'autore che regge in mano un piccolo schermo dove scorre una clip di <strong>Boris Cherny</strong>, presentato come "il creatore di Claude Code", introdotto con la frase "ha appena detto qualcosa che dovrebbe cambiare per sempre il modo in cui usi l'AI". La citazione-chiave, mostrata come quote card testuale, è: <strong>"I don't prompt Claude anymore. My job is to write loops"</strong> (non prompto più Claude; il mio lavoro è scrivere loop). Subito dopo compare un tweet di <strong>Peter Steinberger</strong> — creatore di <strong>Openclaw</strong> (la trascrizione automatica storpia il nome in "Peter Steinberg" e "Open Claude") — che dice la stessa cosa contro-intuitiva: <strong>"You shouldn't be prompting coding agents anymore. You should be designing loops that prompt your agents"</strong> (non dovresti più promptare gli agenti di coding, dovresti progettare loop che promptano i tuoi agenti).</p>
 <p>Il ragionamento dell'autore è esplicito: c'è tanto hype sull'AI, ma quando due persone che <em>costruiscono letteralmente gli strumenti</em> che usiamo dicono di smettere di promptare e iniziare a costruire loop, vale la pena ascoltare. Dice di essere "andato a fondo" sul loop engineering e di aver capito una cosa: è in realtà molto semplice, è solo la gente che lo complica troppo. Da qui la struttura in tre parti: <strong>parte uno</strong>, cos'è davvero un loop e quando usarlo; <strong>parte due</strong>, le quattro cose che ogni loop di successo richiede; <strong>parte tre</strong> — definita "la più importante" — come costruire il proprio primo loop oggi, anche senza esperienza tecnica.</p>

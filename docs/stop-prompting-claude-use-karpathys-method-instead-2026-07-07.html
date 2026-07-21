@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> partendo da un'intervista di <strong>Andrej Karpathy</strong> ad <em>AI Ascent 2026</em>, il video sostiene che quasi tutti "promptano" Claude male e propone un metodo in tre strati per usarlo davvero bene — <strong>Spec</strong>, <strong>Verifier</strong>, <strong>Environment</strong> — con cui, secondo l'autore, si costruisce "10 volte più veloci". Il filo che tiene insieme i tre strati è la frase finale di Karpathy: puoi delegare all'AI il <em>pensiero</em>, ma non la <em>comprensione</em> dell'obiettivo di fondo.</p>
+<img class="cover" loading="lazy" alt="Stop Prompting Claude. Use Karpathy&#x27;s Method Instead. — riassunto" src="https://i.ytimg.com/vi/7zZy1QTvokM/hqdefault.jpg"><p><strong>In sintesi:</strong> partendo da un'intervista di <strong>Andrej Karpathy</strong> ad <em>AI Ascent 2026</em>, il video sostiene che quasi tutti "promptano" Claude male e propone un metodo in tre strati per usarlo davvero bene — <strong>Spec</strong>, <strong>Verifier</strong>, <strong>Environment</strong> — con cui, secondo l'autore, si costruisce "10 volte più veloci". Il filo che tiene insieme i tre strati è la frase finale di Karpathy: puoi delegare all'AI il <em>pensiero</em>, ma non la <em>comprensione</em> dell'obiettivo di fondo.</p>
 <h2>Il punto di partenza: gli LLM sono ciechi sul contesto implicito</h2>
 <p>L'autore racconta di aver ascoltato Karpathy — <strong>ex head of AI di Tesla</strong> — parlare ad AI Ascent 2026 e di averne ricavato una tesi inattesa: la maggior parte delle persone usa Claude nel modo sbagliato. Da qui la decisione di approfondire come Karpathy usi concretamente l'AI nel 2026. Il suo metodo, dice l'autore, si scompone in <strong>tre strati semplici</strong> che chiunque può applicare, più "l'unica cosa" su cui Karpathy invita a concentrarsi nell'era dell'AI.</p>
 <p>Il primo strato è lo <strong>Spec</strong>. Gli LLM sono estremamente intelligenti, ma manca loro qualcosa. Karpathy lo dimostra con una domanda banale che l'AI sbaglia sistematicamente: <strong>"Voglio andare all'autolavaggio a lavare la macchina, è a 50 metri. Devo andarci in auto o a piedi?"</strong> I modelli allo stato dell'arte rispondono "a piedi", perché è vicinissimo — ignorando che serve proprio l'auto per lavarla. L'autore all'inizio non ci credeva, così ha posto la stessa domanda a <strong>Claude, Gemini, Grok e ChatGPT</strong>: tutti hanno dato la stessa risposta sbagliata. Questo, dice, rivela l'intera premessa del video: <strong>l'AI è brillante su ciò che è misurabile, ma su cose guidate dal contesto — come "serve l'auto per l'autolavaggio" — non ha alcun segnale su cui agire.</strong></p>

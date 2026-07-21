@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> un metodo completo per costruire un sito che si posiziona in alto su Google usando <strong>Claude Code</strong>, senza saper programmare. Due tattiche che all'autore hanno generato oltre <strong>500.000 dollari</strong>: pubblicare <strong>articoli di blog su larga scala</strong> e creare <strong>pagine servizio</strong> (service page). Si parte dalla ricerca delle parole chiave giuste con <strong>SEMrush</strong>, si scrivono contenuti "umani" e non da robot, si sistema l'ottimizzazione tecnica portando <strong>Lighthouse</strong> a 100/100, si impacchetta tutto in una <strong>skill</strong> di Claude Code (<code>/blog</code>) e infine si mette il sito online con <strong>GitHub</strong> e <strong>Vercel</strong>, indicizzandolo su <strong>Google Search Console</strong>. Il risultato dichiarato: circa <strong>50.000 click al mese</strong>, cioè ~1.500 al giorno.</p>
+<img class="cover" loading="lazy" alt="Claude Code SEO: How I Got 50,000 Clicks Per Month (Steal This)" src="https://i.ytimg.com/vi/4IyJm1i__ag/hqdefault.jpg"><p><strong>In sintesi:</strong> un metodo completo per costruire un sito che si posiziona in alto su Google usando <strong>Claude Code</strong>, senza saper programmare. Due tattiche che all'autore hanno generato oltre <strong>500.000 dollari</strong>: pubblicare <strong>articoli di blog su larga scala</strong> e creare <strong>pagine servizio</strong> (service page). Si parte dalla ricerca delle parole chiave giuste con <strong>SEMrush</strong>, si scrivono contenuti "umani" e non da robot, si sistema l'ottimizzazione tecnica portando <strong>Lighthouse</strong> a 100/100, si impacchetta tutto in una <strong>skill</strong> di Claude Code (<code>/blog</code>) e infine si mette il sito online con <strong>GitHub</strong> e <strong>Vercel</strong>, indicizzandolo su <strong>Google Search Console</strong>. Il risultato dichiarato: circa <strong>50.000 click al mese</strong>, cioè ~1.500 al giorno.</p>
 <h2>Perché la SEO conta (e cos'è)</h2>
 <p><strong>SEO</strong> vuol dire <strong>search engine optimization</strong>, cioè "ottimizzazione per i motori di ricerca": il lavoro di far comparire il proprio sito il più in alto possibile tra i risultati di Google. Se qualcuno cerca "Toronto plumbing company" (azienda di idraulici a Toronto), tu vuoi stare in cima, perché è lì che il visitatore si trasforma in cliente pagante.</p>
 <p>I numeri spiegano tutto: circa il <strong>40% delle persone</strong> (4 su 10) clicca il <strong>primo risultato</strong>, un altro <strong>20%</strong> clicca il secondo, e da lì in giù il numero crolla drasticamente. Chi sta in prima posizione prende la fetta grossa; chi sta in fondo praticamente non esiste. C'è anche un rischio nascosto: se scegli la strategia SEO sbagliata, te ne accorgi solo dopo due, tre, quattro anni, quando ormai hai buttato via un mucchio di tempo.</p>

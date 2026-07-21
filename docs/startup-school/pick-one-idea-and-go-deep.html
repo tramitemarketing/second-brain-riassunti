@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Startup School (YC)</a> · <a href="../index.html">Home</a></div>
-<p><strong>In sintesi:</strong> è quasi impossibile fare progressi veri su una startup senza impegnarsi su una singola idea. La tesi di <strong>John</strong>, partner di <strong>YC</strong>, è che non bisogna cercare l'idea perfetta né il founder perfetto: si sceglie un'idea, si "bruciano le altre barche" e si va estremamente in profondità con i clienti, in un ciclo stretto tra comprensione del problema e consegna di prodotto. Anche se l'idea fallisce, il processo di andare a fondo è il modo migliore per scoprire l'idea migliore che sta nascosta sotto.</p>
+<img class="cover" loading="lazy" alt="Pick One Idea and Go Deep" src="https://i.ytimg.com/vi/R56RJFZBasQ/hqdefault.jpg"><p><strong>In sintesi:</strong> è quasi impossibile fare progressi veri su una startup senza impegnarsi su una singola idea. La tesi di <strong>John</strong>, partner di <strong>YC</strong>, è che non bisogna cercare l'idea perfetta né il founder perfetto: si sceglie un'idea, si "bruciano le altre barche" e si va estremamente in profondità con i clienti, in un ciclo stretto tra comprensione del problema e consegna di prodotto. Anche se l'idea fallisce, il processo di andare a fondo è il modo migliore per scoprire l'idea migliore che sta nascosta sotto.</p>
 <h2>Il problema: overthinking nei primissimi giorni</h2>
 <p>John incontra spesso founder pieni di idee su cosa costruire che non riescono a decidere tra loro; a volte lavorano su più cose in parallelo. Spesso dicono che stanno <strong>aspettando di trovare l'idea migliore</strong> prima di impegnarsi davvero. Ma è estremamente difficile fare progressi significativi su una startup senza committarsi a una sola idea. Il consiglio più importante è: <strong>non pensarci troppo (don't overthink it)</strong>. L'overthinking nei primi giorni prende diverse forme, ma ci sono due modalità di fallimento ricorrenti.</p>
 <h3>Primo overthink: "devo trovare l'idea perfetta"</h3>

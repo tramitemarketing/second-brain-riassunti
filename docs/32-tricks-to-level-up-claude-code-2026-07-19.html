@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Una carrellata rapidissima di 32 accorgimenti per usare <strong>Claude Code</strong> (l'assistente di programmazione che gira dentro il terminale) passando da principiante a utente esperto. Il filo conduttore vero sono tre cose: <strong>tenere pulito il contesto</strong> (cioè quanto Claude riesce a tenere a mente in una singola conversazione), <strong>fargli verificare da solo il proprio lavoro</strong> invece di consegnartelo grezzo, e <strong>parallelizzare</strong> il lavoro su più agenti e più copie del progetto. Il video è denso ma superficiale: ogni trucco dura venti secondi, quindi vale come mappa di cose da approfondire, non come manuale. L'autore non si nomina mai nella trascrizione.</p>
+<img class="cover" loading="lazy" alt="32 Tricks to Level Up Claude Code in 16 Mins" src="https://i.ytimg.com/vi/jqoFP9QapXI/hqdefault.jpg"><p><strong>In sintesi:</strong> Una carrellata rapidissima di 32 accorgimenti per usare <strong>Claude Code</strong> (l'assistente di programmazione che gira dentro il terminale) passando da principiante a utente esperto. Il filo conduttore vero sono tre cose: <strong>tenere pulito il contesto</strong> (cioè quanto Claude riesce a tenere a mente in una singola conversazione), <strong>fargli verificare da solo il proprio lavoro</strong> invece di consegnartelo grezzo, e <strong>parallelizzare</strong> il lavoro su più agenti e più copie del progetto. Il video è denso ma superficiale: ogni trucco dura venti secondi, quindi vale come mappa di cose da approfondire, non come manuale. L'autore non si nomina mai nella trascrizione.</p>
 <h2>Le fondamenta: il file che spiega il progetto</h2>
 <p>Il primo gesto su qualsiasi progetto già esistente è aprire la cartella e digitare <strong><code>/init</code></strong>. Claude scansiona tutto il codice, le cartelle e i file, e genera un file <strong><code>CLAUDE.md</code></strong>: in pratica il bigliettino con le risposte per quel progetto, dove finiscono l'architettura, le convenzioni usate e i file chiave. Il vantaggio è che non devi rispiegare il progetto da capo a ogni sessione. Se invece parti da zero, quel file te lo fai costruire a voce, raccontando qual è l'obiettivo, quali tecnologie vuoi usare e quali sono le regole e le cartelle importanti.</p>
 <p>Quel file va poi <strong>tenuto vivo</strong>: ogni volta che si scopre qualcosa di nuovo sul progetto, o si crea una nuova competenza riutilizzabile, si aggiorna. L'idea è che Claude annoti man mano gli schemi ricorrenti, le trappole e le convenzioni emerse durante la sessione, così alla sessione dopo parte già informato e non ripete gli stessi errori.</p>

@@ -58,6 +58,14 @@ details.gia[open] > summary::before { content: "▾ "; }
 details.gia > summary:hover { color: #1a5fb4; }
 details.gia[open] { background: transparent; }
 details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
 .tw { overflow-x: auto; margin: 1rem 0; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
 th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
@@ -91,7 +99,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> Oggi chiunque "vibe-coda" un'app in 24 ore, quindi il mercato è pieno di app statiche che "sanno di AI". Per spiccare (stand out) e avere una vera chance di successo, la differenza la fanno i <strong>dettagli di design</strong>. Chris Ro — sviluppatore solista con un portfolio di app in attivo — spiega le sue <strong>5 leve</strong>: animazioni e interazioni (la più importante), illustrazioni e mascot, iconografia e tipografia, widget (hack di retention) ed esposizione costante al buon design. Il filo conduttore: gli strumenti AI (in particolare <strong>Claude Code</strong>, addestratissimo sulla tecnologia Apple) sanno già fare queste cose "fighe" — basta saperle descrivere in inglese semplice.</p>
+<img class="cover" loading="lazy" alt="How I Design Apps 10x Better (Free Course)" src="https://i.ytimg.com/vi/jSWuepkuFrU/hqdefault.jpg"><p><strong>In sintesi:</strong> Oggi chiunque "vibe-coda" un'app in 24 ore, quindi il mercato è pieno di app statiche che "sanno di AI". Per spiccare (stand out) e avere una vera chance di successo, la differenza la fanno i <strong>dettagli di design</strong>. Chris Ro — sviluppatore solista con un portfolio di app in attivo — spiega le sue <strong>5 leve</strong>: animazioni e interazioni (la più importante), illustrazioni e mascot, iconografia e tipografia, widget (hack di retention) ed esposizione costante al buon design. Il filo conduttore: gli strumenti AI (in particolare <strong>Claude Code</strong>, addestratissimo sulla tecnologia Apple) sanno già fare queste cose "fighe" — basta saperle descrivere in inglese semplice.</p>
 <h2>La tesi: perché serve spiccare</h2>
 <p>Ci sono decine di app mobile che fanno 10K, 50K o 100K dollari al mese, e hanno tutte una cosa in comune: <strong>spiccano</strong> (stand out). Fare un'app non è mai stato così facile — escono centinaia di app ogni giorno — ma proprio per questo la maggior parte è <strong>statica</strong> e si capisce al volo che è stata "vibe-codata" (vibe coding = far scrivere l'app all'AI descrivendola a parole, senza scrivere codice a mano). Gli utenti ormai riconoscono un'app buttata giù in 24 ore esattamente come si riconosce un'immagine o un video generati dall'AI.</p>
 <p>Chris è uno sviluppatore solista che costruisce <strong>app di produttività</strong> e documenta tutto su YouTube. La reazione tipica di chi vede le sue app è "non è possibile che le abbia fatte una persona sola, dietro c'è un team". La sua risposta: è possibile, ma <strong>solo grazie all'AI</strong> — senza, un singolo non potrebbe sviluppare, lanciare, mantenere e far crescere app così. Il suo portfolio:</p>
