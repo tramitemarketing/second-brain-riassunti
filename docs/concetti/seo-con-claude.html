@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>This Skill Can INSTANTLY Watch any Video For Free - Here&#x27;s How</title>
+<title>SEO con Claude Code (blog + service page a scala)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -90,48 +90,38 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> è il video di lancio della <strong>versione 2</strong> della skill <strong>watch</strong> — cioè <em>esattamente la skill <code>/watch</code> che Divan usa ogni volta per far "guardare" i video a Claude</em>. La v2 è fino a <strong>40 volte più veloce</strong> ed economica della v1, gestisce video lunghissimi con una <strong>selezione intelligente dei fotogrammi</strong> (invece di prenderli a caso ogni tot secondi), e introduce una manopola con più modalità dalla più leggera alla più pesante. Per Divan questo video vale doppio: non è teoria, è il <em>changelog</em> del suo attrezzo di lavoro, con feature che la sua versione installata potrebbe non avere ancora.</p>
-<h2>Il problema che la skill risolve</h2>
-<p>Claude da solo, se gli dài un link video, "si arrende e dice che non può farlo". La skill <strong>watch</strong> gli dà due cose insieme: i <strong>fotogrammi</strong> del video (immagini statiche, che Claude sa leggere perché è <em>multimodale</em>) e la <strong>trascrizione con i tempi</strong>. Così Claude non legge soltanto cosa viene detto, ma <em>vede</em> anche cosa c'è sullo schermo in quel momento. Funziona con qualunque fonte: YouTube, Loom, TikTok o file locali — oltre <strong>1.600 siti</strong> supportati. L'autore la descrive come già molto diffusa (nata su GitHub il mese prima, ~3.000 "stelle").</p>
-<h2>La svolta della v2: scegliere i fotogrammi <em>giusti</em>, non tanti</h2>
-<p>Il difetto della v1: prendeva <strong>100 fotogrammi spalmati uniformemente</strong> su tutto il video. Su un video corto va benissimo; su uno di 2 ore diventa <strong>1 fotogramma ogni 72 secondi</strong>, su uno di 10 ore uno ogni 6 minuti — praticamente Claude leggeva la trascrizione con qualche schermata a caso. Ma dare a Claude <em>tutti</em> i fotogrammi sarebbe lentissimo e costosissimo. Il punto quindi non è la quantità, è <strong>scegliere quelli che contano</strong>. La v2 lo fa in tre modi:</p>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>SEO con Claude Code (blog + service page a scala)</h1>
+<p><strong>Gist:</strong> costruire e rankare un sito con <strong>Claude Code</strong> puntando su due tattiche: <strong>blog post a scala</strong> (per autorità e traffico informativo) e <strong>service page</strong> (per le keyword che portano clienti). Claude automatizza ricerca keyword, scrittura, SEO on-page/tecnica e deploy — lavoro che prima richiedeva un team intero. Nel video-fonte questo metodo ha generato <strong>~50.000 click/mese (~1.500/giorno)</strong> e <strong>$500k</strong> su un'azienda poi venduta.</p>
+<h2>Perché conta, anche nel 2026 con i LLM</h2>
+<p>Rankare in alto su Google porta traffico enorme: ~40% clicca il <strong>primo</strong> risultato, ~20% il secondo, poi crolla. E <strong>AI SEO ≈ SEO</strong>: quando chiedi a ChatGPT/Claude/Gemini, dietro cercano comunque su un motore e citano i primi risultati. Quindi chi ranka su Google ranka anche dentro i LLM — canale che sta diventando enorme. Per un'agenzia marketing (es. Tramite) è traffico organico a costo quasi zero.</p>
+<h2>Le basi tecniche</h2>
 <ul>
-<li>**Selezione per cambio scena (<em>smart scene selection</em>).<strong> La skill scansiona il video cercando i punti in cui l'immagine </strong>cambia davvero** — una slide nuova, un cambio di inquadratura, un elemento visivo che appare — e prende un fotogramma lì. Così ogni immagine che Claude guarda è un momento reale, non un doppione.</li>
-<li>**Rilevamento dei gesti "deittici" (<em>deictic detection</em>).<strong> A volte il momento importante non è un cambio di scena: è quando qualcuno </strong>dice** "guarda qui", "come vedi", "guarda cosa succede" mentre mostra qualcosa a schermo. La v2 legge prima la trascrizione, individua queste frasi che <em>puntano</em> a qualcosa, e va a prendere il fotogramma <strong>in quel preciso secondo</strong>. (Esempio nel video: un'intervista a <strong>Boris Cherny</strong> boris-cherny in cui presenta il suo workflow di Claude Code dicendo "puoi vedere…" — la v1 lo perdeva del tutto.)</li>
-<li>**Modalità "token burner" (<em>brucia-token</em>).<strong> Quando serve massima potenza e non importa il costo: nessun tetto ai fotogrammi, Claude prende ogni cambio di scena rilevato, fino a </strong>2 fotogrammi al secondo**. È l'impostazione più pesante e costosa — da usare solo sui video lunghi e importanti dove vuoi che Claude veda proprio tutto.</li>
+<li><strong>Sito in Claude Code</strong> dentro l'IDE gratuito <strong>antigravity.google</strong> (si installa Claude Code dalle estensioni): una cartella + un <strong>CLAUDE.md</strong> con le SOP (come addestrare un dipendente). Prompt per generare homepage + index blog + index service, con uno <strong>screenshot di riferimento da Dribbble</strong> per evitare l'"AI slop" visivo.</li>
+<li><strong>Static site generation (SSG) obbligatorio.</strong> Analogia della pizza: SSG = pizza già pronta (istantanea); SSR = da cuocere (lenta); CSR = te la fai tu (spesso Google non riceve nulla). Google deve poter <strong>crawlare la pagina subito</strong>, altrimenti non ranki mai, punto.</li>
 </ul>
-<h2>Da dove arriva il "40× più veloce": la modalità <em>efficient</em></h2>
-<p>Il trucco sta in <strong>come è fatto un file video</strong>. Per risparmiare spazio, un video non salva ogni fotogramma per intero: circa una volta al secondo salva una <strong>istantanea completa</strong> (il <em>key frame</em>), e tutti i fotogrammi in mezzo registrano solo <em>cosa è cambiato</em> rispetto all'ultima istantanea (molto più leggero che salvare 24 immagini intere al secondo). La modalità <strong>efficient</strong> sfrutta questo: invece di ricostruire e decodificare tutti i 24 fotogrammi al secondo, tira fuori <strong>solo i key frame già pronti</strong> dentro il file. La modalità normale invece deve ricostruire ogni fotogramma e confrontarlo col precedente per capire dove cambia la scena — pesante. Saltare tutto questo è da dove arrivano i <strong>40×</strong> di velocità.</p>
-<h2>Meno spreco: buttare i fotogrammi doppi</h2>
-<p>Molte lamentele sulla v1 riguardavano i token consumati. La v2 aggiunge una <strong>passata di pulizia</strong> prima ancora che Claude veda qualcosa: rimpicciolisce ogni fotogramma a una miniatura, lo confronta col precedente e, se due sono praticamente la stessa immagine (tipico dei video "a busto parlante" dove per minuti non cambia niente), <strong>butta il doppione</strong>. Così paghi solo per i fotogrammi che aggiungono davvero informazione, senza perdere il segnale.</p>
-<h2>Come si installa e le modalità da scegliere</h2>
-<p>Setup in ~2 minuti. Su <strong>Claude Code</strong>: due comandi (uno aggiunge il "marketplace", l'altro installa la skill watch), e conviene tenere acceso l'<strong>auto-update</strong> perché l'autore rilascia feature spesso. Chi aveva già la v1 non reinstalla nulla: basta accendere l'auto-update o premere "update" nel menu del marketplace. Su <strong>Claude normale</strong> (non Code) si aggiunge il marketplace di plugin dal menu <em>customize</em>; per il resto c'è <code>skills.sh</code>.</p>
-<p>Al primo avvio la skill chiede quale <strong>modalità predefinita</strong> vuoi:</p>
+<h2>Trovare le keyword (SEMrush)</h2>
+<p>Con il <em>keyword magic tool</em> di <strong>SEMrush</strong> (entità semrush): parti da una root keyword, poi filtra <strong>keyword difficulty &lt; 30</strong> (rankabile) e <strong>volume &gt; 100</strong> (vale la pena), scegliendo l'<strong>intento informational</strong> (es. "how much does a plumber cost", non "buy Nike shoes" che è commerciale). Scarta le keyword che sono <strong>nomi di aziende altrui</strong>. Usa la scheda <em>questions</em> e le keyword <strong>adiacenti</strong> (più in alto nel funnel) per catturare il pubblico prima che sia pronto a comprare. Esporti tutto in CSV e lo dai a Claude Code. (Claude da solo "indovina" le keyword senza sapere volume/difficoltà: inaffidabile.)</p>
+<h2>Keyword cluster</h2>
+<p>Una pagina non ranka per una keyword, ma per <strong>decine</strong>. Quindi ogni post ha una <strong>root keyword</strong> + tante secondarie/terziarie sulla stessa pagina (es. "unclog kitchen sink", "slow drain", "what dissolves hair in drain"…). Massimizzi la probabilità di comparire su tante ricerche. Immagini gratis da <strong>Pexels</strong> via API key nel file <strong>.env</strong>.</p>
+<h2>Contenuto che non sia "slop"</h2>
+<p>Il primo output è noioso e generico. Va reso umano e rubato ai migliori — tutto il metodo è in <a href="ai-content-anti-slop.html">ai-content-anti-slop</a> (file voice/humor/stats/stories + "steal from the SERP": analizzare i top 3 risultati e prenderne la media di lunghezza, H2, immagini). Tesi di fondo: <strong>SEO è una black box</strong> con 200+ segnali, ma Google in ultima analisi vuole servire ads → premia i <strong>buoni contenuti</strong> → il segnale n.1 è il contenuto.</p>
+<h2>Service page: le pagine che portano clienti</h2>
+<p>Chi cerca "plumbing Toronto" vuole <strong>comprare</strong>, non leggere. Le service page sono pagine per queste <em>money keyword</em>, costruite a <strong>cerniera (zipper): servizio × città</strong> (emergency plumber Toronto / Vancouver / Montreal…). I blog danno <strong>topical authority</strong> e passano <strong>link equity</strong> che solleva le service page ("raise the tide, all boats lift"). Attenzione: <strong>non farne migliaia</strong> — il contenuto è troppo simile e diventa un segnale negativo. E ottimizza la landing/funnel con test A/B (l'autore ha portato una landing al <strong>20% di conversione</strong> con Google Ads).</p>
+<h2>On-page, technical, packaging</h2>
 <ul>
-<li><strong>transcript</strong> — nessun fotogramma, solo la trascrizione letta in pochi secondi. La più veloce.</li>
-<li><strong>efficient</strong> — prende i key frame: Claude <em>vede</em> il video ma resta rapido ed economico. <strong>È quella consigliata come default per l'uso di tutti i giorni</strong> — ti dà "l'atmosfera" di quasi ogni video senza bruciare quasi niente.</li>
-<li><strong>balanced</strong> — modalità vera "consapevole delle scene": più fotogrammi, piazzati sui momenti reali. Da usare quando le immagini contano e vuoi che Claude ci prenda; scelta sicura se sei indeciso.</li>
-<li><strong>token burner</strong> — nessun limite, ogni cambio scena diventa un fotogramma. Costosa, riservata ai video lunghi e importanti.</li>
+<li><strong>On-page SEO</strong> — una checklist di <strong>80+ segnali</strong> incollata in Claude Code: link interni/esterni, keyword primaria nei primi 100 parole, 4-8 domande, un solo H1, meta title/description — mantenendo voce e umorismo.</li>
+<li><strong>Technical SEO</strong> — <strong>sitemap.xml</strong> (dice a Google quali pagine hai), <strong>robots.txt</strong> (cosa può/non può scrapare), e <strong>Lighthouse</strong> (SEO / accessibility / best practices / performance) da portare a <strong>100/100</strong> incollando il report a Claude Code (esempio reale: performance da 53 → 100).</li>
+<li><strong>Skill <code>/blog</code></strong> — impacchetta l'intero flusso (keyword dal CSV senza riusarne di già fatte, cluster, Pexels, voice/humor, on-page, template tecnico riusato) in un comando. Vedi <a href="claude-skills.html">claude-skills</a>. <strong>Cadenza:</strong> non pubblicare 1.000 post in un colpo — Google nota il picco e banna; sali gradualmente.</li>
 </ul>
-<p>Si può impostare un default ora e cambiarlo su ogni singolo video dopo. Poi chiede una <strong>API key di Groq o OpenAI</strong>, usata <em>solo</em> per la trascrizione come riserva quando un video non ha sottotitoli (es. un Loom o un file locale): la skill prende sempre prima i sottotitoli gratuiti, la key serve per il resto. Consiglio dell'autore: <strong>Groq</strong>, perché è gratis e più veloce di OpenAI.</p>
-<h2>Confronto con la skill /watch che uso già</h2>
-<p>Questa <strong>è</strong> la skill <code>/watch</code> di Divan, e il video ne è l'annuncio della v2 — quindi il valore qui è capire cosa la nostra versione fa (o non fa ancora) e cosa vale la pena allineare:</p>
+<h2>Off-page SEO (con cautela)</h2>
+<p>L'autore dice di <strong>non farlo lui</strong>. Da evitare assolutamente i <strong>PBN</strong> (private blog network / link farm da "$5 per 100 backlink"): ban quasi certo, anche a distanza di anni. Quattro modi legittimi: <strong>broken backlink swapping</strong> (trovi link rotti su siti forti e offri il tuo in cambio), <strong>guest posting</strong> (cerca "settore + write for us"), <strong>HARO / hero journalism</strong> (rispondi a domande di giornalisti in cambio di un backlink), <strong>paid quality backlink</strong> (siti reputati tipo Forbes/TechCrunch). Un <strong>backlink</strong> è un link da un sito esterno al tuo; passa "link juice" cioè autorità/fiducia.</p>
+<h2>Deploy e indicizzazione</h2>
+<p>Da localhost a live gratis con <strong>GitHub</strong> (come un Google Drive per il codice) + <strong>Vercel</strong> (preset <strong>Next.js</strong>). Poi i 4 passi finali: <strong>Google My Business</strong> (frutto più basso da cogliere), <strong>Google Search Console</strong> (verifica con un meta tag HTML aggiunto da Claude Code, submit della sitemap, e "<strong>request indexing</strong>" per andare live in ~1 giorno invece che settimane, ~10 richieste/giorno), <strong>Google Analytics</strong>, e test delle landing. Ripetuto due volte: <strong>non buttare 1.000 pagine tutte insieme</strong>.</p>
+<h2>Fonti</h2>
 <ul>
-<li><strong>La nostra <code>/watch</code> ha già la "selezione per cambio scena"</strong> (un fotogramma per stacco rilevato) e il budget di fotogrammi per durata: coincide con la <em>smart scene selection</em> descritta qui. Su questo siamo pari.</li>
-<li><strong>Il "brucia-token" della nostra è il focus su una sezione</strong> (<code>--start</code>/<code>--end</code>, che infittisce i fotogrammi su un pezzo): idea simile alla <em>token burner</em>, ma la nostra la lega a un intervallo scelto a mano invece di lasciarla libera su tutto il video.</li>
-<li>**Manca (probabilmente) il <em>deictic detection</em><strong> — cioè andare a prendere il fotogramma nel secondo esatto in cui qualcuno dice "guarda qui". È la feature più intelligente della v2 e la più facile da rubare: leggere la trascrizione, cercare frasi che puntano a qualcosa, aggiungere un frame lì. </strong>Vale la pena valutarla.**</li>
-<li><strong>Manca la passata anti-doppioni</strong> (miniaturizza e scarta i fotogrammi identici prima di darli a Claude): abbatterebbe i token sui video "a busto parlante". <strong>Secondo candidato da rubare.</strong></li>
-<li>**Manca la modalità <em>efficient</em> pura basata sui key frame** (40× più veloce estraendo solo i key frame del file invece di ricostruire tutto): sarebbe un default economico ottimo per lo skim veloce.</li>
-</ul>
-<h2>Fonti e note</h2>
-<ul>
-<li>Video: https://www.youtube.com/watch?v=9psY4d-JjLY</li>
-<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
-<li>Concetti collegati: claude-skills, claude-co-work, agent-memory</li>
-<li>Entità: boris-cherny</li>
-<li><strong>Onestà</strong>: il video è per metà un annuncio di prodotto (spinge all'installazione e a un "video successivo" che copre prezzi e sistema completo), ma la parte tecnica è densa e onesta — spiega <em>perché</em> le cose sono più veloci, non solo <em>che</em> lo sono. Utile a Divan proprio perché è la sua stessa skill.</li>
-<li><strong>Omesso</strong>: i comandi esatti di installazione (rimandati al link/README dell'autore), il rimando al "video precedente" sul sistema completo e i prezzi.</li>
+<li>claude-code-seo-50000-clicks-2026-07-16 (2026-07-16) — il corso completo</li>
+<li>master-claude-for-marketing-full-course-2026-07-16 (Brock, 2026-07-16) — sezione AI SEO con SEMrush MCP (title tag da cambiare, gap competitor)</li>
 </ul>
 <script>
 window.SB = (function () {

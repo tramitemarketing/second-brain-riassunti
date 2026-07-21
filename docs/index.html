@@ -18,7 +18,12 @@ body { margin: 0; padding: 1.1rem 1.1rem 4rem;
   code { background: #2a2c30; } hr { border-color: #2a2c30; }
   .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
   .tag { background: #2a2c30; color: #cbd0d6; }
-  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
 a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
 h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
 h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
@@ -41,6 +46,22 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 .btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
   color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
 .btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
 
 /* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
 #rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
@@ -70,7 +91,7 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">Second Brain di Divan — Riassunti</a></div>
-<h1>Second Brain di Divan — Riassunti</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. Quelli già letti si segnano da soli.</p><a class="card" href="32-tricks-to-level-up-claude-code-2026-07-19.html"><h2>32 Tricks to Level Up Claude Code in 16 Mins</h2><span class="muted">n/d · ~16 min · 19/07/2026</span></a>
+<h1>Second Brain di Divan — Riassunti</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. Quelli già letti si segnano da soli.</p><a class="card" href="concetti/index.html"><span class="tag">Concetti · 20 pagine</span><h2>La conoscenza per argomento</h2><span class="desc">Quello che ho imparato, fuso per tema invece che per video.</span></a><a class="card" href="32-tricks-to-level-up-claude-code-2026-07-19.html"><h2>32 Tricks to Level Up Claude Code in 16 Mins</h2><span class="muted">n/d · ~16 min · 19/07/2026</span></a>
 <a class="card" href="ai-agent-builds-cinematic-websites-2026-07-19.html"><h2>This AI Agent Builds $15K Cinematic Websites on Autopilot (Claude Code + Nano Banana 2)</h2><span class="muted">Jay (RoboNuggets) · ~16 min · 19/07/2026</span></a>
 <a class="card" href="creare-siti-web-3d-con-claude-code-2026-07-19.html"><h2>Create €5,000 3D Websites Using Claude Code (Ultimate Guide)</h2><span class="muted">Professore Tech (Scuola IA) · ~16 min · 19/07/2026</span></a>
 <a class="card" href="how-i-fully-automated-my-video-editing-2026-07-19.html"><h2>How I Fully Automated My Video Editing (Claude Code) — secondo taglio</h2><span class="muted">n/d (canale non identificato nella trascrizione; promuove la propria &quot;AI Launchpad&quot; School community, orientata ad agenzie di voice AI) · ~11 min · 19/07/2026</span></a>

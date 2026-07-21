@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>This Skill Can INSTANTLY Watch any Video For Free - Here&#x27;s How</title>
+<title>Second brain a livelli</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -90,48 +90,31 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> è il video di lancio della <strong>versione 2</strong> della skill <strong>watch</strong> — cioè <em>esattamente la skill <code>/watch</code> che Divan usa ogni volta per far "guardare" i video a Claude</em>. La v2 è fino a <strong>40 volte più veloce</strong> ed economica della v1, gestisce video lunghissimi con una <strong>selezione intelligente dei fotogrammi</strong> (invece di prenderli a caso ogni tot secondi), e introduce una manopola con più modalità dalla più leggera alla più pesante. Per Divan questo video vale doppio: non è teoria, è il <em>changelog</em> del suo attrezzo di lavoro, con feature che la sua versione installata potrebbe non avere ancora.</p>
-<h2>Il problema che la skill risolve</h2>
-<p>Claude da solo, se gli dài un link video, "si arrende e dice che non può farlo". La skill <strong>watch</strong> gli dà due cose insieme: i <strong>fotogrammi</strong> del video (immagini statiche, che Claude sa leggere perché è <em>multimodale</em>) e la <strong>trascrizione con i tempi</strong>. Così Claude non legge soltanto cosa viene detto, ma <em>vede</em> anche cosa c'è sullo schermo in quel momento. Funziona con qualunque fonte: YouTube, Loom, TikTok o file locali — oltre <strong>1.600 siti</strong> supportati. L'autore la descrive come già molto diffusa (nata su GitHub il mese prima, ~3.000 "stelle").</p>
-<h2>La svolta della v2: scegliere i fotogrammi <em>giusti</em>, non tanti</h2>
-<p>Il difetto della v1: prendeva <strong>100 fotogrammi spalmati uniformemente</strong> su tutto il video. Su un video corto va benissimo; su uno di 2 ore diventa <strong>1 fotogramma ogni 72 secondi</strong>, su uno di 10 ore uno ogni 6 minuti — praticamente Claude leggeva la trascrizione con qualche schermata a caso. Ma dare a Claude <em>tutti</em> i fotogrammi sarebbe lentissimo e costosissimo. Il punto quindi non è la quantità, è <strong>scegliere quelli che contano</strong>. La v2 lo fa in tre modi:</p>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>Second brain a livelli</h1>
+<p>Framework a 5 livelli per decidere quanta infrastruttura serve davvero a un sistema di memoria/contesto per agenti AI, dal più semplice al più complesso. Principio guida: scegli il livello più semplice che risolve un dolore reale — non serve che tutto il tuo sistema stia allo stesso livello, e "più in alto" non significa "meglio".</p>
+<h2>I 5 livelli</h2>
+<ol>
+<li><strong>CLAUDE.md/AGENTS.md come router</strong> — un file di istruzioni ("se cerchi X, guarda nella cartella Y") più poche cartelle. Trova per parola/nome esatto. Problema: se cresce troppo diventa caotico e viene ignorato.</li>
+</ol>
+<p><strong>Regola scritta vs regola enforced.</strong> Una riga in CLAUDE.md tipo "non toccare la cartella /important" è solo una richiesta — l'agente può comunque ignorarla, perché resta a livello di prompt. Per le cose davvero critiche (bucket "never do"), serve enforcement a livello di tool: un hook pre-tool-use che controlla il file target prima che write/edit vengano eseguiti rende la regola non aggirabile. Criterio pratico per bucketing delle regole: <strong>always do</strong> (l'AI opera in autopilota), <strong>ask first</strong> (va ricontrollato), <strong>never do</strong> (linea invalicabile, va messa in un hook — non solo scritta).</p>
+<ol>
+<li><strong>LLM Wiki</strong> — pagine per concetto/fonte/tecnica, generate e mantenute dall'agente durante l'ingest, più memoria automatica (vedi <a href="agent-memory.html">agent-memory</a>). Raggruppa per argomento invece che per singolo file.</li>
+</ol>
+<p><strong>Corroborazione da fonte primaria (Karpathy).</strong> Andrej Karpathy descrive lo stesso pattern come "LLM Knowledge Base" personale: indicizzare i documenti grezzi (articoli, paper, repo, dataset, immagini) in una cartella raw/, poi far "compilare" a un LLM una wiki di file .md che categorizza i dati per concetti, li linka e li backlinka tra loro — usando l'estensione Obsidian Web Clipper per portare dentro pagine web e uno hotkey per scaricare le immagini collegate. Motivazione esplicita di Karpathy: "il tuo dato è il tuo moat" — un'ulteriore conferma indipendente che questo Livello 2 è la scelta giusta per apprendimento personale, non solo un'invenzione di Nate Herk.</p>
+<p><strong>Dettaglio implementativo: <code>index.md</code> per cartella come mappa di navigazione.</strong> Un modo pratico di applicare questo pattern (visto in un video che ricostruisce il setup di Karpathy) è mettere un file <code>index.md</code> a <strong>ogni livello di cartella</strong> (vault, raw/, wiki/, ogni sottocartella), che dice all'agente cosa contiene quel livello e dove guardare per cosa. Non è un tocco cosmetico: quando le cartelle crescono a centinaia di file, un <code>index.md</code> per livello è ciò che permette all'agente di navigare dritto al file giusto invece di scandagliare tutto il vault — cioè risposte più veloci e meno token consumati per query. Utile in particolare se in futuro <code>wiki/concepts/</code> o <code>wiki/entities/</code> crescono abbastanza da rendere la ricerca per nome file meno immediata.</p>
+<ol>
+<li><strong>Ricerca semantica/vettoriale</strong> — embedding di chunk di testo, cerca per significato non per parola esatta. Attenzione: ottima per retrieval mirato ("ago nel pagliaio"), debole per riassunti olistici perché legge solo i chunk recuperati, non l'intero documento.</li>
+<li><strong>Knowledge graph</strong> — entità con relazioni esplicite e tipizzate (non semplici backlink "vedi anche"). Utile solo se il lavoro dipende da tracciare molte relazioni (CRM, vendite, recruiting).</li>
+<li><strong>Brain OS sempre attivo</strong> — sincronizzazione e ingest continui e autonomi (es. "Gbrain" di Garry Tan). Rischio: troppo contesto automatico diventa rumore invece che aiuto.</li>
+</ol>
+<h2>Criterio pratico: Contesto vs Connessioni</h2>
+<p><strong>Contesto</strong> (dati evergreen e stabili — decisioni, priorità) va ingerito stabilmente nel second brain. <strong>Connessioni</strong> (dati che cambiano di continuo — email, chat, CRM) NON vanno ingerite (diventerebbero rumore da ripulire), ma il sistema deve sapere dove andarle a recuperare al bisogno (fallback a cascata: file di progetto → wiki → trascrizioni → tool esterno).</p>
+<h2>Fonti</h2>
 <ul>
-<li>**Selezione per cambio scena (<em>smart scene selection</em>).<strong> La skill scansiona il video cercando i punti in cui l'immagine </strong>cambia davvero** — una slide nuova, un cambio di inquadratura, un elemento visivo che appare — e prende un fotogramma lì. Così ogni immagine che Claude guarda è un momento reale, non un doppione.</li>
-<li>**Rilevamento dei gesti "deittici" (<em>deictic detection</em>).<strong> A volte il momento importante non è un cambio di scena: è quando qualcuno </strong>dice** "guarda qui", "come vedi", "guarda cosa succede" mentre mostra qualcosa a schermo. La v2 legge prima la trascrizione, individua queste frasi che <em>puntano</em> a qualcosa, e va a prendere il fotogramma <strong>in quel preciso secondo</strong>. (Esempio nel video: un'intervista a <strong>Boris Cherny</strong> boris-cherny in cui presenta il suo workflow di Claude Code dicendo "puoi vedere…" — la v1 lo perdeva del tutto.)</li>
-<li>**Modalità "token burner" (<em>brucia-token</em>).<strong> Quando serve massima potenza e non importa il costo: nessun tetto ai fotogrammi, Claude prende ogni cambio di scena rilevato, fino a </strong>2 fotogrammi al secondo**. È l'impostazione più pesante e costosa — da usare solo sui video lunghi e importanti dove vuoi che Claude veda proprio tutto.</li>
-</ul>
-<h2>Da dove arriva il "40× più veloce": la modalità <em>efficient</em></h2>
-<p>Il trucco sta in <strong>come è fatto un file video</strong>. Per risparmiare spazio, un video non salva ogni fotogramma per intero: circa una volta al secondo salva una <strong>istantanea completa</strong> (il <em>key frame</em>), e tutti i fotogrammi in mezzo registrano solo <em>cosa è cambiato</em> rispetto all'ultima istantanea (molto più leggero che salvare 24 immagini intere al secondo). La modalità <strong>efficient</strong> sfrutta questo: invece di ricostruire e decodificare tutti i 24 fotogrammi al secondo, tira fuori <strong>solo i key frame già pronti</strong> dentro il file. La modalità normale invece deve ricostruire ogni fotogramma e confrontarlo col precedente per capire dove cambia la scena — pesante. Saltare tutto questo è da dove arrivano i <strong>40×</strong> di velocità.</p>
-<h2>Meno spreco: buttare i fotogrammi doppi</h2>
-<p>Molte lamentele sulla v1 riguardavano i token consumati. La v2 aggiunge una <strong>passata di pulizia</strong> prima ancora che Claude veda qualcosa: rimpicciolisce ogni fotogramma a una miniatura, lo confronta col precedente e, se due sono praticamente la stessa immagine (tipico dei video "a busto parlante" dove per minuti non cambia niente), <strong>butta il doppione</strong>. Così paghi solo per i fotogrammi che aggiungono davvero informazione, senza perdere il segnale.</p>
-<h2>Come si installa e le modalità da scegliere</h2>
-<p>Setup in ~2 minuti. Su <strong>Claude Code</strong>: due comandi (uno aggiunge il "marketplace", l'altro installa la skill watch), e conviene tenere acceso l'<strong>auto-update</strong> perché l'autore rilascia feature spesso. Chi aveva già la v1 non reinstalla nulla: basta accendere l'auto-update o premere "update" nel menu del marketplace. Su <strong>Claude normale</strong> (non Code) si aggiunge il marketplace di plugin dal menu <em>customize</em>; per il resto c'è <code>skills.sh</code>.</p>
-<p>Al primo avvio la skill chiede quale <strong>modalità predefinita</strong> vuoi:</p>
-<ul>
-<li><strong>transcript</strong> — nessun fotogramma, solo la trascrizione letta in pochi secondi. La più veloce.</li>
-<li><strong>efficient</strong> — prende i key frame: Claude <em>vede</em> il video ma resta rapido ed economico. <strong>È quella consigliata come default per l'uso di tutti i giorni</strong> — ti dà "l'atmosfera" di quasi ogni video senza bruciare quasi niente.</li>
-<li><strong>balanced</strong> — modalità vera "consapevole delle scene": più fotogrammi, piazzati sui momenti reali. Da usare quando le immagini contano e vuoi che Claude ci prenda; scelta sicura se sei indeciso.</li>
-<li><strong>token burner</strong> — nessun limite, ogni cambio scena diventa un fotogramma. Costosa, riservata ai video lunghi e importanti.</li>
-</ul>
-<p>Si può impostare un default ora e cambiarlo su ogni singolo video dopo. Poi chiede una <strong>API key di Groq o OpenAI</strong>, usata <em>solo</em> per la trascrizione come riserva quando un video non ha sottotitoli (es. un Loom o un file locale): la skill prende sempre prima i sottotitoli gratuiti, la key serve per il resto. Consiglio dell'autore: <strong>Groq</strong>, perché è gratis e più veloce di OpenAI.</p>
-<h2>Confronto con la skill /watch che uso già</h2>
-<p>Questa <strong>è</strong> la skill <code>/watch</code> di Divan, e il video ne è l'annuncio della v2 — quindi il valore qui è capire cosa la nostra versione fa (o non fa ancora) e cosa vale la pena allineare:</p>
-<ul>
-<li><strong>La nostra <code>/watch</code> ha già la "selezione per cambio scena"</strong> (un fotogramma per stacco rilevato) e il budget di fotogrammi per durata: coincide con la <em>smart scene selection</em> descritta qui. Su questo siamo pari.</li>
-<li><strong>Il "brucia-token" della nostra è il focus su una sezione</strong> (<code>--start</code>/<code>--end</code>, che infittisce i fotogrammi su un pezzo): idea simile alla <em>token burner</em>, ma la nostra la lega a un intervallo scelto a mano invece di lasciarla libera su tutto il video.</li>
-<li>**Manca (probabilmente) il <em>deictic detection</em><strong> — cioè andare a prendere il fotogramma nel secondo esatto in cui qualcuno dice "guarda qui". È la feature più intelligente della v2 e la più facile da rubare: leggere la trascrizione, cercare frasi che puntano a qualcosa, aggiungere un frame lì. </strong>Vale la pena valutarla.**</li>
-<li><strong>Manca la passata anti-doppioni</strong> (miniaturizza e scarta i fotogrammi identici prima di darli a Claude): abbatterebbe i token sui video "a busto parlante". <strong>Secondo candidato da rubare.</strong></li>
-<li>**Manca la modalità <em>efficient</em> pura basata sui key frame** (40× più veloce estraendo solo i key frame del file invece di ricostruire tutto): sarebbe un default economico ottimo per lo skim veloce.</li>
-</ul>
-<h2>Fonti e note</h2>
-<ul>
-<li>Video: https://www.youtube.com/watch?v=9psY4d-JjLY</li>
-<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
-<li>Concetti collegati: claude-skills, claude-co-work, agent-memory</li>
-<li>Entità: boris-cherny</li>
-<li><strong>Onestà</strong>: il video è per metà un annuncio di prodotto (spinge all'installazione e a un "video successivo" che copre prezzi e sistema completo), ma la parte tecnica è densa e onesta — spiega <em>perché</em> le cose sono più veloci, non solo <em>che</em> lo sono. Utile a Divan proprio perché è la sua stessa skill.</li>
-<li><strong>Omesso</strong>: i comandi esatti di installazione (rimandati al link/README dell'autore), il rimando al "video precedente" sul sistema completo e i prezzi.</li>
+<li>Every Level of a Claude Second Brain Explained (Nate Herk, 2026-07-07)</li>
+<li>Stop Prompting Claude. Use Karpathy's Method Instead. (Austin Marchese, 2026-07-07) — tweet di Andrej Karpathy su "LLM Knowledge Bases" e il pattern always/ask/never per i guardrail.</li>
+<li>The Agentic OS Setup That Will 10x Claude Code (2026-07-07) — dettaglio dell'<code>index.md</code> per cartella come mappa di navigazione (unico elemento ingerito da questo video: il resto del framework a 4 livelli si sovrappone a concetti già presenti).</li>
 </ul>
 <script>
 window.SB = (function () {

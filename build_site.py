@@ -32,7 +32,12 @@ body { margin: 0; padding: 1.1rem 1.1rem 4rem;
   code { background: #2a2c30; } hr { border-color: #2a2c30; }
   .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
   .tag { background: #2a2c30; color: #cbd0d6; }
-  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; } }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
 a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
 h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
 h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
@@ -55,6 +60,22 @@ ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
 .btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
   color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
 .btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
 
 /* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
 #rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
@@ -123,6 +144,16 @@ def md_to_html(text, known):
     while i < n:
         s = lines[i].strip()
         if not s: close(); i += 1; continue
+        # tendina "lo so gia":  :::gia Titolo ... :::
+        m = re.match(r"^:::\s*gia\s+(.*)$", s)
+        if m:
+            close(); titolo = m.group(1); buf = []; i += 1
+            while i < n and lines[i].strip() != ":::":
+                buf.append(lines[i]); i += 1
+            i += 1                                   # salta il ::: di chiusura
+            out.append('<details class="gia"><summary>%s</summary>\n%s\n</details>'
+                       % (inline(titolo, known), md_to_html("\n".join(buf), known)))
+            continue
         m = re.match(r"^(#{1,6})\s+(.*)$", s)
         if m: close(); l = len(m.group(1)); out.append("<h%d>%s</h%d>" % (l, inline(m.group(2), known), l)); i += 1; continue
         if re.match(r"^(-{3,}|\*{3,}|_{3,})$", s): close(); out.append("<hr>"); i += 1; continue
@@ -131,6 +162,21 @@ def md_to_html(text, known):
             while i < n and lines[i].strip().startswith(">"):
                 buf.append(re.sub(r"^\s*>\s?", "", lines[i])); i += 1
             out.append("<blockquote>%s</blockquote>" % inline(" ".join(buf), known)); continue
+        # tabella:  | a | b |  /  |---|---|  /  | 1 | 2 |
+        if s.startswith("|") and i + 1 < n and re.match(r"^\|[\s:|-]+\|$", lines[i + 1].strip()):
+            close()
+            def celle(riga):
+                return [c.strip() for c in riga.strip().strip("|").split("|")]
+            testa = celle(lines[i]); i += 2
+            righe = []
+            while i < n and lines[i].strip().startswith("|"):
+                righe.append(celle(lines[i])); i += 1
+            th = "".join("<th>%s</th>" % inline(c, known) for c in testa)
+            tb = "".join("<tr>%s</tr>" % "".join("<td>%s</td>" % inline(c, known) for c in r)
+                         for r in righe)
+            out.append('<div class="tw"><table><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>'
+                       % (th, tb))
+            continue
         m = re.match(r"^[-*]\s+(.*)$", s)
         if m:
             if lt[0] != "ul": close(); out.append("<ul>"); lt[0] = "ul"
@@ -499,13 +545,45 @@ def main():
             "html": '<a class="card" href="%s.html"><h2>%s</h2><span class="muted">%s</span></a>'
                     % (slug, html.escape(title), html.escape(sub(meta)))})
 
+    # --- concetti (wiki/concepts): la conoscenza fusa per argomento ---
+    cpath = os.path.join(VAULT, "wiki", "concepts")
+    concetti = sorted(glob.glob(os.path.join(cpath, "*.md"))) if os.path.isdir(cpath) else []
+    if concetti:
+        os.makedirs(os.path.join(OUT, "concetti"), exist_ok=True)
+        known_c = {os.path.splitext(os.path.basename(f))[0] for f in concetti}
+        righe = []
+        for f in concetti:
+            slug = os.path.splitext(os.path.basename(f))[0]
+            meta, text = read_md(f)
+            m = re.search(r"^#\s+(.*)$", text, re.M)          # il titolo e' l'h1
+            title = m.group(1).strip() if m else slug.replace("-", " ").capitalize()
+            g = re.search(r"\*\*Gist:\*\*\s*(.+?)(?:\n\n|\Z)", text, re.S)
+            gist = re.sub(r"[*\[\]`]|\(.*?\)", "", g.group(1)).strip()[:150] if g else ""
+            tb = ('<div class="topbar"><a href="index.html">← Concetti</a> · '
+                  '<a href="../index.html">Home</a></div>')
+            with open(os.path.join(OUT, "concetti", slug + ".html"), "w", encoding="utf-8") as fh:
+                fh.write(page(title, md_to_html(text, known_c), tb, READER_JS))
+            desc = ('<span class="desc">%s…</span>' % html.escape(gist)) if gist else ""
+            righe.append('<a class="card" href="%s.html"><h2>%s</h2>%s</a>'
+                         % (slug, html.escape(title), desc))
+        tb = '<div class="topbar"><a href="../index.html">← Tutti i riassunti</a></div>'
+        intro = ('<h1>Concetti</h1><p class="muted">La conoscenza fusa per argomento, '
+                 'non per video. %d pagine.</p>' % len(concetti))
+        with open(os.path.join(OUT, "concetti", "index.html"), "w", encoding="utf-8") as fh:
+            fh.write(page("Concetti", intro + "\n".join(righe), tb, HOME_JS))
+
     # --- homepage: tutto in ordine di data, dal più recente (playlist incluse) ---
     home_cards.sort(key=lambda c: c["visto"] or "", reverse=True)
     pl = [c for c in home_cards if c["kind"] == "playlist"]
     vd = [c for c in home_cards if c["kind"] == "video"]
+    card_concetti = ('<a class="card" href="concetti/index.html">'
+                     '<span class="tag">Concetti · %d pagine</span>'
+                     '<h2>La conoscenza per argomento</h2>'
+                     '<span class="desc">Quello che ho imparato, fuso per tema invece che per video.</span></a>'
+                     % len(concetti)) if concetti else ""
     body = ('<h1>%s</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. '
             'Quelli già letti si segnano da soli.</p>'
-            % html.escape(SITE_TITLE)) + "\n".join(c["html"] for c in home_cards)
+            % html.escape(SITE_TITLE)) + card_concetti + "\n".join(c["html"] for c in home_cards)
     tb = '<div class="topbar"><a href="index.html">%s</a></div>' % html.escape(SITE_TITLE)
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page(SITE_TITLE, body, tb, HOME_JS))

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>This Skill Can INSTANTLY Watch any Video For Free - Here&#x27;s How</title>
+<title>AI Service Business (AISB)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -90,48 +90,45 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> è il video di lancio della <strong>versione 2</strong> della skill <strong>watch</strong> — cioè <em>esattamente la skill <code>/watch</code> che Divan usa ogni volta per far "guardare" i video a Claude</em>. La v2 è fino a <strong>40 volte più veloce</strong> ed economica della v1, gestisce video lunghissimi con una <strong>selezione intelligente dei fotogrammi</strong> (invece di prenderli a caso ogni tot secondi), e introduce una manopola con più modalità dalla più leggera alla più pesante. Per Divan questo video vale doppio: non è teoria, è il <em>changelog</em> del suo attrezzo di lavoro, con feature che la sua versione installata potrebbe non avere ancora.</p>
-<h2>Il problema che la skill risolve</h2>
-<p>Claude da solo, se gli dài un link video, "si arrende e dice che non può farlo". La skill <strong>watch</strong> gli dà due cose insieme: i <strong>fotogrammi</strong> del video (immagini statiche, che Claude sa leggere perché è <em>multimodale</em>) e la <strong>trascrizione con i tempi</strong>. Così Claude non legge soltanto cosa viene detto, ma <em>vede</em> anche cosa c'è sullo schermo in quel momento. Funziona con qualunque fonte: YouTube, Loom, TikTok o file locali — oltre <strong>1.600 siti</strong> supportati. L'autore la descrive come già molto diffusa (nata su GitHub il mese prima, ~3.000 "stelle").</p>
-<h2>La svolta della v2: scegliere i fotogrammi <em>giusti</em>, non tanti</h2>
-<p>Il difetto della v1: prendeva <strong>100 fotogrammi spalmati uniformemente</strong> su tutto il video. Su un video corto va benissimo; su uno di 2 ore diventa <strong>1 fotogramma ogni 72 secondi</strong>, su uno di 10 ore uno ogni 6 minuti — praticamente Claude leggeva la trascrizione con qualche schermata a caso. Ma dare a Claude <em>tutti</em> i fotogrammi sarebbe lentissimo e costosissimo. Il punto quindi non è la quantità, è <strong>scegliere quelli che contano</strong>. La v2 lo fa in tre modi:</p>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>AI Service Business (AISB)</h1>
+<p>Invece di vendere prodotti digitali (ebook, template, corsi) — ormai commodity perché chiunque li replica in un weekend con l'AI — vendere un <strong>servizio ad alto impatto</strong> a business che già pagano per quel tipo di servizio, usando l'AI per scalare la delivery da solista a livello di team.</p>
+<h2>Perché i prodotti digitali non reggono più</h2>
 <ul>
-<li>**Selezione per cambio scena (<em>smart scene selection</em>).<strong> La skill scansiona il video cercando i punti in cui l'immagine </strong>cambia davvero** — una slide nuova, un cambio di inquadratura, un elemento visivo che appare — e prende un fotogramma lì. Così ogni immagine che Claude guarda è un momento reale, non un doppione.</li>
-<li>**Rilevamento dei gesti "deittici" (<em>deictic detection</em>).<strong> A volte il momento importante non è un cambio di scena: è quando qualcuno </strong>dice** "guarda qui", "come vedi", "guarda cosa succede" mentre mostra qualcosa a schermo. La v2 legge prima la trascrizione, individua queste frasi che <em>puntano</em> a qualcosa, e va a prendere il fotogramma <strong>in quel preciso secondo</strong>. (Esempio nel video: un'intervista a <strong>Boris Cherny</strong> boris-cherny in cui presenta il suo workflow di Claude Code dicendo "puoi vedere…" — la v1 lo perdeva del tutto.)</li>
-<li>**Modalità "token burner" (<em>brucia-token</em>).<strong> Quando serve massima potenza e non importa il costo: nessun tetto ai fotogrammi, Claude prende ogni cambio di scena rilevato, fino a </strong>2 fotogrammi al secondo**. È l'impostazione più pesante e costosa — da usare solo sui video lunghi e importanti dove vuoi che Claude veda proprio tutto.</li>
+<li>L'AI ha azzerato la barriera d'ingresso: chiunque fa un template con Canva AI o una guida PDF con Claude/Gamma → il mercato compete solo sul prezzo.</li>
+<li>Restringere a una nicchia specifica non risolve il problema di fondo: chiunque può comunque copiare il prodotto.</li>
+<li>Anche se vende bene, non è un asset rivendibile — nessuno acquisisce un "impero di ebook" per milioni.</li>
 </ul>
-<h2>Da dove arriva il "40× più veloce": la modalità <em>efficient</em></h2>
-<p>Il trucco sta in <strong>come è fatto un file video</strong>. Per risparmiare spazio, un video non salva ogni fotogramma per intero: circa una volta al secondo salva una <strong>istantanea completa</strong> (il <em>key frame</em>), e tutti i fotogrammi in mezzo registrano solo <em>cosa è cambiato</em> rispetto all'ultima istantanea (molto più leggero che salvare 24 immagini intere al secondo). La modalità <strong>efficient</strong> sfrutta questo: invece di ricostruire e decodificare tutti i 24 fotogrammi al secondo, tira fuori <strong>solo i key frame già pronti</strong> dentro il file. La modalità normale invece deve ricostruire ogni fotogramma e confrontarlo col precedente per capire dove cambia la scena — pesante. Saltare tutto questo è da dove arrivano i <strong>40×</strong> di velocità.</p>
-<h2>Meno spreco: buttare i fotogrammi doppi</h2>
-<p>Molte lamentele sulla v1 riguardavano i token consumati. La v2 aggiunge una <strong>passata di pulizia</strong> prima ancora che Claude veda qualcosa: rimpicciolisce ogni fotogramma a una miniatura, lo confronta col precedente e, se due sono praticamente la stessa immagine (tipico dei video "a busto parlante" dove per minuti non cambia niente), <strong>butta il doppione</strong>. Così paghi solo per i fotogrammi che aggiungono davvero informazione, senza perdere il segnale.</p>
-<h2>Come si installa e le modalità da scegliere</h2>
-<p>Setup in ~2 minuti. Su <strong>Claude Code</strong>: due comandi (uno aggiunge il "marketplace", l'altro installa la skill watch), e conviene tenere acceso l'<strong>auto-update</strong> perché l'autore rilascia feature spesso. Chi aveva già la v1 non reinstalla nulla: basta accendere l'auto-update o premere "update" nel menu del marketplace. Su <strong>Claude normale</strong> (non Code) si aggiunge il marketplace di plugin dal menu <em>customize</em>; per il resto c'è <code>skills.sh</code>.</p>
-<p>Al primo avvio la skill chiede quale <strong>modalità predefinita</strong> vuoi:</p>
+<blockquote>⚠️ WARN: selling-digital-products-is-dead-do-this-instead-in-2026-2026-07-07 (Sue) dice che i prodotti digitali sono commodity morta; 5-proven-ways-to-make-money-with-ai-2026-07-16 li mette invece al <strong>1° posto</strong> (20/25 col <a href="metodo-clear-side-hustle.html">metodo-clear-side-hustle</a>) per autonomia e scalabilità. Contraddizione da tenere presente — la sintesi ragionevole: un prodotto digitale <em>generico</em> è morto, uno che risolve un problema reale con un canale di distribuzione può reggere. Nota: il secondo video ha un possibile bias (l'autore vende tool per fare prodotti digitali).</blockquote>
+<h2>Il modello alternativo: servizio ad alto impatto</h2>
 <ul>
-<li><strong>transcript</strong> — nessun fotogramma, solo la trascrizione letta in pochi secondi. La più veloce.</li>
-<li><strong>efficient</strong> — prende i key frame: Claude <em>vede</em> il video ma resta rapido ed economico. <strong>È quella consigliata come default per l'uso di tutti i giorni</strong> — ti dà "l'atmosfera" di quasi ogni video senza bruciare quasi niente.</li>
-<li><strong>balanced</strong> — modalità vera "consapevole delle scene": più fotogrammi, piazzati sui momenti reali. Da usare quando le immagini contano e vuoi che Claude ci prenda; scelta sicura se sei indeciso.</li>
-<li><strong>token burner</strong> — nessun limite, ogni cambio scena diventa un fotogramma. Costosa, riservata ai video lunghi e importanti.</li>
+<li>Scegli un servizio che le aziende già pagano bene (paid ads, SEO, video, consulenza strategica) — evita servizi a basso impatto tipo carousel design o data entry: non sono legati a quanto un'azienda guadagna/risparmia, e sono i primi che l'AI sostituisce del tutto.</li>
+<li><strong>Metodo dei 3 elenchi</strong> per scegliere il servizio: (1) cosa ti piace fare senza annoiarti, (2) cosa sai fare bene, (3) intersezione dei due — poi tra le opzioni in lista 3 scegli quella per cui le aziende pagano di più (puoi chiedere direttamente all'AI quanto si paga per quel servizio nel tuo mercato).</li>
+<li>Scegli <strong>una nicchia verticale</strong>, non un servizio generico — es. non "agenzia marketing" ma "paid ads per brand di integratori da palestra". Competi con pochi invece che con tutti, e puoi far pagare 5-10 volte tanto.</li>
 </ul>
-<p>Si può impostare un default ora e cambiarlo su ogni singolo video dopo. Poi chiede una <strong>API key di Groq o OpenAI</strong>, usata <em>solo</em> per la trascrizione come riserva quando un video non ha sottotitoli (es. un Loom o un file locale): la skill prende sempre prima i sottotitoli gratuiti, la key serve per il resto. Consiglio dell'autore: <strong>Groq</strong>, perché è gratis e più veloce di OpenAI.</p>
-<h2>Confronto con la skill /watch che uso già</h2>
-<p>Questa <strong>è</strong> la skill <code>/watch</code> di Divan, e il video ne è l'annuncio della v2 — quindi il valore qui è capire cosa la nostra versione fa (o non fa ancora) e cosa vale la pena allineare:</p>
+<h2>Acquisizione clienti: DM caldi, non cold email</h2>
+<p>Il cold email ha smesso di funzionare perché l'AI lo ha reso gratuito e istantaneo per chiunque — è sparito il segnale implicito "qualcuno ci ha messo impegno" che lo faceva funzionare.</p>
+<p>Playbook alternativo via DM (LinkedIn/Instagram):</p>
+<ol>
+<li>Profilo che sembra reale — foto vera del volto, bio chiara, post reali (non generati con AI: si nota).</li>
+<li>Trova i decision maker nell'azienda target (head of department, cercabili per nome dell'azienda su LinkedIn).</li>
+<li>Scalda la relazione prima di scrivere — like/commenti sui loro contenuti, così quando arriva il DM non sei uno sconosciuto.</li>
+<li>Primo messaggio che apre una conversazione, non che chiude una vendita.</li>
+<li>Follow-up 10-20 volte nell'arco di settimane (non giorni consecutivi — sembra disperato), ogni volta con qualcosa di nuovo (case study, tip specifico), mai un generico "hai visto il mio messaggio?".</li>
+</ol>
+<h2>Scalare con l'AI (il vero collo di bottiglia rimosso)</h2>
+<p>Il limite storico dei business di servizi era la scalabilità: poche ore al giorno, pochi clienti seguibili bene. L'AI rimuove questo collo di bottiglia in almeno 3 punti:</p>
 <ul>
-<li><strong>La nostra <code>/watch</code> ha già la "selezione per cambio scena"</strong> (un fotogramma per stacco rilevato) e il budget di fotogrammi per durata: coincide con la <em>smart scene selection</em> descritta qui. Su questo siamo pari.</li>
-<li><strong>Il "brucia-token" della nostra è il focus su una sezione</strong> (<code>--start</code>/<code>--end</code>, che infittisce i fotogrammi su un pezzo): idea simile alla <em>token burner</em>, ma la nostra la lega a un intervallo scelto a mano invece di lasciarla libera su tutto il video.</li>
-<li>**Manca (probabilmente) il <em>deictic detection</em><strong> — cioè andare a prendere il fotogramma nel secondo esatto in cui qualcuno dice "guarda qui". È la feature più intelligente della v2 e la più facile da rubare: leggere la trascrizione, cercare frasi che puntano a qualcosa, aggiungere un frame lì. </strong>Vale la pena valutarla.**</li>
-<li><strong>Manca la passata anti-doppioni</strong> (miniaturizza e scarta i fotogrammi identici prima di darli a Claude): abbatterebbe i token sui video "a busto parlante". <strong>Secondo candidato da rubare.</strong></li>
-<li>**Manca la modalità <em>efficient</em> pura basata sui key frame** (40× più veloce estraendo solo i key frame del file invece di ricostruire tutto): sarebbe un default economico ottimo per lo skim veloce.</li>
+<li>Pitch deck personalizzati: da ~20 ore a ~15 minuti per pitch (ricerca + analisi brand + deck).</li>
+<li>Onboarding clienti automatizzato (documento di benvenuto, checklist, mappa dei primi 30 giorni) — la prima settimana decide se il cliente resta mesi/anni.</li>
+<li>Ricerca competitor/mercato automatizzata: da giorni a minuti.</li>
 </ul>
-<h2>Fonti e note</h2>
+<p>Risultato dichiarato: una persona sola con i tool giusti fa il lavoro che prima richiedeva un team di 10.</p>
+<h2>Nota di cautela</h2>
+<p>Le cifre personali citate dal creator (reddito, vendita della propria azienda) sono affermazioni auto-dichiarate, non verificate esternamente in questo passaggio — vedi <a href="verifica-business-pitch-video.html">verifica-business-pitch-video</a> se in futuro serve un fact-check più approfondito. Il playbook in sé (nicchia verticale, DM caldi, servizio ad alto impatto invece di prodotto scalabile) è comunque un modello di agenzia consolidato da anni, indipendentemente da chi lo racconta in questo video.</p>
+<h2>Fonti</h2>
 <ul>
-<li>Video: https://www.youtube.com/watch?v=9psY4d-JjLY</li>
-<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
-<li>Concetti collegati: claude-skills, claude-co-work, agent-memory</li>
-<li>Entità: boris-cherny</li>
-<li><strong>Onestà</strong>: il video è per metà un annuncio di prodotto (spinge all'installazione e a un "video successivo" che copre prezzi e sistema completo), ma la parte tecnica è densa e onesta — spiega <em>perché</em> le cose sono più veloci, non solo <em>che</em> lo sono. Utile a Divan proprio perché è la sua stessa skill.</li>
-<li><strong>Omesso</strong>: i comandi esatti di installazione (rimandati al link/README dell'autore), il rimando al "video precedente" sul sistema completo e i prezzi.</li>
+<li>Selling Digital Products is Dead, Do This Instead in 2026 (Sue, 2026-07-07)</li>
 </ul>
 <script>
 window.SB = (function () {

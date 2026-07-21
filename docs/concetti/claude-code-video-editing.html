@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>This Skill Can INSTANTLY Watch any Video For Free - Here&#x27;s How</title>
+<title>Claude Code come editor video (pipeline a skill)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -90,48 +90,44 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> è il video di lancio della <strong>versione 2</strong> della skill <strong>watch</strong> — cioè <em>esattamente la skill <code>/watch</code> che Divan usa ogni volta per far "guardare" i video a Claude</em>. La v2 è fino a <strong>40 volte più veloce</strong> ed economica della v1, gestisce video lunghissimi con una <strong>selezione intelligente dei fotogrammi</strong> (invece di prenderli a caso ogni tot secondi), e introduce una manopola con più modalità dalla più leggera alla più pesante. Per Divan questo video vale doppio: non è teoria, è il <em>changelog</em> del suo attrezzo di lavoro, con feature che la sua versione installata potrebbe non avere ancora.</p>
-<h2>Il problema che la skill risolve</h2>
-<p>Claude da solo, se gli dài un link video, "si arrende e dice che non può farlo". La skill <strong>watch</strong> gli dà due cose insieme: i <strong>fotogrammi</strong> del video (immagini statiche, che Claude sa leggere perché è <em>multimodale</em>) e la <strong>trascrizione con i tempi</strong>. Così Claude non legge soltanto cosa viene detto, ma <em>vede</em> anche cosa c'è sullo schermo in quel momento. Funziona con qualunque fonte: YouTube, Loom, TikTok o file locali — oltre <strong>1.600 siti</strong> supportati. L'autore la descrive come già molto diffusa (nata su GitHub il mese prima, ~3.000 "stelle").</p>
-<h2>La svolta della v2: scegliere i fotogrammi <em>giusti</em>, non tanti</h2>
-<p>Il difetto della v1: prendeva <strong>100 fotogrammi spalmati uniformemente</strong> su tutto il video. Su un video corto va benissimo; su uno di 2 ore diventa <strong>1 fotogramma ogni 72 secondi</strong>, su uno di 10 ore uno ogni 6 minuti — praticamente Claude leggeva la trascrizione con qualche schermata a caso. Ma dare a Claude <em>tutti</em> i fotogrammi sarebbe lentissimo e costosissimo. Il punto quindi non è la quantità, è <strong>scegliere quelli che contano</strong>. La v2 lo fa in tre modi:</p>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>Claude Code come editor video (pipeline a skill)</h1>
+<p><strong>Gist:</strong> trasformare <strong>Claude Code</strong> in un montatore video: butti il girato grezzo in una <strong>cartella-progetto</strong> piena di skill, codice e istruzioni markdown, e Claude fa tagli, rimozione silenzi, motion graphics, sottotitoli e musica. È un esempio concreto di <a href="claude-skills.html">claude-skills</a> usate per confezionare un intero workflow di produzione.</p>
+<h2>L'idea di fondo</h2>
+<p>Il "sistema" è solo <strong>una cartella di file</strong> (come ogni progetto Claude Code): skill, script, markdown di istruzioni, workflow, preset. Claude legge la cartella e sa cosa fare. Si può costruire da zero (bastano il tutorial + uno screenshot della struttura dato a Claude per lo scaffolding) — la versione "pronta" venduta in una community è comodità, non necessità.</p>
+<h2>I 7 stadi della pipeline</h2>
+<ol>
+<li><strong>Intake</strong> — registri una clip grezza e dai il path a Claude.</li>
+<li><strong>Rough cut</strong> — <strong>WhisperX</strong> trascrive con <strong>timestamp a livello di parola</strong>; da lì Claude taglia silenzi, brutte take e filler e decide i tagli. Esempio reale: da 4:10 a 0:47, quasi perfetto al primo colpo. Le correzioni si fanno a voce ("qui hai tagliato troppo vicino alla parola").</li>
+<li><strong>Graphics</strong> — motore <strong>HyperFrames</strong> (repo gratis): un grafico per segmento (~22 min la prima passata). È lo stadio che separa "AI slop" da video vero e richiede prompting umano.</li>
+<li><strong>Second pass grafica</strong> — rifinisci grafico per grafico. Trucco costruito nel progetto: <strong>ri-renderizza solo il segmento modificato</strong>, non tutto il video → da ~tutto a ~3 min.</li>
+<li><strong>Captions</strong> (solo short-form) — preset con font <strong>Coolvetica</strong>, box nero, parole animate in ingresso, sfruttando la trascrizione già fatta.</li>
+<li><strong>Background music</strong> — dai il path del brano, regoli i decibel (es. -23 dB, "appena percettibile").</li>
+<li><strong>Export</strong> — copia il finale in Downloads mantenendo il progetto intatto per ri-editare.</li>
+</ol>
+<h2>Dettagli riusabili</h2>
 <ul>
-<li>**Selezione per cambio scena (<em>smart scene selection</em>).<strong> La skill scansiona il video cercando i punti in cui l'immagine </strong>cambia davvero** — una slide nuova, un cambio di inquadratura, un elemento visivo che appare — e prende un fotogramma lì. Così ogni immagine che Claude guarda è un momento reale, non un doppione.</li>
-<li>**Rilevamento dei gesti "deittici" (<em>deictic detection</em>).<strong> A volte il momento importante non è un cambio di scena: è quando qualcuno </strong>dice** "guarda qui", "come vedi", "guarda cosa succede" mentre mostra qualcosa a schermo. La v2 legge prima la trascrizione, individua queste frasi che <em>puntano</em> a qualcosa, e va a prendere il fotogramma <strong>in quel preciso secondo</strong>. (Esempio nel video: un'intervista a <strong>Boris Cherny</strong> boris-cherny in cui presenta il suo workflow di Claude Code dicendo "puoi vedere…" — la v1 lo perdeva del tutto.)</li>
-<li>**Modalità "token burner" (<em>brucia-token</em>).<strong> Quando serve massima potenza e non importa il costo: nessun tetto ai fotogrammi, Claude prende ogni cambio di scena rilevato, fino a </strong>2 fotogrammi al secondo**. È l'impostazione più pesante e costosa — da usare solo sui video lunghi e importanti dove vuoi che Claude veda proprio tutto.</li>
+<li><strong>Preset di formato</strong>: short-form explainer (grafica sopra, faccia sotto, caption al centro), TikTok raw (hook + taglio grezzo + caption), long-form.</li>
+<li><strong>Prerequisiti</strong>: HyperFrames, WhisperX, FFmpeg (~5-10 min di setup).</li>
+<li><strong>Model-agnostico</strong>: funziona con qualsiasi modello (Codex, futuri modelli) → migliora da solo quando escono modelli più forti.</li>
+<li><strong>Tempo</strong>: ~2h di avanti-indietro per un'intro molto curata, contro 4-5h a mano (o giorni per chi non sa editare).</li>
+<li>Estensione: auto-post a Instagram/TikTok/YouTube Shorts via una "auto poster skill" (stessa logica di master-claude-for-marketing-full-course-2026-07-16 con Blot).</li>
 </ul>
-<h2>Da dove arriva il "40× più veloce": la modalità <em>efficient</em></h2>
-<p>Il trucco sta in <strong>come è fatto un file video</strong>. Per risparmiare spazio, un video non salva ogni fotogramma per intero: circa una volta al secondo salva una <strong>istantanea completa</strong> (il <em>key frame</em>), e tutti i fotogrammi in mezzo registrano solo <em>cosa è cambiato</em> rispetto all'ultima istantanea (molto più leggero che salvare 24 immagini intere al secondo). La modalità <strong>efficient</strong> sfrutta questo: invece di ricostruire e decodificare tutti i 24 fotogrammi al secondo, tira fuori <strong>solo i key frame già pronti</strong> dentro il file. La modalità normale invece deve ricostruire ogni fotogramma e confrontarlo col precedente per capire dove cambia la scena — pesante. Saltare tutto questo è da dove arrivano i <strong>40×</strong> di velocità.</p>
-<h2>Meno spreco: buttare i fotogrammi doppi</h2>
-<p>Molte lamentele sulla v1 riguardavano i token consumati. La v2 aggiunge una <strong>passata di pulizia</strong> prima ancora che Claude veda qualcosa: rimpicciolisce ogni fotogramma a una miniatura, lo confronta col precedente e, se due sono praticamente la stessa immagine (tipico dei video "a busto parlante" dove per minuti non cambia niente), <strong>butta il doppione</strong>. Così paghi solo per i fotogrammi che aggiungono davvero informazione, senza perdere il segnale.</p>
-<h2>Come si installa e le modalità da scegliere</h2>
-<p>Setup in ~2 minuti. Su <strong>Claude Code</strong>: due comandi (uno aggiunge il "marketplace", l'altro installa la skill watch), e conviene tenere acceso l'<strong>auto-update</strong> perché l'autore rilascia feature spesso. Chi aveva già la v1 non reinstalla nulla: basta accendere l'auto-update o premere "update" nel menu del marketplace. Su <strong>Claude normale</strong> (non Code) si aggiunge il marketplace di plugin dal menu <em>customize</em>; per il resto c'è <code>skills.sh</code>.</p>
-<p>Al primo avvio la skill chiede quale <strong>modalità predefinita</strong> vuoi:</p>
+<h2>Pattern trasferibile</h2>
+<p>Due idee valgono oltre il video: (1) <strong>skill che confezionano un workflow multi-stadio</strong> riproducibile, e (2) il <strong>re-render incrementale</strong> (rifai solo il pezzo cambiato) — un pattern di efficienza applicabile a qualsiasi pipeline costosa. Collega a <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>: la qualità sta nel prompting umano sullo stadio graphics, non nel primo output automatico.</p>
+<h2>Tre stack diversi per lo stesso risultato</h2>
+<p>Girano più video sullo stesso tema, con catene di tool <strong>diverse</strong> — utile sapere che non c'è UNA ricetta:</p>
 <ul>
-<li><strong>transcript</strong> — nessun fotogramma, solo la trascrizione letta in pochi secondi. La più veloce.</li>
-<li><strong>efficient</strong> — prende i key frame: Claude <em>vede</em> il video ma resta rapido ed economico. <strong>È quella consigliata come default per l'uso di tutti i giorni</strong> — ti dà "l'atmosfera" di quasi ogni video senza bruciare quasi niente.</li>
-<li><strong>balanced</strong> — modalità vera "consapevole delle scene": più fotogrammi, piazzati sui momenti reali. Da usare quando le immagini contano e vuoi che Claude ci prenda; scelta sicura se sei indeciso.</li>
-<li><strong>token burner</strong> — nessun limite, ogni cambio scena diventa un fotogramma. Costosa, riservata ai video lunghi e importanti.</li>
+<li><strong>Stack A — WhisperX + HyperFrames</strong> (how-i-fully-automated-my-video-editing-2026-07-16): quello descritto sopra, tutto dentro Claude Code, trascrizione gratuita e locale.</li>
+<li><strong>Stack B — Descript + Remotion</strong> (how-i-fully-automated-my-video-editing-2026-07-19): i <strong>tagli del parlato</strong> si fanno a mano-ma-veloci in <strong>Descript</strong> (editor "tipo Word": cancelli le parole dalla trascrizione e sparisce il video), le <strong>grafiche</strong> le genera Claude Code con <strong>Remotion</strong> (libreria che fa video scrivendo codice React); audio con FFmpeg, trascrizione con <strong>Whisper di OpenAI</strong>. Scelta chiave: tiene un <strong>passaggio umano</strong> sui tagli per verificare che il parlato sia accurato.</li>
+<li><strong>Stack C — skill "Video Use" + ElevenLabs Scribe</strong> (how-to-fully-automate-video-editing-setup-2026-07-19): guida di <strong>setup</strong>. Si installa una skill gratuita open-source (<strong>Video Use</strong>) incollando il link GitHub a Claude ("installamelo") — Claude si tira dietro FFmpeg e registra la skill; trascrizione con <strong>ElevenLabs Scribe</strong> (a pagamento, chiave API) invece di WhisperX. Modello: <strong>Claude Fable 5</strong>. Slogan: "no terminal, no Premiere".</li>
 </ul>
-<p>Si può impostare un default ora e cambiarlo su ogni singolo video dopo. Poi chiede una <strong>API key di Groq o OpenAI</strong>, usata <em>solo</em> per la trascrizione come riserva quando un video non ha sottotitoli (es. un Loom o un file locale): la skill prende sempre prima i sottotitoli gratuiti, la key serve per il resto. Consiglio dell'autore: <strong>Groq</strong>, perché è gratis e più veloce di OpenAI.</p>
-<h2>Confronto con la skill /watch che uso già</h2>
-<p>Questa <strong>è</strong> la skill <code>/watch</code> di Divan, e il video ne è l'annuncio della v2 — quindi il valore qui è capire cosa la nostra versione fa (o non fa ancora) e cosa vale la pena allineare:</p>
+<blockquote>⚠️ WARN: sulla <strong>trascrizione</strong> le fonti divergono — WhisperX (gratis, locale) vs Whisper OpenAI vs ElevenLabs Scribe (a pagamento). Tutte danno timestamp per-parola: non è contraddizione, è scelta costo/comodità. Idem sul motore grafico: <strong>HyperFrames</strong> vs <strong>Remotion</strong> vs pacchetti di moduli pronti.</blockquote>
+<h2>Fonti</h2>
 <ul>
-<li><strong>La nostra <code>/watch</code> ha già la "selezione per cambio scena"</strong> (un fotogramma per stacco rilevato) e il budget di fotogrammi per durata: coincide con la <em>smart scene selection</em> descritta qui. Su questo siamo pari.</li>
-<li><strong>Il "brucia-token" della nostra è il focus su una sezione</strong> (<code>--start</code>/<code>--end</code>, che infittisce i fotogrammi su un pezzo): idea simile alla <em>token burner</em>, ma la nostra la lega a un intervallo scelto a mano invece di lasciarla libera su tutto il video.</li>
-<li>**Manca (probabilmente) il <em>deictic detection</em><strong> — cioè andare a prendere il fotogramma nel secondo esatto in cui qualcuno dice "guarda qui". È la feature più intelligente della v2 e la più facile da rubare: leggere la trascrizione, cercare frasi che puntano a qualcosa, aggiungere un frame lì. </strong>Vale la pena valutarla.**</li>
-<li><strong>Manca la passata anti-doppioni</strong> (miniaturizza e scarta i fotogrammi identici prima di darli a Claude): abbatterebbe i token sui video "a busto parlante". <strong>Secondo candidato da rubare.</strong></li>
-<li>**Manca la modalità <em>efficient</em> pura basata sui key frame** (40× più veloce estraendo solo i key frame del file invece di ricostruire tutto): sarebbe un default economico ottimo per lo skim veloce.</li>
-</ul>
-<h2>Fonti e note</h2>
-<ul>
-<li>Video: https://www.youtube.com/watch?v=9psY4d-JjLY</li>
-<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
-<li>Concetti collegati: claude-skills, claude-co-work, agent-memory</li>
-<li>Entità: boris-cherny</li>
-<li><strong>Onestà</strong>: il video è per metà un annuncio di prodotto (spinge all'installazione e a un "video successivo" che copre prezzi e sistema completo), ma la parte tecnica è densa e onesta — spiega <em>perché</em> le cose sono più veloci, non solo <em>che</em> lo sono. Utile a Divan proprio perché è la sua stessa skill.</li>
-<li><strong>Omesso</strong>: i comandi esatti di installazione (rimandati al link/README dell'autore), il rimando al "video precedente" sul sistema completo e i prezzi.</li>
+<li>how-i-fully-automated-my-video-editing-2026-07-16 (2026-07-16) — stack WhisperX + HyperFrames</li>
+<li>how-i-fully-automated-my-video-editing-2026-07-19 (2026-07-19) — stack Descript + Remotion</li>
+<li>how-to-fully-automate-video-editing-setup-2026-07-19 (2026-07-19) — setup skill "Video Use" + ElevenLabs Scribe</li>
 </ul>
 <script>
 window.SB = (function () {

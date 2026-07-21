@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>This Skill Can INSTANTLY Watch any Video For Free - Here&#x27;s How</title>
+<title>Claude skills (task confezionati e ri-triggerabili)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -90,48 +90,45 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> è il video di lancio della <strong>versione 2</strong> della skill <strong>watch</strong> — cioè <em>esattamente la skill <code>/watch</code> che Divan usa ogni volta per far "guardare" i video a Claude</em>. La v2 è fino a <strong>40 volte più veloce</strong> ed economica della v1, gestisce video lunghissimi con una <strong>selezione intelligente dei fotogrammi</strong> (invece di prenderli a caso ogni tot secondi), e introduce una manopola con più modalità dalla più leggera alla più pesante. Per Divan questo video vale doppio: non è teoria, è il <em>changelog</em> del suo attrezzo di lavoro, con feature che la sua versione installata potrebbe non avere ancora.</p>
-<h2>Il problema che la skill risolve</h2>
-<p>Claude da solo, se gli dài un link video, "si arrende e dice che non può farlo". La skill <strong>watch</strong> gli dà due cose insieme: i <strong>fotogrammi</strong> del video (immagini statiche, che Claude sa leggere perché è <em>multimodale</em>) e la <strong>trascrizione con i tempi</strong>. Così Claude non legge soltanto cosa viene detto, ma <em>vede</em> anche cosa c'è sullo schermo in quel momento. Funziona con qualunque fonte: YouTube, Loom, TikTok o file locali — oltre <strong>1.600 siti</strong> supportati. L'autore la descrive come già molto diffusa (nata su GitHub il mese prima, ~3.000 "stelle").</p>
-<h2>La svolta della v2: scegliere i fotogrammi <em>giusti</em>, non tanti</h2>
-<p>Il difetto della v1: prendeva <strong>100 fotogrammi spalmati uniformemente</strong> su tutto il video. Su un video corto va benissimo; su uno di 2 ore diventa <strong>1 fotogramma ogni 72 secondi</strong>, su uno di 10 ore uno ogni 6 minuti — praticamente Claude leggeva la trascrizione con qualche schermata a caso. Ma dare a Claude <em>tutti</em> i fotogrammi sarebbe lentissimo e costosissimo. Il punto quindi non è la quantità, è <strong>scegliere quelli che contano</strong>. La v2 lo fa in tre modi:</p>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>Claude skills (task confezionati e ri-triggerabili)</h1>
+<p><strong>Gist:</strong> una <strong>skill</strong> è un blocco di istruzioni per un compito specifico — salvato una volta e richiamabile con <code>/nome-skill</code> — così non riscrivi il prompt lungo ogni volta e l'output esce sempre nello stesso stile e formato. È il mattone che rende ripetibile e "a portata di slash" tutto ciò che fai spesso con Claude.</p>
+<h2>Com'è fatta una skill</h2>
+<p>Una skill contiene tre cose: <strong>quando usarla</strong>, <strong>cosa fa</strong> e <strong>dove salva</strong> l'output. Si triggera scrivendo <code>/</code> e scegliendola dalla lista (modo preciso, che evita che Claude "allucini" quale compito eseguire). Il vantaggio: dai un prompt corto ("scrivi un post LinkedIn su X") e parte tutta l'istruzione dettagliata dietro, con lo stile giusto.</p>
+<h2>Come si costruiscono: da esempi reali, non da zero</h2>
+<p>Il trucco ricorrente è <strong>far scrivere la skill a Claude partendo da materiale vero</strong>:</p>
 <ul>
-<li>**Selezione per cambio scena (<em>smart scene selection</em>).<strong> La skill scansiona il video cercando i punti in cui l'immagine </strong>cambia davvero** — una slide nuova, un cambio di inquadratura, un elemento visivo che appare — e prende un fotogramma lì. Così ogni immagine che Claude guarda è un momento reale, non un doppione.</li>
-<li>**Rilevamento dei gesti "deittici" (<em>deictic detection</em>).<strong> A volte il momento importante non è un cambio di scena: è quando qualcuno </strong>dice** "guarda qui", "come vedi", "guarda cosa succede" mentre mostra qualcosa a schermo. La v2 legge prima la trascrizione, individua queste frasi che <em>puntano</em> a qualcosa, e va a prendere il fotogramma <strong>in quel preciso secondo</strong>. (Esempio nel video: un'intervista a <strong>Boris Cherny</strong> boris-cherny in cui presenta il suo workflow di Claude Code dicendo "puoi vedere…" — la v1 lo perdeva del tutto.)</li>
-<li>**Modalità "token burner" (<em>brucia-token</em>).<strong> Quando serve massima potenza e non importa il costo: nessun tetto ai fotogrammi, Claude prende ogni cambio di scena rilevato, fino a </strong>2 fotogrammi al secondo**. È l'impostazione più pesante e costosa — da usare solo sui video lunghi e importanti dove vuoi che Claude veda proprio tutto.</li>
+<li><strong>Email voice skill</strong> — Claude legge le ultime 20-35 email inviate (via connettore Gmail) e ne estrae saluti, tono, chiusure: così le bozze suonano davvero come te. Con una <strong>regola dura</strong>: <em>draft only, never send</em> (prepara la bozza, non spedisce mai).</li>
+<li><strong>Blog / newsletter / LinkedIn skill</strong> — da esempi di post che ti piacciono o che hai già scritto.</li>
+<li><strong>Brand skill</strong> — da brand guidelines + avatar del cliente (vedi <a href="facebook-ads-con-claude.html">facebook-ads-con-claude</a>): diventa la "Gruns brand skill" richiamabile a comando.</li>
+<li><strong>Script/brief skill</strong> — da un template di brief (es. UGC creator brief): poi estrae il transcript del tuo top video ad e ne scrive uno nuovo nel tuo formato.</li>
+<li><strong>/blog skill</strong> (SEO) — impacchetta l'intero flusso di creazione di un articolo (vedi <a href="seo-con-claude.html">seo-con-claude</a>).</li>
 </ul>
-<h2>Da dove arriva il "40× più veloce": la modalità <em>efficient</em></h2>
-<p>Il trucco sta in <strong>come è fatto un file video</strong>. Per risparmiare spazio, un video non salva ogni fotogramma per intero: circa una volta al secondo salva una <strong>istantanea completa</strong> (il <em>key frame</em>), e tutti i fotogrammi in mezzo registrano solo <em>cosa è cambiato</em> rispetto all'ultima istantanea (molto più leggero che salvare 24 immagini intere al secondo). La modalità <strong>efficient</strong> sfrutta questo: invece di ricostruire e decodificare tutti i 24 fotogrammi al secondo, tira fuori <strong>solo i key frame già pronti</strong> dentro il file. La modalità normale invece deve ricostruire ogni fotogramma e confrontarlo col precedente per capire dove cambia la scena — pesante. Saltare tutto questo è da dove arrivano i <strong>40×</strong> di velocità.</p>
-<h2>Meno spreco: buttare i fotogrammi doppi</h2>
-<p>Molte lamentele sulla v1 riguardavano i token consumati. La v2 aggiunge una <strong>passata di pulizia</strong> prima ancora che Claude veda qualcosa: rimpicciolisce ogni fotogramma a una miniatura, lo confronta col precedente e, se due sono praticamente la stessa immagine (tipico dei video "a busto parlante" dove per minuti non cambia niente), <strong>butta il doppione</strong>. Così paghi solo per i fotogrammi che aggiungono davvero informazione, senza perdere il segnale.</p>
-<h2>Come si installa e le modalità da scegliere</h2>
-<p>Setup in ~2 minuti. Su <strong>Claude Code</strong>: due comandi (uno aggiunge il "marketplace", l'altro installa la skill watch), e conviene tenere acceso l'<strong>auto-update</strong> perché l'autore rilascia feature spesso. Chi aveva già la v1 non reinstalla nulla: basta accendere l'auto-update o premere "update" nel menu del marketplace. Su <strong>Claude normale</strong> (non Code) si aggiunge il marketplace di plugin dal menu <em>customize</em>; per il resto c'è <code>skills.sh</code>.</p>
-<p>Al primo avvio la skill chiede quale <strong>modalità predefinita</strong> vuoi:</p>
+<p>Si possono salvare come voce nella cartella <em>skills</em> o come <strong>plugin</strong> (un file zip caricato in Claude).</p>
+<h2>Skill dentro skill: l'orchestrator</h2>
+<p>Il salto di qualità è impacchettare più skill in una <strong>skill genitore</strong> che le orchestra. Esempio: il <strong>content repurposing orchestrator</strong> prende un solo input (un video YouTube), lo scrapa con Firecrawl e lancia in fila blog skill + newsletter skill + LinkedIn skill, sfornando tre contenuti nel tuo stile da un colpo solo. È una pipeline: skill atomiche → skill composte → sistemi di ripubblicazione.</p>
+<h2>Le skill come "filtro" tra brief e output</h2>
+<p>Dal corso Facebook ads: la skill non deve per forza essere l'intero workflow — spesso conviene usarla come <strong>buffer/filtro</strong> tra il brief e l'output finale. Un buon filtro <strong>risparmia token</strong> (non fai rielaborare tutto ogni volta) e <strong>alza l'hit rate</strong> dei risultati. Skill migliori = ad migliori e costi più bassi sul lungo periodo.</p>
+<p>Le skill sono il modo concreto in cui il <a href="loop-engineering.html">loop-engineering</a> diventa operativo: invece di ri-promptare, confezioni il loop una volta e lo richiami.</p>
+<h2>Skill vs plugin (distinzione tecnica)</h2>
+<p>Nel parlato comune "skill" copre due cose diverse. Una <strong>skill</strong> è il pacchetto di istruzioni per un task (il file <code>SKILL.md</code>). Un <strong>plugin</strong> è l'involucro più grande: può contenere più skill, più <strong>hook</strong> (agganci che scattano da soli in certi momenti della sessione) e <strong>server MCP</strong> (<a href="mcp-connectors.html">mcp-connectors</a>). Il plugin cambia il comportamento di Claude Code "sotto il cofano"; la skill insegna un compito. Nella pratica si chiamano tutte "skill".</p>
+<h2>Skill concrete che vale la pena conoscere</h2>
+<p>Da chi vende automazioni con Claude Code (vedi i-tried-100-claude-code-skills-best-6-2026-07-19), le più utili non sono le più spettacolari ma quelle che fanno risparmiare tempo/soldi/errori:</p>
 <ul>
-<li><strong>transcript</strong> — nessun fotogramma, solo la trascrizione letta in pochi secondi. La più veloce.</li>
-<li><strong>efficient</strong> — prende i key frame: Claude <em>vede</em> il video ma resta rapido ed economico. <strong>È quella consigliata come default per l'uso di tutti i giorni</strong> — ti dà "l'atmosfera" di quasi ogni video senza bruciare quasi niente.</li>
-<li><strong>balanced</strong> — modalità vera "consapevole delle scene": più fotogrammi, piazzati sui momenti reali. Da usare quando le immagini contano e vuoi che Claude ci prenda; scelta sicura se sei indeciso.</li>
-<li><strong>token burner</strong> — nessun limite, ogni cambio scena diventa un fotogramma. Costosa, riservata ai video lunghi e importanti.</li>
+<li><strong>Skill Creator</strong> (ufficiale Anthropic) — la "fabbrica": descrivi a voce cosa vuoi e Claude scrive/testa/impacchetta la skill, anche da una SOP aziendale. Nessuno la paga, ma produce tutte le altre.</li>
+<li><strong>Superpowers</strong> (community) — impone a Claude il metodo da senior: pianifica, scrive i test prima del codice, si auto-rivede in due passate (specifica + qualità). Contro il "codice sbrigativo che si sbriciola in produzione". (Numero di stelle GitHub citato — "150k" — sospetto, probabilmente 15k.)</li>
+<li><strong>GSD</strong> ("get stuff done") — genera un <strong>sotto-agente fresco per ogni task</strong> con contesto pulito, contro il <em>context rot</em> (il degrado quando la sessione si riempie). Non risparmia token, risparmia le ore di rilavoro.</li>
+<li><strong><code>/review</code> e <code>/ultra review</code></strong> — già dentro Claude Code, non si installano. <code>/review</code> gira in locale; <strong><code>/ultra review</code></strong> (con Opus 4.7+) carica il branch in una sandbox cloud e lancia una flotta di revisori che <em>riproducono e verificano</em> ogni bug prima di segnalarlo (no falsi positivi). A pagamento oltre le prove gratuite. È il <a href="loop-engineering.html">verificatore indipendente</a> confezionato.</li>
+<li><strong>Context Mode / ClaudeMem</strong> (community) — memoria: la prima tiene fuori la spazzatura dei tool e ricostruisce la sessione dopo la compattazione; la seconda porta la memoria <strong>tra</strong> sessioni diverse (database locale con ricerca per significato). Vedi <a href="agent-memory.html">agent-memory</a>.</li>
 </ul>
-<p>Si può impostare un default ora e cambiarlo su ogni singolo video dopo. Poi chiede una <strong>API key di Groq o OpenAI</strong>, usata <em>solo</em> per la trascrizione come riserva quando un video non ha sottotitoli (es. un Loom o un file locale): la skill prende sempre prima i sottotitoli gratuiti, la key serve per il resto. Consiglio dell'autore: <strong>Groq</strong>, perché è gratis e più veloce di OpenAI.</p>
-<h2>Confronto con la skill /watch che uso già</h2>
-<p>Questa <strong>è</strong> la skill <code>/watch</code> di Divan, e il video ne è l'annuncio della v2 — quindi il valore qui è capire cosa la nostra versione fa (o non fa ancora) e cosa vale la pena allineare:</p>
+<p>Nota onesta: i risparmi di token dichiarati da queste skill sono benchmark dei loro repository, non misure indipendenti.</p>
+<h2>Fonti</h2>
 <ul>
-<li><strong>La nostra <code>/watch</code> ha già la "selezione per cambio scena"</strong> (un fotogramma per stacco rilevato) e il budget di fotogrammi per durata: coincide con la <em>smart scene selection</em> descritta qui. Su questo siamo pari.</li>
-<li><strong>Il "brucia-token" della nostra è il focus su una sezione</strong> (<code>--start</code>/<code>--end</code>, che infittisce i fotogrammi su un pezzo): idea simile alla <em>token burner</em>, ma la nostra la lega a un intervallo scelto a mano invece di lasciarla libera su tutto il video.</li>
-<li>**Manca (probabilmente) il <em>deictic detection</em><strong> — cioè andare a prendere il fotogramma nel secondo esatto in cui qualcuno dice "guarda qui". È la feature più intelligente della v2 e la più facile da rubare: leggere la trascrizione, cercare frasi che puntano a qualcosa, aggiungere un frame lì. </strong>Vale la pena valutarla.**</li>
-<li><strong>Manca la passata anti-doppioni</strong> (miniaturizza e scarta i fotogrammi identici prima di darli a Claude): abbatterebbe i token sui video "a busto parlante". <strong>Secondo candidato da rubare.</strong></li>
-<li>**Manca la modalità <em>efficient</em> pura basata sui key frame** (40× più veloce estraendo solo i key frame del file invece di ricostruire tutto): sarebbe un default economico ottimo per lo skim veloce.</li>
-</ul>
-<h2>Fonti e note</h2>
-<ul>
-<li>Video: https://www.youtube.com/watch?v=9psY4d-JjLY</li>
-<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
-<li>Concetti collegati: claude-skills, claude-co-work, agent-memory</li>
-<li>Entità: boris-cherny</li>
-<li><strong>Onestà</strong>: il video è per metà un annuncio di prodotto (spinge all'installazione e a un "video successivo" che copre prezzi e sistema completo), ma la parte tecnica è densa e onesta — spiega <em>perché</em> le cose sono più veloci, non solo <em>che</em> lo sono. Utile a Divan proprio perché è la sua stessa skill.</li>
-<li><strong>Omesso</strong>: i comandi esatti di installazione (rimandati al link/README dell'autore), il rimando al "video precedente" sul sistema completo e i prezzi.</li>
+<li>master-claude-for-marketing-full-course-2026-07-16 (Brock, 2026-07-16) — email voice, orchestrator, plugin</li>
+<li>claude-facebook-ads-full-course-2026-07-16 (The Moonlighters, 2026-07-16) — brand/avatar skill, script skill, skill-come-filtro</li>
+<li>claude-code-seo-50000-clicks-2026-07-16 (2026-07-16) — la skill <code>/blog</code></li>
+<li>i-tried-100-claude-code-skills-best-6-2026-07-19 (2026-07-19) — Skill Creator, Superpowers, GSD, review, Context Mode, ClaudeMem; distinzione skill/plugin</li>
+<li>ai-agent-builds-cinematic-websites-2026-07-19 (2026-07-19) — "la skill È il prodotto": una <code>skill.md</code> che codifica una pipeline a 4 passi</li>
 </ul>
 <script>
 window.SB = (function () {

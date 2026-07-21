@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>This Skill Can INSTANTLY Watch any Video For Free - Here&#x27;s How</title>
+<title>Produttività con Claude Code (contesto, parallelismo, autoverifica)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -90,48 +90,44 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
-<p><strong>In sintesi:</strong> è il video di lancio della <strong>versione 2</strong> della skill <strong>watch</strong> — cioè <em>esattamente la skill <code>/watch</code> che Divan usa ogni volta per far "guardare" i video a Claude</em>. La v2 è fino a <strong>40 volte più veloce</strong> ed economica della v1, gestisce video lunghissimi con una <strong>selezione intelligente dei fotogrammi</strong> (invece di prenderli a caso ogni tot secondi), e introduce una manopola con più modalità dalla più leggera alla più pesante. Per Divan questo video vale doppio: non è teoria, è il <em>changelog</em> del suo attrezzo di lavoro, con feature che la sua versione installata potrebbe non avere ancora.</p>
-<h2>Il problema che la skill risolve</h2>
-<p>Claude da solo, se gli dài un link video, "si arrende e dice che non può farlo". La skill <strong>watch</strong> gli dà due cose insieme: i <strong>fotogrammi</strong> del video (immagini statiche, che Claude sa leggere perché è <em>multimodale</em>) e la <strong>trascrizione con i tempi</strong>. Così Claude non legge soltanto cosa viene detto, ma <em>vede</em> anche cosa c'è sullo schermo in quel momento. Funziona con qualunque fonte: YouTube, Loom, TikTok o file locali — oltre <strong>1.600 siti</strong> supportati. L'autore la descrive come già molto diffusa (nata su GitHub il mese prima, ~3.000 "stelle").</p>
-<h2>La svolta della v2: scegliere i fotogrammi <em>giusti</em>, non tanti</h2>
-<p>Il difetto della v1: prendeva <strong>100 fotogrammi spalmati uniformemente</strong> su tutto il video. Su un video corto va benissimo; su uno di 2 ore diventa <strong>1 fotogramma ogni 72 secondi</strong>, su uno di 10 ore uno ogni 6 minuti — praticamente Claude leggeva la trascrizione con qualche schermata a caso. Ma dare a Claude <em>tutti</em> i fotogrammi sarebbe lentissimo e costosissimo. Il punto quindi non è la quantità, è <strong>scegliere quelli che contano</strong>. La v2 lo fa in tre modi:</p>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>Produttività con Claude Code (contesto, parallelismo, autoverifica)</h1>
+<p><strong>Gist:</strong> i comandi e le abitudini che separano chi usa <strong>Claude Code</strong> da principiante da chi lo usa da esperto. Tre pilastri: <strong>tenere pulito il contesto</strong>, <strong>fargli verificare da solo il proprio lavoro</strong>, <strong>parallelizzare</strong> su più agenti e più copie del progetto. Sono il lato "attrezzi da officina" di <a href="claude-co-work.html">claude-co-work</a> e <a href="loop-engineering.html">loop-engineering</a>.</p>
+<h2>Il file di progetto e il contesto</h2>
 <ul>
-<li>**Selezione per cambio scena (<em>smart scene selection</em>).<strong> La skill scansiona il video cercando i punti in cui l'immagine </strong>cambia davvero** — una slide nuova, un cambio di inquadratura, un elemento visivo che appare — e prende un fotogramma lì. Così ogni immagine che Claude guarda è un momento reale, non un doppione.</li>
-<li>**Rilevamento dei gesti "deittici" (<em>deictic detection</em>).<strong> A volte il momento importante non è un cambio di scena: è quando qualcuno </strong>dice** "guarda qui", "come vedi", "guarda cosa succede" mentre mostra qualcosa a schermo. La v2 legge prima la trascrizione, individua queste frasi che <em>puntano</em> a qualcosa, e va a prendere il fotogramma <strong>in quel preciso secondo</strong>. (Esempio nel video: un'intervista a <strong>Boris Cherny</strong> boris-cherny in cui presenta il suo workflow di Claude Code dicendo "puoi vedere…" — la v1 lo perdeva del tutto.)</li>
-<li>**Modalità "token burner" (<em>brucia-token</em>).<strong> Quando serve massima potenza e non importa il costo: nessun tetto ai fotogrammi, Claude prende ogni cambio di scena rilevato, fino a </strong>2 fotogrammi al secondo**. È l'impostazione più pesante e costosa — da usare solo sui video lunghi e importanti dove vuoi che Claude veda proprio tutto.</li>
+<li><strong><code>/init</code></strong> su un progetto esistente: Claude scansiona il codice e genera un <strong>CLAUDE.md</strong> (architettura, convenzioni, file chiave) così non rispieghi tutto ogni sessione. Va tenuto <strong>corto (150-200 righe)</strong>: è un'istruzione di sistema letta a ogni messaggio, quindi ogni riga mangia memoria. Meglio farlo diventare un <strong>indice</strong> che rimanda a file separati (stile, contesto di business, doc) — vedi <a href="second-brain-a-livelli.html">second-brain-a-livelli</a>.</li>
+<li><strong><code>/context</code></strong> apre il cofano: mostra in percentuale cosa divora i token (istruzioni, file, server MCP). Diagnostichi invece di indovinare.</li>
+<li><strong><code>/compact</code></strong> (verso il 60% di riempimento) comprime la cronologia tenendo il succo — e accetta istruzioni su cosa salvare ("comprimi ma tieni le decisioni sullo schema del DB"). <strong><code>/clear</code></strong> per ripartire pulito su un compito nuovo (i file restano).</li>
+<li><strong>Status line</strong> (<code>/statusline</code>): cruscotto in fondo al terminale con modello, % contesto, costo — per accorgersi del <strong>degrado da contesto pieno</strong> (<em>context rot</em>).</li>
+<li>Trucco token: usare <strong>direttamente un endpoint API</strong> invece di un server MCP quando serve una sola funzione (l'MCP carica in memoria la definizione di <em>tutti</em> i suoi strumenti). Vedi <a href="mcp-connectors.html">mcp-connectors</a>.</li>
+<li>Disciplina base: <strong>Esc</strong> appena Claude imbocca la strada sbagliata — ogni token nella direzione sbagliata è contesto buttato.</li>
 </ul>
-<h2>Da dove arriva il "40× più veloce": la modalità <em>efficient</em></h2>
-<p>Il trucco sta in <strong>come è fatto un file video</strong>. Per risparmiare spazio, un video non salva ogni fotogramma per intero: circa una volta al secondo salva una <strong>istantanea completa</strong> (il <em>key frame</em>), e tutti i fotogrammi in mezzo registrano solo <em>cosa è cambiato</em> rispetto all'ultima istantanea (molto più leggero che salvare 24 immagini intere al secondo). La modalità <strong>efficient</strong> sfrutta questo: invece di ricostruire e decodificare tutti i 24 fotogrammi al secondo, tira fuori <strong>solo i key frame già pronti</strong> dentro il file. La modalità normale invece deve ricostruire ogni fotogramma e confrontarlo col precedente per capire dove cambia la scena — pesante. Saltare tutto questo è da dove arrivano i <strong>40×</strong> di velocità.</p>
-<h2>Meno spreco: buttare i fotogrammi doppi</h2>
-<p>Molte lamentele sulla v1 riguardavano i token consumati. La v2 aggiunge una <strong>passata di pulizia</strong> prima ancora che Claude veda qualcosa: rimpicciolisce ogni fotogramma a una miniatura, lo confronta col precedente e, se due sono praticamente la stessa immagine (tipico dei video "a busto parlante" dove per minuti non cambia niente), <strong>butta il doppione</strong>. Così paghi solo per i fotogrammi che aggiungono davvero informazione, senza perdere il segnale.</p>
-<h2>Come si installa e le modalità da scegliere</h2>
-<p>Setup in ~2 minuti. Su <strong>Claude Code</strong>: due comandi (uno aggiunge il "marketplace", l'altro installa la skill watch), e conviene tenere acceso l'<strong>auto-update</strong> perché l'autore rilascia feature spesso. Chi aveva già la v1 non reinstalla nulla: basta accendere l'auto-update o premere "update" nel menu del marketplace. Su <strong>Claude normale</strong> (non Code) si aggiunge il marketplace di plugin dal menu <em>customize</em>; per il resto c'è <code>skills.sh</code>.</p>
-<p>Al primo avvio la skill chiede quale <strong>modalità predefinita</strong> vuoi:</p>
+<h2>Come parlargli</h2>
 <ul>
-<li><strong>transcript</strong> — nessun fotogramma, solo la trascrizione letta in pochi secondi. La più veloce.</li>
-<li><strong>efficient</strong> — prende i key frame: Claude <em>vede</em> il video ma resta rapido ed economico. <strong>È quella consigliata come default per l'uso di tutti i giorni</strong> — ti dà "l'atmosfera" di quasi ogni video senza bruciare quasi niente.</li>
-<li><strong>balanced</strong> — modalità vera "consapevole delle scene": più fotogrammi, piazzati sui momenti reali. Da usare quando le immagini contano e vuoi che Claude ci prenda; scelta sicura se sei indeciso.</li>
-<li><strong>token burner</strong> — nessun limite, ogni cambio scena diventa un fotogramma. Costosa, riservata ai video lunghi e importanti.</li>
+<li><strong>Modalità piano</strong> (Shift+Tab): Claude legge e progetta ma non tocca nulla; approvi il piano, poi esegue. Riduce drasticamente le correzioni dopo.</li>
+<li>Trattarlo da <strong>junior</strong>, non da esecutore: passagli il <em>problema</em> ("come gestiamo X?"), fatti spiegare le assunzioni, e <strong>costringilo a fare domande finché non è sicuro al 95%</strong>.</li>
+<li>Quando l'output è solo discreto, <strong>contestalo con durezza</strong> ("buttalo, versione più elegante") — la seconda risposta è spesso molto migliore. Poi <strong>fagli aggiornare sé stesso</strong> (la skill o il CLAUDE.md) così l'errore non torna.</li>
+<li><strong>Ultra think</strong> (si scrive la parola): massimo budget di ragionamento (~32k token) per architettura, debug tosti, refactoring grossi. Non per banalità.</li>
 </ul>
-<p>Si può impostare un default ora e cambiarlo su ogni singolo video dopo. Poi chiede una <strong>API key di Groq o OpenAI</strong>, usata <em>solo</em> per la trascrizione come riserva quando un video non ha sottotitoli (es. un Loom o un file locale): la skill prende sempre prima i sottotitoli gratuiti, la key serve per il resto. Consiglio dell'autore: <strong>Groq</strong>, perché è gratis e più veloce di OpenAI.</p>
-<h2>Confronto con la skill /watch che uso già</h2>
-<p>Questa <strong>è</strong> la skill <code>/watch</code> di Divan, e il video ne è l'annuncio della v2 — quindi il valore qui è capire cosa la nostra versione fa (o non fa ancora) e cosa vale la pena allineare:</p>
+<h2>Fargli controllare il proprio lavoro</h2>
+<p>Il pezzo più utile: infilare i <strong>controlli dentro la todo-list</strong> di Claude. Dopo "costruisci il sito" → "fai uno screenshot e verifica" → "apri i DevTools di Chrome e controlla che non ci siano errori". La qualità sta nel piano, non dopo. Perno tecnico: <strong>Claude vede le immagini</strong> e sa <strong>pilotare il browser</strong> (DevTools). Un autore fa fare 3 giri di costruzione+screenshot <em>prima</em> di mostrargli la prima versione. È il <a href="loop-engineering.html">generatore→verificatore</a> applicato al codice.</p>
+<h2>Lavorare in parallelo</h2>
 <ul>
-<li><strong>La nostra <code>/watch</code> ha già la "selezione per cambio scena"</strong> (un fotogramma per stacco rilevato) e il budget di fotogrammi per durata: coincide con la <em>smart scene selection</em> descritta qui. Su questo siamo pari.</li>
-<li><strong>Il "brucia-token" della nostra è il focus su una sezione</strong> (<code>--start</code>/<code>--end</code>, che infittisce i fotogrammi su un pezzo): idea simile alla <em>token burner</em>, ma la nostra la lega a un intervallo scelto a mano invece di lasciarla libera su tutto il video.</li>
-<li>**Manca (probabilmente) il <em>deictic detection</em><strong> — cioè andare a prendere il fotogramma nel secondo esatto in cui qualcuno dice "guarda qui". È la feature più intelligente della v2 e la più facile da rubare: leggere la trascrizione, cercare frasi che puntano a qualcosa, aggiungere un frame lì. </strong>Vale la pena valutarla.**</li>
-<li><strong>Manca la passata anti-doppioni</strong> (miniaturizza e scarta i fotogrammi identici prima di darli a Claude): abbatterebbe i token sui video "a busto parlante". <strong>Secondo candidato da rubare.</strong></li>
-<li>**Manca la modalità <em>efficient</em> pura basata sui key frame** (40× più veloce estraendo solo i key frame del file invece di ricostruire tutto): sarebbe un default economico ottimo per lo skim veloce.</li>
+<li><strong>Sotto-agenti</strong>: agenti isolati con memoria propria che lavorano in contemporanea e riferiscono al thread principale (che resta pulito). Trucco costi: farli girare su <strong>Haiku</strong> (piccolo, economico) tenendo <strong>Opus</strong> sul thread principale — es. un sotto-agente Haiku spulcia 100k token di articoli e restituisce 4 righe.</li>
+<li><strong>Squadre di agenti</strong>: come i sotto-agenti ma <strong>si parlano tra loro</strong> e si assegnano lavoro. Costano di più, danno coerenza su progetti grossi.</li>
+<li><strong>Worktree di Git</strong> (<code>claude --worktree &amp;lt;nome&amp;gt;</code>): copie parallele del progetto, ognuna su un ramo, per far girare 3-5 sessioni senza che si pestino i file. Alla fine si uniscono i rami. Vedi <a href="loop-engineering.html">loop-engineering</a>.</li>
 </ul>
-<h2>Fonti e note</h2>
+<h2>Automazione e permessi</h2>
 <ul>
-<li>Video: https://www.youtube.com/watch?v=9psY4d-JjLY</li>
-<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
-<li>Concetti collegati: claude-skills, claude-co-work, agent-memory</li>
-<li>Entità: boris-cherny</li>
-<li><strong>Onestà</strong>: il video è per metà un annuncio di prodotto (spinge all'installazione e a un "video successivo" che copre prezzi e sistema completo), ma la parte tecnica è densa e onesta — spiega <em>perché</em> le cose sono più veloci, non solo <em>che</em> lo sono. Utile a Divan proprio perché è la sua stessa skill.</li>
-<li><strong>Omesso</strong>: i comandi esatti di installazione (rimandati al link/README dell'autore), il rimando al "video precedente" sul sistema completo e i prezzi.</li>
+<li><strong><code>/hooks</code></strong>: notifiche (es. un suono a fine sessione) per tenere aperte 15 sessioni e tornare solo su quella che chiama. <strong><code>/loop</code></strong>: rilancia un prompt a intervalli ("ogni 5 min controlla il deploy") — max 3 giorni; per automazioni lunghe le <strong>attività pianificate</strong> (ogni run è una sessione nuova, senza memoria). <strong><code>/rewind</code></strong> torna a un punto precedente; <strong><code>/voice</code></strong> detta dal terminale.</li>
+<li><strong>Permessi</strong>: invece di <code>--dangerously-skip-permissions</code> (veloce ma rischioso), <strong>autorizzare esplicitamente</strong> i comandi innocui e <strong>vietare</strong> quelli distruttivi (cancellazioni). Stessa velocità, zero rischio. Regola: <strong>i divieti hanno la precedenza</strong> sulle autorizzazioni.</li>
+<li><strong>Context7</strong> (server MCP): inietta documentazione tecnica <strong>aggiornata e per-versione</strong> di librerie diffuse (Next.js, React, MongoDB) <em>prima</em> che Claude scriva, così non suggerisce API dismesse dopo la sua data di addestramento.</li>
+<li>Autonomia vera: Claude Code su un <strong>VPS</strong> sempre acceso, comandabile via SSH o <strong>Telegram</strong> dal telefono. Oppure analisi dati senza SQL collegando tool a riga di comando (es. <code>bq</code> di BigQuery) e chiedendo in italiano.</li>
+</ul>
+<h2>Fonti</h2>
+<ul>
+<li>32-tricks-to-level-up-claude-code-2026-07-19 (2026-07-19) — la carrellata dei comandi</li>
+<li>i-tried-100-claude-code-skills-best-6-2026-07-19 (2026-07-19) — context rot, sotto-agenti, /ultra review</li>
 </ul>
 <script>
 window.SB = (function () {
