@@ -620,7 +620,33 @@ def main():
     tb = '<div class="topbar"><a href="index.html">%s</a></div>' % html.escape(SITE_TITLE)
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page(SITE_TITLE, body, tb, HOME_JS))
-    print("OK: %d playlist, %d video singoli -> %s" % (len(pl), len(vd), OUT))
+    # --- pulizia: via le pagine orfane (sorgente cancellato o rinominato) ---
+    attesi = {os.path.join(OUT, "index.html")}
+    for c in home_cards:
+        m = re.search(r'href="([^"]+\.html)"', c["html"])
+        if m:
+            attesi.add(os.path.normpath(os.path.join(OUT, m.group(1))))
+    for f in concetti:
+        attesi.add(os.path.join(OUT, "concetti",
+                                os.path.splitext(os.path.basename(f))[0] + ".html"))
+    attesi.add(os.path.join(OUT, "concetti", "index.html"))
+    for d in os.listdir(SRC):                       # pagine dentro le playlist
+        pdir = os.path.join(SRC, d)
+        if os.path.isdir(pdir):
+            attesi.add(os.path.join(OUT, d, "index.html"))
+            for f in glob.glob(os.path.join(pdir, "*.md")):
+                attesi.add(os.path.join(OUT, d,
+                                        os.path.splitext(os.path.basename(f))[0] + ".html"))
+
+    rimossi = 0
+    for f in glob.glob(os.path.join(OUT, "**", "*.html"), recursive=True):
+        if os.path.normpath(f) not in attesi:
+            os.remove(f); rimossi += 1
+            print("   rimossa pagina orfana:", os.path.relpath(f, OUT))
+
+    print("OK: %d playlist, %d video singoli, %d concetti -> %s%s"
+          % (len(pl), len(vd), len(concetti), OUT,
+             (" (%d orfane rimosse)" % rimossi) if rimossi else ""))
 
 if __name__ == "__main__":
     main()
