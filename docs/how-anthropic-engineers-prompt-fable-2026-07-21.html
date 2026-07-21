@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How Anthropic Engineers Actually Prompt Fable 5</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How Anthropic Engineers Actually Prompt Fable 5" src="https://i.ytimg.com/vi/vcU85OrwuV0/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk ha letto la documentazione ufficiale di <strong>Anthropic</strong> sul prompting di <strong>Claude Fable 5</strong>, più quello che dicono gli ingegneri di Anthropic su X, e ne ha distillato <strong>sei abitudini</strong> da applicare subito: dare il <em>perché</em> (il contesto), dire esplicitamente <strong>cosa non fare</strong>, far <strong>agire</strong> il modello appena ha abbastanza informazioni invece di lasciarlo pianificare all'infinito, pretendere la <strong>prova</strong> prima che dichiari "fatto", <strong>non</strong> chiedergli di mostrare il proprio ragionamento (regola specifica di Fable: fa scattare un rerouting silenzioso su Opus 4.8), e <strong>scrivere meno</strong>, non di più. Quattro di queste sei valgono per qualsiasi modello e sono buon senso già noto; le due davvero nuove sono la quinta (il ragionamento che innesca il downgrade) e il ragionamento su <strong>effort e costi</strong>. Il titolo promette "come promptano gli ingegneri di Anthropic": in realtà è una lettura della doc pubblica, fatta bene ma senza segreti interni.</p>
+<h2>Il contesto: quanto costa e per quanto è disponibile</h2>
+<p><strong>Fable 5</strong> costa <strong>il doppio di Opus</strong>: <strong>10 dollari per milione di token in ingresso</strong> e <strong>50 dollari per milione in uscita</strong>. Non è sempre incluso nel piano Claude: c'è un <strong>periodo promozionale</strong> in cui lo si può usare fino al <strong>50% dei propri limiti settimanali</strong> senza costi extra, e superata quella soglia si passa ai <strong>crediti a consumo</strong>. La promozione, dice, scade il <strong>7 luglio</strong> — al momento della registrazione mancavano circa sei giorni, weekend del 4 luglio incluso. Funziona ovunque: <strong>app desktop di Claude</strong>, <strong>VS Code</strong>, <strong>Claude Code</strong>; dentro Claude Code lo si seleziona con <code>/model</code>.</p>
+<p>La premessa tecnica su cui costruisce tutto: Fable 5 è fatto diversamente da Opus e da GPT, e in particolare <strong>segue meglio istruzioni corte e chiare</strong> rispetto ai modelli più vecchi, perché ragiona meglio. La sensazione d'uso, dice, è che "capisca di cosa stai parlando" senza doverglielo sillabare.</p>
+<h2>Abitudine 1 — Dai il perché, non solo il cosa <em>(vale per ogni modello)</em></h2>
+<p>Anthropic scrive che Fable lavora meglio quando <strong>capisce la tua intenzione</strong>. Il contesto gli permette di collegare il compito alle informazioni giuste invece di tirare a indovinare cosa intendevi.</p>
+<p>L'esempio è secco. Invece di:</p>
+<blockquote>"Scrivimi una mail a un cliente riguardo al ritardo."</blockquote>
+<p>meglio:</p>
+<blockquote>"Sto lavorando a questo progetto più grande, ecco per chi è, ecco cosa gli serve. Con questo in mente, mi aiuti a scrivere una mail a questo cliente riguardo al ritardo?"</blockquote>
+<p>Nota collaterale utile per chi ha un <strong>second brain</strong> già impostato: dare il perché spinge il modello ad andare a cercare i <strong>file di contesto</strong> giusti, così che l'output (la mail, o qualunque cosa) risulti specifico e non generico.</p>
+<h2>Abitudine 2 — Fai negative prompting: digli cosa NON fare <em>(vale per ogni modello)</em></h2>
+<details class="gia"><summary>Perché i modelli "inventano" cose che non hai chiesto</summary>
+<p>Al cuore, un modello è addestrato su una montagna di dati e sta <strong>predicendo la parola successiva</strong> più sensata. A volte prova a essere creativo e fa cose che non gli avevi chiesto: qualche volta è un bene, spesso no. Da qui l'idea di chiudere esplicitamente le porte che non vuoi vengano aperte.</p>
+</details>
+<p>Il punto forte è che <strong>lo fa Anthropic stessa</strong> nella sua pagina "prompting Claude Fable 5": scorrendola si trovano istruzioni scritte in negativo una dopo l'altra. Gli esempi che legge a schermo:</p>
+<blockquote>"Quando hai informazioni su cui agire, <strong>agisci</strong>. Non fare questo." "Se stai valutando una scelta, <strong>dai una raccomandazione</strong>, ma non fare questo." "Non aggiungere funzionalità. Non fare questo, non fare questo, non fare questo. <strong>Fai la cosa più semplice che funziona bene</strong>."</blockquote>
+<p>L'analogia che usa: è come spiegare un compito a uno <strong>stagista</strong>. Gli dici anche le cose da non fare, perché non conosce ancora il processo e sta imparando.</p>
+<p>Il suo esempio riscritto. Invece di:</p>
+<blockquote>"Dai un'occhiata a questo problema e sistemalo."</blockquote>
+<p>meglio:</p>
+<blockquote>"Quando ti descrivo un problema o ti faccio una domanda, il deliverable è la tua <strong>valutazione</strong>. Riporta quello che trovi e <strong>fermati</strong>. Non aggiustare, non inviare, non modificare e non cancellare niente finché non dico io di procedere."</blockquote>
+<p>Onestà dell'autore, che vale la pena riportare: fino a poco tempo fa il negative prompting funzionava <strong>peggio</strong> che essere semplicemente molto precisi su cosa volevi; ultimamente invece, dice, funziona bene. È un cambiamento nel comportamento dei modelli, non una legge eterna.</p>
+<h2>Abitudine 3 — Lascialo agire appena ne sa abbastanza <em>(vale per ogni modello)</em></h2>
+<p>Il problema è il <strong>sovra-pianificare</strong>. Confessione interessante: non usa quasi più la <strong>plan mode</strong> di Claude Code, pur essendo stato uno che diceva "parti sempre in plan mode". Si è costruito la <strong>sua</strong> plan mode, cioè fa girare il modello nel suo processo finché non è pronto ad agire.</p>
+<p>Invece di:</p>
+<blockquote>"Ricerca tutto e fai un piano completo prima di fare qualsiasi cosa."</blockquote>
+<p>meglio:</p>
+<blockquote>"Quando hai abbastanza informazioni per agire, <strong>agisci</strong>."</blockquote>
+<p>E infatti è proprio la prima cosa che dice la doc di Fable 5, perché le singole richieste su compiti difficili possono girare <strong>per molti minuti</strong> ai livelli di sforzo alti — soprattutto quando il compito richiede di raccogliere contesto, costruire e <strong>auto-verificarsi</strong>.</p>
+<h3>Il pezzo sui livelli di sforzo (e sui soldi)</h3>
+<p>Qui c'è la parte più concreta. Esistono livelli di <strong>effort</strong>: <strong>low, medium, high, extra high</strong>. La raccomandazione ufficiale di Anthropic:</p>
+<ul>
+<li><strong>high</strong> come <strong>default</strong> per la maggior parte dei compiti;</li>
+<li><strong>extra high</strong> per i carichi di lavoro più sensibili alla capacità;</li>
+<li><strong>medium</strong> o <strong>low</strong> per il lavoro di routine.</li>
+</ul>
+<p>Il grafico che mostra confronta <strong>Fable 5</strong> e <strong>Opus 4.8</strong> a diversi livelli di ragionamento, con il costo sull'altro asse. La cosa interessante: <strong>Fable 5 a effort low</strong> rende in modo simile a <strong>Opus 4.8 a extra high e max</strong>, ma <strong>costa meno</strong>. Da qui due conclusioni: saper <em>sentire</em> quale livello di effort serve diventerà una competenza importante, e ancora di più saperlo abbinare al modello giusto. La sua stima, la frase più utile del video: usare Fable 5 per tutto è <strong>quasi al 100% overkill</strong>; realisticamente serve arrivare a Fable <strong>solo nel 5-15% dei casi</strong>.</p>
+<h2>Abitudine 4 — "Provalo": pretendi l'evidenza <em>(vale per ogni modello)</em></h2>
+<p>Per lui è <strong>la più importante</strong>. A volte i modelli dicono di aver finito e non è vero; oppure hanno finito ma <strong>non hanno verificato</strong>. Il paragone: se dai un lavoro a una persona e ti torna con un output, quell'output lo devi comunque rivedere. L'obiettivo è arrivare al punto in cui ti fidi tanto — perché hai <strong>cucito dentro i loop di verifica</strong> — che quando ti consegna qualcosa dovresti comunque controllare, ma non ne senti il bisogno urgente, perché sai che si è già controllato il lavoro <strong>due, tre, quattro, magari cinque volte</strong> e ha testato che tutto funzioni.</p>
+<p>Invece di chiedere:</p>
+<blockquote>"È finito? Funziona?"</blockquote>
+<p>meglio:</p>
+<blockquote>"Prima di dirmi che una cosa è fatta, <strong>indicami il risultato che lo dimostra</strong>. Riporta solo lavoro per cui puoi mostrare un'evidenza. Se qualcosa non è verificato, dillo chiaramente invece di tirare a indovinare."</blockquote>
+<p>E soprattutto: questa non va appiccicata in fondo a ogni singolo prompt, va <strong>cablata una volta per tutte</strong> dentro le skill, gli agenti e i file di memoria del progetto.</p>
+<h2>Abitudine 5 — Smetti di chiedergli di mostrare il ragionamento <em>(specifica di Fable)</em></h2>
+<p>Questa è l'unica regola davvero nuova e davvero Fable-specifica. Su <strong>Fable 5</strong>, una riga permanente del tipo "spiega il tuo ragionamento" — <strong>specialmente se sta nel system prompt</strong> — può far scattare un <strong>rifiuto</strong> e può far <strong>passare il tuo compito a Opus 4.8</strong>.</p>
+<p>Il motivo: Fable ha guardrail di sicurezza pensati contro il <strong>jailbreaking</strong> (ed è già un modello "minore" rispetto a <strong>Mythos 5</strong> — nome preso dalle auto-caption, resta incerto). Se sospetta che l'intento della richiesta sia malevolo, <strong>instrada verso un modello meno capace</strong>. Chiedere al modello di rivelare il proprio ragionamento interno cade dentro quella categoria di sospetto, quindi rischi il declassamento senza volerlo.</p>
+<h2>Abitudine 6 — Dì di meno, non di più <em>(specifica di Fable)</em></h2>
+<p>Sembra controintuitivo, perché finora si è pensato che più contesto dai, meglio è. Ma siccome Fable è così intelligente — e soprattutto se lo hai avvolto in un buon ambiente con contesto, tool e skill — <strong>un'istruzione corta ora guida quanto elencare tutte le regole per nome</strong>.</p>
+<p>E non è in contraddizione con l'abitudine 1: dare il <strong>perché</strong> non significa <strong>gonfiare</strong> tutto.</p>
+<p>L'esempio. Invece di:</p>
+<blockquote>"Regola 1: sii conciso. Regola 2: fai questo. Regola 3: fai quest'altro."</blockquote>
+<p>meglio:</p>
+<blockquote>"Apri con il risultato, tieni le cose semplici, e fermati a chiedermi qualcosa solo quando il lavoro ne ha davvero bisogno."</blockquote>
+<h2>Come funziona davvero il passaggio di consegne a Opus 4.8</h2>
+<p>Chiusura tecnica, importante da sapere per non impazzire quando i risultati peggiorano senza motivo apparente. Prima di rispondere, <strong>Fable esegue un rapido controllo di sicurezza</strong>. Se ritiene che la richiesta cada in certi secchielli — roba che ha a che fare con <strong>hacking</strong>, <strong>biologia pericolosa</strong>, o <strong>chiedere al modello di rivelare il proprio ragionamento privato</strong> — spinge la richiesta a <strong>Opus 4.8</strong>.</p>
+<p>Il punto scomodo: <strong>non te lo dice</strong>. Il rerouting è <strong>silenzioso</strong>. Se stai costruendo sulla <strong>API</strong> ricevi una risposta che mostra che era Opus, altrimenti potresti non accorgertene mai. Unica consolazione: instradando verso Opus 4.8 <strong>paghi meno</strong>, non di più — altrimenti sarebbe grave.</p>
+<p>Come evitarlo: non lasciare in giro istruzioni permanenti che chiedono di esporre il ragionamento, e ovviamente non chiedergli cose palesemente malevole o sospette.</p>
+<h2>Onestà su cosa vale e cosa no</h2>
+<p>Il titolo vende "come promptano gli ingegneri di Anthropic", ma la fonte dichiarata è la <strong>documentazione pubblica</strong> sulle best practice per Fable 5, più post su X. Quattro delle sei abitudini (dai il perché, di' cosa non fare, fallo agire, fallo provare) sono <strong>buone pratiche generiche</strong> già ampiamente note, non segreti interni. Il valore reale del video è concentrato in tre punti: la <strong>regola 5</strong> sul ragionamento che innesca il rerouting silenzioso, i <strong>numeri sull'effort e sul costo</strong> con la stima "Fable serve nel 5-15% dei casi", e la <strong>regola 6</strong> che ribalta l'istinto di scrivere prompt sempre più lunghi.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=vcU85OrwuV0 — Nate Herk, ~10 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: spec-driven-prompting, loop-engineering, model-routing, claude-skills, agent-memory.</li>
+<li><strong>Conferme e attriti con la wiki:</strong></li>
+<li><strong>Conferma</strong> spec-driven-prompting: definire prima cosa significa "fatto" e cosa il modello <em>non</em> deve fare (abitudini 2 e 4) è esattamente il pattern già in vault.</li>
+<li><strong>Conferma</strong> loop-engineering: "prima di dirmi che è fatto, indicami il risultato che lo dimostra" è il segnale di verifica cablato nel loop, e l'autore stesso dice di metterlo nelle skill e nei file di memoria, non a fine prompt.</li>
+<li><strong>Conferma</strong> model-routing: l'effort tarato sul compito (high di default, extra high solo per i carichi critici, low/medium per la routine) e il "Fable solo nel 5-15% dei casi".</li>
+<li><strong>Attrito da tenere d'occhio:</strong> l'abitudine 6 ("dì di meno") tira in direzione opposta rispetto all'istinto di scrivere spec lunghe e dettagliate. La riconciliazione proposta dall'autore è che la spec va nell'<strong>ambiente</strong> (skill, file di contesto, memoria) e il <strong>prompt</strong> resta corto — non che la spec sparisca.</li>
+<li><strong>Auto-critica dell'autore stessa contraddittoria:</strong> dice che il negative prompting funzionava <em>peggio</em> dell'essere specifici, e che "ultimamente" funziona meglio. Nessun dato, solo sensazione d'uso.</li>
+<li><strong>Nomi incerti (auto-caption):</strong> "<strong>Mythos 5</strong>" (modello superiore a Fable, nome non verificato); "Claude and M.D. files" e "Claude 3 files" sono quasi certamente <strong>CLAUDE.md</strong>.</li>
+<li><strong>Omesso di proposito:</strong> il segmento sponsorizzato su HyperAgent (~50 secondi, consiglio di agenti costruito sopra Airtable per farsi criticare le idee), l'invito a iscriversi alla community gratuita Skool per scaricare la guida scritta, i ringraziamenti e il rimando finale a un altro video sui loop di verifica.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

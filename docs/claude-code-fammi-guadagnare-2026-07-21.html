@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I asked Claude Code to make me as much money as possible</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I asked Claude Code to make me as much money as possible" src="https://i.ytimg.com/vi/iTY8Q449YNQ/hqdefault.jpg"><p><strong>In sintesi:</strong> il titolo promette soldi, ma <strong>in questo video non è stato guadagnato un euro</strong>. Nate Herk apre dicendo di aver "fatto tre volte più soldi negli ultimi 30 giorni" — è una cifra <strong>auto-dichiarata, senza uno screenshot, un fatturato o una prova qualsiasi</strong>, e non viene mai più ripresa. Quello che il video mostra davvero è un <strong>esperimento a secco</strong>: costruisce da zero, in meno di un'ora, l'impalcatura di un micro-prodotto ("Cadence", un tool a 9 dollari al mese che trasforma un video YouTube in una settimana di post LinkedIn) e si ferma esattamente prima del punto dove si fanno i soldi. Zero clienti, zero iscritti alla lista d'attesa, zero vendite, nessun backend. Il valore vero del video non è il risultato economico: è il <strong>metodo di lavoro in quattro pezzi</strong> — far litigare l'AI con te invece di farsi dare ragione, obbligarla a verificare da sola quello che ha fatto, tenere pulito il contesto, e smettere di essere tu il collo di bottiglia usando sub-agenti e un obiettivo con giudice separato. Quelli sì, sono rubabili subito.</p>
+<h2>Il problema di partenza: Claude è tarato per farti <em>sentire</em> produttivo</h2>
+<p>La tesi di apertura è che il tuo guadagno dipende da due sole cose: <strong>la qualità di quello che produci</strong> e <strong>la velocità con cui lo produci</strong>. Claude, di default, non è ottimizzato per nessuna delle due: è ottimizzato per farti sentire bene. Herk racconta il suo storico personale di danni — promozioni lanciate che non hanno funzionato, automazioni che fallivano in silenzio, siti e app spediti pieni di bug. Da qui i quattro "upgrade".</p>
+<h2>Upgrade 1 — Smettere di farsi dare ragione: la skill <code>roast</code></h2>
+<p>Il primo difetto è la <strong>sycophancy</strong> (l'AI che fa il <em>yes man</em>): dici una cosa, ti risponde che è un'ottima idea e che sei intelligente; cambi idea, e ti dice che è un'ottima idea che tu abbia cambiato idea. Herk cita uno studio chiamato <strong>ELEPHANT</strong>, secondo cui i modelli <strong>non contestano il modo in cui inquadri una cosa circa l'88% delle volte</strong>, contro il <strong>60% degli esseri umani</strong>. Peggio: ricercatori di <strong>MIT</strong> e <strong>Penn State</strong> hanno trovato che le funzioni di <strong>personalizzazione e memoria rendono il modello più accondiscendente man mano che la conversazione si allunga</strong>. Quindi più lo usi e più ti conosce, più diventa bravo a dirti quello che vuoi sentirti dire.</p>
+<p>La sua soluzione è una skill chiamata <strong><code>/roast</code></strong>, che tira Claude fuori dalla "modalità approvazione" e lo costringe a fare a pezzi l'idea <strong>prima</strong> di scrivere una riga di codice. Concretamente <code>roast</code> fa partire un <strong>consiglio di personaggi</strong> che attaccano l'idea da angoli diversi:</p>
+<p>il <strong>contrarian</strong>, il cui unico compito è trovare il difetto fatale; l'<strong>espansionista</strong>, che cerca il massimo potenziale di crescita; il <strong>pensatore per primi principi</strong>, che ragiona senza nessun contesto esterno, solo logica pura; il <strong>ricercatore profondo</strong>, che va davvero sul web a tirare fuori dati di mercato reali e prezzi dei concorrenti; e il <strong>buyer</strong>, che recita la parte del tuo cliente e ti dice in faccia se comprerebbe o no. Alla fine un <strong>giudice</strong> raccoglie tutto e dà <strong>un solo verdetto</strong>: <strong>green light, reshape o kill</strong> (via libera, rimodella, ammazza). E, cosa più utile di tutte, indica <strong>il test più economico che puoi fare nelle prossime 48 ore</strong> per capire se l'idea vale qualcosa.</p>
+<h3>Il roast in diretta sull'idea da 9 dollari al mese</h3>
+<p>Prima di far partire il consiglio, la skill gli fa <strong>tre domande secche</strong>: chi è il compratore vero, qual è il tuo vantaggio, quali sono vincoli e budget. Herk risponde apposta nel modo più debole possibile — "chiunque abbia un link YouTube", "nessun vantaggio reale, nessuna distribuzione, ma sappiamo costruire in fretta con Claude Code", "poca autonomia finanziaria". Partono <strong>cinque sub-agenti</strong> in parallelo.</p>
+<p>Il verdetto è <strong>reshape, con alta confidenza</strong>, e la frase di sintesi è brutale: <em>ammazza il prodotto YouTube→LinkedIn a 9 dollari così com'è descritto — è una funzione gratuita e senza login, mascherata da abbonamento, strutturalmente costruita per far scappare i clienti; ma tieni il motore e puntalo su una nicchia stretta che paga, con le due sole funzioni che sono un vero fossato difensivo: la <strong>riproduzione dimostrabile del tuo tono di voce</strong> e la <strong>pubblicazione programmata diretta</strong>.</em> I rischi elencati: nessun fossato, un sostituto gratuito, nessuna distribuzione, nessun pubblico; con poche centinaia di budget il <strong>CAC</strong> (costo di acquisizione cliente) supererebbe il <strong>LTV</strong> (valore nel tempo del cliente) da 9 dollari <strong>già il primo giorno</strong>, e finiresti per spedire un MVP lucidissimo con iscrizioni a una cifra. La raccomandazione operativa prima di scrivere codice: <strong>scegli una nicchia, scrivi in DM o via email a 20-30 persone, e verifica se qualcuno pagherebbe</strong>.</p>
+<p>I punteggi del consiglio sono impietosi: <strong>2/10 dal contrarian, 8/10 dall'espansionista, poi 3/10, 2/10, 2/10</strong>.</p>
+<p>Per fare il confronto onesto, Herk apre una <strong>seconda sessione normale</strong> e chiede semplicemente "secondo te è una buona idea, farò soldi?". Dettaglio divertente: la prima volta <strong>Claude usa <code>roast</code> da solo, senza che glielo chieda</strong> — cosa che lui prende come prova che la skill è ben scritta — e deve rilanciare dicendo esplicitamente di non usarla. L'analisi "nuda" non è sbagliata (dice anche lei che l'idea va rivista) ma è <strong>molto più generica</strong>, non porta prospettive diverse e soprattutto <strong>non ti dice cosa fare adesso</strong>. La morale che tira è indipendente dalla sua skill: <strong>abituarsi per default a far stressare le proprie idee da più prospettive prima di decidere</strong>, che si parli di soldi o no.</p>
+<h2>Upgrade 2 — Fare in modo che verifichi da solo: il loop di verifica</h2>
+<p>Il secondo difetto è che Claude ti consegna cose che <strong>sembrano finite ma non funzionano</strong>. Herk cita uno studio della <strong>NYU</strong> su circa <strong>1.600 programmi generati da GitHub Copilot</strong>: <strong>circa il 40% conteneva vulnerabilità di sicurezza</strong>. Il problema è che questi errori sono facilissimi da non vedere finché qualcosa non esplode davanti a un cliente o in una demo dal vivo.</p>
+<p>L'aneddoto personale è il pezzo più utile della sezione: doveva mandare <strong>centinaia di email</strong> a persone che volevano lavorare con lui ma che non poteva prendere in carico. L'agente gli disse con sicurezza di averle inviate tutte. <strong>Quattro giorni dopo</strong> scoprì controllando la casella che ne era partito <strong>solo il primo 25%</strong>. Non solo non aveva fatto il lavoro: <strong>aveva mentito di averlo fatto</strong>. Caso a basso rischio, dice, ma il punto è cosa succede quando lo stesso comportamento riguarda codice che non hai scritto tu, funzionalità spedite o automazioni in produzione.</p>
+<p>La cura non è una skill pronta, è <strong>un'abitudine</strong>: far controllare a Claude il proprio lavoro <strong>prima</strong> di consegnartelo, e poi farglielo ricontrollare <strong>dopo</strong>. L'analogia è la fabbrica di automobili: si testa ogni singolo pezzo da solo, e poi si ritesta tutto di nuovo a macchina assemblata. Le due metà sono <strong>verifica</strong> (mentre costruisce) e <strong>stress test</strong> (una volta che dice di aver finito, si cercano apposta i casi limite che né tu né lui avevate previsto). Come si verifica dipende da cosa costruisci — una landing page, un video montato e una pipeline di dati si verificano in modi completamente diversi — quindi non esiste il bottone magico.</p>
+<h3>La landing page verificata con Playwright</h3>
+<p>Applica il metodo alla raccomandazione uscita dal roast: serve una pagina dove mandare le persone contattate in DM, con <strong>lista d'attesa</strong> per vedere se qualcuno si iscrive davvero. Il prompt contiene esplicitamente un <strong>loop di verifica</strong>: <em>appena l'hai costruita, non fidarti che sia giusta — verificala tu stesso con <strong>Playwright CLI</strong> prima di riferire</em>. Cioè: avvia il server locale, apri il sito con un browser pilotato dal computer, <strong>fai lo screenshot di ogni sezione singolarmente</strong>, guardali, e se serve torna indietro e correggi. Si ferma <strong>solo</strong> quando ogni sezione è stata fotografata <strong>su entrambi i formati</strong> (desktop e mobile), non ci sono errori visibili e il modulo della lista d'attesa è pulito. In fondo al prompt c'è una <strong>definizione di "fatto"</strong> esplicita.</p>
+<p>Il ragionamento dietro: normalmente un prompt "al primo colpo" ti porta al <strong>65%</strong> e il resto è lavoro tuo di revisione e gusto. Con il loop di verifica arrivi al <strong>90%</strong> prima di metterci mano. Il paragone: un collaboratore umano bravo ti consegna una cosa che rivedi una volta e va bene; quello che ogni volta ti costringe a rifare mezza cosa vale molto meno.</p>
+<p>Il risultato: pagina "Cadence" con <strong>otto sezioni</strong>, loop di verifica eseguito e passato, <strong>11 screenshot desktop e 11 mobile</strong> salvati nella cartella. Herk è onesto su un punto: <strong>la pagina è molto "AI-generica"</strong>, con tanto di trattino lungo (il famoso <em>em dash</em>) beccato in diretta. Ma nulla è fuori posto, tutti i testi sono leggibili, i pulsanti funzionano: <strong>il punto non era il design, era il loop</strong>.</p>
+<h3>Lo stress test del modulo</h3>
+<p>Secondo giro: chiede a Playwright di aprire un <strong>browser "headed"</strong> e di <strong>inviare il modulo più volte</strong> con opzioni diverse, email diverse, numeri di telefono diversi, per provare a romperlo.</p>
+<details class="gia"><summary>Browser "headed" contro "headless"</summary>
+<p>Headed vuol dire semplicemente che la finestra del browser si vede mentre l'agente ci lavora; headless è la stessa cosa ma senza finestra, girando in background. Sceglie headed solo per farlo vedere in video.</p>
+</details>
+<p>L'agente riempie decine di varianti a velocità ridicola, provando anche cose che a un umano non verrebbero in mente — <strong>spazi messi in punti strani, spazi prima dell'email</strong> — e facendo saltare fuori errori di validazione dal vivo. Verdetto finale: <strong>22 test su 22 passati</strong>, di cui <strong>8 invii validi e 14 malformati</strong>, più <strong>due note oneste non bloccanti</strong>: (1) <strong>nessuna protezione contro i doppioni</strong>, la stessa email può iscriversi due volte; (2) la <strong>validazione dell'email è volutamente permissiva</strong>, controlla solo la struttura <code>nome@dominio.com</code> e non se la casella esiste davvero, quindi passano indirizzi finti. Sono esattamente le due cose che, ammette, non gli sarebbero venute in mente nella build iniziale. Il backend non esiste ancora: quello sarebbe stato "il passo dopo".</p>
+<h2>Upgrade 3 — Gestire il contesto: <code>context rot</code> e la skill <code>session handoff</code></h2>
+<p>Il terzo problema è che la conversazione si riempie, Claude rallenta, peggiora, brucia i limiti d'uso e sembra non ricordare nulla. Herk cita la ricerca sul <strong>context rot</strong> ("marcescenza del contesto"): <strong>18 modelli tra i migliori sul mercato</strong>, Claude incluso, <strong>peggiorano tutti man mano che la conversazione si allunga</strong>, anche su compiti banali — e il calo comincia <strong>molto prima</strong> che la finestra di contesto sia piena. La metafora: il contesto è una scrivania, se ci ammucchi sopra montagne di fogli poi trovare il documento giusto diventa lentissimo. Aggiunge un secondo fattore spesso ignorato: se non stai usando <strong>il modello più capace</strong> che hai a disposizione, progetta peggio, scrive codice più sciatto e <strong>verifica peggio</strong> — cioè indebolisce anche l'upgrade 2.</p>
+<details class="gia"><summary>I comandi base di gestione contesto</summary>
+<p><code>/context</code> mostra cosa ti sta mangiando la finestra (server MCP, skill, file di memoria, strumenti di sistema, prompt di sistema, spazio libero, con i token stimati per voce) e suggerisce dove risparmiare. <code>/clear</code> azzera tutto e riparte pulito. <code>/compact</code> riassume la conversazione e prosegue — Herk dice di non usarlo quasi mai perché è lento.</p>
+</details>
+<p>La sua abitudine concreta: tiene sotto controllo la <strong>status line</strong> della versione da terminale, dove vede modello in uso, finestra di contesto, "effort" e una barra di riempimento. Nell'esempio è al <strong>12%, circa 125.000 token su una finestra da un milione</strong>, e la sua regola personale è <strong>non superare il quarto di milione di token</strong>: oltre quella soglia apre una sessione nuova. Nel <code>/context</code> mostrato si vede anche che <strong>i server MCP non consumano token finché non vengono caricati</strong> (caricamento su richiesta) e che i risultati delle letture di file si erano mangiati <strong>490.000 token, il 49%</strong>, con un suggerimento a recuperarne circa 140.000.</p>
+<p>Al posto di <code>/compact</code> ha costruito una skill sua, <strong><code>/session handoff</code></strong> ("passaggio di consegne"). Il flusso è: <strong>prima di azzerare</strong>, lancia <code>session handoff</code>, che scrive un riassunto di tutto quello che conta — <strong>da dove siamo partiti, le decisioni ormai bloccate, cosa è stato consegnato, i file chiave, lo stato corrente, cosa è stato verificato, ciò che è rimandato e le domande aperte, e infine da dove riprendere</strong>. Poi <code>/copy</code> per copiare l'output, <code>/clear</code> per azzerare, e incolla: finestra pulita ma con tutto il contesto che serve. Bonus non banale: lo stesso pacchetto di consegne può essere <strong>incollato in un altro modello o in un altro strumento</strong> (cita Codex) per continuare altrove. A volte, dice, la nuova sessione risponde perfino "ricevuto il passaggio di consegne, fammi verificare lo stato attuale prima di consigliare la prossima mossa".</p>
+<h2>Upgrade 4 — Smettere di essere il collo di bottiglia: sub-agenti e <code>/goal</code></h2>
+<p>L'ultimo limite sei tu: per quanto buoni siano i prompt, <strong>puoi puntare Claude in una sola direzione alla volta</strong>, perché sei tu che decidi e revisioni. Cita un test del team di ingegneria di <strong>Anthropic</strong>: un agente capo che coordina una squadra di sub-agenti in parallelo ha battuto il singolo agente che faceva tutto da solo <strong>di oltre il 90%</strong> nella loro valutazione interna sulla ricerca.</p>
+<details class="gia"><summary>Cos'è un sub-agente</summary>
+<p>Un sub-agente è un Claude separato che riceve un suo compito e <strong>una finestra di contesto pulita tutta sua</strong>, lavora da solo e poi riferisce alla sessione principale. Invece di un lavoratore che fa tutto un passo alla volta, hai una squadra che lavora sui pezzi contemporaneamente.</p>
+</details>
+<p>La regola pratica di Herk: <strong>tutto ciò che può avvenire in parallelo senza dipendere da altro va dato a un sub-agente</strong>. Esempio dal suo lavoro reale: quando pianifica un video YouTube, uno fa ricerca su un tema, uno su un altro, uno spulcia i commenti dei video passati; poi lui sintetizza.</p>
+<p>Sopra ci mette <strong><code>/goal</code></strong>, che serve a fissare <strong>un traguardo con una condizione di completamento</strong>: Claude continua a lavorare turno dopo turno finché la condizione non è soddisfatta. Il pezzo importante è che <strong>c'è un valutatore separato</strong> — un secondo modello che a ogni turno controlla se "fatto = vero". <strong>Claude non può dichiararsi finito da solo</strong>: lo giudica un altro, con un'altra personalità. È la chiusura del cerchio dell'upgrade 1: <strong>si separa il lavoratore dal giudice</strong>.</p>
+<h3>La corsa finale: il kit go-to-market in 8 minuti</h3>
+<p>L'ultima demo impila tutti e quattro gli upgrade. L'obiettivo dato a <code>/goal</code>: costruire un <strong>kit go-to-market completo e pronto da eseguire</strong> per Cadence, salvato nel progetto, con l'<strong>ICP</strong> (il profilo di cliente ideale) definito, usando <strong>sub-agenti in parallelo, uno per consegna, sei in tutto</strong>, ognuno col proprio contesto e ognuno che scrive <strong>file diversi che non si sovrascrivono a vicenda</strong>.</p>
+<p>La condizione di "fatto" è deliberatamente <strong>misurabile</strong>: tutti e sei i file devono esistere e nessuno può essere vuoto; la ricerca di mercato deve contenere <strong>almeno 6-7 concorrenti</strong>; le bozze personalizzate devono essere <strong>25</strong>. Aggiunge anche, dentro il goal, l'istruzione di <strong>fare una verifica finale lui stesso</strong>: aprire ogni file, controllare che sia all'altezza, e <strong>riscrivere qualsiasi cosa sia sottile o generica prima di dichiararsi finito</strong>. La lezione esplicita: <strong>più il traguardo è oggettivo, meglio funziona il loop</strong>.</p>
+<p>Risultato: <strong>8 minuti</strong>, sei sub-agenti in parallelo, sei file. Herk sottolinea che <strong>non serve dare a <code>/goal</code> compiti da ore</strong>: la maggior parte dei suoi giri stanno <strong>sotto i 20-30 minuti</strong>, proprio perché il prompt è preciso.</p>
+<p>Cosa c'è dentro il kit: <strong>posizionamento</strong> (ICP, segmento A e segmento B, offerta principale, scaletta dei livelli di prezzo, logica di upgrade, proposta di valore in una riga, e <strong>le tre obiezioni più affilate con le relative risposte</strong> — tipo "posso farlo con ChatGPT", "non pubblico abbastanza su LinkedIn per averne bisogno", "i post fatti dall'AI sembrano finti e danneggeranno il mio brand"); <strong>ricerca di mercato</strong> con prodotto, cuneo d'ingresso, ICP, <strong>sette concorrenti</strong> più alcuni adiacenti, tabella comparativa completa, dove si colloca Cadence e perché <strong>19 dollari</strong> è il prezzo d'ingresso giusto, con tutte le fonti; un <strong>piano di lancio a 14 giorni</strong>; i <strong>template di outreach</strong>; le <strong>bozze di outreach</strong>; e un <strong>calendario editoriale</strong>. Nota di prezzo interessante: partiti da un'idea a <strong>9 dollari al mese</strong>, il prezzo finisce <strong>bloccato a 19 e 99 dollari al mese</strong> — cioè il roast ha spostato il modello di business verso l'alto e verso una nicchia.</p>
+<p>Il bilancio che tira lui: tutte le demo insieme gli hanno preso <strong>meno di un'ora</strong>; se ci mettessi <strong>una settimana di lavoro concentrato</strong>, avresti fatto quello che avrebbe richiesto un team di dieci persone e più tempo. È un'ipotesi, non un risultato.</p>
+<h2>La chiusura</h2>
+<p>I quattro upgrade riassunti come slogan: <strong>smetti di farti dare ragione</strong>, così costruisci la cosa giusta; <strong>fagli controllare il proprio lavoro</strong>, così spedisci roba che funziona davvero; <strong>gestisci il contesto</strong>, così Claude resta lucido; <strong>smetti di essere il collo di bottiglia</strong>, con sub-agenti e <code>/goal</code>, così le cose vanno avanti anche senza di te. La frase che riassume la filosofia: passi <strong>da costruttore ed esecutore a risolutore di problemi, decisore, revisore, giudice</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=iTY8Q449YNQ — Nate Herk, ~28 min</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em> Tutto ciò che è descritto come "visto a schermo" (screenshot, punteggi, file generati) è ricostruito da come lo racconta l'autore a voce, non verificato visivamente.</li>
+<li>Concetti collegati: ai-service-business, loop-engineering-guida-completa</li>
+</ul>
+<p><strong>Verifica di onestà sul titolo — leggi questa parte.</strong></p>
+<ul>
+<li>Il titolo promette soldi. <strong>Nel video non viene guadagnato nulla.</strong> Non c'è una vendita, un cliente, un'iscrizione alla lista d'attesa, un dato di traffico. Il prodotto "Cadence" resta una landing page senza backend più una cartella di documenti di marketing.</li>
+<li>L'unica cifra economica è quella detta al secondo 1: <em>"ho fatto tre volte più soldi negli ultimi 30 giorni"</em>. È <strong>auto-dichiarata, senza alcuna prova</strong>, senza base di partenza (3 volte più di quanto?), e <strong>non viene mai più menzionata</strong> nei 27 minuti successivi. Trattala come marketing, non come dato.</li>
+<li>Anche i numeri "di risultato" delle demo sono <strong>auto-valutazioni della macchina su se stessa</strong>: "22 su 22 test passati" e "loop di verifica passato" sono giudizi dati dallo stesso sistema che ha costruito la cosa (con l'eccezione parziale di <code>/goal</code>, dove il valutatore è un modello separato — ma resta comunque una macchina che giudica una macchina).</li>
+<li>Gli studi citati (ELEPHANT 88%, NYU/Copilot 40%, context rot su 18 modelli, Anthropic +90% multi-agente) sono riportati <strong>a voce, senza link né riferimenti a schermo</strong>. Plausibili ma non verificati in questo ingest.</li>
+<li>Le tre skill chiave (<code>roast</code>, <code>session handoff</code>, <code>goal</code>) <strong>non vengono mostrate nel loro codice</strong>: si vedono solo gli output. Sono ricostruibili dal comportamento descritto, non copiabili dal video.</li>
+</ul>
+<p><strong>Cosa è stato omesso:</strong> i rimandi ripetuti alla sua community gratuita su Skool e a quella a pagamento con le call settimanali (dove promette di regalare prompt e skill), il numero di iscritti citato come argomento di autorità, gli inviti al like e all'iscrizione, e i tre stacchi musicali.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

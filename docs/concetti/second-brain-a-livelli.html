@@ -118,6 +118,15 @@ th { background: #f4f6f8; font-weight: 700; }
 </ol>
 <h2>Criterio pratico: Contesto vs Connessioni</h2>
 <p><strong>Contesto</strong> (dati evergreen e stabili — decisioni, priorità) va ingerito stabilmente nel second brain. <strong>Connessioni</strong> (dati che cambiano di continuo — email, chat, CRM) NON vanno ingerite (diventerebbero rumore da ripulire), ma il sistema deve sapere dove andarle a recuperare al bisogno (fallback a cascata: file di progetto → wiki → trascrizioni → tool esterno).</p>
+<h2>Cosa manca a questo vault (verifica onesta)</h2>
+<p>Confronto tra questo second brain e il metodo "LLM Wiki" di Karpathy come mostrato in fable-5-karpathy-llm-wiki-2026-07-21. Quattro buchi reali:</p>
+<ol>
+<li><strong>Manca un <code>index.md</code></strong> — la mappa dei contenuti con i collegamenti, che permette all'agente di <em>navigare</em> invece di rastrellare tutta la cartella. Qui ci sono <code>log.md</code> (cronologia), <code>coda-video.md</code> e <code>canali-seguiti.md</code>, ma nessuna tavola dei contenuti. ⚠️ È la <strong>seconda fonte indipendente</strong> a dirlo: era già annotato più su in questa stessa pagina e non è mai stato fatto.</li>
+<li><strong>Collegamenti a senso unico</strong> — i riassunti puntano ai concetti e i concetti puntano alle fonti, ma <strong>i concetti non si collegano tra loro</strong> abbastanza. Il grafo è una stella, non una rete: manca la navigazione a catena, che è il valore vero di una wiki.</li>
+<li><strong>Si ingerisce solo video</strong> — tutto passa da <code>/watch</code> e <code>raw/</code> contiene solo <code>watched/</code>. Lo stesso impianto digerirebbe PDF e pagine web, che spesso sono più dense di un video.</li>
+<li><strong>Nessuna passata di verifica dopo l'ingest</strong> — dopo un blocco di video andrebbero riaperte le pagine e, se l'organizzazione non regge, <strong>cambiate le regole di ingest</strong>. Mai fatto.</li>
+</ol>
+<p>Da <strong>non</strong> copiare da quel metodo: le sottocartelle per tipo (tecniche/strumenti/confronti) — piatto funziona meglio per la ricerca — e le wiki multiple, visto che qui la separazione <code>wiki/</code> ↔ <code>progetti/</code> risolve già lo stesso problema.</p>
 <h2>Fonti</h2>
 <ul>
 <li>Every Level of a Claude Second Brain Explained (Nate Herk, 2026-07-07)</li>

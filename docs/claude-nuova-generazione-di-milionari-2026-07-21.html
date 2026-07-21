@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How Claude is Creating a New Generation of Millionaires</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How Claude is Creating a New Generation of Millionaires" src="https://i.ytimg.com/vi/pbrln2TVeh4/hqdefault.jpg"><p><strong>In sintesi:</strong> il titolo promette una "nuova generazione di milionari" creata da Claude, ma nel video <strong>non compare un solo milionario verificabile</strong>. C'è <strong>un</strong> caso reale e controllabile — <strong>Vulcan Technologies</strong>, che con Claude ha costruito il software di revisione normativa dello stato della <strong>Virginia</strong> — ed è però una startup <strong>Y Combinator con 10,9 milioni di dollari di seed</strong>, non un tizio in cameretta; il resto sono <strong>founder anonimi "a sette cifre"</strong> conosciuti a una settimana di ritiro, e i risultati auto-dichiarati di Nate stesso. I numeri macro su Anthropic (raccolta da <strong>65 miliardi</strong>, valutazione <strong>965 miliardi</strong>, run rate <strong>47 miliardi</strong>) li ho controllati e <strong>sono corretti</strong>, ma dimostrano che Anthropic sta facendo soldi, non che li stai facendo tu. Giudizio netto: <strong>video motivazionale con una crosta di dati veri</strong>, la cui vera funzione è portarti nella community gratuita dell'autore. La parte operativa utile sta tutta in <strong>quattro minuti finali</strong> e sono cose che in vault hai già — con <strong>una</strong> eccezione che vale il tempo: il pattern del <strong>"roast"</strong>, un consiglio di sub-agent che deve smontare la tua idea prima che tu costruisca qualcosa.</p>
+<h2>Il gancio: Vulcan, l'unica storia con nome e cognome</h2>
+<p>Nate apre con <strong>Vulcan</strong>, un'azienda che costruisce software usato <strong>dentro le agenzie governative</strong> e che sembra il lavoro di cento ingegneri. Non lo è: <strong>tre fondatori</strong>, due dei quali non sanno scrivere codice, e uno di loro — <strong>Tanner Jones</strong> — non tocca codice dai tempi di un corso di JavaScript al liceo.</p>
+<p>Il dettaglio più forte del racconto è che il <strong>primo prototipo non è stato fatto con Claude Code</strong>, perché Claude Code non esisteva ancora. L'hanno costruito <strong>nell'app Claude normale</strong>, copiando e incollando il codice fuori dalla chat finché non ha funzionato. Da quel prototipo copia-incolla è nato un prodotto vero che si è <strong>aggiudicato un contratto dello stato della Virginia</strong>, secondo Nate a circa il <strong>10% del prezzo</strong> che avevano chiesto le società di consulenza tradizionali. Poi il <strong>governatore ha firmato un ordine esecutivo</strong> che obbliga ogni agenzia statale a fare il tipo di revisione normativa con AI che Vulcan aveva costruito — come dice Vulcan stessa, "la Virginia ha reso il nostro prodotto obbligatorio per legge". E l'azienda dichiara che quel lavoro <strong>sta già facendo risparmiare ai cittadini della Virginia oltre un miliardo di dollari l'anno</strong>.</p>
+<p>La morale che Nate estrae da Tanner: <em>"se capisci il linguaggio e sai pensare in modo critico, puoi usare Claude Code davvero bene"</em>. Cioè: la nuova competenza è <strong>descrivere esattamente quello che vuoi</strong> e <strong>valutare criticamente quello che torna indietro</strong>. Punto.</p>
+<p>Vedi più sotto: questa storia regge alla verifica, ma non regge il peso che le viene messo sopra.</p>
+<h2>I numeri su Anthropic</h2>
+<p>Come contesto Nate ricorda che Claude è fatta da <strong>Anthropic</strong>, che due settimane prima del video ha chiuso una raccolta da <strong>65 miliardi di dollari in un colpo solo</strong>, a una valutazione di <strong>965 miliardi</strong> — appena sotto il trilione — superando <strong>OpenAI</strong> per la prima volta. E aggiunge che non è solo entusiasmo degli investitori, perché il <strong>run rate</strong> (il ritmo annualizzato con cui le aziende la stanno pagando) è arrivato a <strong>47 miliardi</strong>, contro <strong>1 miliardo a fine 2024</strong>: <strong>47 volte in circa un anno e mezzo</strong>.</p>
+<p>Poi la statistica su <strong>Y Combinator</strong>, l'acceleratore più famoso al mondo (da lì sono usciti <strong>Airbnb, Stripe, DoorDash</strong>): nell'ultima infornata di startup, <strong>più della metà</strong> costruisce con Claude, che è l'AI più usata del gruppo. Un anno prima quel posto era di <strong>OpenAI con oltre il 90%</strong>.</p>
+<h2>Le quattro cose che, secondo lui, rendono Claude Code diverso</h2>
+<details class="gia"><summary>I quattro pilastri di Claude Code</summary>
+<p>Questa parte per te è ripasso puro, la metto solo per completezza. <strong>(1) Fa il lavoro</strong>: descrivi in italiano e ti costruisce la cosa in minuti invece che mesi. <strong>(2) È agentic</strong>: agisce da solo verso un obiettivo invece di rispondere e basta — costruisce, testa, trova il bug, lo corregge, mentre con un chatbot normale tutto il "in mezzo" lo fai tu. <strong>(3) Lavora in parallelo</strong>: più agenti insieme, anche mentre dormi, perché loro non dormono. <strong>(4) Ricorda</strong>: conosce il tuo business, il tuo team, le tue priorità e i tuoi fallimenti passati. Nate dice che a questo punto Claude ha più memoria di lui e gli ricorda le cose da fare. È esattamente agent-memory.</p>
+</details>
+<p>L'unica affermazione non ovvia è la conclusione: sommando le quattro cose, <strong>lo spazio tra "avere un'idea" e "avere un prodotto vero" praticamente sparisce</strong>. È la premessa su cui poggia tutto il resto del video.</p>
+<details class="gia"><summary>La finestra d'opportunità e l'analogia con Internet</summary>
+<p>Il ragionamento classico: chi ha imparato un po' di HTML per mettere online il proprio business, o ha capito come far girare le inserzioni su Facebook quando ancora costavano niente, si è portato avanti per un decennio mentre i concorrenti compravano ancora pagine sui giornali. Stessa finestra oggi. La frase riassuntiva è <em>"chi sta vincendo con Claude non è più intelligente di te, ha solo iniziato prima"</em>, insieme al cliché "non è l'AI che ti ruba il lavoro, è qualcuno che sa usarla". Con l'ammissione onesta che <strong>tra due anni essere AI-native sarà la normalità</strong>, non un vantaggio.</p>
+</details>
+<h2>I quattro passi operativi</h2>
+<p><strong>Passo uno: piano Claude a pagamento.</strong> Serve per avere accesso a Claude Code. Il piano base sono <strong>20 dollari al mese</strong>, e la frase con cui la vende è: non pensarlo come l'ennesimo abbonamento tipo Netflix, pensalo come <strong>il dipendente più economico che assumerai mai</strong>.</p>
+<p><strong>Passo due: scegli UN compito vero, non dieci.</strong> Qualcosa che rimandi da sempre, qualcosa di ripetitivo, qualcosa che normalmente daresti a un freelance a pagamento: <strong>organizzare ricevute, mettere insieme il report settimanale, smistare le email, fare le tasse</strong>. Oppure, se hai un blocco note pieno di idee di business mai partite, parti da lì. Quel singolo compito è il tuo primo progetto.</p>
+<p><strong>Passo tre: descrivilo e poi fallo litigare con te.</strong> Apri Claude Code e spiega il compito nel modo più chiaro possibile: <strong>cos'è, come lo fai oggi, e com'è fatta una vittoria</strong>. Ma <strong>prima di lasciargli costruire qualsiasi cosa, obbligalo a discutere con te</strong> — a fare da avvocato del diavolo — perché questi modelli <strong>tendono all'adulazione</strong>: vogliono compiacerti, e se arrivi entusiasta della tua idea Claude ti farà solo diventare più entusiasta e comincerà a costruire anche se l'idea ha buchi enormi.</p>
+<p>Qui c'è <strong>il pezzo davvero interessante del video</strong>. Nate dice di usare nel suo business un pattern che chiama <strong>"the roast"</strong> (l'arrostita): Claude tira su un <strong>piccolo consiglio di sub-agent</strong>, ciascuno con una personalità diversa. Uno <strong>difende con forza la sua idea</strong>; uno <strong>cerca tutti i buchi e gli dice che l'idea fa schifo</strong>; uno <strong>raccoglie prove e guarda tutto da un punto di vista puramente logico e di ricerca</strong>. Ce ne sono altri, e insieme gli restituiscono un quadro completo. La chiave: <strong>ogni singolo punto deve essere sostenuto da qualcosa di reale, non da vibrazioni</strong>. E siccome questi agenti conoscono già la memoria del suo business — cosa sta funzionando adesso, cosa sta succedendo — giudicano nel contesto giusto, non in astratto. Alla fine esce <strong>un verdetto secco</strong>: <strong>vai avanti</strong>, <strong>rimodella l'idea</strong>, oppure <strong>ammazzala</strong>. Solo se l'idea sopravvive si passa a costruire.</p>
+<p><strong>Passo quattro: costruisci a pezzetti e pretendi la prova.</strong> Se il progetto è grosso, lo spezzi e parti dalla <strong>versione più piccola che funziona davvero</strong>, poi cresci da lì. Mai chiedere tutto insieme.</p>
+<details class="gia"><summary>Verificare invece di credere e il primo giro al 60-70%</summary>
+<p>Ripasso: quando Claude dice "fatto", <strong>non fidarti sulla parola — fagli dimostrare che è fatto</strong>, facendogli girare la cosa su un esempio reale e mostrandoti l'output. Il criterio pratico che dà è buono: <em>se questo lavoro te lo consegnasse un umano, cosa guarderesti per verificarlo?</em> Ecco, chiedi all'AI di fare esattamente quelle cose — e può <strong>pilotare un browser</strong>, quindi qualunque verifica tu possa fare al computer può farla anche lui. Il primo risultato tornerà giusto al <strong>60-70%</strong>: non è un fallimento, sono <strong>dati d'oro</strong>. Digli in parole semplici cosa ti è piaciuto e cosa era sbagliato e lascia che corregga il proprio lavoro; nel tempo migliora perché gli stai costruendo intorno skill e memoria. E se fa qualcosa che non capisci, <strong>chiedigli di spiegartelo</strong>: trattalo come un mentore, come il tuo migliore amico che è anche la persona più intelligente del mondo. È il ciclo che hai già in loop-engineering e spec-driven-prompting.</p>
+</details>
+<p>La chiusura: quando il primo compito funziona, ne prendi un altro. È così che dice di essere arrivato a far girare tutta la sua attività dentro Claude, <strong>un compito alla volta</strong>. E la promessa finale: non ti serve costruire la prossima Vulcan questo weekend, ti servono <strong>20 dollari e un compito</strong> — e questo, dice, ti mette <strong>davanti al 95% delle persone al mondo</strong>.</p>
+<h2>Quanto crederci</h2>
+<p>Applico verifica-business-pitch-video punto per punto, perché qui serve.</p>
+<p><strong>Titolo contro contenuto.</strong> Il video si chiama "come Claude sta creando una nuova generazione di milionari" e <strong>non presenta un solo milionario creato da Claude</strong>. Presenta: una startup finanziata, dei founder anonimi, e sé stesso. Il titolo è <strong>hype puro</strong>, la sostanza è "usa Claude per il tuo lavoro ripetitivo".</p>
+<p><strong>La storia di Vulcan: vera, ma raccontata a metà.</strong> L'ho verificata e regge nell'ossatura — Vulcan Technologies esiste, <strong>Tanner Jones</strong> è il CEO, il prototipo è stato davvero fatto copiando e incollando dall'app Claude, e la Virginia ha davvero adottato la revisione normativa con AI per ordine esecutivo del governatore <strong>Youngkin</strong>. Quello che il video <strong>non dice</strong> è: (a) Vulcan è <strong>una startup di Y Combinator</strong> che ha chiuso un <strong>seed da 10,9 milioni di dollari</strong> con <strong>General Catalyst</strong> — non tre amici che si arrangiano; (b) il contratto con la Virginia di cui si parla era, all'inizio, un <strong>pilota da 150.000 dollari per tre mesi</strong>, non un jackpot; (c) il "<strong>oltre un miliardo di dollari l'anno risparmiato</strong>" è la stima dell'<strong>amministrazione Youngkin sull'intera operazione di deregolamentazione</strong> (circa 1,2 miliardi), non un risparmio prodotto da Vulcan da sola — ed è una stima che gli esperti citati dalla stampa locale dicono di dover ancora verificare nel tempo. Classificazione: <strong>parzialmente vero</strong>, pattern <strong>4 (team/finanziamento presentato come replicabile da solista)</strong> in pieno. E vale la pena saperlo: questo caso è raccontato in un <strong>post del blog di Anthropic</strong> su tre startup YC che hanno costruito con Claude Code. Cioè la prova principale del video è <strong>materiale di marketing del venditore</strong>.</p>
+<p><strong>Le altre "prove" non sono prove.</strong> La "stanza piena di founder a sette cifre" con cui avrebbe passato una settimana: <strong>zero nomi, zero numeri, non verificabile</strong> — pattern 2, bias di sopravvivenza allo stato puro, perché non sentirai mai parlare delle centinaia che hanno provato lo stesso e non hanno fatto un euro. I risultati di Nate sul proprio business: <strong>auto-dichiarati</strong>, e per giunta senza mai una cifra. Pattern <strong>3 (fatturato contro profitto)</strong> qui non si applica solo perché <strong>non viene dato nessun numero da controllare</strong>.</p>
+<p><strong>I numeri macro sono corretti ma fuorvianti.</strong> Raccolta da 65 miliardi, valutazione 965 miliardi, run rate 47 miliardi contro 1 miliardo a fine 2024: <strong>confermati</strong>. Il problema è logico, non fattuale: <strong>il fatto che Anthropic incassi 47 miliardi non dice niente su quanto guadagni tu</strong>. Anzi, letto bene dice il contrario — dimostra che <strong>il grosso del valore lo sta catturando chi vende gli attrezzi</strong>. La statistica su Y Combinator ("più della metà della nuova infornata usa Claude") non sono riuscito a confermarla con una fonte indipendente: al massimo si conferma che quella infornata è <strong>oltre l'80% AI</strong>. Trattala come <strong>non verificata</strong>.</p>
+<p><strong>Conflitto di interesse: presente e dichiarato.</strong> Il video finisce con l'invito alla sua <strong>community Skool gratuita</strong>, dove ci sono la sfida di 7 giorni, la skill del "roast" e il corso sull'"AI operating system". Non ti chiede soldi subito, ma è <strong>un funnel</strong>: pattern <strong>1</strong>, con la variante moderna — il prodotto in vendita non è il corso, è <strong>la tua email e la tua attenzione</strong>. Va tenuto presente quando valuti quanto sia entusiasta il tono.</p>
+<p><strong>Cosa resta di buono, onestamente.</strong> Tre cose, e sono tutte metodologiche, non "business": (1) il <strong>roast</strong> — costringere un consiglio di sub-agent a smontare l'idea <em>prima</em> di costruire, con l'obbligo che ogni obiezione sia sostenuta da prove e con un verdetto secco vai/rimodella/uccidi. È l'unica idea del video che ti conviene rubare, ed è coerente col pattern generatore → verificatore indipendente che già usi; (2) <strong>la verifica dimostrata</strong> ("se fosse un umano, cosa guarderesti?"); (3) <strong>un compito alla volta</strong>, il più piccolo che funziona. Il resto — la finestra d'opportunità, i 20 dollari, il "davanti al 95% delle persone" — è <strong>motivazione</strong>, non un piano.</p>
+<p><strong>Verdetto.</strong> Se cerchi un modello di business, questo video <strong>non te ne dà nessuno</strong>: non c'è un'offerta, non c'è un cliente tipo, non c'è un prezzo, non c'è un canale di acquisizione. Confrontalo con ai-service-business o con la griglia di metodo-clear-side-hustle e la differenza è imbarazzante — lì c'è un meccanismo, qui c'è un'esortazione. Come video <strong>motivazionale con dentro un pattern operativo riutilizzabile</strong> vale i nove minuti; come mappa per fare soldi vale zero. Se hai poco tempo: prendi il roast, ignora il resto.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=pbrln2TVeh4" target="_blank" rel="noopener">How Claude is Creating a New Generation of Millionaires</a> — Nate Herk, ~9 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Fact-check esterno (luglio 2026) su: Vulcan Technologies / contratto Virginia / EO del governatore Youngkin; raccolta e valutazione Anthropic; run rate; composizione dell'ultima infornata Y Combinator.</li>
+<li>Concetti collegati: verifica-business-pitch-video, ai-service-business, metodo-clear-side-hustle, loop-engineering, spec-driven-prompting, agent-memory.</li>
+</ul>
+<p><strong>Cosa ho omesso volutamente:</strong> l'invito alla community Skool gratuita e alla sfida di 7 giorni, il rimando al corso "AI operating system", l'offerta della skill del "roast" da scaricare, la richiesta di mettere like, il rimando agli altri video del canale e i saluti finali. Nessuna informazione sostanziale è stata tagliata: il video è breve e il contenuto è tutto qui sopra.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

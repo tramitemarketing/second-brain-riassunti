@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Claude Code + Clay = Leads on Autopilot</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Claude Code + Clay = Leads on Autopilot" src="https://i.ytimg.com/vi/zyvdl__Ywfk/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate collega <strong>Clay</strong> (il database di contatti aziendali) a <strong>Claude Code</strong> tramite un plugin ufficiale con MCP, e con <strong>un solo prompt</strong> si fa trovare 50 contatti HVAC verificati, arricchiti con dati sull'azienda, più oggetto e corpo dell'email già scritti nel suo tono di voce. Costo reale: <strong>172 crediti Clay, circa 12 dollari</strong>. Poi ricarica il CSV dentro Clay, ci costruisce la campagna e — se non ha caselle da cui spedire — <strong>compra e scalda i domini direttamente lì dentro</strong>. Il delta rispetto a quello che avevi già in vault è tutto qui: non è più "Clay collegato a Claude" a livello di chiacchiera, ma il percorso operativo completo, con il plugin, il prompt, i costi e i tempi veri.</p>
+<h2>Il problema che sta cercando di risolvere</h2>
+<p>Nate parte da una premessa onesta: prima di fare <strong>cold outreach</strong> (contattare a freddo gente che non ti conosce) dovresti sfruttare la tua rete calda e l'inbound. Il freddo è quello che fai <em>quando vuoi scalare</em> o quando le altre strade non ci sono. E quando lo fai, ti scontri con tre muri: trovare le aziende giuste, avere contatti veri (email che esistono davvero), e scrivere qualcosa che non puzzi di AI a un chilometro.</p>
+<p>Lui riassume questi tre muri in due problemi. C'è un <strong>problema di dati</strong> — dove le trovo queste aziende, dove trovo le email? — e c'è un <strong>problema di strumenti</strong>: dieci software diversi, dieci schede aperte, dieci interfacce da imparare. La tesi del video è che <strong>Clay risolve il problema dei dati</strong> e <strong>Claude Code risolve il problema degli strumenti</strong>, perché non devi imparare nessuna interfaccia nuova: apri il terminale, parli in italiano (o inglese) e l'agente capisce da solo quali chiamate fare.</p>
+<h2>Perché Clay e non un altro</h2>
+<p>Questa parte in vault non c'era per esteso. Clay ha <strong>dati propri</strong>, ma soprattutto ha <strong>negoziato l'accesso a decine di altri fornitori di dati B2B</strong>: invece di pagare cinque abbonamenti a cinque piattaforme diverse, paghi Clay a <strong>crediti</strong> e — se vuoi — porti anche le tue chiavi API.</p>
+<p>Il pezzo forte è il <strong>waterfall enrichment</strong> ("arricchimento a cascata"): Clay interroga il fornitore migliore, e se quello non trova nulla per quel contatto passa al secondo, poi al terzo, e giù così finché non becca il dato. Nate dà i numeri: con <strong>un solo fornitore</strong> trovi l'email giusta per circa il <strong>30%</strong> dei contatti; con la cascata sali <strong>all'80-90%</strong>. È la differenza tra una lista inutilizzabile e una lista che puoi davvero usare.</p>
+<p>Aggiunge che sta parlando con il team di Clay e che loro stanno rendendo l'intera piattaforma <strong>più adatta agli agenti</strong>. Vedi la nota di onestà in fondo su come leggere questa frase.</p>
+<h2>Il prerequisito vero: Claude Code deve sapere chi sei</h2>
+<p>Qui c'è il messaggio che Nate ripete due volte, ed è quello che conta più del tool: <strong>anche se Clay ti dà i dati migliori del mondo, non è che i clienti arrivano da soli</strong>. La differenza la fa la copia dell'email, e la copia esce bene solo se Claude Code sa chi sei.</p>
+<p>Nel suo progetto demo ha una cartella di <strong>file di contesto</strong> con dentro: il <strong>profilo dell'azienda</strong>, dei <strong>case study</strong>, le <strong>FAQ</strong> sul suo business, le <strong>prove/risultati</strong>, la sua <strong>offerta</strong> e il <strong>testo del suo sito</strong>. L'azienda finta si chiama <strong>Tradewind Automations</strong>, una piccola agenzia di automazione AI in fase iniziale che lavora per le imprese di servizi per la casa. L'<strong>ICP</strong> (il cliente tipo, "ideal customer profile") sono <strong>piccole aziende HVAC</strong> — condizionamento e riscaldamento — e il bersaglio dentro l'azienda sono i <strong>decisori</strong>: titolari, presidenti.</p>
+<p>Se Claude Code non sa niente di te, dice, scordati che ti scriva una cold email decente.</p>
+<p>C'è un dettaglio molto furbo su come ha insegnato a Claude <em>come si scrive</em> una cold email: ha preso il <strong>transcript di un podcast</strong> che aveva fatto con un tale <strong>Sav</strong> (nome incerto, sentito solo a voce) — uno che dichiara di aver generato <strong>oltre 500.000 dollari di opportunità di vendita</strong> con email a freddo — l'ha buttato dentro il sistema e ha detto "questo è il modo in cui voglio che tu scriva oggetto e corpo". Cioè: la strategia di copywriting è diventata contesto, non un prompt improvvisato.</p>
+<details class="gia"><summary>I file di contesto e CLAUDE.md</summary>
+<p>Questa parte per te è ripasso: è esattamente la logica del "sistema operativo AI" / second brain che già usi. File markdown nel progetto che descrivono azienda, offerta, prove e tono di voce, letti dall'agente prima di produrre qualsiasi cosa. La sola novità pratica è la <em>lista</em> dei file che lui tiene: business profile, case studies, FAQ, proof, offer, website copy. È un buon checklist da copiare per la tua agenzia.</p>
+</details>
+<h2>Installare il plugin Clay dentro Claude Code</h2>
+<p>Il passaggio operativo è breve. Prima ti registri su <strong>clay.com</strong> (c'è una prova gratuita) e più avanti ti servirà solo la <strong>chiave API</strong> da lì.</p>
+<p>Poi si installa il plugin. <strong>Attenzione a un vincolo</strong>: l'installazione del marketplace va fatta <strong>dal terminale di Claude Code</strong>, non dall'app desktop e non dall'estensione VS Code. Questo non vuol dire che poi non puoi usare il plugin da VS Code o dal desktop — puoi — ma il momento dell'installazione deve passare dal terminale.</p>
+<p>La sequenza è: apri il terminale, lanci <code>claude</code>, dai il comando <strong><code>/plugin</code></strong> e vai su <strong>marketplace</strong>, scegli di <strong>aggiungerne uno nuovo</strong>, incolli il link del marketplace di Clay (nel video lo mostra a schermo e invita a fotografarlo — non è leggibile dalla sola traccia audio, quindi non te lo posso riportare: va recuperato dal video o dalla documentazione Clay). Si installa la voce <strong>"Clay – build with Clay and Cloud Code"</strong>, poi fai <strong>reload dei plugin</strong> come ti suggerisce lui stesso.</p>
+<p>L'autenticazione è la parte più semplice e più significativa: <strong>non c'è una procedura da seguire, la chiedi a parole</strong>. Lui scrive "ho appena installato questo plugin Clay, puoi collegare il mio account e aiutarmi ad autenticarmi?" e Claude carica da solo la <strong>skill di Clay</strong> — che Clay ha scritto apposta per far fare il setup all'agente — e ti restituisce un link. Piccola noia pratica: <strong>il terminale a volte spezza il link</strong> su più righe e cliccandolo non funziona; basta copiarlo tutto a mano e incollarlo nel browser. Nel browser scegli il <strong>workspace</strong> da collegare, clicchi <strong>authorize</strong>, torni nel terminale ed è fatto.</p>
+<p>Verifica: gli chiede "controlla se riesci a usare Clay e dimmi quali azioni e strumenti hai a disposizione". Risposta: carica la skill, vede il plugin, si connette al <strong>server MCP di Clay</strong>, autenticato. Le azioni disponibili includono <strong>trovare email</strong>, <strong>arricchire una persona o un'azienda</strong>, <strong>cercare un numero di telefono</strong> (queste consumano crediti), più operazioni sulle tabelle: <strong>leggere una tabella, modificare un nodo, validare un workflow</strong> e altro.</p>
+<details class="gia"><summary>Cos'è un MCP e cos'è una skill</summary>
+<p>Il server MCP è la presa standard che espone le funzioni di Clay all'agente; la skill è il pacchetto di istruzioni che Clay ha scritto per guidare Claude durante setup e uso. Roba che sai già. L'unico punto nuovo per te: qui la skill <strong>la fornisce il vendor</strong>, non tu. È un pattern che vale la pena notare — quando un tool si "prepara per gli agenti", quello che spedisce è una skill.</p>
+</details>
+<h2>Il prompt che genera tutto</h2>
+<p>Nate usa un <strong>goal prompt</strong> (comando <code>/goal</code>): invece di dare un'istruzione secca, definisci una <strong>condizione di arrivo</strong> e lasci che Claude continui a lavorare finché non l'ha raggiunta. Qui la condizione è: 50 contatti arricchiti, ognuno con oggetto e corpo personalizzati.</p>
+<p>Il prompt, ricostruito quasi parola per parola:</p>
+<blockquote>Sto cercando altri contatti. Voglio <strong>50 lead arricchiti</strong>, aziende <strong>HVAC o di servizi per la casa</strong>, e vogliamo arrivare ai <strong>decisori</strong> — titolari, presidenti, comunque persone che decidono. Devono essere lead <strong>completamente arricchiti</strong>: mi servono gli <strong>indirizzi email</strong>, i <strong>punti di dolore</strong> dell'azienda, <strong>cose successe di recente</strong> nella loro attività, eventuali <strong>risultati notevoli</strong>, così che tu possa scrivermi anche <strong>oggetto e corpo</strong> dell'email. Tutto <strong>iper-personalizzato</strong>. La <strong>call to action</strong>, la cosa che voglio che la persona faccia quando riceve l'email, è <strong>dire di sì a un video Loom di 90 secondi</strong> che spiega come possiamo aiutarla a risolvere i suoi problemi specifici. <strong>Non fermarti finché non hai tutti e 50</strong>. Usa un <strong>workflow dinamico per verificare</strong> di aver fatto tutto correttamente e che tutto sia accurato. Alla fine consegnami un <strong>file CSV</strong> con tutte queste informazioni. <strong>Nessuna colonna vuota</strong>: ogni lead deve avere email, oggetto e corpo, e deve essere arricchito con altri dati.</blockquote>
+<p>Vale la pena notare cosa c'è dentro quel prompt e che di solito manca: il <strong>criterio di completamento</strong> ("non fermarti finché"), il <strong>criterio di qualità verificabile</strong> ("nessuna colonna vuota, ogni riga ha email + oggetto + corpo"), il <strong>formato di consegna</strong> (CSV), la <strong>CTA precisa</strong> e un <strong>passaggio di verifica esplicito</strong>. Non è "trovami dei lead": è una specifica.</p>
+<h2>Cosa succede mentre gira</h2>
+<p>A 20 minuti dall'avvio si affaccia a mostrare cosa sta facendo. Claude ha scelto un approccio da solo e ha <strong>lanciato sei sub-agenti</strong>, uno per città: <strong>Houston, San Antonio, Atlanta, Charlotte, Tampa, Las Vegas</strong>. Ognuno cerca <strong>25 attività</strong> e le arricchisce. Quando tornano, il coordinatore <strong>aggrega, deduplica e controlla la resa</strong> — cioè quanto materiale utile è effettivamente uscito — e verifica che sia tutto conforme alla richiesta. Aprendo il sub-agente di Atlanta si vede che sta interrogando il plugin Clay e raccogliendo e arricchendo i contatti.</p>
+<p>Il finale è la parte più utile per calibrare le aspettative. <strong>Quel run ha impiegato un'ora.</strong> Nate è esplicito: non è che serva sempre un'ora, è che "questa cosa è impazzita" — ha fatto <strong>giri di verifica multipli</strong>, ha corretto roba, ha <strong>riscritto un mucchio di oggetti</strong>, e ha perfino fatto <strong>dibattere gli agenti del workflow dinamico</strong> tra loro su se un oggetto e un corpo fossero davvero buoni. Per contrasto ha fatto anche una richiesta secca — "usa Clay per trovarmi 50 lead HVAC e mettili qui" — e quella ha impiegato <strong>5 minuti</strong>. La differenza è tutta nell'arricchimento e nelle passate di verifica.</p>
+<p>La sua idea per il futuro: costruirci sopra delle <strong>skill</strong> e <strong>farlo partire di notte</strong>, per svegliarsi con <strong>500 contatti</strong> pronti.</p>
+<h2>I costi, in soldi veri</h2>
+<p><strong>172 crediti Clay</strong>, che lui traduce in <strong>circa 12 dollari</strong> per il run completo. Il suo conto della serva: se converti circa l'<strong>1%</strong> delle persone che contatti, <strong>100 lead ti costano circa 24 dollari</strong>, e quell'unico cliente che chiudi vale ampiamente più di 24 dollari. Detto senza fronzoli: il ritorno regge, il costo del dato non è il collo di bottiglia.</p>
+<p>Nota mia, non sua: i <strong>12 dollari sono il costo Clay</strong>, a cui si somma il consumo di token di Claude Code per un run da un'ora con sei sub-agenti e dibattiti interni — quello nel video non viene mai quantificato.</p>
+<h2>Il risultato: le colonne del CSV</h2>
+<p>Il file finale ha <strong>51 righe</strong> (intestazione più 50 lead). Le colonne, che sono la parte più riutilizzabile del video perché ti dicono <em>cosa chiedere</em>:</p>
+<p><strong>nome dell'azienda</strong>, <strong>decisore</strong>, <strong>ruolo</strong>, <strong>email</strong>, <strong>stato dell'email</strong> (tutte risultano verificate e validate), <strong>telefono</strong>, <strong>sito web</strong>, <strong>città</strong>, <strong>valutazione Google</strong>, <strong>numero di recensioni</strong>, <strong>punti di dolore dell'azienda</strong>, <strong>segnale recente/attuale</strong>, <strong>risultato notevole</strong>, <strong>gancio di personalizzazione</strong>, <strong>fonte del gancio</strong>, <strong>oggetto dell'email</strong>, <strong>corpo dell'email</strong>, e una colonna per <strong>quello che va rivisto a mano</strong>.</p>
+<p>Due cose da rubare: la colonna <strong>"fonte del gancio"</strong> — cioè da dove viene l'informazione personalizzata, che è il tuo antidoto alle allucinazioni — e la colonna <strong>"da rivedere"</strong>, che trasforma l'output in qualcosa di controllabile invece che da prendere o lasciare.</p>
+<h2>L'email che ne esce</h2>
+<p>L'oggetto: <em>"la tua recensione negativa parla di richiamate mancate"</em>. Il corpo, tradotto e leggermente compresso:</p>
+<blockquote>Ciao [nome], ho visto la recensione di un cliente che aspettava ancora una richiamata dopo un mese. Diverse persone che vi contattano e nessuno che dà seguito. Strano per un'officina con <strong>4,7 stelle su 4.100 recensioni</strong>. Di recente abbiamo aiutato un'attività locale a trasformare le chiamate che si perdeva in lavori prenotati, senza aggiungere nessuno al telefono. Ti faccio un'offerta onesta: sto ancora avviando questa cosa, non ho ancora un case study. Te lo installo sulla tua linea, lo faccio girare <strong>gratis per 30 giorni</strong>. Se non porta lavori, non hai perso niente e non mi devi nulla. Ti chiedo solo, se funziona, di farmi da referenza. <strong>Posso mandarti un video di 90 secondi?</strong></blockquote>
+<p>Guarda l'architettura, perché è replicabile: <strong>dettaglio verificabile e specifico</strong> (una recensione vera, un numero vero) → <strong>contrasto</strong> (strano per uno bravo come te) → <strong>prova sociale generica ma non gonfiata</strong> → <strong>onestà sul fatto di essere agli inizi</strong>, che invece di essere una debolezza diventa la giustificazione dei 30 giorni gratis → <strong>rischio zero</strong> → <strong>micro-CTA</strong> che chiede solo il permesso di mandare un video, non una call. Nate commenta "non male", senza esagerare.</p>
+<h2>Dal CSV alla campagna, dentro Clay</h2>
+<p>Ecco la seconda metà, quella che in vault mancava del tutto.</p>
+<p><strong>Importare.</strong> Dentro Clay: <strong>import data → import CSV</strong>, scegli il file prodotto da Claude, imposti il <strong>delimitatore virgola</strong>, continua, e lo mandi in una <strong>nuova tabella vuota</strong> (o in una esistente, se ce l'hai). Fine, il CSV è diventato una tabella Clay.</p>
+<p><strong>Creare la campagna.</strong> Dalla home: <strong>crea campagna → add lead list</strong>, selezioni la tabella appena importata. A questo punto Clay ti offrirebbe di <strong>generare i messaggi con Clay stesso</strong>, ma Nate sceglie <strong>"parti da un messaggio vuoto"</strong> e usa quelli già scritti da Claude — che secondo lui sono migliori. Nel messaggio inserisci le <strong>variabili</strong>: digiti <code>/</code>, scegli <strong>"dalle nostre righe"</strong> e selezioni la colonna <strong>email subject</strong> per l'oggetto e <strong>email body</strong> per il corpo. Il <strong>preview</strong> ti mostra esattamente cosa partirà, e scorrendo vedi che vale per tutti e 50. Ovviamente la logica ha senso su lotti più grossi: 500, 1.000 contatti.</p>
+<p><strong>Le caselle da cui spedire.</strong> Se non hai account per mandare le email, vai su <strong>sender accounts</strong> e <strong>le compri dentro Clay</strong>. Qui Nate spiega perché conta: nel cold email devi <strong>scaldare i domini</strong> e non finire nello spam. Clay ti vende domini <strong>già scaldati</strong> e ti tiene sotto controllo il volume, <strong>30 invii al giorno per casella</strong>. Scegli tra <strong>Gmail o Outlook</strong>, digiti una parola vicina al nome della tua azienda — lui prova "Tradewind" e gli escono <em>alltradewind</em>, <em>brighttradewind</em>, <em>clicktradewind</em>, poi aggiunge "automations" e compaiono altre varianti tra cui <em>tradewindautomations</em> — e <strong>non serve che sia il dominio esatto</strong>, basta che assomigli al nome dell'azienda. Puoi comprare <strong>fino a 5 caselle per dominio</strong> e impostare nome e cognome di ciascuna.</p>
+<p><strong>I follow-up.</strong> Sempre dentro campaigns: puoi impostare un secondo messaggio dopo <strong>3 giorni</strong> se non rispondono, e poi un terzo. Anche questi li può scrivere Claude, o li scrivi lì.</p>
+<p><strong>Limite dichiarato:</strong> il <strong>server MCP di Clay non gestisce ancora questa parte</strong> — import, campagna, acquisto domini restano manuali, da fare a mano nell'interfaccia. Nate immagina che arriverà presto, ma al momento del video non c'è.</p>
+<h2>Cosa ti porti via, per l'agenzia</h2>
+<p>Il valore non è "esiste Clay". È che il pezzo difficile del cold outreach — trovare aziende reali, verificare le email, agganciare un dettaglio vero su ognuna — costa <strong>12 dollari e un'ora di macchina non presidiata</strong>, e il pezzo che resta davvero tuo è il <strong>contesto</strong>: chi sei, cosa offri, con che voce scrivi, e con quale schema si costruisce un'email che non fa scappare. Quel contesto lo scrivi una volta e lo riusi per sempre. Il resto è un prompt con dentro un criterio di completamento e una verifica.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=zyvdl__Ywfk — <em>Claude Code + Clay = Leads on Autopilot</em>, di <strong>Nate Herk</strong></li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: mcp-connectors, ai-service-business</li>
+<li>Vedi anche in vault: <a href="master-claude-for-marketing-full-course-2026-07-16.html">master-claude-for-marketing-full-course-2026-07-16</a>, dove Clay compare già ma solo come strumento collegato a Claude.</li>
+</ul>
+<p><strong>Onestà — rapporto con Clay.</strong> Il video <strong>non dichiara una sponsorizzazione esplicita</strong> e non ho sentito nominare link di affiliazione. Però Nate dice testualmente di aver <strong>parlato con il team di Clay riguardo alla realizzazione di questo video</strong>, e il tono su Clay è entusiasta senza contraddittorio (nessun confronto con alternative, nessun limite dei dati, nessun problema di conformità/privacy). Trattalo come <strong>contenuto quantomeno concordato con il vendor</strong>: i fatti operativi sono verosimili, i giudizi ("hanno i dati migliori") vanno presi con le pinze.</p>
+<p><strong>Nomi incerti.</strong> <em>Sav</em>, l'ospite del podcast citato per la strategia di cold email, è trascritto a orecchio e potrebbe essere sbagliato. Anche il nome del destinatario nell'email d'esempio ("Ante") è un artefatto della trascrizione automatica.</p>
+<p><strong>Cosa ho omesso.</strong> Il plug ripetuto alla sua community gratuita su Skool, con il corso sull'"AI operating system" e la promessa di pubblicare lì il file markdown del progetto demo; il rimando generico all'episodio podcast; gli inviti a mettere like e i saluti finali.</p>
+<p><strong>Cosa il video non dice</strong> (buchi reali, non omissioni mie): quanto costano i token di Claude Code per quel run da un'ora; il prezzo dell'abbonamento Clay e il costo per credito; il link esatto del marketplace del plugin (mostrato solo a schermo); il tasso di risposta effettivo di quella campagna — mostra la lista e le email, <strong>non i risultati</strong>; e nessun accenno a <strong>GDPR o consenso</strong> per il contatto a freddo, che in Italia non è un dettaglio secondario.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

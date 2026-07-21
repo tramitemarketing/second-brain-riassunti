@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The $200K AI Job That Didn&#x27;t Exist Last Year</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="The $200K AI Job That Didn&#x27;t Exist Last Year" src="https://i.ytimg.com/vi/eFOTQpbGcy8/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk sostiene che il prossimo grande filone per chi sa usare l'AI non è fare l'ingegnere che costruisce automazioni, ma diventare il <strong>consulente AI interno</strong> della propria azienda: la persona che decide <em>cosa</em> automatizzare, lo costruisce, lo fa adottare agli altri e alla fine si fa creare addosso il ruolo. Il ragionamento: le agenzie AI hanno fatto soldi perché le aziende sapevano quali problemi avevano ma non come risolverli — ora che i modelli sono facili da usare, quel divario si sta chiudendo e le aziende vogliono farlo in casa. Segue una road map in quattro passi: <strong>audit del tuo lavoro → automatizza e misura → rendi visibili i risultati → trasforma tutto in una posizione formale</strong>, passando dalle "seccature" ai veri <strong>colli di bottiglia</strong> del business. Attenzione però: <strong>la cifra "200K" del titolo nel video non compare mai</strong> e non c'è nemmeno un annuncio di lavoro reale citato. È un video di ragionamento e di metodo, non di dati.</p>
+<h2>Il quadro: perché nasce questo ruolo</h2>
+<details class="gia"><summary>La premessa "l'AI sta mangiando i lavori" (Chegg, licenziamenti)</summary>
+<p>Nate parte dal caso <strong>Chegg</strong>, l'azienda americana che per anni ha venduto aiuto compiti agli studenti: facevi la domanda, un esperto vero ti rispondeva, più guide di studio e soluzionari. Milioni di studenti paganti ogni mese, business stabilissimo e profittevole (dice di averlo usato lui stesso all'università). Poi arriva <strong>ChatGPT</strong> a fine 2022 e dall'oggi al domani ogni studente ottiene la stessa cosa in pochi secondi, a molto meno o gratis. Nel 2023 il titolo Chegg <strong>crolla di quasi il 50% in un solo giorno</strong> e l'azienda ammette pubblicamente che ChatGPT le sta uccidendo il business.</p>
+<p>Da lì la solita sfilza di licenziamenti aziendali che tirano in ballo l'AI. Ma — ed è l'unico pezzo davvero interessante di questa premessa — Nate dice che quasi tutti li leggono male: <strong>non è che l'AI sostituisce le persone</strong>, è che una persona che usa l'AI fa il lavoro che prima richiedeva tre-cinque persone. Il che riporta sempre allo stesso punto: chi sa usare l'AI va avanti rispetto a chi non sa.</p>
+</details>
+<p>Su questa spinta le aziende hanno iniziato ad assumere esperti AI, agenzie e consulenti esterni per diagnosticare i problemi e costruire automazioni. In un paio d'anni il mercato dell'<strong>AI automation</strong> è arrivato a valere circa <strong>130 miliardi di dollari</strong> (cifra buttata lì, senza fonte).</p>
+<h2>La tesi: quello che ha arricchito le agenzie AI è la stessa cosa che le sta rimpiazzando</h2>
+<p>Il punto forte del video. Per un paio d'anni le aziende erano in una posizione strana: <strong>sapevano benissimo quali problemi avevano</strong> (la casella del supporto clienti è un macello) ma <strong>non avevano idea di come risolverli</strong>. È esattamente quel buco — tra conoscere il problema e conoscere la soluzione — che permetteva alle agenzie AI di farsi pagare a prezzo premium. Ci si aggiungeva la pressione: "AI" era la parola magica e i consigli d'amministrazione e i concorrenti spingevano perché si facesse qualcosa.</p>
+<p>Oggi quel buco si è chiuso. L'AI è diventata così accessibile che <strong>anche il CEO più incasinato ha aperto ChatGPT o Claude</strong> e ci ha risolto qualche problema suo. Il costo — e quindi il valore — dello sviluppo sta crollando. Le aziende hanno ancora gli stessi problemi, ma invece di pagare qualcuno da fuori vogliono <strong>risolverseli in casa</strong>.</p>
+<blockquote>Nota per chi vende servizi AI: questa è la stessa tesi di <code>[[ai-service-business]]</code> girata contro l'agenzia. Lì il modello era "vendi un servizio ad alto impatto e usa l'AI per fare da solo il lavoro di dieci". Qui Nate dice che quel margine si assottiglia perché il cliente impara a fare da sé. Non è un ribaltamento totale — le agenzie non muoiono domani, e lui stesso lo ammette — ma è una tensione da tenere presente.</blockquote>
+<h2>Il ruolo: non chi costruisce, chi decide cosa costruire</h2>
+<p>Molti, dice Nate, penseranno che la carriera AI sicura sia <strong>diventare il costruttore migliore</strong>: l'AI engineer, quello che va dentro e realizza le automazioni. È una parte del gioco — costruire ti fa capire davvero come funziona e cosa vuol dire "funziona bene" — ma è <strong>il pezzo piccolo del puzzle</strong>. Quello che conta adesso non è sapere <em>come</em> costruire, è sapere <strong>cosa</strong> costruire.</p>
+<p>Anche i grandi laboratori (<strong>OpenAI</strong>, <strong>Anthropic</strong>) dicono che i modelli stanno diventando bravi in modo quasi spaventoso; su una cosa sono tutti d'accordo, ossia dove resta il valore dell'essere umano: <strong>giudizio, gusto, saper sciogliere l'ambiguità, decidere su quali problemi puntare l'AI e su quali no</strong>. E non è una dote che hanno tutti in modo naturale. Non serve più una laurea in informatica, non serve quasi nemmeno un background tecnico: proprio per questo il valore si sposta tutto sul giudizio. Nate cita <strong>Sam Altman</strong>: <em>"i tipi delle idee stanno per avere il loro momento di gloria"</em>.</p>
+<p><strong>L'analogia medico/farmacista.</strong> Il farmacista ti consegna esattamente quello che hai chiesto. Il medico è quello che capisce di cosa hai bisogno in primo luogo. Il costruttore è il farmacista; il <strong>consulente AI interno</strong> è il medico. E il medico è quello pagato davvero.</p>
+<p><strong>Cosa fa, nel concreto, giorno per giorno:</strong></p>
+<ul>
+<li><strong>fa l'audit</strong> di come lavora oggi il suo team;</li>
+<li>trova i <strong>task che mangiano più ore</strong>;</li>
+<li><strong>costruisce le automazioni</strong> che li gestiscono;</li>
+<li><strong>forma tutti gli altri</strong> su come si usa quello che ha costruito — perché l'adozione è un problema enorme quanto la costruzione;</li>
+<li><strong>gestione del cambiamento</strong> e <strong>comunicazione con gli interlocutori interni</strong> (i capi, i colleghi, chi deve approvare).</li>
+</ul>
+<p>Il paragone che rende l'idea: ogni azienda ha già <strong>quella persona dell'IT</strong> a cui tutti corrono nel secondo esatto in cui si rompe il portatile o cade il Wi-Fi. Ecco, l'equivalente AI.</p>
+<p>E qui la parte più onesta del video: <strong>questo ruolo non esiste ancora</strong>, almeno non come posizione formale con un nome e delle responsabilità standardizzate. Per Nate è proprio questo il bello: <strong>la maggior parte della gente non si accorgerà che il lavoro esiste finché il mercato non sarà già saturo</strong> — esattamente com'è andata con i servizi di automazione AI (che, precisa, non è che siano già saturi, è il trend del mercato).</p>
+<h2>La road map in quattro passi</h2>
+<h3>1. Fai l'audit del tuo lavoro</h3>
+<p>Letteralmente: siediti e scrivi cosa fai giorno per giorno e settimana per settimana. L'errore tipico è <strong>automatizzare la cosa che ti dà più fastidio</strong> — ma il task più fastidioso non è quasi mai quello giusto da cui partire. Vai invece sulla lista e cerca i task che spuntano <strong>due caselle</strong>:</p>
+<ol>
+<li><strong>mangia ore vere ogni settimana</strong>;</li>
+<li><strong>se l'AI sbaglia un po', non fa male a nessuno</strong> — resti nel giro, correggi, vai avanti.</li>
+</ol>
+<p>Roba tipo: il report settimanale di stato, le note delle riunioni, smistare la posta, ripulire dei dati, fare ricerche di base. Quello che spunta entrambe le caselle è la tua lista di partenza. <strong>Non provare a sistemare l'intera azienda il primo giorno</strong>: ti stai bagnando i piedi, parti dal tuo lavoro.</p>
+<h3>2. Automatizzale e dimostra che funziona</h3>
+<details class="gia"><summary>"Documenta il prima/dopo" — già visto in sei-skill-ai-carriera</summary>
+<p>Prendi i primi task della lista e automatizzali sul serio. Dimostrare che funziona significa <strong>scrivere i numeri</strong>: "questo report mi prendeva 2 ore a settimana, adesso 10 minuti". <strong>Le ore risparmiate sono la tua prova.</strong></p>
+<p>L'analogia: nessuno assume un personal trainer in condizioni fisiche disastrose. Il trainer si mette in forma per primo, poi va a rimettere in forma gli altri. Ti serve la prova di saper ottenere il risultato prima di provare a venderlo a qualcuno.</p>
+<p>E quando la prima funziona non ti fermi: torni alla lista e fai la seconda, poi la terza.</p>
+</details>
+<h3>3. Rendi visibili le prove</h3>
+<p>Qui si esce dal proprio orticello. <strong>Mostra i risultati nelle riunioni di team.</strong> Offriti di sistemare anche il task più odiato di un collega. <strong>Documenta ogni singola cosa</strong> che fai lungo la strada.</p>
+<p>Ma il <strong>modo in cui ne parli conta quanto il risultato</strong>. Non entrare dicendo "ho usato ChatGPT per questa cosa". Riportalo al business: <em>"questo ci ha fatto risparmiare 8 ore prima che uscisse il report trimestrale"</em>. Quella è la versione che al tuo capo interessa davvero e che si ricorderà.</p>
+<p>E se metti insieme <strong>un documentino interno con i tuoi prompt e i tuoi flussi di lavoro migliori</strong>, che tutti gli altri possono iniziare a usare, ecco che <strong>il tuo nome è sopra la cosa da cui dipende tutto il team</strong>.</p>
+<h3>4. Passa dalle seccature ai colli di bottiglia, poi formalizza il ruolo</h3>
+<p>Quando hai qualche vittoria in fila e la gente inizia a venire da te, sei pronto a <strong>passare dalle seccature ai vincoli</strong>. Tutta la roba a basso rischio del punto 1 era la partenza giusta — ti serviva un posto sicuro dove sperimentare mentre dimostravi il valore e imparavi — ma <strong>automatizzare le seccature non fa crescere un'azienda</strong>. Quello che la fa crescere è <strong>attaccare i colli di bottiglia</strong>, ed è per questo che i consulenti AI vengono pagati bene.</p>
+<p>Rifai lo stesso audit del punto 1, ma stavolta <strong>su tutta l'azienda</strong>, e con una domanda completamente diversa. Non più "cosa mi dà fastidio" o "cosa mi mangia qualche ora", ma: <strong>"cosa sta davvero frenando il business? Se domani raddoppiassimo i clienti, quale processo o quale pezzo si romperebbe per primo?"</strong>. Lì c'è il tuo primo collo di bottiglia, e quello è il tuo progetto. Perché far risparmiare qualche ora al team ti rende <em>utile</em>; <strong>togliere di mezzo il collo di bottiglia in cui è incastrata l'intera azienda è come si fanno guadagnare soldi veri</strong> — ed è una conversazione completamente diversa da avere col capo.</p>
+<p>Infine, <strong>formalizzi</strong>. Sommi tutte le ore e tutti i soldi che le tue automazioni hanno risparmiato e li trasformi in <strong>un numero unico</strong>: <em>"tra queste cinque automazioni, sto restituendo al team l'equivalente di un'assunzione a tempo pieno ogni anno"</em>. È quel tipo di conto che permette all'azienda di stanziare un budget vero per progetti AI. Poi lo porti al tuo manager e — punto chiave — <strong>non stai chiedendo un favore: stai proponendo il ruolo e il titolo</strong>. Perché quel lavoro, dice, non lo troverai pubblicato su LinkedIn: nei prossimi mesi e anni inizieremo a vederlo, ma per adesso molti se lo creeranno <strong>dall'interno verso l'esterno</strong>. A quel punto non stai chiedendo il posto: <strong>te lo sei già costruito</strong>.</p>
+<h2>I due numeri che cita (e cosa valgono)</h2>
+<p>Nate porta due dati a sostegno:</p>
+<ul>
+<li><strong>Il sondaggio IBM su 2.000 CEO di aziende piuttosto grandi</strong>: il <strong>76% dice di avere già una qualche forma di chief AI officer</strong> (il dirigente responsabile dell'AI); <strong>un anno prima quel numero era il 26%</strong>. Quindi la poltrona è passata da praticamente inesistente a quasi ovunque in circa due anni, e chi ci si è seduto è chi l'ha vista arrivare in anticipo.</li>
+<li><strong>Chi ha competenze AI viene pagato circa il 56% in più</strong> del collega seduto accanto che fa esattamente lo stesso lavoro senza.</li>
+</ul>
+<p>Su entrambi vedi la sezione onestà in fondo: il primo è un dato reale ma <strong>parla di un'altra cosa</strong> rispetto al ruolo descritto nel video, il secondo è citato senza fonte.</p>
+<h2>E se lavoro in un settore regolamentato?</h2>
+<p>Domanda che Nate anticipa: "io lavoro in un settore regolamentato, da noi l'AI non si può usare". La risposta è buon senso: <strong>non buttare AI su dati sensibili</strong>, <strong>non automatizzare cose senza permesso</strong> se non puoi. Ma questo non ti impedisce di essere la persona AI del tuo team e della tua azienda: puoi essere quello che <strong>sperimenta a lato</strong>, quello che <strong>costruisce progetti che sono esattamente quello che fai al lavoro ma con dati finti</strong> (<em>dummy data</em>). I quattro passi restano gli stessi: quello che stai dimostrando è <strong>che sai come ragionare su questa roba e che sai portare valore vero</strong>.</p>
+<h2>Onestà: i "200K" e il contesto americano</h2>
+<p><strong>I 200.000 dollari del titolo non compaiono mai nel video.</strong> Non una volta. In dieci minuti non c'è <strong>nessun annuncio di lavoro reale, nessuna azienda che assume, nessun nome di società, nessuna offerta, nessuna fonte salariale</strong> (niente Levels.fyi, Glassdoor, Indeed, LinkedIn, niente). La cifra del titolo è <strong>puro gancio da miniatura</strong>: non è né documentata né tantomeno smentita, semplicemente <strong>non viene mai affrontata</strong>. Stesso discorso per l'apertura in cui promette che questa cosa potrà rendere "milionari di carriera" molti spettatori: affermazione a sentimento, zero supporto.</p>
+<p><strong>I due numeri che cita, guardati bene:</strong></p>
+<ul>
+<li>Il dato IBM (76% vs 26%) è verosimile e viene da una fonte reale (i sondaggi IBM sui CEO esistono e sono pubblici), <strong>ma parla di un'altra cosa</strong>: il <em>chief AI officer</em> è un dirigente di vertice, tipicamente assunto dall'esterno o promosso tra i C-level. <strong>Non è</strong> il "consulente AI interno" che il video ti dice di costruirti dal basso. Viene usato come prova indiretta di un ruolo diverso da quello che descrive. È un salto logico, non una dimostrazione.</li>
+<li>Il "56% in più di stipendio" è <strong>citato senza indicare da dove venga</strong>. Esistono studi (PwC, LinkedIn e altri) che nel biennio passato hanno stimato premi salariali per competenze AI di ordine di grandezza simile, ma nel video non c'è modo di sapere quale sia né su che campione.</li>
+</ul>
+<p><strong>Contesto: è tutto americano.</strong> Chegg, ChatGPT che ammazza il business, sondaggio IBM sui CEO, "non lo troverai su LinkedIn", stipendi in dollari, l'idea che tu vada dal tuo manager a proporre un titolo nuovo con un budget annesso. Questo presuppone <strong>aziende grandi, con struttura HR, con budget discrezionale e con la prassi culturale che un dipendente possa negoziarsi un ruolo su misura</strong>. In Italia il tessuto è fatto in gran parte di <strong>PMI</strong>: il ruolo formale spesso non esiste e nemmeno il budget per crearlo, i livelli di inquadramento sono contrattuali e rigidi, e "propongo il mio ruolo al capo" è una mossa che nella maggior parte delle aziende italiane si scontra con un CCNL prima che con la volontà del titolare.</p>
+<p><strong>Cosa resta valido comunque per l'Italia</strong>: il <strong>metodo</strong> dei quattro passi è portabile quasi tutto, perché non dipende dal mercato del lavoro. Trovare i task che mangiano ore e sono a basso rischio, misurare il prima/dopo, tradurre i risparmi in linguaggio di business, distinguere seccature da colli di bottiglia: funziona identico <strong>anche se il tuo obiettivo non è un ruolo interno ma vendere il servizio da fuori</strong> — cioè lo scenario di <code>[[ai-service-business]]</code>. In una PMI italiana la versione realistica non è "mi faccio creare il ruolo di AI consultant", è "divento la persona senza la quale quel processo non gira più", con in mano il numero delle ore risparmiate come leva per l'aumento, l'avanzamento o il cliente successivo.</p>
+<p><strong>Bias da mettere in conto</strong>: Nate Herk vende formazione e community sull'AI. Un video che dice "sta nascendo un ruolo nuovo, chi arriva prima vince, ma per farlo devi saper costruire le soluzioni" ha per struttura la funzione di portare gente al suo corso — e infatti la chiusura è esattamente quella.</p>
+<h2>Rapporto con quello che c'è già in vault</h2>
+<p>Questo video è <strong>il fratello minore e più operativo</strong> di <code>[[sei-skill-ai-carriera]]</code> (stesso autore). Le sovrapposizioni sono forti:</p>
+<ul>
+<li>"Diventare la persona AI" (skill 1 di quel video) è praticamente il contenuto dei passi 1-3 di questa road map, documenta il prima/dopo compreso;</li>
+<li>"Gusto e giudizio" (skill 2) è lo stesso identico argomento del "non conta <em>come</em> costruire ma <em>cosa</em> costruire";</li>
+<li>il <strong>sondaggio IBM sui CEO</strong> è citato in entrambi, con dati diversi (là: 85% dei CEO dice che tutti i leader funzionali devono diventare esperti di tecnologia; qui: 76% ha già un chief AI officer);</li>
+<li>l'avvertenza sul settore regolamentato e sui dati sensibili è ripetuta pari pari.</li>
+</ul>
+<p><strong>Il delta vero — le tre cose nuove:</strong></p>
+<ol>
+<li><strong>La tesi economica sulle agenzie AI</strong>: il divario "so il problema, non so la soluzione" che le ha arricchite si sta chiudendo, e il lavoro si sposta dentro le aziende. Questo tocca direttamente <code>[[ai-service-business]]</code>.</li>
+<li><strong>La distinzione seccature vs colli di bottiglia</strong>, con la domanda diagnostica precisa: <em>"se domani raddoppiassimo i clienti, cosa si romperebbe per primo?"</em>. È la parte più riutilizzabile del video, e vale tale e quale come domanda da fare a un cliente.</li>
+<li><strong>Il passo di formalizzazione</strong>: aggregare tutti i risparmi in un unico numero espresso come "equivalente di un'assunzione a tempo pieno all'anno". Bel modo di impacchettare il valore, utile anche in un preventivo.</li>
+</ol>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=eFOTQpbGcy8</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: <code>[[sei-skill-ai-carriera]]</code>, <code>[[ai-service-business]]</code></li>
+<li>Entità: <code>[[nate-herk]]</code></li>
+<li><strong>Omesso</strong>: il plug finale alla community gratuita dell'autore con i corsi, le agent skills, i repo GitHub e le guide risorse; il "resource guide" scaricabile del video; i ringraziamenti e l'invito a guardare il prossimo video; un accenno di passaggio a "i laboratori dicono che forse bisognerebbe rallentare — ma è argomento per un altro video", lasciato cadere dallo stesso autore.</li>
+<li><strong>Da verificare</strong>: la cifra dei <strong>130 miliardi di dollari</strong> per il mercato dell'automazione AI (nessuna fonte citata); il <strong>56% di premio salariale</strong> per chi ha competenze AI (nessuna fonte citata); il sondaggio <strong>IBM su 2.000 CEO</strong> con il 76%/26% sul chief AI officer (fonte reale ma non linkata nel video, e riferita a un ruolo diverso da quello descritto).</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

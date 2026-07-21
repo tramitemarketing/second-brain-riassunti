@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The UX Psychology Behind Apps People Can&#x27;t Stop Using</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="The UX Psychology Behind Apps People Can&#x27;t Stop Using" src="https://i.ytimg.com/vi/2TlIg3VokY8/hqdefault.jpg"><p><strong>In sintesi:</strong> sei principi di psicologia applicati al design delle app, ognuno mostrato come coppia "prima / dopo" su una schermata vera. La tesi di fondo: le app non falliscono perché sono brutte, ma perché ignorano come ragiona davvero la testa delle persone — che non decide in modo logico. I sei principi sono: <strong>valori preimpostati intelligenti</strong>, <strong>effetto traguardo</strong> (non partire mai da zero), <strong>reciprocità</strong> (dai prima di chiedere), <strong>effetto IKEA</strong> (fagli costruire qualcosa prima dell'iscrizione), <strong>avversione alla perdita</strong> (mostra cosa perdono, non cosa guadagnano) ed <strong>effetto contrasto</strong> (nessun prezzo va mostrato da solo). Materiale denso e concreto, con studi e numeri citati. <strong>Attenzione onesta:</strong> gli ultimi due principi, come sono presentati nel video, scivolano dentro tecniche manipolative vere e proprie — ne parlo nella sezione finale.</p>
+<h2>Il presupposto: l'utente non è razionale</h2>
+<p>L'apertura è netta: i migliori designer non "spostano pixel", capiscono la psicologia. Ogni schermata è una piccola trattativa con un cervello che prende scorciatoie. La chiusura del video riassume tutto in una riga: <em>i tuoi utenti non stanno prendendo decisioni logiche</em>. I preimpostati sembrano consigli, il primo numero visto fa da metro di paragone, un regalo crea un debito, costruire qualcosa te lo fa sentire tuo, e l'avanzamento — anche se finto — crea slancio vero.</p>
+<details class="gia"><summary>Il vocabolario di base (onboarding, retention, friction, conversione)</summary>
+<p>Termini che tornano in tutto il video, spiegati una volta sola.</p>
+<p><strong>Onboarding</strong> = il percorso di primo utilizzo, dalla prima schermata al momento in cui l'utente "è dentro" e ha capito a cosa serve l'app. <strong>Retention</strong> = quante persone tornano a usarla nei giorni e nelle settimane dopo. <strong>Friction</strong> (attrito) = ogni passaggio, campo da compilare o decisione che sta tra l'utente e ciò che vuole ottenere: più attrito, più abbandoni. <strong>Conversione</strong> = la percentuale di persone che compie l'azione che volevi (iscriversi, pagare, completare un flusso). <strong>Gamification</strong> = usare meccaniche da gioco (barre di avanzamento, punti, timbri, serie di giorni) per far proseguire l'utente.</p>
+</details>
+<h2>1. Valori preimpostati intelligenti (smart defaults)</h2>
+<p><strong>Il problema.</strong> Una schermata di prenotazione con cinque campi completamente vuoti. Ogni campo vuoto è una decisione che l'utente deve prendere <em>prima</em> che succeda qualcosa. Gli psicologi lo chiamano <strong>decision fatigue</strong> (affaticamento decisionale): più scelte impili addosso a una persona nello stesso momento, più è probabile che non ne faccia nessuna e se ne vada.</p>
+<p><strong>Lo studio citato.</strong> La ricerca della <strong>Columbia University</strong> sulle marmellate in un supermercato: con <strong>24 gusti</strong> esposti solo il <strong>3%</strong> delle persone ne comprava una; con <strong>6 gusti</strong> la percentuale saliva al <strong>30%</strong>. Più scelta non vuol dire scelta migliore, vuol dire scelta più difficile.</p>
+<p><strong>La soluzione mostrata.</strong> Stessa schermata, stessi campi, ma tutto è già compilato con l'opzione più comune. E il bottone non dice più genericamente "Cerca": dice che ci sono già <strong>12 risultati</strong> che ti aspettano.</p>
+<p><strong>Perché funziona.</strong> Tra il <strong>70% e il 90%</strong> degli utenti, nella maggior parte dei prodotti, non cambia mai i valori preimpostati. Non è pigrizia, è fiducia: un valore già scelto viene letto come una <strong>raccomandazione</strong> — "questo è quello che scelgono quasi tutti" — ed è enormemente persuasivo. Il compito dell'utente cambia natura: da "compila da zero" a "scorri e correggi quello che non ti torna", che è un lavoro molto più leggero.</p>
+<p><strong>La regola.</strong> Preseleziona la scelta più comune per ogni campo. Non far pensare l'utente quando la risposta la sai già.</p>
+<h2>2. Effetto traguardo: non partire mai da zero</h2>
+<p><strong>Lo studio citato.</strong> Sempre Columbia, stavolta in un autolavaggio. Un gruppo di clienti riceve una tessera fedeltà con <strong>8 caselle vuote</strong>: riempile tutte e 8 e il lavaggio è gratis. Il secondo gruppo riceve una tessera da <strong>10 caselle, ma con 2 già timbrate</strong>. I lavaggi necessari sono gli stessi (otto), eppure il gruppo partito con due timbri già fatti ha completato la tessera a un ritmo <strong>quasi doppio</strong>.</p>
+<p>Si chiama <strong>goal gradient effect</strong> (effetto gradiente dell'obiettivo, o "effetto traguardo"): più le persone si sentono vicine alla fine di qualcosa, più accelerano verso di essa. L'intuizione decisiva è che <strong>la linea di partenza la decidi tu</strong>.</p>
+<p><strong>Prima / dopo.</strong> Una schermata di onboarding che dice "0% completato", cinque caselle vuote: sta comunicando "non hai ancora iniziato e hai un sacco di strada davanti". È deprimente anche quando il lavoro effettivo è minimo. La versione corretta mostra invece <strong>20% già fatto</strong>, con il primo passo spuntato. L'utente non ha fatto nulla in più: hai solo <strong>reinquadrato la creazione dell'account come "passo uno"</strong> invece di trattarla come un evento a parte. Lo 0% sa di immobilità, il 20% sa di slancio — ed è quella sensazione a separare chi finisce l'onboarding da chi molla alla seconda schermata.</p>
+<p><strong>Esempio reale.</strong> <strong>LinkedIn</strong> mostra l'indicatore di "forza del profilo" dal momento stesso dell'iscrizione, e non è mai a zero.</p>
+<p><strong>La regola.</strong> Non far mai partire un utente da zero. Trova qualcosa che ha già fatto e conteggialo: quel vantaggio iniziale artificiale produce motivazione reale.</p>
+<h2>3. Reciprocità: dare prima di chiedere</h2>
+<p>Se l'utente non si fida ancora di te, tutto il resto non conta. La maggior parte delle app chiede prima di dare qualcosa: <em>iscriviti per vedere i risultati</em>, <em>crea un account per continuare</em>, <em>inserisci l'email per sbloccare</em>. L'utente non ha ancora ricevuto niente di valore e l'app gli sta già chiedendo qualcosa.</p>
+<p><strong>Prima.</strong> L'esempio è uno strumento di analisi di siti: l'utente incolla l'indirizzo del suo sito, preme "analizza", aspetta la scansione, e i risultati compaiono <strong>sfocati dietro un lucchetto</strong> — "crea un account per vedere il tuo report". È come un ristorante che ti chiede la carta di credito prima di farti vedere il menù: te ne andresti. Il video usa un'immagine forte: stai <strong>tenendo in ostaggio</strong> i risultati.</p>
+<p><strong>Dopo.</strong> L'utente preme "analizza" e riceve un report vero. Non completo, ma abbastanza utile davvero: il suo punteggio, i suoi problemi principali, cosa ha superato. Può già capire cosa non va nel suo sito e iniziare a pensare a come sistemarlo. Solo in fondo compare l'invito: <em>vuoi l'analisi completa con le istruzioni passo passo? Salva il tuo report.</em></p>
+<p><strong>Perché funziona.</strong> È la <strong>reciprocità</strong>: quando qualcuno ti dà qualcosa per primo, senti l'impulso di ricambiare. Non è razionale, è uno degli istinti umani più profondi. <strong>Robert Cialdini</strong> ha passato la carriera a studiare la persuasione e la classifica come il singolo motore più potente del comportamento umano. È il motivo per cui gli assaggi gratuiti al supermercato aumentano gli acquisti <strong>fino al 2.000%</strong>: il campioncino non è così buono, ma riceverlo crea un <strong>debito inconscio</strong>.</p>
+<p><strong>Esempi reali.</strong> <strong>Costco</strong> con gli assaggi gratis, <strong>Spotify</strong> con i 30 giorni di premium, <strong>Notion</strong> che ti lascia usare l'intero prodotto prima di pagare qualsiasi cosa. Non sono generosi, sono strategici: l'iscrizione non sembra mai un muro, perché l'utente ha già ricevuto qualcosa per cui vale la pena tornare.</p>
+<h2>4. Effetto IKEA: fagli costruire qualcosa prima di chiedere l'account</h2>
+<p>Hai presente quando passi un pomeriggio a montare un mobile IKEA e poi pensi "però, viene bene"? Oggettivamente non è diverso da uno comprato già montato, ma <em>sembra</em> diverso perché l'hai costruito tu: il lavoro speso cambia il valore che gli attribuisci. I ricercatori lo hanno studiato e gli hanno dato un nome, l'<strong>effetto IKEA</strong>: quando le persone costruiscono qualcosa da sé, la valutano molto più di un oggetto identico fatto da altri. Ne esiste una versione ancora più semplice, l'<strong>endowment effect</strong> (effetto dotazione): non serve nemmeno costruirlo, basta <strong>sentire di possederlo</strong>.</p>
+<p><strong>Prima.</strong> La classica pagina di iscrizione: email, password, "iscriviti". Su quella schermata non c'è nulla che appartenga all'utente — non ha creato niente, non ha scelto niente. Chiudere la scheda del browser non costa nulla, perché non c'è niente da perdere.</p>
+<p><strong>Dopo.</strong> L'utente non si è ancora iscritto, ma sta già costruendo: sceglie il proprio nome, il titolo, la palette di colori, lo stile della scheda. Ogni scelta rende quella cosa più <em>sua</em>. E il bottone in fondo non dice "iscriviti", dice <strong>"continua"</strong> — perché a quel punto andarsene non è saltare un modulo, è abbandonare qualcosa che hai fatto tu.</p>
+<p><strong>Esempio reale.</strong> <strong>Duolingo</strong>: prima ancora di creare un account hai già scelto la lingua, impostato il tuo obiettivo e completato la prima lezione. Quando finalmente compare la schermata di iscrizione hai investito <strong>10 minuti</strong>, e non li butti via.</p>
+<p>Il video su questo punto prende posizione: <em>"non è manipolazione, è design intelligente — stai dando alle persone un motivo per restare, lasciandogli costruire qualcosa per cui valga la pena restare"</em>. È l'unico dei sei principi in cui l'autore sente il bisogno di difendersi, il che è di per sé indicativo.</p>
+<h2>5. Avversione alla perdita: mostra cosa stanno per perdere</h2>
+<p><strong>Il dato.</strong> <strong>Daniel Kahneman</strong> ha vinto il Nobel dimostrando che il dolore di perdere qualcosa è psicologicamente <strong>due volte più potente</strong> del piacere di guadagnare la stessa identica cosa. Il doppio. Conseguenza per il design di prodotto: ogni volta che presenti una funzione come qualcosa che l'utente <em>potrebbe ottenere</em>, stai usando la leva più debole.</p>
+<p><strong>Prima.</strong> Un'app di archiviazione file propone l'abbonamento premium: bella icona, bell'elenco di funzioni, bel bottone "passa a premium". E sotto, la via di fuga più comoda del mondo: "<strong>forse più tardi</strong>". Non c'è nulla in gioco, non cambia niente se l'utente ignora la schermata: peso psicologico zero.</p>
+<p><strong>Dopo.</strong> Stesso prodotto, stesso obiettivo, ma invece di vendere ciò che l'utente potrebbe avere, la schermata mostra <strong>ciò che sta per perdere</strong>: i suoi file veri, elencati per nome, con un <strong>conto alla rovescia</strong>. E l'opzione per rifiutare non è più indolore: dice "<strong>me la rischio</strong>". La prima schermata è una proposta commerciale, la seconda è una minaccia — e, dice il video, la minaccia vince sempre, per via della <strong>status quo bias</strong> (preferenza per lo stato attuale): siamo fatti per proteggere quello che già abbiamo. Bisogna far sentire alla persona il <strong>costo del non agire</strong>.</p>
+<p><strong>La regola proposta.</strong> Quando disegni una schermata che chiede un'azione, ribalta l'inquadratura: non vendere il guadagno, mostra la perdita.</p>
+<h2>6. Effetto contrasto: nessun prezzo va mostrato da solo</h2>
+<p><strong>Prima.</strong> Un piano di protezione mostrato su una pagina tutta sua: <strong>50 $ al mese</strong>. L'utente vede quel numero isolato e fa il conto mentale — <strong>600 $ all'anno</strong> — pensa "è tanto", clicca "no grazie" e passa oltre.</p>
+<p><strong>Dopo.</strong> Stessa identica offerta, contesto diverso. L'utente ha appena messo nel carrello un portatile da <strong>1.900 $</strong> e, subito sotto il prodotto, compare il piano di protezione. Sempre 50 $, ma accanto c'è una piccola etichetta: "<strong>solo il 2,6%</strong>". Dell'offerta non è cambiato nulla, di come viene percepita è cambiato tutto: dopo aver visto 1.900 $, 50 $ quasi non si registrano. Il cervello non sta più facendo una valutazione <strong>assoluta</strong> ma <strong>relativa</strong>, e rispetto al numero appena elaborato quella cifra è un errore di arrotondamento.</p>
+<p>Si chiama <strong>effetto contrasto</strong> (parente stretto dell'<strong>ancoraggio</strong>): il cervello valuta ogni informazione in rapporto a quella vista immediatamente prima.</p>
+<p><strong>Esempi reali.</strong> I ristoranti mettono in carta la bistecca di <strong>Wagyu a 90 $</strong> non perché se la aspettino ordinata, ma perché fa sembrare ragionevole il <strong>salmone da 40 $</strong>. Gli agenti immobiliari ti mostrano per prima una casa leggermente sopra prezzo, così quella che vogliono davvero venderti sembra un affare.</p>
+<p><strong>La regola.</strong> Non mostrare mai un costo isolato. Controlla sempre cosa l'utente vede <em>per primo</em>, perché quel primo numero diventa il metro con cui misura tutto il resto.</p>
+<h2>Nota onesta: dove si passa dalla buona UX al dark pattern</h2>
+<p>Il video presenta i sei principi come un blocco unico di "buone pratiche", ma non stanno tutti sullo stesso piano etico. I <strong>dark pattern</strong> sono interfacce progettate per far fare all'utente qualcosa che, se avesse capito bene la situazione, non avrebbe scelto. Distinguendo:</p>
+<p><strong>Puliti.</strong> I valori preimpostati intelligenti (finché il preimpostato è davvero quello che conviene all'utente e non il piano più caro), l'effetto traguardo e la reciprocità sono riduzione di attrito e valore dato in anticipo: nessuno viene ingannato.</p>
+<p><strong>Zona grigia.</strong> L'effetto IKEA nella versione Duolingo è onesto — la prima lezione è valore vero. Ma "fagli investire 10 minuti prima di dirgli che serve un account" diventa scorretto nel momento in cui il costo reale (prezzo, abbonamento, obbligo di registrarsi) viene rivelato solo <em>dopo</em> che l'utente ha investito tempo. È il pattern che in letteratura si chiama <strong>roach motel / sunk cost</strong>: si entra facilmente, si esce a fatica.</p>
+<p><strong>Dark pattern conclamato.</strong> Il punto 5 così com'è mostrato. Il bottone di rifiuto che dice "<strong>me la rischio</strong>" è <strong>confirmshaming</strong>: far vergognare l'utente della scelta legittima di dire no. Il <strong>conto alla rovescia</strong> unito all'elenco dei propri file per nome è una <strong>urgenza fabbricata</strong> costruita sull'ansia di perdere dati personali, spesso su una scadenza che il fornitore stesso ha inventato. Il video lo ammette candidamente — <em>"la prima schermata è una proposta, la seconda è una minaccia, e la minaccia vince sempre"</em>: non è un'esagerazione retorica, è la descrizione esatta di cosa si sta facendo. In diversi ordinamenti pratiche di questo tipo (bottoni di rifiuto svalutati, timer finti) sono già oggetto di sanzioni sul commercio digitale.</p>
+<p><strong>Punto 6, borderline.</strong> Mostrare "solo il 2,6%" accanto ai 50 $ è una manipolazione del contesto, non un'informazione falsa. Diventa scorretto quando serve a nascondere il costo cumulato reale (600 $ l'anno) che l'utente aveva correttamente calcolato da solo nella versione "prima".</p>
+<p>Regola pratica per usare questa roba senza diventare lo stronzo del settore: <strong>abbassa lo sforzo, non abbassare la comprensione</strong>. Se la tecnica funziona perché hai reso il percorso più facile, va bene. Se funziona perché l'utente ha capito peggio la situazione — cosa costa, cosa perde davvero, cosa succede se dice no — è un dark pattern, e ti si ritorce contro sotto forma di disdette e recensioni.</p>
+<h2>Collegamento con il resto del vault</h2>
+<p>Questo video è il <strong>complemento psicologico</strong> di design-app-che-spiccano, che copre il lato visivo e sensoriale (animazioni e microinterazioni, mascotte, iconografia, widget come leva di ritenzione, dove trovare ispirazione). Lì si parla di <em>come far sembrare</em> un'app curata; qui di <em>come è strutturato il percorso</em> perché la persona lo completi e torni. Un dettaglio in comune: entrambi trattano il momento dell'onboarding come il punto in cui si vince o si perde l'utente, e entrambi citano <strong>Duolingo</strong> come caso di riferimento — uno per la mascotte, l'altro per la lezione prima dell'iscrizione. Nota anche che il canale, in questo video, suggerisce <strong>Mobbin</strong> come archivio di flussi reali di onboarding e checkout da studiare: è la stessa categoria di risorse di ispirazione già raccolte nell'altra pagina.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=2TlIg3VokY8 — <em>The UX Psychology Behind Apps People Can't Stop Using</em> (canale <strong>UX Peak</strong>), ~11 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em> Tutte le coppie "prima/dopo" sono descritte a parole: le schermate mostrate a video non sono state viste, quindi i dettagli visivi (layout, colori, tipografia) non sono ricostruibili da qui.</li>
+<li>Concetti collegati: design-app-che-spiccano.</li>
+<li><strong>Omesso di proposito:</strong> il segmento sponsorizzato su <strong>Mobbin</strong> con lo sconto del 20% via link in descrizione (il fatto che Mobbin sia utile come archivio di flussi l'ho tenuto, l'offerta no); la promozione del corso a pagamento <strong>UX Peak Plus</strong> su uxpeak.com, con codice sconto, offerta di lancio e garanzia soddisfatti-o-rimborsati a 7 giorni, più il discorso "i tutorial di Figma non ti fanno assumere, il nostro corso sì"; i saluti finali.</li>
+<li><strong>Verifiche non fatte:</strong> i numeri citati (3% vs 30% sulle marmellate, quasi il doppio nell'autolavaggio, 70-90% che non cambia i preimpostati, +2.000% sugli assaggi gratuiti) arrivano dal video e non sono stati controllati alla fonte. Lo studio delle marmellate (Iyengar &amp; Lepper) è reale ma nella letteratura successiva la sua replicabilità è discussa; il +2.000% degli assaggi è una cifra da manuale di marketing, plausibilmente riferita a un singolo caso e non a una media. Trattali come ordini di grandezza retorici, non come dati su cui costruire un business case.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

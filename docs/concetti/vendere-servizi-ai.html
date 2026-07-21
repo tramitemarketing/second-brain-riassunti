@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Spec-driven prompting</title>
+<title>Vendere servizi AI (offerta, differenziazione, ruolo)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -99,34 +99,33 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
-<h1>Spec-driven prompting</h1>
-<p>Prima di far costruire qualcosa a Claude, si costruisce insieme all'agente uno <strong>spec</strong> dettagliato — un formato che traduce la tua comprensione implicita del task in qualcosa che il modello può effettivamente usare. Il plan mode di Claude è un buon punto di partenza ma resta "troppo alto livello" (Karpathy): serve andare più a fondo nel disegnare lo spec stesso, non solo pianificare i passi.</p>
-<h2>Il problema che risolve</h2>
-<p>Gli LLM sono brillanti su tutto ciò che è misurabile, ma ciechi sul contesto implicito. Esempio di Karpathy: "Il carwash è a 50m, vado a piedi o in auto?" — Claude, Gemini, Grok e ChatGPT rispondono tutti "a piedi" perché è vicino, ignorando che ti serve l'auto <em>per lavarla</em>. Non è un bug di un singolo modello: è la classe di errore che lo spec deve coprire, perché è "signal" che l'AI non ha modo di dedurre da sola.</p>
-<h2>I 3 step per costruire lo spec</h2>
-<ol>
-<li><strong>Scoprire il goal reale, non il task.</strong> "Crea un report di fine mese" è un task; il goal è la decisione che quel report deve guidare — e questo è qualcosa che l'AI non potrà mai decidere da sola. Tattica: far intervistare <em>te</em> da Claude per estrarre il goal, invece di scriverlo tu a mano.</li>
-<li><strong>Essere agili, non waterfall.</strong> Waterfall = task grande consegnato tutto insieme alla fine (rischio alto di andare fuori strada senza accorgersene). Agile specking = scope stretto, checkpoint chiaro, review dell'output, aggiustamento, ripeti. Tattica: dire esplicitamente a Claude di preferire spec piccoli e compartimentati piuttosto che uno spec monolitico.</li>
-<li><strong>Essere precisi — usare il cervello.</strong> Più sei preciso, meno l'AI deve assumere; ogni assunzione è un'occasione di drift dal risultato voluto. Quando è l'AI stessa a scrivere lo spec, il tuo lavoro è leggerlo criticamente, non accettarlo passivamente. Tattica: chiedere esplicitamente di "verificare le decisioni chiave" prima di procedere.</li>
-</ol>
-<h2>Prompt di esempio (combinando i 3 step)</h2>
-<p>Un prompt che integra i tre step tipicamente include: un'istruzione a intervistarti per trovare il goal reale dietro il task, un bias verso spec piccoli/compartimentati con checkpoint, e una richiesta esplicita di verificare le decisioni chiave prima di implementare.</p>
-<h2>Nota di collegamento</h2>
-<p>Questo è il layer "a monte" di <a href="loop-engineering.html">loop-engineering</a> — uno spec ben fatto è ciò su cui poi si costruisce la verifica (vedi lì la sezione Goal + Verification per il layer successivo).</p>
-<h2>Le regole operative (come promptano in Anthropic)</h2>
-<p>Sei regole raccolte dalla documentazione pubblica di Anthropic e dai suoi ingegneri (vedi how-anthropic-engineers-prompt-fable-2026-07-21):</p>
-<ol>
-<li><strong>Dai il perché</strong>, non solo il compito: "sto lavorando a X, serve per Y, che ha bisogno di Z → scrivi la mail".</li>
-<li><strong>Di' cosa NON fare</strong> (prompting negativo): "riporta quello che trovi e fermati; non modificare, non inviare, non cancellare finché non te lo dico".</li>
-<li><strong>Fallo agire appena ne sa abbastanza</strong>: "quando hai informazioni sufficienti per agire, agisci".</li>
-<li><strong>Fallo provare</strong> — la più importante: <em>"prima di dirmi che è fatto, indicami il risultato che lo dimostra; se non l'hai verificato, dillo"</em>. Va <strong>cablata nell'ambiente</strong> (skill, CLAUDE.md), non appiccicata in fondo al prompt. È <a href="loop-engineering.html">loop-engineering</a> in una riga.</li>
-<li><strong>Non chiedergli di mostrare il ragionamento</strong>, soprattutto nelle istruzioni di sistema: può far scattare rifiuti o un dirottamento silenzioso su un altro modello.</li>
-<li><strong>Dì di meno.</strong> Un'istruzione corta guida quanto un elenco di regole, <em>se</em> l'ambiente attorno è buono.</li>
-</ol>
-<blockquote>⚠️ La regola 6 tira contro l'istinto di scrivere specifiche lunghissime. La riconciliazione: <strong>la specifica vive nell'ambiente</strong> (file di progetto, skill, criteri di verifica), <strong>il prompt resta corto</strong>. Vale anche il monito opposto raccolto altrove: file di progetto e skill tendono a essere troppo lunghi, e i modelli intelligenti hanno bisogno di spazio.</blockquote>
+<h1>Vendere servizi AI (offerta, differenziazione, ruolo)</h1>
+<p><strong>Gist:</strong> perché un'offerta AI non vende quasi mai per colpa del funnel, ma della <strong>storia</strong>; come si differenzia un servizio quando tutti dicono le stesse parole; e come il valore si stia spostando <strong>dal costruire al decidere cosa costruire</strong>. Completa <a href="ai-service-business.html">ai-service-business</a> (nicchia verticale, servizio ad alto impatto) col lato <em>offerta e racconto</em>.</p>
+<h2>La diagnosi: non è il funnel, è la storia</h2>
+<p>Tesi controintuitiva: nessuna azienda oggi è <em>disinteressata</em> all'AI — dai 10 ai 100.000 dipendenti, il pubblico è già motivato. Quindi se non vendi, il collo di bottiglia non è la generazione di contatti: è che <strong>non si capisce cosa fai e perché conta</strong>.</p>
+<p>Corollario che vale in ogni preventivo: <strong>non vendi AI, vendi l'esito</strong>. Non "un agente vocale", ma "il telefono risponde 24 ore su 24 e nessuna richiesta cade per terra". Non "un workflow", ma "dieci ore a settimana che ti tornano indietro".</p>
+<h2>Il test del "server sul tavolo"</h2>
+<p>L'immagine più utile per capire la differenziazione. In una gara per uno studio legale tutti i fornitori dicevano le stesse cose — "sicuro, conforme, ecco le certificazioni". Ha vinto chi si è presentato <strong>posando un server fisico sul tavolo</strong>: <em>"i tuoi dati stanno qui dentro e non escono da questa stanza"</em>.</p>
+<p>La domanda da farsi su ogni proposta: <strong>c'è una frase concreta e ripetibile che il mio referente può dire al suo capo?</strong> Se stai dicendo il minimo sindacale che dicono tutti, non hai un'offerta, hai un preventivo.</p>
+<h2>L'offline come vantaggio, non come ripiego</h2>
+<p>Un target "vecchio" — es. aziende di impianti in una certa città — è un <strong>fossato</strong>, non un limite: chi non vive online non è assediato da cento agenzie AI, quindi una relazione umana vale ancora. Tattiche coerenti: presenza fisica, pubblicità iper-locale, un pezzo di servizio gratis per entrare. Vale il combinato <strong>settore + città</strong>, la stessa logica della "cerniera" in <a href="seo-con-claude.html">seo-con-claude</a>.</p>
+<h2>Da fornitore a persona indispensabile</h2>
+<p>Il ruolo che sta emergendo non è chi costruisce le automazioni, ma <strong>chi decide cosa automatizzare</strong>, lo misura in ore e soldi risparmiati e lo fa adottare al team. Analogia usata: il medico che fa la diagnosi, non il farmacista che consegna la scatola.</p>
+<p>Il metodo, in quattro mosse: <strong>(1)</strong> guarda il tuo lavoro (o quello del cliente) con la lente del <strong>collo di bottiglia</strong>; <strong>(2)</strong> fai un micro-progetto in un angolo, e usalo come caso studio; <strong>(3)</strong> riconosci i pattern che tornano; <strong>(4)</strong> proponi tu il ruolo, con le prove in mano.</p>
+<p>La domanda diagnostica che vale oro, anche su un cliente: <strong>"se domani raddoppiassimo i clienti, cosa si romperebbe per primo?"</strong> — separa le <em>seccature</em> (fastidiose ma innocue) dai <em>colli di bottiglia</em> (che bloccano i soldi). E in preventivo conviene aggregare i risparmi in un'unità che il titolare capisce: <em>"l'equivalente di un'assunzione a tempo pieno all'anno"</em>.</p>
+<blockquote>⚠️ <strong>Tensione da tenere d'occhio.</strong> Una fonte sostiene che il divario informativo che ha arricchito le agenzie AI si stia <strong>chiudendo</strong>, e che il lavoro stia rientrando dentro le aziende. Se è vero, tocca direttamente il modello di <a href="ai-service-business.html">ai-service-business</a>: non lo ribalta, ma sposta il valore da "faccio le cose al posto tuo" a "ti insegno/decido cosa fare". La stessa fonte dichiara una finestra di circa 5 anni. Nessuno dei due dati è verificabile.</blockquote>
+<h2>Vendere la trasformazione interna</h2>
+<p>Un'offerta consulenziale già confezionata per aziende medio-grandi: si parte da una <strong>sfida grande, vicina nel tempo e un po' spaventosa</strong> — se la scadenza è stretta, coi metodi normali non ce la fai, quindi sei <em>costretto</em> a usare l'AI. Il vero collo di bottiglia dell'adozione non è il capo né i singoli: è il <strong>capo squadra da 10-12 persone</strong>, e il motore è l'apprendimento tra colleghi. La cornice narrativa che funziona col cliente è l'elettricità in fabbrica: comprare licenze equivale a comprare motori senza rifare l'impianto.</p>
+<h2>Il pezzo che risponde all'obiezione "i servizi non sono un asset"</h2>
+<p>In <a href="ai-service-business.html">ai-service-business</a> c'è un'obiezione aperta: un'agenzia non è rivendibile. Qui arriva una risposta: <strong>un problema che risolvi e che nessuno aveva risolto diventa proprietà intellettuale tua</strong>, impacchettabile e rivendibile. È il ponte tra fare servizi e avere un prodotto.</p>
+<h2>Nota di cautela (importante)</h2>
+<p>Tutte le fonti di questa pagina sono creatori che <strong>vendono formazione o software</strong>: hanno interesse strutturale a che tu creda che sia il momento giusto per aprire un'agenzia AI. I numeri citati (volumi di token, "tre exit su quattro", stipendi) sono <strong>auto-dichiarati e non verificabili</strong>; un titolo prometteva "$200K" e la cifra non compare mai nel video. Usa il metodo, diffida delle cifre. Vedi <a href="verifica-business-pitch-video.html">verifica-business-pitch-video</a>.</p>
 <h2>Fonti</h2>
 <ul>
-<li>Stop Prompting Claude. Use Karpathy's Method Instead. (Austin Marchese, 2026-07-07) — riprende un'intervista di Andrej Karpathy a AI Ascent 2026.</li>
+<li>why-your-ai-offer-isnt-selling-2026-07-21 (Nate Herk, 2026-07-21) — la fonte principale: diagnosi storia-prima-del-funnel, server sul tavolo, offline, trasformazione interna</li>
+<li>il-lavoro-ai-da-200k-2026-07-21 (Nate Herk, 2026-07-21) — il ruolo di chi decide cosa automatizzare, seccature vs colli di bottiglia</li>
+<li>so-you-learned-claude-now-what-2026-07-21 (2026-07-21) — vincolo → KPI → costruisci; "cosa hai costruito?" come domanda-filtro</li>
+<li>claude-nuova-generazione-di-milionari-2026-07-21 (Nate Herk, 2026-07-21) — usato in negativo: hype senza modello di business, vedi il fact-check lì</li>
 </ul>
 <script>
 window.SB = (function () {

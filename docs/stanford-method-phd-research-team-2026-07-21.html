@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stanford&#x27;s Method Turns Claude Into a PHD Level Research Team</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Stanford&#x27;s Method Turns Claude Into a PHD Level Research Team" src="https://i.ytimg.com/vi/Tj3018n5MVg/hqdefault.jpg"><p><strong>In sintesi:</strong> invece di sparare un prompt solo di ricerca a Claude, fai partire <strong>cinque agenti con teste diverse</strong> (professionista, accademico, scettico, economista, storico), poi li fai <strong>litigare</strong> su dove si contraddicono, poi un secondo gruppo di agenti <strong>verifica ogni citazione</strong> una per una, e alla fine esce un report HTML in cui ogni affermazione ha un voto di affidabilità e ogni fonte è marcata come confermata, corretta o declassata. Nate Herk ha impacchettato il tutto in una skill Claude chiamata <strong>storm research</strong> che regala gratis. Il nome "metodo di Stanford" è vero solo a metà: il paper STORM esiste davvero ed è di Stanford, ma quello che Nate ha costruito è un'interpretazione libera, non l'implementazione del paper.</p>
+<h2>Cosa promette il video (e cosa fa vedere per primo)</h2>
+<p>Nate apre dicendo che <strong>Stanford ha un metodo di ricerca chiamato STORM</strong>, che in test con revisione dei pari (peer review) ha prodotto articoli <strong>"25% più organizzati" del secondo metodo migliore</strong>. Dice di aver preso quei principi e averli infilati in una sua <strong>skill di Claude</strong>, che regala gratis, e mostra subito il risultato: una <strong>pagina HTML</strong> montata dal punto di vista di cinque agenti diversi, e già verificata.</p>
+<p>Scorrendo il report si vedono due cose. Prima, in ogni parte del documento <strong>i diversi punti di vista commentano</strong>: questa affermazione è sostenuta dall'accademico e dallo scettico, ma è contestata dal professionista e dall'economista. Seconda, in fondo c'è l'elenco delle <strong>fonti confermate, corrette o declassate</strong> (<em>demoted</em>, cioè retrocesse perché non reggono). Il senso di quest'ultima parte è brutale e onesto: al <strong>primo giro</strong> il report conteneva roba che semplicemente non era vera; siccome la skill fa un passaggio di verifica, la versione che leggi è la <strong>V2</strong>, e di quella ti puoi fidare parecchio di più.</p>
+<h2>L'idea di fondo: un prompt solo ha punti ciechi</h2>
+<p>Il ragionamento è semplice. Se mandi <strong>una domanda sola</strong> a Claude, ottieni <strong>un angolo solo</strong> di ricerca, e in quel piano di ricerca ci saranno un mucchio di zone cieche. STORM invece usa <strong>cinque prospettive</strong>: il <strong>practitioner</strong> (chi il mestiere lo fa davvero), l'<strong>academic</strong> (chi guarda gli studi), lo <strong>skeptic</strong> (chi rompe le scatole e cerca il buco), l'<strong>economist</strong> (chi guarda i soldi) e l'<strong>historian</strong> (chi guarda com'è andata le altre volte). La frase chiave di Nate: <strong>ogni angolo trova un buco che gli altri angoli si perdono</strong>.</p>
+<p>Nate collega la cosa a suoi lavori precedenti — la "roast skill" e l'idea di usare squadre di agenti come un <strong>consiglio</strong> (council) — dove il valore non sta nella singola risposta ma nel far emergere prospettive che da soli non avremmo avuto.</p>
+<h2>Il confronto: deep research nativo contro la skill STORM</h2>
+<p>Per far vedere perché conviene, Nate mette la sua skill contro la funzione <strong>deep research già dentro Claude Code</strong>, arrivata insieme ai <em>dynamic workflows</em>. Con il comando di deep research, Claude prepara un flusso di lavoro dinamico e fa partire <strong>centinaia di agenti</strong> in sottofondo: nel suo esempio <strong>103 agenti</strong>.</p>
+<p>Il risultato però lo delude. Il deep research non gli restituisce nemmeno un file: si tiene tutto dentro, e solo dopo che lui chiede <em>"dov'è il report?"</em> sputa fuori un markdown <strong>decente ma non granché approfondito</strong>, con <strong>due sole fonti</strong> in cima, qualche altra fonte <strong>non confermata</strong> in fondo e una lista di domande aperte.</p>
+<p>Poi prende <strong>esattamente lo stesso prompt</strong> e lo dà alla skill STORM. Claude risponde che fa partire la pipeline, lancia i <strong>cinque agenti</strong>, li fa <strong>convergere</strong> e segna dove non sono d'accordo, poi fa partire <strong>altri sei agenti</strong> che verificano i fatti trovati. Finita la verifica esce l'HTML, e quell'HTML ha <strong>sempre la stessa struttura</strong>: un <strong>riassunto da 60 secondi</strong>, i <strong>risultati chiave</strong> con un punteggio di affidabilità (nell'esempio: <em>reliability high, 9 su 10</em>, sostenuto da accademico e scettico, contestato da professionista ed economista), e poi il resto del documento con lo stesso trattamento.</p>
+<h3>Il pezzo più interessante: la lente mancante</h3>
+<p>Il report non si limita a rispondere: dichiara anche <strong>su quale assunto si regge</strong> e <strong>quale lente manca</strong>. Nell'esempio di Nate il verdetto è che tutte e cinque le lenti guardano l'azienda <strong>dalla poltrona del proprietario</strong> — tassi di adozione, produttività, ritorno sull'investimento — e <strong>nessuna</strong> si è seduta al posto del <strong>cliente</strong> o del <strong>dipendente in prima linea</strong>. A quel punto la mossa è ovvia e Nate la fa: <em>"ok, tira su questa sesta lente e rifammi una V3 del report"</em>.</p>
+<h3>Chi ha vinto, secondo un giudice esterno</h3>
+<p>Per non giudicarsi da solo, Nate ha dato entrambi i documenti a <strong>Codex</strong> (un modello di un'altra casa, quindi un occhio esterno) chiedendo quale fosse migliore. Codex ha scelto il <strong>briefing HTML</strong> su <strong>tutte e sei</strong> le categorie valutate: qualità delle prove, varietà delle fonti, forza della tesi, quanto è azionabile, controllo del rischio, e utilità per fare video e contenuti.</p>
+<p>Sui costi Nate è onesto sul fatto di non avere i numeri esatti, ma dice che STORM è stato <strong>più veloce</strong> e <strong>"100% più economico"</strong>, perché ha girato con circa <strong>12 agenti in totale</strong> contro gli <strong>oltre 100</strong> del deep research. Aggiunge anche un'autocritica: forse dovrebbe <strong>andarci piano col giudicare</strong> quel giro di deep research, perché è stato <strong>strozzato dai limiti di chiamate</strong> (<em>rate limit</em>) delle API. Che però è a sua volta un argomento a favore: se accendi cento agenti insieme rischi di sbattere contro i limiti, mentre con STORM sai che sono <strong>sempre le tue cinque personalità</strong>.</p>
+<h2>Come funziona davvero: quattro prompt in fila</h2>
+<p>Sotto la skill non c'è magia, ci sono <strong>quattro prompt incatenati</strong>:</p>
+<ol>
+<li><strong>Prompt uno</strong> — tira su i <strong>cinque angoli</strong>, e tu ci metti solo l'argomento di ricerca.</li>
+<li><strong>Prompt due</strong> — la <strong>mappa delle contraddizioni</strong>: dove le prospettive si contraddicono? quale ha prove solide e quale ha prove deboli? In pratica li obbliga ad <strong>analizzare i risultati l'uno dell'altro</strong>.</li>
+<li><strong>Prompt tre</strong> — la <strong>sintesi</strong>.</li>
+<li><strong>Prompt quattro</strong> — la <strong>revisione tra pari</strong> (peer review).</li>
+</ol>
+<p>Nate ha prima girato questa catena a mano, ha visto che funzionava, e <strong>solo dopo</strong> ha detto a Claude di impacchettarla in una skill: <em>"così io ti do solo un argomento e tu mi fai tutta la trafila, e mi dai sempre lo stesso modello di report HTML"</em>. Questo ordine — <strong>prima lo fai a mano, poi lo impacchetti</strong> — è il pezzo di metodo più riutilizzabile del video.</p>
+<p>Dentro la cartella <code>.claude</code> c'è la skill <code>storm-research</code>, e il suo <code>SKILL.md</code> si descrive così: <em>trasforma un argomento in un briefing HTML verificato e multi-prospettiva; simula cinque lenti esperte sull'argomento, mappa dove si contraddicono, sintetizza tutto in un singolo report HTML autonomo, poi fa una revisione tra pari in modo avversariale dei propri risultati, e verifica ogni citazione contro la fonte primaria prima di consegnare</em>. Accanto al <code>SKILL.md</code> c'è un <strong><code>report-template.html</code></strong>, richiamato dalla skill, che serve solo a una cosa: garantire che il risultato <strong>abbia sempre lo stesso aspetto</strong>.</p>
+<details class="gia"><summary>Cos'è una skill e come si installa (base già nota)</summary>
+<p>Nate spiega per i principianti che <strong>una skill è in fondo solo un prompt</strong> — un prompt maestro che, quando dici "fammi una storm research", viene richiamato, letto per intero ed eseguito. Una volta installata è tutto a mani libere. Per installarla basta dare i due file (il markdown e l'HTML) a Claude e dirgli di metterli nella cartella <code>.claude</code>. Aggiunge che la stessa skill funziona anche con <strong>Codex o altri agenti</strong>: cambia solo la cartella (<code>.codex</code>, <code>.agents</code>), perché la posizione in <code>.claude</code> è una regola specifica di Claude Code. Precisa anche che nel video passa dall'app desktop di Claude a VS Code, ma che <strong>Claude funziona uguale in entrambi</strong>: cambia solo l'interfaccia. Ha usato l'app desktop perché lì si vedono meglio gli agenti che girano.</p>
+</details>
+<h2>Le fasi, viste girare dal vivo</h2>
+<p>Nate apre l'app desktop e chiede: <em>"per favore fammi una storm research sugli agenti vocali AI"</em>. Due cose da notare: non ha usato un comando con la barra (<code>/</code>), e la skill <strong>si è attivata lo stesso</strong>; e la richiesta era <strong>vaga</strong>, quindi la <strong>fase zero — inquadrare l'argomento</strong> entra in gioco: se il tema non è abbastanza preciso, la skill <strong>fa qualche domanda</strong> prima di partire.</p>
+<p>Claude risponde con l'argomento e, cosa notevole, con <strong>chi è il lettore</strong>: sa che Nate è un divulgatore AI e che sta decidendo se gli agenti vocali meritano un video o sono solo montatura. Poi la pipeline parte: le <strong>cinque lenti in parallelo</strong>, la <strong>mappatura delle contraddizioni</strong>, la <strong>sintesi</strong>, la <strong>revisione avversariale con verifica</strong>, e infine il risultato.</p>
+<p>Cliccando su un singolo agente si vede il <strong>prompt che la sessione principale gli ha mandato</strong> e cosa sta facendo — l'economista che naviga il web, l'accademico che fa le sue ricerche. I sotto-agenti in questo caso girano tutti su <strong>Opus 4.8</strong>, ma Nate precisa che si possono far girare su <strong>Haiku o Sonnet</strong> se si vuole spendere meno. Finite le cinque lenti, Claude legge il file del modello HTML, fa girare gli agenti di controllo e comincia a <strong>verificare citazioni e statistiche</strong> prodotte nel primo passaggio. Alla fine il report si apre nel browser: è la <strong>V2</strong>, con in fondo le fonti confermate, corrette o declassate, il riassunto da 60 secondi e i risultati chiave ordinati per affidabilità.</p>
+<h2>La distinzione che vale il video: sotto-agenti contro squadre di agenti</h2>
+<p>Mentre la pipeline gira, Nate infila la spiegazione più utile di tutto il video.</p>
+<p>Con i <strong>sotto-agenti</strong> (<em>subagent</em>) c'è <strong>una sessione principale</strong> — quella con cui stai parlando — e tutti i sotto-agenti lavorano <strong>per lei</strong>. La sessione principale parla con i cinque, ma <strong>i cinque non possono parlarsi tra loro</strong>.</p>
+<p>Con le <strong>squadre di agenti</strong> (<em>agent team</em>, o consigli) invece gli agenti parlano <strong>anche tra di loro</strong>. Ed è lì che succede la cosa interessante: Nate le usa quando deve <strong>decidere</strong> qualcosa, perché può farli <strong>discutere e litigare finché non arrivano a una specie di accordo</strong>. Il prezzo da pagare è che le squadre di agenti costano <strong>parecchio di più</strong> dei sotto-agenti.</p>
+<p>Tradotto: il metodo STORM come lo ha costruito lui <strong>non è un dibattito vero</strong>. Le cinque lenti lavorano <strong>in parallelo senza sentirsi</strong>, e la contraddizione la mappa <strong>dopo</strong> la sessione principale confrontando i loro risultati. È una scelta di costo, non un limite di idea.</p>
+<h2>Il consiglio finale: personalizzalo, e tieniti la teoria non la skill</h2>
+<p>La raccomandazione operativa di Nate è: prendi la skill, mettila nel tuo Claude, e <strong>adattala a te</strong>. Puoi entrare nella skill e scriverci dentro chi sei, che azienda hai, quali sono i tuoi obiettivi, e chiederle che <strong>ogni</strong> report sia tarato su di te — cioè che risponda a <em>"cosa dovremmo fare di diverso, ora che abbiamo capito questi dati?"</em>. È qui la differenza vera col deep research nativo, che secondo lui ti scarica addosso <strong>un mucchio di statistiche trovate in giro</strong> e basta.</p>
+<p>Poi: <strong>provala su un argomento che conosci bene</strong> e che conta per il tuo lavoro, leggila tutta e guarda dove va corretta. E aggiungi lenti tue: Nate dice che a lui servirebbero una lente <strong>"principiante in AI"</strong> (perché è chi insegna) e magari una <strong>"creatore di contenuti"</strong>.</p>
+<p>La chiusura è la parte che vale di più, e Nate la dice esplicitamente: <strong>conta meno questa skill specifica, e meno pure questo "metodo di Stanford", della teoria che ci puoi tirare fuori</strong> — cioè che <strong>più prospettive fai ricercare e contraddire tra loro, più la ricerca esce completa e onesta</strong>. E il principio operativo: <strong>se non hai competenza su un argomento, prova a prenderla in prestito</strong>; ammazza i tuoi punti ciechi, trova i buchi nella tua conoscenza, e usa gli agenti per costruirti un <strong>consiglio di piccoli esperti</strong> con teste diverse che ti coprono le spalle qualunque cosa tu stia facendo.</p>
+<h2>Verifica: è davvero roba di Stanford?</h2>
+<p>Sì, <strong>il paper esiste ed è di Stanford</strong> — ma quello che gira nella skill <strong>non è il metodo del paper</strong>.</p>
+<p><strong>Quello che regge.</strong> STORM è un progetto reale del laboratorio <strong>OVAL di Stanford</strong>, paper <em>"Assisting in Writing Wikipedia-like Articles From Scratch with Large Language Models"</em> (<strong>arXiv 2402.14207</strong>), autori <strong>Yijia Shao, Yucheng Jiang, Theodore A. Kanell, Peter Xu, Omar Khattab, Monica S. Lam</strong>, presentato a <strong>NAACL 2024</strong> — quindi "peer-reviewed" nel senso di accettato a una conferenza con revisione dei pari, come dice Nate. L'acronimo sta per <em>Synthesis of Topic Outlines through Retrieval and Multi-perspective Question Asking</em>. Anche il <strong>25%</strong> è reale e citato correttamente: rispetto a un metodo di confronto basato su scaletta e recupero documenti, gli articoli di STORM sono giudicati <strong>organizzati con un aumento assoluto del 25%</strong> e <strong>più ampi di copertura del 10%</strong>, secondo redattori Wikipedia esperti su un insieme di articoli recenti.</p>
+<p><strong>Quello che non regge (e Nate non lo dice).</strong> Il paper vero fa una cosa diversa dalla skill:</p>
+<ul>
+<li>Nel paper le prospettive <strong>non sono cinque personalità fisse</strong>: il sistema le <strong>scopre da solo</strong> guardando come sono strutturati articoli già esistenti su temi simili, e le prospettive cambiano da argomento ad argomento. Practitioner / academic / skeptic / economist / historian sono <strong>un'invenzione di Nate</strong>, non del paper.</li>
+<li>Nel paper il meccanismo centrale è una <strong>conversazione simulata</strong>: chi ha una prospettiva <strong>fa domande a un esperto</strong> ancorato a fonti internet affidabili, e da lì si costruisce la <strong>scaletta</strong>. Nella skill invece i cinque lavorano <strong>in parallelo senza parlarsi</strong> — cosa che Nate stesso ammette quando spiega la differenza tra sotto-agenti e squadre.</li>
+<li>Il risultato del paper è un <strong>articolo tipo enciclopedia con citazioni</strong>. Il <strong>briefing HTML</strong>, i <strong>punteggi di affidabilità</strong>, la <strong>mappa delle contraddizioni</strong> e soprattutto tutto il livello di <strong>verifica avversariale delle citazioni</strong> sono roba <strong>aggiunta da Nate</strong>, non misurata da nessuno studio.</li>
+</ul>
+<p>Quindi: il 25% <strong>non si trasferisce</strong> alla skill. Quel numero misura il sistema di Stanford su articoli tipo Wikipedia, non la skill <code>storm-research</code> su briefing di business. Chiamare la skill "il metodo di Stanford" è un <strong>gancio da titolo</strong>: l'ispirazione è vera, l'implementazione è sua, e i numeri di qualità della sua versione sono <strong>un giudizio di Codex su un singolo confronto</strong>, non una misura.</p>
+<p>Detto questo, l'idea di fondo — <strong>più prospettive contro i punti ciechi</strong> — è genuinamente quella del paper, e Nate stesso chiude dicendo che è la teoria a contare, non la skill. Su questo ha ragione.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: &lt;https://www.youtube.com/watch?v=Tj3018n5MVg&gt; — Nate Herk, <em>Stanford's Method Turns Claude Into a PHD Level Research Team</em>, ~12 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em> I report HTML mostrati a schermo non sono stati letti: quello che c'è dentro è solo ciò che Nate legge o descrive a voce.</li>
+<li>Paper originale verificato: <a href="https://arxiv.org/abs/2402.14207" target="_blank" rel="noopener">arXiv 2402.14207</a> — Shao, Jiang, Kanell, Xu, Khattab, Lam, <em>Assisting in Writing Wikipedia-like Articles From Scratch with Large Language Models</em>, NAACL 2024, Stanford OVAL. Progetto: &lt;https://storm-project.stanford.edu/research/storm/&gt;.</li>
+</ul>
+<p><strong>Concetti collegati:</strong> loop-engineering-guida-completa · loop-engineering · spec-driven-prompting · claude-skills</p>
+<p><strong>Cosa è stato omesso di proposito:</strong> l'invito ripetuto a iscriversi alla sua community gratuita su Skool per scaricare <code>SKILL.md</code> e <code>report-template.html</code> (link in descrizione, sezione <em>classroom → all YouTube resources</em>); i rimandi ai suoi altri video su squadre di agenti e sotto-agenti; le richieste di like e i saluti di chiusura.</p>
+<p><strong>Note di onestà.</strong> (a) L'attribuzione a Stanford è <strong>parzialmente corretta</strong>: vedi la sezione di verifica sopra — il paper è reale, la skill non è il paper. (b) Il "<strong>100% più economico</strong>" è una stima a occhio di Nate, che ammette lui stesso di non avere i numeri di costo. (c) Il confronto con il deep research nativo è <strong>un solo giro</strong>, per di più penalizzato dai limiti di chiamate API, e il giudice era un altro modello: è un aneddoto, non un test. (d) Il numero di agenti di verifica ("<strong>sei</strong>" nel primo esempio, "circa <strong>12</strong> in totale") viene da quel singolo giro e non è una costante della skill. (e) I nomi trascritti automaticamente ("<strong>storm</strong>", "<strong>Codex</strong>") sono stati controllati; il nome esatto della "roast skill" citata di sfuggita resta <strong>incerto</strong>.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

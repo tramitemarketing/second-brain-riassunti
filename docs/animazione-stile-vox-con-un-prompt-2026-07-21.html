@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Made a Vox Style Animation With ONE Prompt (Claude Code + Higgsfield)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Made a Vox Style Animation With ONE Prompt (Claude Code + Higgsfield)" src="https://i.ytimg.com/vi/GFroEz7XW5E/hqdefault.jpg"><p><strong>In sintesi:</strong> l'autore mostra una <strong>skill di Claude Code</strong> che, partendo da una frase ("voglio un video esplicativo di 2 minuti, scegli tu l'argomento"), produce un'<strong>animazione esplicativa in stile Vox</strong> — quelle animazioni giornalistiche fatte di mappe, grafici e icone che spiegano una notizia. La skill fa da sola: <strong>ricerca</strong> cosa è di tendenza, <strong>scrive il copione</strong>, <strong>genera la voce narrante</strong>, <strong>spezza la storia in scene</strong>, <strong>genera tutti gli asset grafici</strong> e <strong>prepara la cartella di progetto</strong>. Il motore di generazione è <strong>Higgsfield</strong>, collegato a Claude Code con un <strong>connettore MCP</strong> (unico passaggio manuale, ~1 minuto). Il punto tecnico vero non è "l'AI fa i video": è la <strong>coerenza visiva</strong> — generare una scena alla volta produce dodici scene che sembrano fatte da dodici designer diversi, mentre qui lo stile è scritto una volta nella skill e <strong>imposto a ogni singola richiesta di generazione</strong>. Ultimo colpo: una riga in più ("ora fammi questo video in spagnolo") e in pochi minuti esce una <strong>seconda versione completa</strong>, stessa grafica, voce nuova. Sul titolo però va detto chiaro: <strong>non è un prompt solo</strong> — vedi la sezione finale sull'onestà.</p>
+<h2>Il problema che il video vuole risolvere: la coerenza, non la generazione</h2>
+<p>La premessa è la parte più utile del video. Chi fa motion graphics con l'AI (le <strong>motion graphics</strong> sono le grafiche animate: testi che entrano, mappe che si colorano, grafici che crescono) di solito lavora <strong>una scena per volta</strong>: un prompt, un'immagine, avanti la prossima. Il risultato è un progetto dove ogni scena è leggermente diversa — colori un po' spostati, stile un po' diverso — e alla fine <strong>non sembra un video solo</strong>.</p>
+<p>I video di <strong>Vox</strong> non sono fatti così: mantengono <strong>un solo linguaggio visivo</strong> dall'inizio alla fine, e l'unica cosa che cambia è la storia. Ed è esattamente quella coerenza a costare cara, perché richiede tutta la <strong>pianificazione a monte</strong>: elenco delle scene, elenco delle inquadrature, elenco degli asset grafici, il tutto <strong>prima</strong> di generare qualsiasi cosa.</p>
+<p>La frase che riassume la tesi del video: **"la skill non è una scorciatoia per chi già conosce il flusso di lavoro — la skill <em>è</em> il flusso di lavoro"<strong>. Cioè: dentro il file della skill c'è scritto che un video del genere ha bisogno di un copione, che il copione va spezzato in scene, che ogni scena ha bisogno dei suoi asset in uno stile unico, che serve una voce narrante e che alla fine tutto va assemblato. L'autore dice di averci passato </strong>una settimana intera** a capire come si fanno davvero questi video, e di aver impacchettato tutto lì dentro.</p>
+<details class="gia"><summary>Cos'è una "skill" di Claude, in due righe</summary>
+<p>Un file di testo (markdown) che spiega all'agente <strong>cosa fare, in che ordine e con quali comandi</strong>. Non è un programma: è un manuale che l'agente legge e segue. Vedi claude-skills.</p>
+</details>
+<h2>Il setup: un connettore MCP verso Higgsfield</h2>
+<p>Unico passaggio manuale di tutta la storia, dichiarato in circa un minuto. Serve perché Claude Code, da solo, non sa generare immagini, video e audio: deve poter parlare con <strong>Higgsfield</strong>, che è lo studio creativo AI dove quelle cose si generano davvero (vedi higgsfield).</p>
+<details class="gia"><summary>I passi del collegamento (setup standard MCP)</summary>
+<p>Su Higgsfield si apre la sezione <strong>MCP and CLI</strong> e si copia il proprio <strong>connettore MCP</strong>. Poi in Claude Code: <strong>impostazioni → connettori → aggiungi connettore personalizzato</strong>, si incolla, si dà un nome (lui lo chiama "Higgsfield"), si salva. Fatto una volta, non si rifà mai più: tutte le richieste di generazione — immagini, voce, tutto — passano da lì.</p>
+</details>
+<h2>Cosa digita davvero l'utente</h2>
+<p>Aperto Claude Code e caricata la skill, il brief è: <strong>"voglio un video esplicativo di 2 minuti. Scegli tu l'argomento, qualcosa che interessi alla gente in questo momento."</strong> Nessun argomento, nessun copione, nessuno <strong>storyboard</strong> caricato (lo storyboard è la sequenza disegnata delle scene, la "sceneggiatura a fumetti" del video). L'unico vincolo dato è la durata.</p>
+<p>Da lì però <strong>la skill non parte a generare a caso: apre una conversazione</strong>. È il pezzo di metodo da rubare — la skill <em>intervista</em> prima di eseguire:</p>
+<ol>
+<li><strong>Ricerca</strong> cosa è di tendenza, cosa la gente sta cercando e di cosa si parla adesso. Circa <strong>un minuto</strong>.</li>
+<li>Torna con <strong>tre proposte di argomento</strong> — nell'esempio: storia, finanza, geopolitica. Lui ne sceglie una; dice che potrebbe anche rispondere "scegli tu" e lasciar decidere alla skill.</li>
+<li>Fa <strong>qualche domanda di gusto</strong>: stile più <strong>minimale</strong> o <strong>tipografia forte</strong> (caratteri grandi e decisi)? Servono <strong>mappe, grafici, ritagli di personaggi</strong>? C'è un <strong>riferimento visivo</strong> da seguire?</li>
+</ol>
+<p>Rispondere a tutto richiede, dice, <strong>circa 30 secondi</strong>. E quella è <strong>l'intera lista di decisioni</strong> che l'utente prende nel processo di produzione.</p>
+<h2>Cosa succede dopo, in ordine</h2>
+<p>Tutto dentro un'unica conversazione di Claude Code, visibile a schermo mentre accade:</p>
+<p><strong>Il copione.</strong> Prima cosa: scrive il testo, strutturato in <strong>gancio, storia, resa</strong> (hook, story, payoff — apri catturando l'attenzione, sviluppi, chiudi con il punto che ripaga chi è rimasto), costruito attorno all'argomento scelto.</p>
+<p><strong>La voce narrante.</strong> Generata automaticamente con l'<strong>audio di Higgsfield</strong>. L'autore sottolinea: non apre un solo menù, non registra niente, e <strong>non sente il risultato finché non è finito</strong>.</p>
+<p><strong>Le scene e gli asset.</strong> La skill spezza la storia in scene e per ognuna decide <strong>cosa va mostrato</strong>: una mappa, un'icona, un grafico. Poi parte la prima richiesta di generazione verso Higgsfield e in pochi secondi tornano i primi asset, poi la scena successiva, e così via. Il punto ripetuto due volte: <strong>la scena 1 e la scena 12 sembrano fatte dallo stesso designer, perché la skill impone lo stile a ogni singola richiesta</strong>. E siccome tutto avviene in <strong>una sola chat</strong>, non si salta mai da uno strumento all'altro e non si rifà nulla da capo.</p>
+<p><strong>L'assemblaggio.</strong> Finite le generazioni, la skill fa <strong>un'ultima domanda</strong>: "vuoi che assembli il progetto?". Lui clicca sì. Claude Code allora <strong>organizza tutti gli asset generati e prepara la struttura del progetto</strong> per l'animazione finale.</p>
+<p>Il riepilogo dell'autore su cosa è stato fatto in automatico: ricerca, copione, voce, pianificazione delle scene, decine di asset grafici coerenti, struttura del progetto. E poi la frase che il video pronuncia di sfuggita ma che pesa molto: <em>"invece di passare ore a organizzare i file e costruire il progetto a mano, <strong>salto dritto ad animare le scene ed esportare il video finale</strong>"</em>. Cioè: <strong>l'animazione vera e propria e l'esportazione non sono mostrate e non le fa la skill</strong> — vedi sotto.</p>
+<h2>Il risultato: il Mondiale che costa più di quanto rende</h2>
+<p>Il video dimostrativo, riportato per intero due volte nella trascrizione, riguarda i <strong>Mondiali di calcio</strong> e chi ne paga davvero il conto. I numeri citati dal narratore, utili per capire il tipo di contenuto che la pipeline sa produrre:</p>
+<ul>
+<li>la finale si gioca in <strong>New Jersey</strong>; <strong>48 squadre</strong>, <strong>104 partite</strong>, <strong>tre Paesi ospitanti</strong>, <strong>cinque milioni e mezzo di tifosi</strong>: "non è mai stato organizzato niente di così grande";</li>
+<li>la <strong>FIFA</strong> si aspetta circa <strong>11 miliardi di dollari</strong> da questo solo torneo, <strong>oltre il 50% in più</strong> di quanto incassato con il <strong>Qatar</strong>, l'incasso più grande della sua storia;</li>
+<li>il meccanismo: <strong>la FIFA tiene biglietti, sponsor, diritti televisivi e merchandising</strong>, mentre <strong>le città ospitanti pagano</strong> sicurezza, trasporti, stadi e fan zone;</li>
+<li><strong>New York City</strong> ha messo a bilancio circa <strong>70 milioni di dollari di costi</strong> contro <strong>55 milioni</strong> di nuove entrate fiscali: <strong>la città ci rimette anche nello scenario migliore</strong>.</li>
+</ul>
+<p>Guardandolo scena per scena, dice, "tutto è coerente dall'inizio alla fine, ogni transizione segue lo stesso linguaggio visivo, sembra un'unica produzione" — ed è proprio la cosa che <strong>non si può ottenere generando una scena alla volta</strong>.</p>
+<h2>La parte che sorprende: la versione in spagnolo</h2>
+<p>Chiuso il video, digita <strong>una riga in più</strong>: <em>"ora fammi questo video in spagnolo"</em>. <strong>Voce nuova, stessa grafica.</strong> Pochi minuti dopo esce un <strong>secondo video completo</strong>.</p>
+<p>Il ragionamento che ci costruisce sopra vale più della demo: <strong>non stai traducendo i sottotitoli, stai spedendo una versione nativa del video in ogni mercato</strong>, a costo quasi nullo. Ogni video prodotto diventa pubblicabile per qualunque pubblico del pianeta. Ed è il vero argomento economico del metodo, molto più della velocità.</p>
+<p>Chiusura concettuale: la skill non è legata al formato "notizia" — stesso flusso per <strong>documentari, video didattici, canali di storia, spiegoni di finanza</strong>, qualsiasi stile. E la tesi finale: <strong>non devi più imparare la pipeline, descrivi il risultato — la pipeline vive dentro la skill.</strong></p>
+<h2>Delta rispetto a quello che già c'è in wiki</h2>
+<p>Va segnato bene perché è un <strong>quarto stack</strong>, diverso dai tre già schedati in claude-code-video-editing:</p>
+<ul>
+<li>gli stack A, B e C <strong>montano girato esistente</strong>: registri, trascrivi con timestamp per parola (WhisperX / Whisper / ElevenLabs Scribe), tagli silenzi e brutte take, aggiungi grafiche con HyperFrames o Remotion, sottotitoli, musica, esporti. Il problema da risolvere è <strong>il taglio</strong>;</li>
+<li>questo stack <strong>non ha girato</strong>: si genera tutto dal nulla (ricerca → copione → voce → scene → asset). Il problema da risolvere è <strong>la coerenza visiva su N scene</strong>;</li>
+<li>cambia anche il modo di collegare gli strumenti: qui <strong>niente installazioni locali</strong> (FFmpeg, WhisperX), ma <strong>un connettore MCP</strong> verso un servizio esterno, Higgsfield, che fa immagini, video e audio;</li>
+<li>è nuovo il pattern della <strong>skill che intervista prima di eseguire</strong> (ricerca di tendenza → tre opzioni → domande di gusto), invece della skill che parte e basta;</li>
+<li>è nuovo il <strong>ri-doppiaggio a costo quasi zero</strong> come leva di distribuzione: stessa grafica, mercati diversi.</li>
+</ul>
+<blockquote>⚠️ Nota di contraddizione tra fonti: in <a href="ai-agent-builds-cinematic-websites-2026-07-19.html">ai-agent-builds-cinematic-websites-2026-07-19</a> l'autore dice esplicitamente che <strong>non serve passare da rivenditori come Higgsfield</strong>, perché con le API dirette di Google costa meno. Qui invece Higgsfield è il perno di tutto. Non è un errore di nessuno dei due: è una scelta <strong>comodità (un solo connettore, immagini+video+audio insieme) contro costo (API dirette, più pezzi da montare)</strong>.</blockquote>
+<h2>Onestà: "ONE prompt" è un gancio</h2>
+<p>Il titolo dice <strong>un prompt solo</strong>. Contando quello che si vede nella trascrizione, gli interventi umani sono almeno <strong>sei</strong>:</p>
+<ol>
+<li>il <strong>setup del connettore MCP</strong> (dichiarato, un minuto, si fa una volta sola — questo è onesto);</li>
+<li>il <strong>brief iniziale</strong>: "voglio un video esplicativo di 2 minuti, scegli tu l'argomento" — l'unico "prompt" del titolo;</li>
+<li>la <strong>scelta dell'argomento</strong> fra le tre proposte;</li>
+<li>le <strong>risposte alle domande di gusto</strong> (minimale o tipografia forte, mappe/grafici/personaggi, riferimento visivo);</li>
+<li>il <strong>sì all'assemblaggio</strong> del progetto;</li>
+<li><strong>l'animazione delle scene e l'esportazione del video finale</strong>, che lui dice testualmente di fare di persona ("salto dritto ad animare le scene ed esportare") e che <strong>nel video non viene mostrata</strong>.</li>
+</ol>
+<p>Più, ovviamente, la <strong>settima</strong> riga per la versione spagnola.</p>
+<p>Quindi: la parte <strong>davvero automatica</strong> è ricerca + copione + voce + pianificazione scene + generazione asset + organizzazione cartelle. È tanto, ed è la parte noiosa. Ma <strong>il montaggio animato — cioè il pezzo che rende un video "in stile Vox" e non una cartella di immagini — resta fuori dalla dimostrazione</strong>. Chi guarda il video pensando di ricevere il file finale premendo invio una volta si sbaglia. Onestamente: è una <strong>skill a stadi con quattro punti di conferma umana e una fase finale manuale</strong>, che è probabilmente meglio di un pulsante magico, ma non è quello che promette il titolo.</p>
+<p><strong>Altre cose che il video non mostra:</strong> cosa c'è scritto dentro la skill (mai mostrata riga per riga), quanto costa in crediti Higgsfield una produzione del genere, quanto tempo passa in totale dall'inizio alla fine (i tempi citati sono solo dei singoli passaggi), e con quale strumento avvenga l'animazione finale. Piccola incoerenza interna, segnalata perché è indicativa: a un certo punto dice di aver studiato il metodo per <strong>una settimana</strong>, poco dopo parla della <em>"pipeline che ho impiegato mesi a imparare"</em>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Link: https://www.youtube.com/watch?v=GFroEz7XW5E</li>
+<li><em>Ingest da sola trascrizione (nessun frame video): è un video visivo, qui resta il metodo.</em></li>
+<li>Concetti collegati: claude-code-video-editing, claude-skills, ai-content-anti-slop</li>
+<li>Entità: higgsfield</li>
+<li><strong>Nomi storpiati dalle sottotitolazioni automatiche</strong> (correzioni, non indovinelli): "Cloud Code" → <strong>Claude Code</strong>; "Higgs Field" → <strong>Higgsfield</strong>. L'<strong>autore non si nomina mai</strong> nella trascrizione, e nemmeno il canale: campo <code>autore</code> lasciato a n/d di proposito.</li>
+<li><strong>Omesso</strong>: rimandi ripetuti alla skill e al "workflow completo" linkati in descrizione (citati almeno tre volte), inviti finali del tipo "andate a costruire qualcosa", saluti e rimando al video successivo. <strong>Buco nella trascrizione</strong> fra 08:45 e 09:38 (circa 50 secondi, presumibilmente la riproduzione del video in spagnolo o un blocco senza sottotitoli): quel pezzo non è ricostruibile.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

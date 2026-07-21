@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>So You Learned Claude, Now What?</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="So You Learned Claude, Now What?" src="https://i.ytimg.com/vi/-zL_trhnQaI/hqdefault.jpg"><p><strong>In sintesi:</strong> Video di <strong>carriera</strong>, non tecnico: zero Claude, zero setup, zero codice. La tesi è che saper costruire con Claude ormai non vale quasi niente da solo, perché i tool cambiano ogni anno; il valore si sposta su chi <strong>decide cosa costruire e dimostra che ha funzionato</strong> — cioè il consulente. Due strade: consulente indipendente (agenzia riverniciata) oppure <strong>consulente interno</strong> all'azienda dove già lavori. Il pezzo davvero utile, e l'unico che vale la pena portarsi via, sono due regole operative — <strong>prima il vincolo del business, poi il KPI, solo dopo si costruisce</strong> — più una roadmap in quattro passi (audit del tuo ruolo → micro-progetti con prova → riconoscere i pattern → farti creare il ruolo dall'interno) e un caso reale (Alan, da sviluppatrice email a head of AI in un anno). Per te, Divan: <strong>onestamente aggiunge poco</strong>. Buona parte si sovrappone a sei-skill-ai-carriera (stessa analogia Excel, stesso studio IBM, stesso autore) e a ai-service-business. Il delta reale sono 5 minuti su 16: "vincolo → KPI → build" e la domanda "cosa hai costruito?".</p>
+<h2>Il problema di partenza: hai imparato Claude, e allora?</h2>
+<p>L'apertura è la domanda che dà il titolo. Sai costruire agenti, automazioni, sistemi complessi. E adesso? Apri un'agenzia AI? Vendi automazioni? Costruisci software per le aziende? Nate parte dicendo che <strong>il 90% di queste opzioni non è rilevante per chi lo guarda</strong>, perché la maggior parte del suo pubblico ha un lavoro normale, una carriera aziendale, e preferisce la sicurezza dello stipendio agli alti e bassi del mettersi in proprio. Il punto è che, con l'AI che cambia ogni giorno, <strong>quella sicurezza sta sparendo comunque</strong>.</p>
+<p>La premessa che regge tutto il resto: <strong>l'AI non sta ferma un secondo</strong>, quindi essere bravissimo con Claude <em>adesso</em> non significa quasi nulla nel lungo periodo, perché i tool cambieranno. Quello che conta sono <strong>le competenze sotto al tool</strong>, e la capacità di riportarle su ogni nuova fase dell'AI man mano che arriva.</p>
+<details class="gia"><summary>Le fasi dell'AI degli ultimi due anni (storia già nota)</summary>
+<p>Nate ripercorre le ondate per mostrare che il "lavoro migliore" nell'AI cambia ogni anno o poco più, e che ogni cambio apre una finestra per chi sta attento.</p>
+<p>Circa un anno fa, quando l'AI è esplosa davvero, i primi lavori pagati erano semplici: eri la persona che montava <strong>una automazione o un chatbot</strong> per una piccola azienda o un team, e bastava per farsi pagare bene. Poi è arrivata la fase dei <strong>sistemi AI</strong>, quella che oggi tutti chiamano <em>AI automation agency</em>: tutti a produttizzare servizi, aprire agenzie, vendere sistemi "fatti da noi per te". Poi lo spostamento verso l'<strong>AI agent builder</strong>, dove si smette di costruire automazioncine e si costruiscono agenti che ragionano ed eseguono compiti ripetitivi. E infine la fase attuale, quella <strong>agentica</strong>: Gartner stima circa <strong>202 miliardi di dollari</strong> di spesa in AI agentica nel solo 2026, cioè aziende che pagano per AI che non risponde alle domande ma <strong>va e fa il lavoro</strong>.</p>
+<p>La morale: ogni volta che una fase è cambiata, chi si è mosso presto ha cavalcato l'onda, chi è rimasto incollato alla fase vecchia si è ritrovato a combattere in un mercato saturo in corsa al ribasso. Non è mai stato questione di imparare il tool specifico, ma di <strong>capire cosa il tool permette di fare e quanto vale per persone vere</strong>.</p>
+</details>
+<h2>Il buco di mercato: tutti usano l'AI, quasi nessuno è bravo</h2>
+<p>Il dato che Nate usa come perno: McKinsey ha trovato che circa l'<strong>88% delle organizzazioni</strong> usa AI da qualche parte in azienda, ma <strong>solo un terzo</strong> l'ha trasformata in progetti reali. La sua sintesi: <em>"quasi tutti usano l'AI, ma quasi nessuno è bravo con l'AI"</em>. Quel divario <strong>è l'opportunità</strong>.</p>
+<p>E siccome costruire diventa più facile ogni mese e la barriera d'ingresso continua a scendere, il valore non si sposta verso "un nuovo tipo di costruttore" ma verso <strong>chi decide cosa costruire, perché, e se poi ha davvero funzionato</strong>. Quella persona è un <strong>consulente AI</strong>.</p>
+<p>Altri numeri a supporto: il mercato della consulenza AI è previsto superare i <strong>64 miliardi entro il 2028</strong>; circa il <strong>30% dei progetti AI aziendali viene abbandonato</strong>; solo circa il <strong>6% delle aziende che usano AI è effettivamente bravo a usarla</strong>. Il dettaglio che rende vendibile la cosa: <strong>le aziende sanno di essere messe male</strong>. È esattamente lì che entra il consulente.</p>
+<h3>Dottore, non farmacista</h3>
+<p>L'immagine centrale del video. Un <strong>farmacista</strong> ti consegna esattamente quello che chiedi. Un <strong>dottore</strong> deve capire di cosa hai realmente bisogno. I costruttori sono farmacisti, i consulenti sono dottori — e il dottore è quello pagato davvero, perché <strong>il cliente non sa mai cosa gli serve: sa solo dove gli fa male</strong>. Quindi il mestiere non è essere il più veloce a costruire, è <strong>dare un nome al problema vero</strong>.</p>
+<h2>Le due strade per diventarlo</h2>
+<p><strong>Strada 1 — consulente indipendente.</strong> Vai nelle aziende degli altri, trovi i loro problemi, prescrivi e costruisci la soluzione AI. È in sostanza l'idea dell'agenzia AI, ma inquadrata come <strong>partner di lungo periodo</strong> invece che come squadra di sviluppatori arrangioni che sfornano automazioni. Non vendi automazioni: vendi <strong>la soluzione a un problema specifico</strong>. È la strada che ha percorso Nate stesso.</p>
+<p><strong>Strada 2 — consulente interno (in-house).</strong> Invece di consulenziare tante aziende da fuori, diventi <strong>la persona AI di riferimento dentro una sola azienda</strong> — anche quella in cui già lavori adesso. È la strada di cui Nate dice di voler parlare di più, avendo capito che non tutti vogliono aprire uno studio di consulenza.</p>
+<p>Le aziende la stanno prendendo sul serio: nascono ruoli con titoli veri come <strong>chief AI officer</strong> o <strong>director of AI</strong>, spesso pagati nella fascia bassa-media delle sei cifre (dollari). Lo studio <strong>IBM 2026 sui CEO</strong> dice che il <strong>76% delle organizzazioni</strong> ha ormai qualcuno in un ruolo tipo chief AI officer, contro il <strong>26% di due anni fa</strong>: quasi triplicato, un record per una posizione da C-suite.</p>
+<p><strong>Il caveat onesto</strong> (raro nei video del genere, e la parte migliore del blocco): quello studio ha intervistato solo circa <strong>2.000 CEO</strong>, di aziende enormi — fatturato mediano intorno ai <strong>5,8 miliardi</strong>, quasi quattro su cinque quotate in borsa. Quindi quel 76% racconta i <strong>giganti</strong> che corrono a riempire la casella, non il mercato vero. Le <strong>medie imprese</strong>, dove finirà a lavorare o consulenziare la maggior parte degli spettatori, sono ancora terreno completamente scoperto — cioè, secondo Nate, spazio libero.</p>
+<p><strong>Come si scelgono.</strong> Le due strade sono lo stesso mestiere — <em>diagnostichi il problema, prescrivi la soluzione AI, dimostri che ha funzionato</em> — cambia solo se lo fai per tante aziende o per una. L'indipendente ti va bene se vuoi <strong>proprietà totale del tuo tempo</strong>, ti piace la varietà e non ti disturba fare chiamate di vendita e cercarti i clienti. L'interno ti va bene se vuoi <strong>stabilità</strong>, un posto solo in cui andare in profondità, e uno stipendio fisso senza dover mollare il lavoro per aprire un'attività. Nate dichiara esplicitamente di non ritenere una strada migliore dell'altra.</p>
+<details class="gia"><summary>Chi è l'autore (bio e credenziali)</summary>
+<p>Nate racconta il proprio percorso per giustificare perché sia lui a parlare. Ha iniziato full-time appena uscito dall'università in <strong>Goldman Sachs</strong>. Quando l'AI ha cominciato a decollare era quello del team che ci smanettava nel tempo libero e provava a proporla ai colleghi: voleva diventare <strong>la persona AI interna</strong> e guidare un'iniziativa sull'AI in Goldman. Ma essendo un'azienda enorme, iper-regolamentata e piena di problemi di gestione del cambiamento, tutto andava troppo lento per i suoi gusti. Così ha scommesso su di sé ed è uscito.</p>
+<p>Dopo un periodo di lavoro freelance ha fondato con dei soci l'agenzia AI <strong>True Horizon</strong>, portata oltre i <strong>100.000 dollari al mese in meno di un anno</strong>, per poi uscirne perché più appassionato di divulgazione. Da lì la community: oltre <strong>400.000 membri</strong>, quella che definisce la più grande community di AI automation al mondo, costruita in meno di due anni.</p>
+<p>Due punti che usa per abbassare le barriere psicologiche: dice di raccontarlo non per vantarsi ma perché la community gli fa <strong>vedere in diretta cosa provano imprenditori, datori di lavoro e aspiranti</strong>, e nota che c'è tantissimo contenuto su "come aprire un'azienda AI" e quasi nulla per chi vuole solo <strong>avanzare come dipendente</strong>. E ribadisce di <strong>non avere background tecnico</strong>: viene da marketing e analytics, non è mai stato un ingegnere. Il senso: la barriera d'ingresso è scesa praticamente a zero, quindi "ce la posso fare?" non è più la domanda giusta.</p>
+</details>
+<h2>La domanda che decide tutto</h2>
+<p>Questo è il pezzo che vale, ed è formulato bene: <em>"perché dovrei assumere te invece della persona che ha guardato esattamente gli stessi tutorial di YouTube, conosce esattamente la stessa terminologia e ha la stessa esperienza tua?"</em>.</p>
+<p>La risposta di Nate: <strong>in questo mercato non vince chi ha imparato di più, vince chi può dimostrare di aver prodotto risultati di business reali</strong>. Qualunque strada scegli, tutto si riduce a quella domanda — e te la faranno.</p>
+<details class="gia"><summary>I quattro tipi di persona che guardano il video (parte motivazionale)</summary>
+<p>Nate sostiene che il passaggio a consulente ha senso per quattro profili diversi.</p>
+<p><strong>1. Chi costruisce con Claude per passione.</strong> Niente di male, ma monetizzare anche poco fa due cose: <strong>valida</strong> che sei bravo davvero (è il modo più economico di scoprire se le tue capacità valgono qualcosa: qualcuno paga o no) e <strong>finanzia l'hobby</strong>, visto che token e abbonamenti costano.</p>
+<p><strong>2. L'aspirante imprenditore.</strong> Hai una competenza in un mercato con domanda enorme e quasi nessuno capace di consegnare. Il World Economic Forum stima che l'AI creerà circa <strong>170 milioni di nuovi posti entro il 2030</strong>; togliendo i ruoli sostituiti o trasformati restano circa <strong>80 milioni netti</strong>. Inoltre <strong>circa metà degli annunci di lavoro tech negli USA chiede già competenze AI</strong>, numero raddoppiato in un anno. Morale: <em>non devi essere il migliore al mondo, ti basta essere il migliore nella stanza</em>.</p>
+<p><strong>3. Il dipendente che vuole salire di livello.</strong> È il gruppo nuovo, ed è dove la strada interna diventa "codice cheat": diventare la persona AI dell'azienda <strong>protegge il posto</strong> e funziona come un aumento. PwC ha analizzato quasi <strong>un miliardo di annunci di lavoro</strong> trovando che il sovrapprezzo di stipendio per le competenze AI è <strong>più che raddoppiato in un anno, dal 21,5% al 56%</strong>. E la paga è solo metà: un altro studio riporta che <strong>quasi due dipendenti su tre ammettono di aver scavalcato qualcuno in una promozione perché aveva competenze superate</strong>.</p>
+<p><strong>4. Chi ha già un'azienda.</strong> Il caso più facile: non ti serve assumere un consulente costoso né diventarlo per gli altri, fai consulenza alla tua stessa azienda <strong>un processo alla volta</strong>. Hai già il cliente perfetto: te stesso.</p>
+</details>
+<h2>L'etichetta "consulente AI" ha una data di scadenza</h2>
+<p>Osservazione che cambia l'urgenza della cosa: come tutte le onde precedenti, anche questa è temporanea. L'AI si infilerà in ogni settore e in ogni ruolo, quindi <strong>tra qualche anno nessuno si definirà "consulente AI": si dirà solo "consulente"</strong>, perché darlo per scontato sarà la norma e chi non parla AI semplicemente non prenderà lavoro.</p>
+<p>Quello che scade è <strong>l'etichetta</strong>; il vantaggio, le competenze e la finestra sono reali — solo che la finestra non resterà spalancata per sempre.</p>
+<details class="gia"><summary>Le analogie Excel e internet marketer (già in sei-skill-ai-carriera)</summary>
+<p>Se oggi qualcuno si presentasse come <strong>"contabile Excel"</strong> suonerebbe ridicolo, perché si dà per scontato che ogni contabile usi Excel. Ma quando Excel uscì c'erano contabili che lo usavano e contabili fermi al vecchio metodo: <strong>allora</strong> scriverlo tra le competenze aveva senso. Stessa storia con chi si definiva <strong>"internet marketer"</strong> agli albori del web: adesso è semplicemente marketing, è come lo fanno tutti.</p>
+</details>
+<h2>Il principio operativo: vincolo prima, KPI poi, build per ultimo</h2>
+<p>Qui sta il cuore utile del video, e Nate lo introduce dicendo che è proprio questo il motivo per cui <strong>la maggior parte dei costruttori non diventa mai consulente</strong>.</p>
+<p><strong>La mossa sbagliata</strong> (quella che fanno tutti): guardi il tuo lavoro, trovi le cose ripetitive, le automatizzi. Non è sbagliata in sé, semplicemente <strong>non ti rende prezioso</strong>: se automatizzi qualcosa che non è un collo di bottiglia dell'azienda, hai passato una settimana a risparmiare venti minuti su un compito che nessuno stava aspettando. <strong>A nessuno importa.</strong></p>
+<p><strong>La mossa giusta</strong> sono due cose in sequenza:</p>
+<ol>
+<li><strong>Ogni progetto deve colpire un vincolo reale del business</strong> — qualcosa che, se lo aggiusti, rende l'azienda più veloce, le fa fare più soldi, o ferma un'emorragia dove non dovrebbe esserci.</li>
+<li><strong>Ogni progetto deve avere un KPI chiaro deciso prima di iniziare a costruire</strong> — un numero specifico che stai cercando di muovere, la stella polare di quel progetto. (<em>KPI = indicatore chiave: il numero con cui misuri se la cosa ha funzionato.</em>)</li>
+</ol>
+<p>Quindi: <strong>prima il vincolo, poi il KPI</strong>. Il motivo per cui conta non è solo tecnico, è <strong>comunicativo</strong>: chiunque può dire "ho costruito un agente AI"; quasi nessuno può dire <em>"ho costruito un agente AI che ha mosso questo numero specifico di tanto per questa azienda specifica, il che si è tradotto in X% di profitto in più / X clienti in più"</em>. È lì che ti distingui.</p>
+<p>La regola compressa che Nate ripete: <strong>vincolo primo, KPI secondo, costruzione terza</strong>. (Dice che il modello operativo completo dietro a questo finirà in un libro che sta scrivendo.)</p>
+<h2>La roadmap in quattro passi</h2>
+<p>Premessa: <strong>non devi licenziarti domani</strong>, non devi costruirti un personal brand enorme, non devi aprire un canale YouTube e scommetterci la vita. Esiste una versione a rischio molto più basso.</p>
+<p><strong>Passo 1 — Fai l'audit del tuo ruolo.</strong> Siediti con la lente del vincolo e passa in rassegna il tuo lavoro. Invece di elencare ogni cosa ripetitiva che fai, chiediti <strong>quale sta effettivamente rallentando il team, bloccando il fatturato o creando dolore vero a valle</strong> senza che nessuno lo stia risolvendo. Quella è la lista buona. Per ogni voce, scrivi <strong>il numero preciso che cercheresti di muovere</strong> se la sistemassi. Ecco la tua prima lista di progetti: non le cose facili, le cose che contano.</p>
+<p><strong>Passo 2 — Prendi progetti piccoli.</strong> Scegli una voce della lista, definiscine il perimetro e costruisci la soluzione. Poi chiedi di poterla implementare <strong>in un solo pezzo dell'azienda</strong>, un angolino dove puoi testare, dimostrare che funziona e mostrare risultati veri. Quei risultati, qualunque siano, sono il tuo <strong>primo caso studio</strong>: da mostrare al capo, al team, da mettere nel portfolio, da pubblicare su LinkedIn perché la gente inizi a notarti.</p>
+<p><strong>Passo 3 — Diventa esperto nel risolvere problemi, non nel costruire.</strong> Per Nate è <strong>il passo più importante della roadmap</strong>. Quando hai fatto abbastanza costruzioni piccole, cominci a vedere i <strong>pattern sotto</strong>: ti accorgi che le aziende inciampano sempre nello stesso pugno di problemi. Quella è l'ultima competenza che ti serve per essere un consulente vero: smetti di essere chi costruisce ciò che gli viene passato e diventi chi <strong>entra in una situazione, individua il problema reale, progetta il sistema e lo risolve</strong>. Nel momento in cui succede, <strong>sono i colleghi a venire da te</strong>, non il contrario.</p>
+<p><strong>Passo 4 — Formalizzalo.</strong> Quando hai prodotto abbastanza prove che all'azienda serve una figura così a libro paga, vai dal capo o dalla dirigenza <strong>con le evidenze in mano e proponi tu il ruolo</strong>. Quel posto non lo troverai quasi mai pubblicato su LinkedIn: <strong>lo crei dall'interno</strong>, e puoi permettertelo solo perché nei passi 1–3 hai costruito il caso in silenzio. E se l'organizzazione non è ancora pronta per quel ruolo, quando lo sarà — e lo sarà — vuoi essere <strong>il primo nome che gli viene in mente</strong>.</p>
+<p>Riassunto in quattro parole: <strong>audit, build, riconosci i pattern, formalizza</strong>.</p>
+<p>Corollario: siccome l'AI si infila ovunque, <strong>non devi imparare un settore nuovo</strong>. Guarda cosa fai già ogni giorno, in cosa sei bravo, e chiediti come l'AI ti fa andare più veloce, ragionare meglio e produrre risultati migliori <strong>in quello</strong>.</p>
+<h2>Il caso reale: Alan, da email developer a head of AI in un anno</h2>
+<p>Non è teoria, dice Nate, e porta il caso di una persona della sua community, <strong>Alan</strong>. Circa un anno fa aveva <strong>quindici anni di esperienza come email developer</strong> — non particolarmente tecnica, nessun background AI. Poi tutto il suo team è stato licenziato e ha dovuto reinventarsi.</p>
+<p>Ha cominciato a imparare <strong>n8n</strong>, poi è passata a <strong>Claude Code</strong>, e mentre imparava ha fatto l'unica cosa che quasi tutti saltano: <strong>ha costruito in pubblico</strong>. Ha aperto due canali YouTube in cui mostrava le cose che faceva, ha pubblicato i suoi lavori su LinkedIn, ha registrato demo di ogni singola cosa costruita. Il dettaglio importante: <strong>non ha migliaia di iscritti o follower</strong>. Ha <strong>prove</strong>.</p>
+<p>Quando ha fatto domanda per un ruolo di <strong>head of AI in un'azienda di quindici persone chiamata Young</strong>, il recruiter le ha mandato una mail con una sola domanda: <strong>"cosa hai costruito?"</strong> — esattamente la domanda che, secondo Nate, decide chi vince in questo mercato. Invece di scrivere una spiegazione lunga e vaga, <strong>ha mandato i link</strong>. I casi studio. Prove reali. Ha <strong>saltato del tutto le Risorse Umane</strong>, è andata dritta dal CEO e ha preso il posto. In un anno, da zero AI a head of AI.</p>
+<h2>La chiusura, in una frase</h2>
+<p>Non devi licenziarti, non devi costruirti un personal brand enorme, non devi nemmeno essere super tecnico. La mossa vera è: <strong>prendi un vincolo reale del tuo ruolo o della tua azienda, legalo a un KPI, costruisci la soluzione, poi costruiscine qualche altra così da avere un track record</strong>. E poi <strong>metti quel track record dove qualcuno possa vederlo</strong> — anche solo un sito personale che ti fa da portfolio, qualcosa che puoi mandare alle persone.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: &lt;https://www.youtube.com/watch?v=-zL_trhnQaI&gt; — <em>So You Learned Claude, Now What?</em> (Nate Herk, ~16 min)</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: ai-service-business, sei-skill-ai-carriera</li>
+<li><strong>Omesso di proposito:</strong> il rimando alla community gratuita su Skool e alla guida-risorsa collegata; il rimando ai corsi, repo GitHub e framework interni; l'accenno a "qualcosa che stiamo costruendo in silenzio per aiutarvi con la credibilità"; il rimando all'intervista completa con Alan taggata a schermo; le richieste di like e i saluti finali.</li>
+<li><strong>Nota di onestà:</strong> il video è tarato su chi ha appena imparato le basi e sta pensando "e adesso?". Molti dei dati e delle analogie (studio IBM 2026, analogia Excel, "sii la persona AI") sono già in sei-skill-ai-carriera, stesso autore. Il delta reale rispetto a quanto già in wiki è: <strong>vincolo → KPI → build</strong>, la roadmap in 4 passi con il passo "proponi tu il ruolo dall'interno", e la domanda-filtro <em>"cosa hai costruito?"</em> con il caso Alan.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Why Your AI Offer Isn&#x27;t Selling, and How to Fix That</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Why Your AI Offer Isn&#x27;t Selling, and How to Fix That" src="https://i.ytimg.com/vi/8MEJen0nblQ/hqdefault.jpg"><p><strong>In sintesi:</strong> podcast di <strong>Nate Herk</strong> con <strong>Nate B. Jones</strong> (ex Amazon, product leader in startup, oggi commentatore AI). La tesi centrale è brutale e semplice: <em>se fai fatica a vendere la tua offerta AI, non hai un problema di vendita, hai un problema di racconto</em> — e soprattutto <strong>non devi vendere "AI"</strong>, perché l'AI in sé non vale niente: vale solo per quello che fa. Vendi il risultato ("rispondo al telefono", "i tuoi dati restano qui"), non la tecnologia. Attorno a questa idea ruota tutto il resto: come scegliere un segmento di clienti abbastanza specifico da poterlo davvero conoscere, perché i clienti offline sono l'occasione migliore proprio perché nessuno li contatta con gli agenti, come si porta un'azienda dentro l'AI davvero (non regalando crediti a caso), e perché secondo Jones c'è una finestra di almeno cinque anni in cui chi sa usare questa roba fa <strong>arbitraggio di informazione</strong> — cioè guadagna semplicemente sapendo prima degli altri.</p>
+<h2>Chi parla, e perché conta</h2>
+<p><strong>Nate B. Jones</strong> è l'ospite. È cresciuto tra <strong>Indonesia</strong> e <strong>Filippine</strong>, ha iniziato a lavorare in Thailandia e Indonesia con programmi di alfabetizzazione per bambini — niente tech, ma già l'ossessione per la <strong>leva</strong>: come faccio a ottenere più impatto con lo stesso sforzo. Da lì è passato al tech negli anni 2000, ai tempi dei <strong>database Oracle</strong> e dei server fisici in cantina. Racconta un aneddoto che usa come lezione: ha <strong>fuso i server della posta</strong> perché non aveva impostato il <em>throttling</em> (cioè il freno sulla velocità di invio delle email) — all'epoca non esisteva un freno automatico. Morale che si porta dietro: <strong>i dettagli tecnici contano</strong>, e chi lavora sopra livelli di astrazione comodi dimentica che qualcuno, sotto, li paga.</p>
+<p>Poi: azienda propria, ingresso presto nel programma <strong>3P di Amazon</strong> (i venditori terzi sul marketplace), quasi un decennio dentro Amazon tra <strong>Amazon Pay</strong>, il retail e <strong>Prime Video</strong> (dove risolveva problemi di metadati e immagini), infine ruoli di guida su team di prodotto in startup, alcune finanziate da <strong>private equity</strong>, altre da <strong>venture capital</strong>: dichiara <strong>tre exit su quattro tentativi</strong>. Faceva AI ad Amazon e nelle startup molto prima del momento ChatGPT.</p>
+<p>Il dettaglio che Herk sottolinea: <strong>Jones non è mai stato uno sviluppatore</strong>. Smontava PC con chip Pentium negli anni '90 per divertimento, ma non si è mai sentito un programmatore. È esattamente il tipo di profilo che oggi può essere efficace: conta saper <strong>pensare chiaro</strong>, sapere cosa vuoi e — soprattutto — <strong>saper verificare</strong> di averlo ottenuto.</p>
+<details class="gia"><summary>Il "loop di verifica dell'intento" (vibe coding)</summary>
+<p>Alla domanda "cosa ti spaventa del vibe coding", Jones risponde con il concetto di <strong>intent verification loop</strong>: se il <em>vibe coding</em> è un modo di trasformare un'intenzione in codice, quello che serve ai capi d'azienda non è sapere <em>come</em> è stato scritto — nessuno si aspetta più codice scritto a mano — ma avere un modo di dire "quello che è stato fatto è <strong>corretto, sostenibile, sicuro</strong>". Cita di sfuggita un episodio di sicurezza recente (nella trascrizione suona come <em>"post mythos"</em>, nome incerto) che ha rimesso in discussione strutture di codice usate da vent'anni, e prevede che nel <strong>2027</strong> il grande tema di investimento aziendale sarà <strong>come verificare con l'AI stessa</strong> che il codice generato dall'AI sia sicuro.</p>
+</details>
+<h2>Cosa vuol dire "AI native" (e perché non è uno slogan)</h2>
+<p>Per Jones, chi è <strong>AI native</strong> — che sia un singolo, un manager o un fondatore — "raggiunge l'AI <strong>per primo, per secondo e per ultimo</strong>": qualsiasi altro modo di fare le cose entra solo come <em>chiamata di strumento</em> dentro un flusso guidato dall'AI. Non è che il codice deterministico (quello che fa sempre la stessa cosa, prevedibile) non serva più, né che i problemi umani di squadra spariscano — restano centrali. Ma il riflesso di partenza cambia. La sua immagine: gli AI native "si sentono addosso una <strong>tuta robotica</strong> (mech suit) tutto il giorno", che dà superpoteri su una gamma larga di problemi.</p>
+<p>Herk aggiunge la sua analogia: è <strong>Karate Kid</strong>. Fai movimenti apparentemente senza senso finché un giorno, quando serve, il cervello li esegue da solo. È un cambio mentale, non un elenco di strumenti.</p>
+<h2>Come attaccare un dominio che non conosci</h2>
+<p>Domanda pratica: se devi lavorare in un campo dove non sei esperto (l'esempio inventato è "produrre un film"), come fai? Jones descrive il profilo di talento che serve oggi, quello che chiama a <strong>forma di X</strong>: capacità di scendere in profondità in più direzioni e di allargarsi in superficie in più direzioni, il tutto amplificato dall'AI. La procedura che usa è in tre passi:</p>
+<ol>
+<li><strong>Guarda cosa fanno le persone molto AI native</strong> in quel campo — chi ha già pubblicamente raccontato come usa l'AI per la produzione video (cita un tale <em>Boris</em>, cognome incerto nella trascrizione, precisando che nemmeno lui è un produttore di film di mestiere).</li>
+<li><strong>Guarda cosa fanno gli esperti di dominio veri</strong> con l'AI: è una prospettiva diversa dalla prima.</li>
+<li><strong>Somma le due</strong> e chiediti se bastano. Se il problema è già risolto, spesso esiste già un <strong>server MCP</strong> e diventa una semplice chiamata di strumento da Codex o Claude Code.</li>
+</ol>
+<p>Il punto interessante è il caso in cui <em>non</em> basta: se sei in territorio nuovo, tanto meglio. Costruisci tu lo strumento, la <em>skill</em>, il pezzo mancante — <strong>input per input</strong> (nel caso film: sceneggiatura, camera, montaggio...). E qui arriva la frase che vale per un'agenzia: i <strong>problemi non risolti che risolvi diventano rapidamente proprietà intellettuale tua</strong> — o la usi nel lavoro di tutti i giorni, o la impacchetti e la vendi ad altri.</p>
+<h2>Il filtro contro l'overwhelm: "toglie peso dalle spalle?"</h2>
+<p>Entrambi ammettono che la valanga di nuovi strumenti e aggiornamenti — rilasciati apposta uno sopra l'altro per oscurarsi a vicenda — travolge le rispettive community. Il filtro di Jones è uno solo: <strong>l'AI deve toglierti peso dalle spalle</strong>. Se un rilascio non alleggerisce il <em>tuo</em> carico, non lo tocchi. Se non ti alleggerisce mai niente, probabilmente il problema sono le tue capacità, non gli strumenti.</p>
+<p>Esempio concreto suo: l'uso del computer (<strong>computer use</strong>, cioè l'AI che clicca e usa le finestre al posto tuo) dentro <strong>Codex</strong> per lui è enorme, perché lavora su macOS e gli basta una singola finestra. Sa anche da dove viene quella qualità: dal <strong>team di Sky</strong>, gente che veniva da Apple ed è stata acquisita da OpenAI, e che su macOS è fortissima. Ma è un vantaggio <em>suo</em>: non tutti hanno quel bisogno. Quindi: <strong>guarda dove sei carico</strong> e cerca l'innovazione che scarica proprio quel peso.</p>
+<p>Herk aggiunge un pezzo importante: per poterlo fare devi sapere qual è la tua <strong>stella polare</strong>. Racconta di aver chiesto ad <strong>Alex Hormozi</strong>, in una sessione di coaching di gruppo, come si sceglie tra tante opportunità diverse. Hormozi lo ha guardato come si guarda una domanda stupida e ha risposto: <em>"qual è il tuo obiettivo?"</em>. Herk non lo sapeva. Lezione: <strong>senza un obiettivo, ogni decisione diventa emotiva e difficile</strong>.</p>
+<h2>Il cuore: perché la tua offerta AI non vende</h2>
+<p>Qui si arriva alla domanda che dà il titolo. Herk descrive il dolore tipico del suo pubblico: <em>"so definire il perimetro di un progetto, so consegnarlo, ma non so vendere; e mi blocco per settimane a scegliere la nicchia; e ho la sindrome dell'impostore"</em>.</p>
+<p>Risposta di Jones, secca: <strong>hai un problema di racconto, non di vendita</strong>. Dice di aver parlato con aziende da 10 persone fino a organizzazioni con centinaia di migliaia di dipendenti, e <strong>non una</strong> di queste è disinteressata all'AI. Il pubblico è già motivatissimo. Quindi se non compra, è la tua storia che non arriva.</p>
+<h3>L'esempio dello studio legale (il pezzo più utile del video)</h3>
+<p>Uno studio legale piccolo, settore dove la <strong>conformità</strong> conta tantissimo: devi sapere dove stanno fisicamente i dati, devi poter rispondere in tribunale di cosa è stato fatto con quei dati. Una fila di fornitori di soluzioni AI si presenta, e <strong>dicono tutti la stessa identica cosa</strong>: "è sicuro", "è conforme", "ecco l'elenco delle nostre certificazioni", "fidatevi". Cioè: il minimo sindacale, quello che dicono tutti (<em>table stakes</em>).</p>
+<p>Ha vinto l'appalto quello che si è presentato, ha <strong>posato un server fisico sul tavolo</strong> e ha detto: <strong>"I tuoi dati stanno qui dentro, e da qui non escono."</strong> Fine. Affare chiuso.</p>
+<p>Jones precisa che non è che tutti gli studi legali vogliano il server in sede: l'esempio serve a illustrare il principio. Chi decide deve <strong>rispondere di persona</strong> di quello che compra, quindi vince la storia che un capo può <strong>afferrare subito e ripetere</strong> a chi gli chiederà conto. Da qui la sua conclusione: coltivare l'abilità di <strong>raccontare</strong> conta quanto coltivare l'abilità di <strong>costruire</strong>.</p>
+<h3>"Non stai vendendo AI"</h3>
+<p>Il secondo pilastro. L'AI non ha valore in sé, ha valore per quello che fa. Quindi <strong>vendi l'esito, la trasformazione, l'impatto reale</strong>.</p>
+<p>Esempio degli <strong>impianti di climatizzazione</strong> (le aziende HVAC): ogni azienda del genere che lui abbia mai chiamato ha lo stesso problema — non riescono a rispondere al telefono, a dare risposte rapide, a mandare i tecnici sul posto in fretta; e c'è sempre una persona nel retro dell'ufficio che deve fare centralino, smistamento e mille altre cose. <strong>Quel</strong> dolore lo togli. Rendi facilissimo per un cliente mettersi in contatto con l'azienda <strong>24 ore su 24</strong>, e fai in modo che nessuna richiesta cada nel vuoto. L'AI serve a risolverlo, ma <strong>non è quello che vendi</strong>: quello che vendi è <em>"il telefono viene risposto"</em>.</p>
+<p>È una storia molto più facile da raccontare perché parla della preoccupazione che l'operatore ha davvero.</p>
+<h3>Come entrare nelle stanze giuste se non hai mai lavorato con un'azienda</h3>
+<p>Ricetta di Jones, in ordine:</p>
+<ol>
+<li><strong>Intento chiarissimo</strong> su cosa vuoi fare del tuo tempo (che chiama "prezioso" per un motivo).</li>
+<li><strong>Legalo a un segmento di clienti specifico</strong>, il più specifico possibile. Il suo esempio: non "aziende", non "PMI", ma <strong>le aziende di climatizzazione di Seattle</strong> — settore <em>più</em> città.</li>
+<li>Nota il vantaggio nascosto di quel tipo di target: <strong>non è un pubblico che vive online</strong>, quindi <strong>non stai competendo con un esercito di agenti AI</strong> per la sua attenzione. Devi costruire relazioni vere, e questo ti protegge.</li>
+<li>Le tattiche, poi, sono tante e nascono dalla conoscenza del segmento: <strong>cartelloni pubblicitari</strong> piazzati lungo un percorso stradale che quel tipo di azienda fa per forza; <strong>inserzioni Facebook e Instagram iper-mirate</strong>; passare <strong>fisicamente</strong> in azienda; offrire il servizio <strong>gratis</strong> all'inizio pur di entrare, e poi legare la relazione nel lungo periodo.</li>
+</ol>
+<p>La frase riassuntiva: <em>"studia il tuo cliente, arriva a conoscerlo, arriva ad amarlo, appassionati sinceramente a cosa lo rende un'azienda di successo — e le occasioni naturali di contatto emergeranno da sole"</em>. Le tattiche non si scelgono da un elenco: <strong>emergono</strong> dalla conoscenza profonda del cliente.</p>
+<h2>Il web degli agenti e il valore che non si può svalutare</h2>
+<p>Herk pone il problema opposto: se il costo di costruire crolla, tutti hanno un portfolio; e se sul web ci sono più AI che umani, come fai a emergere quando un'AI sta valutando cento fornitori insieme al tuo?</p>
+<p>Jones guarda ai prossimi cinque anni e cita <strong>Karpathy</strong>: un mondo con <strong>99% di attenzione degli agenti e 1% di attenzione umana</strong>. In quel mondo, la capacità di costruire <strong>relazioni umane</strong> diventa preziosissima <em>proprio perché</em> non si può gonfiare: puoi avere infiniti agenti che sfornano roba, ma <strong>c'è un solo umano che compra e un solo umano che vende</strong>. È "oro" — moneta che non si può svalutare stampandone di più. Da qui il suo ottimismo per chi sa fare entrambe le cose: usare gli agenti per moltiplicarsi, ma sapere riconoscere il momento del contatto umano e farlo contare.</p>
+<h2>L'AI ha un problema di reputazione (e come non peggiorarlo)</h2>
+<p>Herk osserva che tra i suoi amici non-addetti ai lavori l'AI ha un'immagine brutta, e che il divario è enorme: da un lato modelli così potenti che si parla di interventi governativi, dall'altro gente che apre ChatGPT, genera un'immagine, chiude, e pensa che l'AI sia quella.</p>
+<p>Jones concorda: sente lo stesso a tavola in famiglia. Dice di aver scritto su X un pezzo breve intitolato più o meno <em>"non ci sono mostri nella foresta"</em>, con questa tesi: <strong>siamo noi del settore a raccontare storie da mostri sull'AI, e a raccontarle a voce altissima</strong> — e quelle storie arrivano fino alla cena del Ringraziamento. Serve essere <strong>deliberati</strong> su che storie raccontiamo e <strong>precisi</strong> sul perché l'AI conta.</p>
+<p>Metodo pratico: ascolta molto, poi rispondi in modo generoso allargando la prospettiva. Quando qualcuno dice "consuma tutta l'acqua", lui <em>potrebbe</em> rispondere con la battuta ("il tuo latte di mandorla ne consuma molta di più" — che dice essere vero), ma trova più utile spostare la conversazione su <strong>cosa di positivo e specifico si sta facendo</strong>. Il suo esempio del momento: <strong>MidJourney</strong>, che avrebbe raggiunto circa <strong>200 milioni di dollari di fatturato ricorrente con 40 dipendenti</strong>, autofinanziata, con molta cassa in eccesso — e cosa ne fa? Investe <strong>nelle persone</strong> e nella <strong>prima tecnologia nuova di diagnostica per immagini in 50 anni</strong>. Storie così ce ne sono, se le si cerca. E si può scegliere di costruire in quella direzione.</p>
+<h2>Perché i giovani non l'hanno adottata, e perché i licenziamenti non sono colpa dell'AI</h2>
+<p>Herk si aspettava che la sua generazione adottasse l'AI in massa, e invece la usa quasi solo per i compiti; e nota che a maggio i relatori alle cerimonie di laurea venivano fischiati appena nominavano l'AI — perché chi esce dall'università si vede nello strato basso dell'organigramma, quello che si teme verrà sostituito.</p>
+<p>Jones aggiunge due fattori che quasi nessuno nomina:</p>
+<ul>
+<li><strong>Si è assunto troppo durante l'era dei tassi a zero</strong>. Il settore tech ha assunto in modo enorme negli anni 2010 e durante il Covid; quella sbornia andava smaltita <strong>a prescindere dall'AI</strong>.</li>
+<li><strong>I board sono sotto pressione</strong> per dimostrare efficienza e crescita "grazie all'AI", e Jones dice apertamente di <strong>non credere ai comunicati</strong> perché ha visto come si fa la salsiccia in quelle stanze. Si allinea a <strong>Jensen Huang</strong>: i consigli di amministrazione che rispondono licenziando sono <strong>board senza creatività</strong>, a corto di idee, incapaci di immaginare cosa farebbero con quelle persone potenziate dieci volte. Licenziare è una <strong>dichiarazione di resa creativa</strong>.</li>
+</ul>
+<p>Esempio in positivo: <strong>Shopify</strong>, che porta avanti un programma di stagisti molto aggressivo, in parte perché è convinta che l'essere <strong>AI native lo si prenda dai giovani</strong> e che un ponte verso l'assunzione a tempo pieno sia il modo di farlo entrare in azienda.</p>
+<p>E l'altra faccia: c'è chi si sfila — cita un ingegnere senior che ha mollato per fare il falegname, precisando che <strong>è un privilegio che pochissimi hanno</strong>. Ma per chi vuole costruire e fondare, dice, <strong>non c'è mai stato un momento migliore</strong>: sta esplodendo l'imprenditorialità, e il futuro sarà fatto anche di molte <strong>aziende da una o poche persone</strong> potenziate dall'AI.</p>
+<h2>La finestra: arbitraggio di informazione per cinque anni</h2>
+<p>Domanda di Herk: c'è una finestra temporale prima che arrivi troppa offerta? Jones dice di sì, e la inquadra come <strong>arbitraggio di informazione</strong>: impari l'AI, porti quella conoscenza dentro un'azienda (tua o di un cliente) e la applichi direttamente. Quella finestra, secondo lui, dura <strong>almeno cinque anni</strong>.</p>
+<p>L'analogia è l'<strong>elettricità nelle fabbriche dei primi del Novecento</strong>: la corrente arriva, ma <strong>ci vollero anni per ridisegnare la fabbrica attorno all'elettricità</strong>. Non fu istantaneo. Siamo lì.</p>
+<p>Da cui la citazione più forte del video: <strong>distribuire crediti di Claude a secchiate ai dipendenti equivale a dare a un operaio un cavo scoperto a 480 volt che sfrigola e dirgli "è elettricità, serve per fare le cose, arrangiati, diventa più produttivo"</strong>. Come pensi che vada a finire? Serve un <strong>progetto</strong> di come l'elettricità entra in fabbrica, e allo stesso modo serve un progetto di come l'AI trasforma team e organizzazione. Non esiste una risposta valida per tutti — <strong>e proprio lì sta il valore che possiamo creare noi</strong>. Gli hyperscaler (i giganti del cloud e dei modelli) non possono risolverlo al posto tuo: se potessero, non starebbero assumendo migliaia di <em>forward deployed engineer</em>, cioè ingegneri mandati fisicamente dentro le aziende clienti.</p>
+<h2>La strada verso i 100 milioni di token al giorno</h2>
+<p>Jones aveva proposto lui questo tema. Il punto: <strong>100 milioni di token al giorno è un'asticella gestibile</strong> — lui la supera quasi ogni giorno senza pensarci, e nelle giornate pesanti arriva a <strong>800 milioni</strong>. Ma nei gruppi grandi il quadro è tutto diverso: dice di aver visto team da diverse centinaia di persone che rivedono i consumi e trovano <strong>due popolazioni</strong>: gli appassionati che stanno a <strong>2 miliardi di token al giorno</strong>, e una massa che è <strong>orgogliosa di avere l'account</strong>, brucia 2-5 milioni di token e <strong>non ci fa niente di produttivo</strong>.</p>
+<p>La cosa più utile che dice di aver fatto per quei team: dargli una <strong>sfida</strong> che sia (a) <strong>grande</strong>, (b) <strong>vicina nel tempo</strong>, (c) <strong>un po' spaventosa</strong>, e (d) in cui <strong>il team creda e che voglia davvero</strong>. Il punto (b) è quello che fa da innesco: se la scadenza è troppo vicina, <strong>non ce la fai con i metodi normali</strong>, quindi sei <em>costretto</em> a usare l'AI. Da lì parte l'effetto vero, che è l'<strong>apprendimento tra colleghi</strong>: gente seduta vicina che si dice <em>"aspetta, non sapevo che si potesse fare così con Claude, questo mi serve"</em> — e gli si accendono gli occhi. Jones dice di averlo visto succedere più e più volte: è <strong>così</strong> che l'uso dell'AI scala in azienda, non con le circolari.</p>
+<details class="gia"><summary>I costi non sono il problema: costruisci un router</summary>
+<p>Sul lato spesa, Jones è tranchant: con modelli aperti sempre più capaci (cita <strong>GLM 5.2</strong> appena uscito) e un buon <strong>auto-router</strong> — cioè un pezzo che smista automaticamente ogni richiesta al modello giusto — la spesa non è un problema strutturale. <em>"Manda il 95% delle richieste ai modelli aperti, vai sul modello di frontiera solo quando serve davvero, e guarda i costi crollare."</em> Ride delle aziende che invece dicono "basta AI per te, hai speso troppi token": non avete pensato a costruire un router? Non è difficile. Herk aggiunge la conseguenza pratica: non serve il modello più potente per tutto, ma serve un modo <strong>pratico</strong> di gestirlo a livello di squadra — altrimenti succede che uno finisce il budget a metà mese e per le due settimane successive lavora dieci volte più lento.</p>
+</details>
+<h2>Come si trasforma davvero un'organizzazione</h2>
+<p>Herk riporta la tesi che gira in giro: è più facile <strong>rifondare</strong> l'azienda AI native da zero (o farne un gemello digitale) e poi spostarci dentro le cose, piuttosto che tentare una trasformazione dell'intera struttura esistente. Jones ha "una certa simpatia" per l'idea, ma aggiunge il lato umano che vede nelle stanze:</p>
+<ul>
+<li>Il ruolo del <strong>capo squadra</strong> è <strong>assolutamente critico</strong>. Un dirigente senior che scorre l'elenco dei suoi team leader uno a uno e valuta quanti di loro possono fare da <strong>campione dell'AI</strong> capisce subito quanto lontano può arrivare. Parla del livello che ad Amazon si chiama <strong>SDM</strong> (software development manager): chi guida al massimo 10-12 persone.</li>
+<li>I team AI native <strong>sono più piccoli</strong>. Ad Amazon una dozzina di ingegneri con un product manager era normale; oggi la domanda è <em>"cosa riescono a costruire cinque persone?"</em> — e la risposta è: quasi qualunque cosa. Quaranta persone e 200 milioni di fatturato in MidJourney sono l'esempio ricorrente. <strong>Squadre piccole ma straordinarie hanno una leva enorme.</strong></li>
+<li>Lo schema che vede: i dirigenti <strong>scelgono a mano</strong> i costruttori AI native e i campioni, li mettono insieme in una <strong>piccola squadra</strong>, vedono se l'alchimia funziona e se riescono a costruire cose notevoli molto in fretta. Poi usano quella squadra come <strong>punto di leva</strong> verso gli altri, quelli a metà del guado, con un messaggio di carriera esplicito: <em>"l'avanzamento sta di qua, il vantaggio per la tua carriera è di qua, saliteci"</em>. Poi si procede <strong>team per team</strong>, scegliendo i team leader e mandandoli in percorsi intensivi.</li>
+<li>Condizione senza la quale non funziona: <strong>contatto continuo</strong>, cioè uno a uno settimanali con quasi tutti. Senza quel livello di ingaggio, la trasformazione non si muove.</li>
+</ul>
+<h3>I capi non tecnici devono diventare tecnici</h3>
+<p>Herk cita un'indagine <strong>IBM</strong> su 2000 amministratori delegati: il <strong>76% dei CEO</strong> ritiene che i propri responsabili debbano essere <strong>fluenti nella tecnologia</strong> del proprio dominio per poter applicare la loro competenza di merito ai sistemi. Jones concorda con forza e alza il tiro su un tema che dice essere macro: le funzioni <strong>fuori</strong> dal prodotto e dalla tecnologia — <strong>marketing, vendite, finanza e amministrazione, legale, risorse umane</strong> — sono storicamente servite dall'IT e dal software deterministico. Ora <strong>il vertice di quelle funzioni</strong> (il direttore marketing, il direttore del personale) <strong>deve diventare più tecnico</strong>, altrimenti non ha l'<strong>immaginazione tecnica</strong> per figurarsi cosa l'AI può fare per la sua area, né per guidare correttamente il cambiamento. Se la loro esperienza di AI si limita a quello che leggono su LinkedIn e a un po' di ChatGPT, <strong>non basta</strong>.</p>
+<p>E vale fino in cima. Quando ha modo di parlare con i CEO, dice loro: <strong>"la responsabilità finisce qui, da voi. Voi siete il cambiamento AI che volete vedere. Se non state usando Codex o Claude Code, non aspettatevi che lo facciano gli altri."</strong></p>
+<p>Herk aggiunge il pezzo sugli <strong>incentivi</strong>: le persone fanno ciò per cui sono incentivate, punto. E imparare uno strumento nuovo ha sempre un <strong>costo iniziale</strong> da pagare prima di vedere i guadagni. Racconta che nella sua azienda hanno fatto una spinta interna di abilitazione nell'ultimo trimestre: <strong>ambienti sicuri</strong> dove sperimentare e <strong>uno a uno prenotabili</strong>, perché buona parte del lavoro è gestire il senso di sopraffazione.</p>
+<h2>Previsioni e opinioni scomode</h2>
+<p><strong>1. Non tutti i lavori sono spacciati.</strong> Dice di non capire perché sia diventata un'opinione controversa: abbiamo avuto occupazione per secoli, dire che continueremo ad averla gli sembra noioso. Il motivo è semplice: <strong>un lavoro è più della somma dei suoi compiti</strong>. Un'AI può essere bravissima su un compito o su un gruppo di compiti senza per questo coprire l'impatto totale del ruolo. Quello che i capi cercano — sia in un'agenzia AI native, sia nei team interni — sono <strong>persone dentro la missione</strong> dell'azienda. Se ce l'hai, il lavoro ce l'hai: è l'adesione alla missione che ti permette di <strong>far evolvere il ruolo</strong> man mano che i compiti se ne vanno, passando a delegare, gestire, guidare, moltiplicare il tuo impatto.</p>
+<p><strong>2. Siamo prestissimo, e ancora di più fuori dal lavoro.</strong> Che siamo agli inizi fuori dal settore tech (marketing, HR, legale) è ormai poco controverso. La versione scomoda è la sua: <strong>nella vita domestica e personale non abbiamo nemmeno cominciato</strong>, e secondo lui è lì che sta il <strong>90% dell'impatto sulla qualità della vita</strong> delle persone. Quando parla con la propria famiglia, sente che cercano soluzioni a problemi che <strong>non inquadrano come problemi da AI</strong> — non immaginano nemmeno che l'AI possa aiutarli. Parliamo tanto di lavoro perché è lì che si muove l'azione adesso, ma non è lì che finirà la storia.</p>
+<p><strong>3. Il gusto (taste).</strong> Herk fa notare che le persone desiderano ciò che è <strong>raro</strong>: i vestiti Champion vintage tornano di moda perché non sono più la norma, ma appena tornano norma si desidera di nuovo l'opposto — e si chiede cosa succederà con i contenuti generati dall'AI, gli avatar, le miniature dei video che oggi chiunque fa senza pagare un freelance: se tutte le miniature si somigliano, il designer umano torna a valere di più? Jones risponde che ci sono decine di startup appena nate proprio sul tema "AI e gusto", e dà la sua definizione: <strong>il gusto è il segnale che sei un po' fuori dal mainstream culturale</strong>, che hai una posizione da cui vedi la cosa da un'angolazione diversa e quindi hai un'intuizione unica da offrire. Esempio: <strong>Linear</strong>, il cui aspetto è ormai copiato da migliaia di siti, ma che all'uscita era nuovo e aveva gusto — poi il gusto <strong>si è mercificato</strong> e ora si cerca altro. I momenti migliori nella comunicazione e nella creazione di contenuti arrivano quando qualcuno ha un'intuizione su <strong>questo</strong> momento ed è disposto a <strong>girare a sinistra quando tutti girano a destra</strong>. Il suo esempio personale: lui <strong>parla in camera</strong>, mentre molti mostrano lo schermo con la propria faccia in un angolo. Se stiamo raccontando storie, dice, dovremmo <strong>parlare alla camera come si parla a un amico</strong>: è quello che costruisce legame nel tempo. Il materiale iper-dettagliato lo mette altrove, per chi lo vuole.</p>
+<p><strong>4. L'opinione più piccante.</strong> Il futuro dell'AI <strong>non sarà deciso dai grandi laboratori</strong> né dal punteggio dei loro modelli chiusi nei benchmark. Sarà deciso principalmente dai <strong>modelli open source</strong> e dalla capacità dell'AI di <strong>cambiare la traiettoria di interi paesi</strong> che ci si buttano dentro con ottimismo. Osserva che <strong>gli Stati Uniti non sono un paese particolarmente ottimista sull'AI</strong>, e si chiede chi lo sia di più: cita gli <strong>Emirati Arabi Uniti</strong>, piccoli ma completamente sbilanciati sull'AI, e dice che ce ne sono altri. La storia di come l'AI trasforma il mondo, vista da 50 anni nel futuro, sarà secondo lui <strong>la storia di intere società che ci si sono buttate e hanno saltato una generazione tecnologica</strong>, spesso usando modelli aperti. Aggiunge che questa tesi non la sente dire quasi mai.</p>
+<p>Herk gli fa notare che il racconto dominante è invece che <strong>una decina di persone al mondo tengono in mano il destino dei nostri figli</strong>. Jones: <strong>"semplicemente non sono d'accordo."</strong> E chiude con la frase che riassume tutto: <em>"la realtà è sorprendentemente dettagliata"</em> — <strong>l'ultimo miglio è dove noi creiamo valore</strong>, è quello che tutti sulla Terra dovranno affrontare con l'AI, <strong>e non è in potere degli hyperscaler</strong>.</p>
+<p>Chiusura leggera: alla domanda se comprerà un robot umanoide per casa, risponde che va <strong>un robot alla volta</strong> — ha già il tosaerba robot, per quello dentro casa deve chiedere il permesso.</p>
+<h2>Cosa conferma e cosa aggiunge rispetto a ai-service-business</h2>
+<p><strong>Conferma</strong> (da fonte diversa, quindi il segnale si rafforza):</p>
+<ul>
+<li><strong>Nicchia verticale strettissima</strong>: "aziende di climatizzazione a Seattle" è esattamente il "paid ads per brand di integratori" del video di Sue. Stessa logica, esempio diverso.</li>
+<li><strong>Niente cold email di massa</strong>: qui il ragionamento è più profondo — non è solo che l'email fredda non funziona più, è che <strong>il tuo cliente migliore non è online</strong>, quindi il canale giusto è fisico e relazionale.</li>
+<li><strong>Vendere impatto, non attività</strong>: dove <code>ai-service-business</code> dice "servizi ad alto impatto legati a quanto l'azienda guadagna o risparmia", qui si dice la stessa cosa dal lato del racconto: vendi "rispondo al telefono", non "agente AI".</li>
+</ul>
+<p><strong>Aggiunge di nuovo</strong> (roba che in vault non c'era):</p>
+<ul>
+<li><strong>La diagnosi</strong>: "non vendi perché non sai raccontare". La domanda operativa diventa <em>"qual è la mia storia e quanto è chiara?"</em> — non <em>"qual è il mio funnel?"</em>.</li>
+<li><strong>Il test del server sul tavolo</strong>: la storia vincente è quella <strong>concreta, fisica, ripetibile</strong> dal capo che deve rispondere dell'acquisto. Tutto il resto (certificazioni, "siamo sicuri e conformi") è il minimo che dicono tutti e non differenzia.</li>
+<li><strong>Il target offline come vantaggio competitivo</strong>, non come ripiego: dove ci sono meno agenti c'è più margine per un umano.</li>
+<li><strong>La leva "problema non risolto → proprietà intellettuale"</strong>: quello che costruisci per un cliente in territorio nuovo diventa un asset da rivendere. Questo risponde direttamente all'obiezione, presente in <code>ai-service-business</code>, che un business di servizi non è un asset rivendibile.</li>
+<li><strong>Un modo di vendere all'interno delle aziende medio-grandi</strong>: la sfida grande/vicina/spaventosa come innesco, i capi squadra come collo di bottiglia, l'apprendimento tra colleghi come vero motore. È una <strong>offerta consulenziale già confezionata</strong> che in vault non c'era.</li>
+<li><strong>La finestra temporale dichiarata</strong> (cinque anni di arbitraggio di informazione) e la cornice "elettricità in fabbrica" per spiegare a un cliente perché comprare i crediti non basta.</li>
+</ul>
+<p>Rispetto a metodo-clear-side-hustle, nessuna contraddizione: qui non si parla di prodotti digitali, ma il video rafforza la parte "<strong>servizio a un cliente reale</strong>" contro la parte "prodotto scalabile".</p>
+<h2>Onestà su cosa non è dimostrato</h2>
+<ul>
+<li><strong>Tutti i numeri sui token sono auto-dichiarati</strong> e non verificabili: i suoi 100 milioni al giorno, gli 800 milioni nei giorni di punta, i "2 miliardi al giorno" degli entusiasti nei team, i "2-5 milioni" di chi non fa nulla. Non c'è nessuna fonte, sono aneddoti da stanza.</li>
+<li><strong>"Tre exit su quattro"</strong>, i ruoli in Amazon e le conversazioni "con CEO e board" sono racconto di sé, non verificato nel video.</li>
+<li><strong>MidJourney: 200 milioni di fatturato con 40 dipendenti</strong> e "prima nuova tecnologia di imaging medico in 50 anni" — riportato da Jones come cosa "nelle notizie", ma nel video non c'è nessuna fonte e la seconda parte è un'affermazione molto forte.</li>
+<li><strong>Il 76% dei CEO</strong> attribuito a un'indagine IBM su 2000 amministratori delegati è citato a memoria da Herk, che infatti dice "credo fosse". Da verificare prima di usarlo in una presentazione a un cliente.</li>
+<li><strong>L'esempio dello studio legale è un aneddoto singolo</strong>, raccontato di seconda mano e senza nomi. Utile come principio, inutile come prova.</li>
+<li><strong>Conflitti d'interesse dichiarabili</strong>: il video è sponsorizzato da ClickUp (segmento pubblicitario tolto), rimanda più volte a una community gratuita dell'intervistatore usata come raccolta contatti, e l'ospite promuove la propria community a pagamento su Substack/Slack. Nessuno dei due sta vendendo direttamente il metodo raccontato, ma <strong>entrambi hanno interesse a che il pubblico creda che sia il momento giusto per costruire un'agenzia AI</strong>. Tienilo presente sul punto "non c'è mai stato momento migliore per fondare".</li>
+<li><strong>Nomi incerti nella trascrizione</strong>: il "Boris" citato per la produzione video (cognome non ricostruibile), il riferimento a un episodio di sicurezza reso come <em>"post mythos"</em>, e la versione del modello aperto citata come <strong>GLM 5.2</strong>.</li>
+</ul>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=8MEJen0nblQ" target="_blank" rel="noopener">Why Your AI Offer Isn't Selling, and How to Fix That</a> — Nate Herk con ospite <strong>Nate B. Jones</strong>, ~55 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: ai-service-business, metodo-clear-side-hustle, loop-engineering.</li>
+<li><strong>Cosa è stato omesso</strong>: il segmento pubblicitario su ClickUp con codice sconto e garanzia 30 giorni; i due inviti alla community gratuita dell'intervistatore e al canale YouTube secondario dove pubblicano gli spezzoni; i dettagli promozionali finali su Substack, canale Slack e repository "open brain" dell'ospite (menzionati qui solo come contesto sui conflitti d'interesse); i convenevoli iniziali e finali tra i due e lo scambio scherzoso sul fatto che entrambi si chiamano Nate; l'aneddoto di Herk su un tutorial in cui automatizzava il riassunto dei video dell'ospite.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Studied 500+ Gamified Apps (Here&#x27;s What Actually Works)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Studied 500+ Gamified Apps (Here&#x27;s What Actually Works)" src="https://i.ytimg.com/vi/LXX_qOA5D8E/hqdefault.jpg"><p><strong>In sintesi:</strong> le tre cose che ogni app aggiunge per prima quando vuole "gamificare" — <strong>punti, badge e classifiche</strong> — sono anche i tre fallimenti più documentati nella storia dei prodotti digitali (LinkedIn, Foursquare e Google News le hanno tutte spente). Quello che funziona davvero è un'altra roba: competizioni <strong>piccole e vincibili</strong> (Strava), ricompense a <strong>grandezza variabile</strong> che tirano in avanti invece di spaventare (l'apertura dei pacchetti di figurine), la <strong>spinta a chiudere ciò che è aperto</strong> (gli anelli di Apple Watch, 49,5% di cambio comportamento su 160.000 persone) e feedback che dimostrano che sei <strong>diventato più bravo</strong> (Peloton, Chess.com, Garmin). Sugli <strong>streak</strong> il video è netto: più durano, più si trasformano da "voglio" a "non posso saltare", e nel 2026 stanno finendo nel mirino dei regolatori europei. Nota di onestà: il titolo promette "500+ app studiate", nel video l'autore dice "centinaia" e non mostra mai né la lista né un metodo — sono 12 minuti ben confezionati, non uno studio.</p>
+<details class="gia"><summary>Le parole base: gamification, PBL, retention, loop di ricompensa</summary>
+<p><strong>Gamification</strong> = mettere dentro un'app cose prese dai giochi (punteggi, premi, sfide) per spingere le persone a tornare e a fare qualcosa.</p>
+<p><strong>PBL</strong> è la sigla che riassume il pacchetto standard: <strong>Points</strong> (punti), <strong>Badges</strong> (medagliette che appaiono sul profilo quando raggiungi un traguardo), <strong>Leaderboards</strong> (classifiche, la lista di chi sta davanti a chi).</p>
+<p><strong>Retention</strong> = quanta gente torna a usare l'app dopo il primo giorno, la prima settimana, il primo mese. È la metrica su cui si gioca tutto: acquisire utenti costa, tenerli è ciò che fa i soldi.</p>
+<p><strong>Loop di ricompensa</strong> = il giro chiuso "faccio una cosa → ricevo un premio → mi viene voglia di rifarla". Se il premio smette di dare piacere, il loop si spegne.</p>
+<p><strong>Streak</strong> = la "serie": il contatore dei giorni consecutivi in cui hai usato l'app o completato l'attività (il fuocherello di Duolingo, i numerini di Snapchat).</p>
+</details>
+<h2>Chi parla, e cosa promette</h2>
+<p>Si presenta come <strong>Tim</strong>, oltre dieci anni a disegnare software per aziende come <strong>Spotify</strong>, e dice di aver portato clienti in cima all'App Store americano lavorando esattamente su questi problemi. Dichiara di aver studiato "<strong>centinaia</strong> di implementazioni di gamification per app mobile" — nota bene: <em>centinaia</em>, non le 500+ del titolo — e promette <strong>sette pattern supportati dalla ricerca</strong>: cosa funziona davvero, cosa è solo <strong>teatro</strong>, e quali meccaniche usano concretamente le app che trattengono meglio gli utenti al mondo.</p>
+<p>L'aggancio iniziale è già la tesi: punti, badge e classifiche sono le prime tre cose che tutti aggiungono e sono anche le tre più documentate come fallimento. Mentre <strong>Strava</strong> ha costruito <strong>180 milioni di utenti</strong> senza un badge tradizionale in vista, e <strong>Apple Watch</strong> ha ottenuto un <strong>49,5% di cambio comportamentale su 160.000 persone</strong> puramente attraverso la spinta a completare.</p>
+<h2>Pattern 1 — La fallacia del PBL (punti, badge, classifiche)</h2>
+<p>Il pattern che apre il video, dice, apre proprio per via di quello che è successo nel <strong>2024</strong>: <strong>LinkedIn ha ritirato in sordina i badge d'oro "Community Top Voice"</strong>. La lettura interna, secondo il video, era che gli utenti motivati dal badge producevano <strong>quantità invece di qualità</strong>: rincorrevano la medaglietta invece di condividere davvero competenza.</p>
+<p>E non è una novità, è storia che si ripete:</p>
+<p><strong>Foursquare</strong> ha rottamato <strong>sindaci ("mayorships") e badge nel 2014</strong>, quando i dati mostrarono che la gamification generava sì check-in, ma <strong>non</strong> il comportamento di scoperta di posti nuovi di cui il business aveva realmente bisogno. <strong>Google News</strong> ha ucciso il suo sistema di badge esattamente per lo stesso motivo.</p>
+<p>La frase che riassume tutto è del padre nobile della materia, <strong>Yu-kai Chou</strong>: <em>il PBL è il <strong>tabellone segnapunti</strong> del gioco, non il gioco</em>. Il paragone: non entri in uno stadio di baseball, guardi il tabellone e ti viene voglia di giocare a baseball. Eppure la maggior parte delle app <strong>costruisce il tabellone e si dimentica di costruire il gioco</strong>.</p>
+<h2>Pattern 2 — Strava: rendi la competizione piccola abbastanza da poterla vincere</h2>
+<p>(Curiosità: nel video questo pattern non viene mai numerato, si passa direttamente dal primo al terzo — ne riparlo nella sezione onestà.)</p>
+<p>Il controesempio è <strong>Strava</strong>: <strong>180 milioni di utenti registrati</strong> e un numero di engagement che l'autore definisce sinceramente scioccante — gli utenti Strava fanno in media <strong>un'ora di attività nel mondo reale per ogni 2 minuti passati dentro l'app</strong>. Come commenta lui: <em>non è una metrica di retention, è più una metrica di influenza</em>. Cioè: l'app non ti trattiene sullo schermo, ti spinge fuori a correre.</p>
+<p>Il meccanismo che fa la maggior parte del lavoro sono i <strong>segments</strong> (segmenti): un segmento è un pezzo di strada o di sentiero definito dagli utenti. Lo percorri, e il tuo tempo finisce in una classifica <strong>divisa per fascia d'età e per genere</strong>.</p>
+<p>Obiezione ovvia: ma è una classifica, e le classifiche erano quelle "rotte". La differenza è questa: <strong>Strava non ha costruito una classifica globale, ne ha costruite migliaia iper-locali</strong>. La salita sul tuo percorso mattutino. Il tratto davanti al tuo ufficio. Queste competizioni sono <strong>vincibili</strong> — e la <strong>vincibilità è il predittore più forte della motivazione competitiva</strong> (uno studio del 2022 su ScienceDirect lo conferma, secondo il video). Se la classifica è mondiale, il ventimillesimo posto non motiva nessuno; se è il muretto sotto casa, ci provi.</p>
+<p>Il lato sociale ha poi fatto da moltiplicatore: i <strong>kudos</strong> (il piccolo riconoscimento sociale — l'equivalente del "bravo" — che dai a chi ha completato una corsa) <strong>aumentano la frequenza delle corse future</strong>. I <strong>club</strong> di Strava sono cresciuti del <strong>59% nel solo 2024</strong>, e nel <strong>2025</strong> la piattaforma ha distribuito <strong>14 miliardi di kudos</strong>.</p>
+<p>La lezione per chi costruisce prodotti è diretta: **permetti alle persone di competere più localmente. Progetta la <em>dimensione</em> della competizione invece di gonfiare metriche vuote.**</p>
+<h2>Pattern 3 — La curva a S: da un certo punto in poi, aggiungere meccaniche peggiora tutto</h2>
+<p>Fin qui uno potrebbe concludere che basta aggiungere le meccaniche <em>giuste</em>: più funzioni, ma più intelligenti. È qui che arriva il pattern più controintuitivo dei sette.</p>
+<p>Uno studio del <strong>2025</strong> pubblicato e revisionato su <strong>Frontiers in Psychology</strong> ha trovato che la <strong>ricchezza di funzioni gamificate segue una curva a S</strong>: aggiungere meccaniche aiuta l'engagement <strong>fino a un certo punto</strong>; superato quel punto, <strong>aggiungerne altre lo fa tornare indietro</strong>.</p>
+<p>La prova empirica è <strong>Habitica</strong>, probabilmente l'app di produttività più aggressivamente gamificata mai costruita: i compiti quotidiani diventano <strong>missioni</strong>, le abitudini diventano <strong>statistiche del personaggio</strong>, e se salti un compito <strong>perdi punti vita (HP)</strong>. Lo studio peer-reviewed su Habitica ha trovato che il <strong>100% dei partecipanti</strong> ha sperimentato <strong>effetti controproducenti</strong>: gli utenti si assorbivano talmente nel gestire lo <strong>strato di gioco</strong> che il comportamento produttivo vero finiva sepolto sotto.</p>
+<p>La definizione che ne dà è ottima: <strong>sovraccarico cognitivo travestito da coinvolgimento</strong>. E il test pratico: se stai impilando streak <strong>più</strong> punti <strong>più</strong> badge <strong>più</strong> sfide <strong>più</strong> classifiche, i dati dicono che sei <strong>oltre il picco della curva, non in salita</strong>.</p>
+<h2>Pattern 4 — La trappola dello streak</h2>
+<p>Qui il video è più duro. Una ricerca del <strong>Decision Lab</strong> ha trovato che gli streak <strong>slittano gradualmente da motivazionali a obbligatori</strong> man mano che si allungano: si passa da <em>"voglio fare questa cosa"</em> a <em>"<strong>non posso</strong> saltare oggi"</em>.</p>
+<p>Il caso da manuale è <strong>Snapchat</strong>. Uno studio belga del <strong>2023</strong> su quasi <strong>2.500 adolescenti</strong> ha trovato che la frequenza degli streak <strong>correla con la FOMO</strong> (la paura di restare tagliati fuori), con l'<strong>uso problematico dello smartphone</strong> e con un <strong>minore autocontrollo sui social</strong>. Nel <strong>2024</strong> il procuratore generale del <strong>Nevada</strong> ha aperto un contenzioso contro Snapchat. E il <strong>Digital Fairness Act</strong> dell'Unione Europea — diretto verso una proposta legislativa a <strong>fine 2026</strong> — punta <strong>specificamente alle meccaniche di streak che creano dipendenza</strong>.</p>
+<p>Traduzione operativa: se nel 2026 stai per lanciare uno streak, sappi che <strong>più dura, più si trasforma in obbligo</strong>, e che stai entrando in uno spazio ora <strong>sorvegliato dai regolatori</strong>.</p>
+<p>Questo non vuol dire che gli streak siano cattivi per definizione. <strong>Duolingo</strong> ha fatto <strong>centinaia e centinaia di esperimenti</strong> sul suo, e la versione che spedisce oggi ovviamente trattiene gli utenti. Ma guarda <strong>come</strong> lo spedisce: l'utente <strong>sceglie il livello dell'obiettivo</strong>, e può <strong>comprare uno "streak freeze"</strong> (il congelamento che ti salva la serie il giorno che salti). La meccanica è <strong>avvolta nella libertà di scelta</strong> (<em>agency</em>). Quello che i ricercatori stanno segnalando è lo streak che <strong>non puoi mettere in pausa, non puoi influenzare e non puoi lasciare</strong>.</p>
+<h2>Pattern 5 — Ricompensa a grandezza variabile: anticipazione, non paura di perdere</h2>
+<p>Se lo streak si brucia, cosa funziona al suo posto? Il <strong>divario tra sapere che un premio sta arrivando e non sapere quanto sarà grosso</strong>: secondo l'autore è uno dei segnali di engagement più forti in tutto il design di prodotto.</p>
+<p>L'esempio è <strong>Gameblazers</strong>, un gioco di carte fantasy dove l'<strong>apertura dei pacchetti</strong> è il cuore del prodotto. Il flusso ha tre stadi:</p>
+<p><strong>Anticipazione</strong> — tocchi il pacchetto senza avere idea di cosa ci sia dentro: potrebbe essere robaccia, potrebbe essere la carta rara che insegui da settimane.</p>
+<p><strong>Rivelazione</strong> — le carte si girano <strong>una alla volta</strong>. Ogni carta <strong>riazzera il ciclo di anticipazione</strong>. Stessi identici dati, ma <strong>un evento di dopamina diventa cinque</strong>.</p>
+<p><strong>Celebrazione</strong> — esce la carta rara e lo schermo reagisce: bagliori, <strong>haptics</strong> (la vibrazione del telefono). Ed è per questo che tocchi il pacchetto successivo.</p>
+<p>Il confronto finale è la parte più utile del video: lo <strong>streak gira sulla paura di perdere quello che hai costruito</strong>; la <strong>ricompensa variabile gira sull'attrazione verso quello che viene dopo</strong>. Stesso comportamento in superficie, <strong>motore emotivo opposto</strong>: uno <strong>si consuma</strong>, l'altro <strong>si ricarica da solo</strong>.</p>
+<p>(Nota di trasparenza che l'autore stesso dà: l'app di Gameblazers l'ha disegnata il suo studio, così come lavorano per <strong>Freecash</strong>, che dice abbia pagato agli utenti oltre <strong>300 milioni di euro</strong> e che va fortissimo proprio sul lato gamification.)</p>
+<h2>Pattern 6 — Gli anelli di Apple Watch: la spinta a chiudere ciò che è aperto</h2>
+<p>Il pezzo che aveva anticipato come il più importante. <strong>Apple</strong> ha costruito l'intero sistema attorno a <strong>un solo principio: la spinta al completamento</strong> (<em>completion drive</em>). Risultato dichiarato: <strong>49,5% di cambio di comportamento su 160.000 persone</strong>.</p>
+<p>Il sistema degli <strong>anelli di attività</strong> è, secondo lui, il pattern di gamification più sottovalutato dell'elettronica di consumo. Tre anelli — <strong>movimento, esercizio, in piedi</strong> — e per completare la giornata devi chiuderli tutti e tre. Il principio è preso dalla psicologia cognitiva: il <strong>principio gestaltico della chiusura</strong>. Il cervello è cablato per percepire uno <strong>schema incompleto come una richiesta di essere completato</strong>. Un cerchio pieno al 90% crea un <strong>cerchio aperto</strong>, e il cervello vuole chiuderlo.</p>
+<p>Il dato che lo rende non-teatro: chi chiude regolarmente gli anelli ha il <strong>48% di probabilità in meno di avere una cattiva qualità del sonno</strong>. Ed è esattamente questo il punto di tutto il video: <strong>la meccanica produce un risultato positivo nel mondo reale, non teatro dell'engagement</strong>.</p>
+<p>E la parte che quasi tutti si perdono: gli anelli di Apple funzionano perché <strong>ti fanno venir voglia di finire quello che hai iniziato</strong>. <strong>Anticipazione verso la chiusura</strong>: quello è il motore. Se puoi scegliere su quale leva far girare la tua app, la spinta al completamento è un'alternativa forte.</p>
+<h2>Pattern 7 — Competenza contro "teatro dei badge"</h2>
+<p>L'ultimo pattern si appoggia direttamente al precedente. Una <strong>meta-analisi di Springer Nature del 2024</strong> sulla gamification ha trovato una cosa brutale: la gamification migliora in modo affidabile la percezione di <strong>autonomia</strong> (sentire di scegliere) e di <strong>relazione con gli altri</strong>, ma ha un <strong>impatto minimo sulla competenza</strong> — cioè proprio il bisogno psicologico <strong>più legato alla motivazione intrinseca di lungo periodo</strong>, quella che ti fa continuare perché ti interessa la cosa in sé, non il premio.</p>
+<p>Detto in modo secco: <strong>quasi tutte le app ingegnerizzano il riconoscimento e si dimenticano di ingegnerizzare la padronanza</strong>.</p>
+<p>Il controesempio più pulito è <strong>Peloton</strong>: i membri che usano le funzioni sociali e di <em>output</em> si allenano il <strong>15% più spesso</strong> — ma il meccanismo <strong>non è la competizione, è il feedback sulla competenza</strong>. La potenza espressa viene misurata <strong>in tempo reale</strong>, i <strong>record personali</strong> vengono segnalati automaticamente, e il <strong>badge dei 100 giri significa qualcosa perché rappresenta 100 giri veri</strong>. Non è teatro: è <strong>prova che una capacità è cresciuta</strong>.</p>
+<p>Stessa giocata la fanno <strong>Chess.com</strong> con i <strong>punteggi ELO</strong> (il numero che stima la tua forza reale a scacchi in base a chi batti) e <strong>Garmin</strong> con la <strong>training readiness</strong> e la <strong>body battery</strong> (indicatori di quanto sei pronto ad allenarti e quanta energia ti resta) nei dispositivi indossabili.</p>
+<p>La regola finale: <strong>costruisci meccaniche che segnalano che sei diventato più bravo nella cosa vera, non meccaniche che segnalano che hai aperto l'app tante volte.</strong></p>
+<h2>Il delta rispetto a quello che c'è già in wiki</h2>
+<p>Nella wiki design-app-che-spiccano (Chris Ro) la retention si compra con <strong>animazioni, mascot, tipografia e widget</strong>: leve di <strong>superficie e presenza</strong> — l'app sembra viva, il widget occupa un pezzo di schermo e ti riporta dentro. Lì la gamification non viene praticamente toccata.</p>
+<p>Questo video aggiunge lo strato sotto: <strong>quale motore psicologico</strong> stai accendendo. E soprattutto aggiunge il rovescio della medaglia, che nell'altra fonte manca del tutto — badge e classifiche non sono neutri, in tre casi documentati hanno <strong>peggiorato</strong> il comportamento che il business voleva. Il ponte tra i due: il widget di Chris Ro e gli anelli di Apple girano in fondo sullo stesso principio — <strong>un cerchio aperto sotto gli occhi 150 volte al giorno</strong>.</p>
+<h2>Verifica del titolo: le "500+ app" sono dimostrate?</h2>
+<p><strong>No.</strong> E la discrepanza è nella prima frase del video stesso: il titolo dice "<strong>500+ gamified apps</strong>", il parlato dice "<strong>hundreds</strong> of gamification implementations" — centinaia. Non c'è mai una lista, un criterio di selezione, un metodo, un foglio di calcolo, un allegato: solo l'affermazione.</p>
+<p>Le app effettivamente citate nei 12 minuti sono <strong>undici</strong>: LinkedIn, Foursquare, Google News, Strava, Habitica, Snapchat, Duolingo, Gameblazers, Apple Watch, Peloton, Chess.com, Garmin (più Freecash, nominata solo come cliente). Il numero nel titolo è <strong>esca da miniatura</strong>, non un risultato.</p>
+<h2>Onestà: cosa regge e cosa no</h2>
+<p><strong>Cosa regge.</strong> L'impianto concettuale è buono e non banale: la distinzione tra <strong>motore della perdita</strong> (streak) e <strong>motore dell'attrazione</strong> (ricompensa variabile, completamento) è il tipo di distinzione che ti cambia una decisione di prodotto, e il punto sulla <strong>vincibilità</strong> della competizione (Strava) è la cosa più immediatamente applicabile del video. Il caso LinkedIn/Foursquare/Google News come "storia che si ripete" è un argomento solido.</p>
+<p><strong>Cosa non regge.</strong> Primo: <strong>le fonti sono citate come nomi di brand, non come studi</strong>. "Uno studio del 2022 su ScienceDirect", "uno studio belga del 2023", "una meta-analisi di Springer Nature 2024" — mai un titolo, mai un autore. ScienceDirect e Springer Nature sono <strong>editori</strong>, non riviste: citarli così è come dire "l'ho letto in libreria". Nessuno di questi numeri è verificabile senza rifare la ricerca da zero.</p>
+<p>Secondo: <strong>il "100% dei partecipanti" su Habitica è un campanello d'allarme</strong>, non un dato forte. Un 100% quasi sempre significa campione minuscolo e studio qualitativo — presentarlo come prova empirica della curva a S è un salto.</p>
+<p>Terzo: <strong>c'è un numero che compare dal nulla</strong>. "Se gli streak si bruciano al <strong>giorno 31</strong>..." — quel 31 non era mai stato detto prima, non viene mai spiegato, e non ha fonte. È il tipo di dettaglio-che-suona-preciso che rende un video convincente senza renderlo vero.</p>
+<p>Quarto: <strong>conflitto d'interesse dichiarato ma non compensato</strong>. Il pattern 5, quello presentato come alternativa virtuosa allo streak, ha come unico esempio <strong>un'app disegnata dal suo stesso studio</strong>, e l'altro nome che porta (Freecash) è pure un cliente. È il pattern in cui la promessa "supportato dalla ricerca" si assottiglia fino a diventare "abbiamo fatto una cosa che ci piace".</p>
+<p>Quinto: <strong>il conto dei sette pattern non torna del tutto</strong>. Vengono numerati esplicitamente solo l'1, il 3, il 4, il 5 e il 7: Strava e Apple arrivano senza numero. Sette c'è, ma la struttura sembra montata dopo.</p>
+<p>Sesto: <strong>è denso ma corto</strong>. Dodici minuti per sette pattern significa <strong>meno di due minuti l'uno</strong>: fila liscio proprio perché non si ferma mai a mostrare uno schermo, un test A/B, un grafico di retention. È una <strong>buona sintesi divulgativa con un vestito da ricerca originale</strong>, e in mezzo ci sono <strong>tre inviti alla call gratuita</strong> del suo studio — cioè il video è, funzionalmente, un pezzo di marketing ben fatto.</p>
+<p><strong>Come usarlo.</strong> Come <strong>checklist di decisione</strong> ("su quale motore gira la mia meccanica: paura di perdere, attrazione, chiusura, o padronanza?") vale il tempo. Come <strong>base di prove</strong> da citare a un cliente o da usare per una decisione seria, no: prima vanno recuperati e letti gli studi veri, perché così come sono citati non sono verificabili.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=LXX_qOA5D8E" target="_blank" rel="noopener">I Studied 500+ Gamified Apps (Here's What Actually Works)</a> — Tim, ~12 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em> Il video ha grafica e schermate a supporto che qui non sono state viste: resta il ragionamento, non le immagini.</li>
+<li>Concetti collegati: design-app-che-spiccano (retention via animazioni, mascot e widget — questo video ne è lo strato psicologico, con il rovescio della medaglia che lì manca).</li>
+<li><strong>Cosa è stato omesso, onestamente:</strong> i tre inviti alle "free design strategy call" mensili dello studio dell'autore (ripetuti a 4:00, 8:51 e 11:54); il rimando finale a un altro suo video su come Spotify, Tinder e Netflix usano la psicologia; il saluto di chiusura. Nient'altro di sostanziale è stato tagliato — tutti e sette i pattern, tutti gli esempi di app e tutti i numeri citati sono riportati qui sopra.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Fable 5 + Karpathy&#x27;s LLM Wiki is Basically Cheating</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Fable 5 + Karpathy&#x27;s LLM Wiki is Basically Cheating" src="https://i.ytimg.com/vi/hQvwMj7IJe4/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk mostra come costruire in pochi minuti una <strong>LLM wiki</strong> — l'idea di <strong>Andrej Karpathy</strong>: butti dentro documenti grezzi in una cartella <code>raw/</code>, l'AI li "compila" in tante paginette markdown collegate tra loro dentro <code>wiki/</code>, e da lì ci navighi come su Wikipedia. Il setup è banale (un gist di Karpathy incollato in Claude Code + Obsidian come vetrina), e il valore vero non è l'archivio ma il <strong>routing</strong>: regole scritte che dicono all'agente dove andare a cercare cosa, così non spreca tempo e token a scandagliare tutto. La parte davvero interessante per me è che questo è <strong>esattamente</strong> il mio vault — quindi il video vale soprattutto come check: cosa ho già, cosa mi manca.</p>
+<h2>L'aggancio: una mappa che si costruisce da sola</h2>
+<p>Il video parte da una schermata: decine di <strong>video YouTube di Nate</strong> già ingeriti in una LLM wiki, con le relazioni disegnate come un grafo. Il punto che vuole far passare è che <strong>lui non ha collegato niente a mano</strong>. Ha detto a Claude Code "vai a prendere i miei video YouTube e ingeriscili in questa wiki", e la cosa cresce da sola.</p>
+<p>Aprendo una singola pagina — il suo video sui <strong>siti web con Nano Banana</strong> (le auto-caption dicono "Nano Banana two", probabilmente <em>Nano Banana Pro</em>, nome incerto) — trova in testa qualche metadato e poi, scorrendo, <strong>riassunto</strong>, <strong>key takeaway</strong>, <strong>altri tool citati</strong> e <strong>tecniche discusse</strong>. Da lì comincia la navigazione a catena: clicca su <strong>GitHub</strong>, vede cos'è e in quali altri punti è stato citato, trova un pezzo che collega GitHub a <strong>Vercel</strong>, entra in Vercel, e da Vercel torna a <strong>Claude Code</strong> seguendo i backlink. È il comportamento di Wikipedia applicato alla propria testa.</p>
+<h3>La demo forte: cosa sa fare il modello <em>dopo</em> che i dati sono dentro</h3>
+<p>Qui Nate insiste su una distinzione che vale la pena tenere: <strong>non è impressionante che Fable riesca a ingerire tutto</strong> — è impressionante cosa riesce a fare <em>una volta</em> che ha quel contesto. "I dati sono re, il contesto è re."</p>
+<p>Primo esempio. Con <strong>un solo prompt</strong> ha chiesto a Fable di prendere "questo blob incasinato di trascrizioni YouTube e connessioni" e trasformarlo in una risorsa che una persona normale possa guardare e capire: semplice, non travolgente, che mostri al pubblico come tool, tecniche e idee si legano tra loro. Il risultato è una pagina <strong>HTML</strong> navigabile: in alto le idee (es. <strong>agentic workflow</strong>), che si collegano a <strong>routine</strong>, che si collegano a <strong>automazione deterministica vs agentica</strong>, che rimanda a <strong>n8n</strong> (nella trascrizione automatica appare storpiato come "N&amp;N") e a <strong>Claude Code</strong>.</p>
+<p>Il confronto che fa dopo è l'osservazione più onesta del video: la <strong>stessa identica base dati</strong> l'aveva già usata con <strong>Opus 4</strong> lavorandoci quasi un giorno intero, avanti e indietro, e il risultato non gli piaceva abbastanza da condividerlo — lo trovava confusionario e opprimente. La differenza secondo lui sta nel fatto che a Fable ha potuto dare istruzioni <strong>emotive</strong> ("in un modo che un principiante possa capire senza sentirsi travolto") e Fable capisce cosa vuol dire, mentre <strong>Opus 4.8</strong> lo capisce meno bene. Detto chiaro: è una valutazione a sensazione, senza criterio di misura — nessuno dei due artefatti è stato giudicato da qualcuno che non fosse l'autore.</p>
+<p>Secondo esempio, più concreto. Nate non ha una sola wiki: ne ha diverse dentro il suo <strong>AI OS</strong>. Una è quella delle trascrizioni YouTube, un'altra la chiama <strong>"Herk Brain"</strong> (nome incerto dalle caption), dove finiscono <strong>tutte le registrazioni delle riunioni</strong>, interne ed esterne. Serve a vedere come i concetti discussi con le persone si sono <strong>evoluti</strong> nel tempo, e quando scrive post per la community, post LinkedIn o email, il sistema tiene conto di tutto quello.</p>
+<p>Prima di girare il video ha chiesto: "raccontami la storia degli ultimi 6 mesi, siamo a metà 2026, costruiscimi un viaggio visivo del 2026 finora". <strong>In un colpo solo</strong> ha ottenuto una pagina che: ha pescato una sua foto e il logo aziendale, ha rispettato il branding (dark mode, grafici blu), ha tirato fuori numeri reali — <strong>iscritti guadagnati</strong>, <strong>mese di fatturato più alto</strong> (oscurato nel video), <strong>visualizzazioni medie</strong>, <strong>churn</strong>, <strong>conversione</strong>. Ha ricostruito il <strong>pivot</strong> dell'anno — da contenuti solo su n8n a molti contenuti su Claude Code — mostrando come ha pagato. E per la seconda immagine ha scelto <strong>una foto diversa</strong>: se la prima era lui che sorride, questa è lui che pensa. Infine ha ricostruito <strong>l'intero funnel</strong> dell'attività, dimostrando di aver capito come le persone entrano nell'ecosistema e dove vengono spinte.</p>
+<p>Morale della favola secondo lui: <strong>più dati dai ai tuoi progetti, meglio è</strong> — ma soprattutto conta <strong>instradarli nel modo giusto</strong>, ed è esattamente ciò per cui le LLM wiki sono brave.</p>
+<h2>Da dove nasce: il post di Karpathy</h2>
+<p>Tutto parte da un post di <strong>Andrej Karpathy</strong>: <em>"LLM knowledge bases. Something I'm finding very useful lately is using LLMs to build personal knowledge bases for various topics of research interest."</em> Indicizza le fonti e usa <strong>Obsidian</strong> come vetrina (il "front end"). È lo stesso schema che ho già in vault — vedi second-brain-a-livelli, livello 2.</p>
+<details class="gia"><summary>Setup base: installare Obsidian, creare il vault, aprire Claude Code</summary>
+<p>Vai su <strong>obsidian.md</strong>, scarichi per il tuo sistema operativo (lui usa Windows), lanci il wizard e apri l'app. All'apertura clicchi in basso su <strong>manage vaults</strong> → <strong>crea nuovo vault</strong>, gli dai un nome (nell'esempio "AI test") e scegli dove metterlo. Nota di metodo interessante: Nate di solito <strong>non</strong> mette i vault sul desktop, li mette <strong>dentro il suo progetto principale</strong> ("Herk 2"), così l'agente di quel progetto può leggere tutte le sue piccole wiki separate per argomento.</p>
+<p>Un vault appena creato contiene solo una cartella <code>.obsidian</code> e un <code>welcome.md</code>. A quel punto apri quella cartella in VS Code (o dove ti pare), apri il terminale e lanci <code>claude</code>. Fine del setup preliminare.</p>
+</details>
+<h3>Il prompt esatto per far nascere la wiki</h3>
+<p>Questo è il pezzo operativo. Vai al <strong>gist di Karpathy sulla LLM wiki</strong> (Nate lo linka in descrizione), <strong>copi tutto il contenuto</strong> e lo incolli in Claude Code. Poi ci allega uno screenshot e scrive questo prompt:</p>
+<blockquote>"You are now my LLM wiki agent. Implement this exact idea file as my complete second brain. Guide me step by step. Create the Claude.md schema with my full rules. Set up the index, the log, define folder conventions, and show me the first ingest example. From now on, every interaction follows the schema."</blockquote>
+<p>Tradotto: <em>"Da adesso sei il mio agente LLM wiki. Implementa esattamente questo file di idee come il mio second brain completo. Guidami passo passo. Crea lo schema CLAUDE.md con tutte le mie regole. Imposta l'index, il log, definisci le convenzioni delle cartelle, e mostrami un primo esempio di ingest. Da ora in poi, ogni interazione segue lo schema."</em></p>
+<p>Nota di costo, che è forse il consiglio più utile del video: lui usa <strong>Fable</strong>, ma dice apertamente che <strong>Fable è probabilmente esagerato per questo</strong>. L'ingest lo puoi tranquillamente fare con <strong>Opus</strong> — anzi, "onestamente è la scelta migliore". Fable serve <em>dopo</em>, per quello che ci fai sopra. Menziona anche che in quel momento Fable era incluso nell'abbonamento <strong>solo fino al 7 luglio</strong>, dopo il quale passava a crediti a consumo; cita un tweet (di un tale "Thor", nome incerto dalle caption) e il post ufficiale che confermano l'intenzione di <strong>riportarlo dentro l'abbonamento</strong> appena possibile, senza però dire quando.</p>
+<h2>Struttura: piatta o a sottocartelle? Dipende dai dati</h2>
+<p>Il punto interessante è che <strong>la struttura si adatta da sola al tipo di dato</strong>.</p>
+<p>La sua wiki sui <strong>video YouTube</strong> si è organizzata in sottocartelle: <code>comparisons</code>, <code>concepts</code>, <code>sources</code>, <code>techniques</code>, <code>tools</code>. Ha senso, perché sono contenuti che parlano di tool e tecniche confrontabili tra loro.</p>
+<p>La sua <strong>Herk Brain</strong> (riunioni) invece è rimasta <strong>piatta</strong>: tutte le registrazioni una accanto all'altra, nessuna sottocartella. L'AI non ha voluto organizzarle. E Nate dice una cosa controintuitiva: <strong>a volte tenerla piatta è meglio</strong>. Il motivo è pratico — vuoi che l'AI riesca a <strong>cercare facilmente</strong> in tutta la roba, e annidare cartelle su cartelle rende la ricerca più costosa, non più ordinata. (Magari in futuro una "passata" di riorganizzazione troverà delle cartelle sensate; ma finché non serve, piatta va bene.)</p>
+<p>I pezzi fissi dell'impianto, uguali in tutte le sue wiki, sono quattro:</p>
+<ul>
+<li><strong><code>raw/</code></strong> — dove <strong>butti la roba grezza</strong>. L'AI legge tutto quello che c'è dentro.</li>
+<li><strong><code>wiki/</code></strong> — dove finisce la roba digerita. Qui <strong>una sola fonte può diventare 5, 6 o anche 10 paginette</strong>.</li>
+<li><strong><code>index.md</code></strong> — l'<strong>indice</strong>, cioè la tavola dei contenuti. Nella sua wiki YouTube contiene tutti i tool, tutte le tecniche, tutto mappato con i backlink.</li>
+<li><strong><code>log.md</code></strong> — il <strong>registro</strong>: ogni volta che ingerisce un video o un'altra fonte, ci finisce una riga. Nel suo si vedono un paio di <strong>batch ingest</strong> fatti in blocco.</li>
+</ul>
+<p>Il senso di index e log messo a parole sue: servono perché <strong>l'AI possa costruire e mantenere la wiki in modo incrementale</strong>. Deve poter guardare l'indice, i log e i backlink per <strong>girare dentro la wiki</strong> e trovare il dato che le serve.</p>
+<h2>L'ingest dal vivo: un PDF e un URL</h2>
+<p>Dopo il setup, il progetto ha: <code>index</code> vuoto, <code>log</code> quasi vuoto, <code>raw/</code> e <code>wiki/</code>. Già dentro <code>raw/</code> c'è il file dell'idea di Karpathy (il gist), che l'agente ha deciso di ingerire da solo; e in <code>wiki/</code> ha già previsto <code>concepts</code>, <code>entities</code>, <code>sources</code>.</p>
+<p>Poi mostra <strong>due modi diversi</strong> di dare in pasto una fonte:</p>
+<ol>
+<li><strong>PDF</strong> — scarica il <strong>system card di Claude Fable 5 e Mythos 5</strong> e lo <strong>trascina dentro <code>raw/</code></strong>.</li>
+<li><strong>URL</strong> — prende la pagina di OpenAI che presenta <strong>GPT-5.6 "Soul"</strong> e incolla direttamente il link in chat.</li>
+</ol>
+<p>Il prompt è volutamente scarno: <em>"leggi questo articolo e ingeriscilo nella nostra wiki; e poi ho messo un PDF in raw che si chiama Claude Fable 5, ingerisci anche quello."</em> Nient'altro — perché lo schema definito prima dovrebbe già dirgli cosa fare. Quello che si aspetta è: <strong>una nuova riga nell'index, una nel log, e nuove fonti nella wiki</strong>.</p>
+<p><strong>Numeri reali:</strong> l'ingest ha impiegato <strong>10-12 minuti</strong> e da <strong>2 fonti</strong> ha prodotto <strong>20 pagine wiki</strong>, tutte incrociate tra loro.</p>
+<p>E qui arriva la parte che secondo Nate giustifica la wiki al posto di due riassunti separati: il modello ha notato che <strong>le due fonti si citano a vicenda</strong>, e ha messo quella connessione in una pagina chiamata <strong>Frontier Model Cybersecurity</strong>. Non solo: ha <strong>segnalato una cosa che leggendo i due documenti separatamente ti sfuggirebbe</strong> — OpenAI ha confrontato GPT-5.6 Soul con <strong>Mythos Preview</strong> e con il <strong>predecessore di aprile</strong>, <em>non</em> con Mythos 5, e i due laboratori hanno usato <strong>harness (banchi di prova) diversi</strong>, quindi i numeri <strong>non sono confrontabili direttamente</strong>. Questo è esattamente il tipo di avvertenza da <code>⚠️ WARN</code> che tengo io nei concept.</p>
+<p>Aprendo la wiki risultante si vede la distribuzione delle pagine: <strong>OpenAI</strong> con i suoi collegamenti, <strong>rilasci di modelli coordinati col governo</strong>, <strong>layered safeguards</strong> (salvaguardie a strati), <strong>competitive use safeguards</strong>. Le cartelle sono diventate <code>concepts</code>, <code>entities</code>, <code>sources</code>, <code>topics</code>. Dentro <code>entities</code> ci sono i <strong>modelli</strong>: Fable, Mythos, Mythos Preview, Opus 4.8, GPT-5.6, più le aziende <strong>Anthropic</strong> (le caption dicono "Tropic") e <strong>OpenAI</strong>. Nel <code>log</code>: la riga del setup iniziale, quella dell'articolo OpenAI, quella del system card.</p>
+<h2>La lezione vera: è un router, non un archivio</h2>
+<p>Il paragrafo di chiusura concettuale è la parte da tenere. Il sistema è: Claude Code guarda un mucchio di fonti dati, guarda <strong>la wiki</strong> — e potenzialmente <strong>più wiki</strong>. Dentro la wiki ci sono <strong>regole di routing</strong>, così gli agenti capiscono <strong>dove andare a cercare cosa</strong>, perché devono attraversare tutta quella roba <strong>in modo efficiente</strong>: altrimenti sprechi tempo e token per arrivare alla risposta giusta.</p>
+<p>E aggiunge una frase che vale come definizione: <em>"quella teoria è in pratica cos'è Claude Code"</em> — capire come far funzionare il tuo <strong>CLAUDE.md come router</strong> che sa guardare nei progetti passati e nel contesto di business e <strong>trovare il punto giusto</strong>.</p>
+<p>Da qui in avanti il lavoro è semplice e continuo: <strong>aggiungi fonti</strong>, guarda come evolve, e <strong>controlla che abbia ancora senso</strong>. Se dopo un batch ingest non ti piace come ha organizzato cartelle e file, <strong>cambialo</strong>. Apri le pagine (tipo "competitive use safeguards"), leggi, clicca in giro, verifica che la catena regga. Se non ti piace come si comporta, <strong>aggiorna le regole di ingest</strong>. Nate sottolinea che <strong>ogni sua wiki ha struttura e regole diverse</strong>, a seconda che dentro ci siano trascrizioni di riunioni, dati personali o proposte commerciali. La regola d'oro: deve avere senso <strong>non solo per l'AI, ma anche per te</strong> — devi poterci navigare tu e trovare quello che cerchi.</p>
+<h3>Niente lock-in: sono solo file markdown</h3>
+<p>Ultima osservazione, e non è banale: una volta capito che <strong>tutta la wiki è solo file markdown con delle regole di instradamento</strong>, ti rendi conto che <strong>non sei legato a Claude Code</strong>. Puoi attaccarci <strong>Codex</strong> o qualunque altro agente ("Hermes agent" nelle caption, nome incerto — probabilmente un'altra CLI agentica). Sono file di testo: chiunque li può leggere.</p>
+<h3>Confronto col mio vault</h3>
+<p>Qui la parte utile per me, senza sconti.</p>
+<p><strong>Cosa combacia già (praticamente tutto l'impianto).</strong> Il mio vault <em>è</em> una LLM wiki di livello 2, ed è nato proprio da questa scuola di pensiero. Ho la separazione <code>raw/</code> → <code>wiki/</code>, ho <code>wiki/concepts/</code> come conoscenza fusa per argomento, <code>wiki/entities/</code> per persone/aziende/prodotti, un <code>log.md</code> con una riga per ingest, e un <code>CLAUDE.md</code> che fa esattamente da <strong>router</strong> ("se cerchi un argomento AI guarda in concepts, se cerchi un progetto guarda in progetti"). Ho anche una cosa che Nate <strong>non</strong> mostra: la <strong>regola anti-rumore</strong> che tiene rigidamente separata la zona apprendimento dalla zona progetti — lui invece infila tutte le wiki dentro un unico progetto "Herk 2", che è più comodo ma più esposto alla contaminazione. E ho la pubblicazione automatica del sito dei riassunti, che è un pezzo più avanti della sua pagina HTML generata a mano.</p>
+<p><strong>Cosa mi manca davvero (in ordine di quanto pesa).</strong></p>
+<ol>
+<li><strong>Non ho un <code>index.md</code>.</strong> Nate lo tratta come uno dei quattro pilastri, insieme a raw/wiki/log — è la tavola dei contenuti che elenca tool, tecniche e concetti coi backlink, e serve all'agente per <strong>navigare invece di scandagliare</strong>. Io ho <code>log.md</code> (cronologia) e <code>coda-video.md</code> (cosa resta da guardare), ma nessuna mappa dei contenuti. Con 20 concept e 27 riassunti comincia a sentirsi. È anche esattamente la stessa cosa che avevo già annotato in second-brain-a-livelli (l'<code>index.md</code> per livello di cartella) e non ho mai fatto: <strong>secondo segnale indipendente, vale la pena farlo</strong>.</li>
+<li><strong>I miei backlink sono a senso unico.</strong> Nei riassunti linko i concetti, e nei concept linko le fonti. Ma <strong>i concetti non si linkano tra loro</strong>: non posso fare la navigazione a catena che lui mostra (GitHub → Vercel → Claude Code). Il grafo di Obsidian del mio vault è una stella con i riassunti al centro, non una rete. Aggiungere una riga "collegato a" dentro ogni concept costerebbe poco e cambierebbe molto.</li>
+<li><strong>Ingerisco solo video.</strong> Tutto il mio flusso passa da <code>/watch</code>, e <code>raw/</code> contiene solo <code>watched/</code>. Nate mostra che lo stesso impianto <strong>digerisce PDF e URL</strong> con lo stesso prompt scarno ("leggi questo e ingeriscilo"). Un system card, un paper, un articolo — a me oggi non c'è modo di infilarli dentro. Questo è un buco reale, non un vezzo: le fonti scritte spesso sono più dense dei video.</li>
+<li><strong>Non faccio mai una "passata" di verifica.</strong> Lui dice esplicitamente: dopo un batch ingest, apri le pagine, clicca in giro, controlla che l'organizzazione tenga ancora, e <strong>se non ti piace cambia le regole di ingest</strong>. Io ingerisco e vado avanti. Non ho mai riletto criticamente <code>wiki/concepts/</code> per vedere se qualche pagina è diventata un mappazzone o se due concetti andrebbero fusi.</li>
+</ol>
+<p><strong>Cosa NON vale la pena copiare.</strong> Le sottocartelle per <code>techniques</code>/<code>tools</code>/<code>comparisons</code>: la sua stessa osservazione — "a volte piatto è meglio, perché l'AI deve poter cercare facilmente" — dice che la mia struttura attuale a tre cartelle va benissimo. E le wiki multiple separate per dominio: io ho già la separazione wiki/progetti, che risolve lo stesso problema.</p>
+<h2>Onestà sul video</h2>
+<p>Da mettere agli atti, perché il video promette un po' più di quanto consegni.</p>
+<ul>
+<li>Il titolo dice <strong>"Fable 5 + LLM wiki è praticamente barare"</strong>, ma Nate stesso ammette a metà video che <strong>Fable non serve per l'ingest</strong> ("è probabilmente esagerato, usa Opus, onestamente è la scelta migliore"). Fable compare solo nella demo di generazione della pagina HTML e del "viaggio visivo del 2026". Il titolo carica sul modello un merito che appartiene al metodo.</li>
+<li>Il "5 minuti per partire" è vero solo per <strong>creare le cartelle</strong>. Il primo ingest vero è durato <strong>10-12 minuti per due documenti</strong>, e la parte lenta — sistemare le regole finché la struttura ha senso — è quella che lui stesso dice essere un lavoro continuo.</li>
+<li>Il confronto <strong>Fable vs Opus 4</strong> ("Opus non capisce i prompt emotivi") è un aneddoto senza verifica: stesso database, giudice unico l'autore, nessun criterio. Interessante come spunto, inutile come prova.</li>
+<li><strong>Contenuto promozionale:</strong> un plug al corso gratuito "build your own AI OS" nella sua community School (rimosso da questo riassunto), e il rimando finale al suo video sui livelli del second brain — che però ho già in vault come second-brain-a-livelli.</li>
+<li><strong>Densità reale:</strong> alta nella parte struttura/routing, bassa nelle demo (la metà iniziale del video è vetrina). Il pezzo che vale davvero il tempo sta tra il minuto 5 e il 13.</li>
+</ul>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=hQvwMj7IJe4" target="_blank" rel="noopener">Fable 5 + Karpathy's LLM Wiki is Basically Cheating</a> — Nate Herk, ~14 min.</li>
+<li><em>Ingest da sola trascrizione (nessun frame video).</em></li>
+<li>Concetti collegati: second-brain-a-livelli, agent-memory, loop-engineering.</li>
+<li>Entità: andrej-karpathy, nate-herk, claude-code.</li>
+</ul>
+<p><strong>Nomi incerti (auto-caption).</strong> "Herk Brain" / "Herk 2" (la wiki delle riunioni e il progetto principale di Nate); "Thor" (autore del tweet sui limiti di Fable); "Hermes agent" (l'agente alternativo citato alla fine); "Nano Banana two" (probabilmente <em>Nano Banana Pro</em>). Corretti d'ufficio: "N&amp;N" → <strong>n8n</strong>, "Tropic" → <strong>Anthropic</strong>.</p>
+<p><strong>Cosa ho omesso.</strong> Il plug al corso gratuito nella community School e il relativo invito a cliccare il link in descrizione; l'invito finale a guardare il video successivo sui livelli del second brain; i ringraziamenti di chiusura. Nessuna informazione tecnica è stata tagliata.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+</script>
+</body>
+</html>

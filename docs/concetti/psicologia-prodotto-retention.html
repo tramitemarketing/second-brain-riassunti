@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Spec-driven prompting</title>
+<title>Psicologia del prodotto e retention (cosa fa tornare le persone)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -99,34 +99,38 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
-<h1>Spec-driven prompting</h1>
-<p>Prima di far costruire qualcosa a Claude, si costruisce insieme all'agente uno <strong>spec</strong> dettagliato — un formato che traduce la tua comprensione implicita del task in qualcosa che il modello può effettivamente usare. Il plan mode di Claude è un buon punto di partenza ma resta "troppo alto livello" (Karpathy): serve andare più a fondo nel disegnare lo spec stesso, non solo pianificare i passi.</p>
-<h2>Il problema che risolve</h2>
-<p>Gli LLM sono brillanti su tutto ciò che è misurabile, ma ciechi sul contesto implicito. Esempio di Karpathy: "Il carwash è a 50m, vado a piedi o in auto?" — Claude, Gemini, Grok e ChatGPT rispondono tutti "a piedi" perché è vicino, ignorando che ti serve l'auto <em>per lavarla</em>. Non è un bug di un singolo modello: è la classe di errore che lo spec deve coprire, perché è "signal" che l'AI non ha modo di dedurre da sola.</p>
-<h2>I 3 step per costruire lo spec</h2>
-<ol>
-<li><strong>Scoprire il goal reale, non il task.</strong> "Crea un report di fine mese" è un task; il goal è la decisione che quel report deve guidare — e questo è qualcosa che l'AI non potrà mai decidere da sola. Tattica: far intervistare <em>te</em> da Claude per estrarre il goal, invece di scriverlo tu a mano.</li>
-<li><strong>Essere agili, non waterfall.</strong> Waterfall = task grande consegnato tutto insieme alla fine (rischio alto di andare fuori strada senza accorgersene). Agile specking = scope stretto, checkpoint chiaro, review dell'output, aggiustamento, ripeti. Tattica: dire esplicitamente a Claude di preferire spec piccoli e compartimentati piuttosto che uno spec monolitico.</li>
-<li><strong>Essere precisi — usare il cervello.</strong> Più sei preciso, meno l'AI deve assumere; ogni assunzione è un'occasione di drift dal risultato voluto. Quando è l'AI stessa a scrivere lo spec, il tuo lavoro è leggerlo criticamente, non accettarlo passivamente. Tattica: chiedere esplicitamente di "verificare le decisioni chiave" prima di procedere.</li>
-</ol>
-<h2>Prompt di esempio (combinando i 3 step)</h2>
-<p>Un prompt che integra i tre step tipicamente include: un'istruzione a intervistarti per trovare il goal reale dietro il task, un bias verso spec piccoli/compartimentati con checkpoint, e una richiesta esplicita di verificare le decisioni chiave prima di implementare.</p>
-<h2>Nota di collegamento</h2>
-<p>Questo è il layer "a monte" di <a href="loop-engineering.html">loop-engineering</a> — uno spec ben fatto è ciò su cui poi si costruisce la verifica (vedi lì la sezione Goal + Verification per il layer successivo).</p>
-<h2>Le regole operative (come promptano in Anthropic)</h2>
-<p>Sei regole raccolte dalla documentazione pubblica di Anthropic e dai suoi ingegneri (vedi how-anthropic-engineers-prompt-fable-2026-07-21):</p>
-<ol>
-<li><strong>Dai il perché</strong>, non solo il compito: "sto lavorando a X, serve per Y, che ha bisogno di Z → scrivi la mail".</li>
-<li><strong>Di' cosa NON fare</strong> (prompting negativo): "riporta quello che trovi e fermati; non modificare, non inviare, non cancellare finché non te lo dico".</li>
-<li><strong>Fallo agire appena ne sa abbastanza</strong>: "quando hai informazioni sufficienti per agire, agisci".</li>
-<li><strong>Fallo provare</strong> — la più importante: <em>"prima di dirmi che è fatto, indicami il risultato che lo dimostra; se non l'hai verificato, dillo"</em>. Va <strong>cablata nell'ambiente</strong> (skill, CLAUDE.md), non appiccicata in fondo al prompt. È <a href="loop-engineering.html">loop-engineering</a> in una riga.</li>
-<li><strong>Non chiedergli di mostrare il ragionamento</strong>, soprattutto nelle istruzioni di sistema: può far scattare rifiuti o un dirottamento silenzioso su un altro modello.</li>
-<li><strong>Dì di meno.</strong> Un'istruzione corta guida quanto un elenco di regole, <em>se</em> l'ambiente attorno è buono.</li>
-</ol>
-<blockquote>⚠️ La regola 6 tira contro l'istinto di scrivere specifiche lunghissime. La riconciliazione: <strong>la specifica vive nell'ambiente</strong> (file di progetto, skill, criteri di verifica), <strong>il prompt resta corto</strong>. Vale anche il monito opposto raccolto altrove: file di progetto e skill tendono a essere troppo lunghi, e i modelli intelligenti hanno bisogno di spazio.</blockquote>
+<h1>Psicologia del prodotto e retention (cosa fa tornare le persone)</h1>
+<p><strong>Gist:</strong> le leve psicologiche che fanno usare e ri-usare un prodotto — e il confine, spesso sottile, tra <strong>design intelligente</strong> e <strong>manipolazione</strong>. È il lato "percorso e testa dell'utente"; il lato visivo sta in <a href="design-app-che-spiccano.html">design-app-che-spiccano</a>.</p>
+<h2>Le leve che funzionano</h2>
+<p><strong>Valori preimpostati intelligenti.</strong> Mai un campo vuoto: la scelta preselezionata viene letta come un consiglio, e il 70-90% delle persone non la cambia mai. Meno scelte, più decisioni: nel classico esperimento delle marmellate, 24 gusti facevano comprare il 3%, 6 gusti il 30%.</p>
+<p><strong>Effetto traguardo.</strong> Non far partire nessuno da zero. La tessera fedeltà con 10 caselle di cui <strong>2 già timbrate</strong> raddoppia quasi i completamenti. Nessuno mostra "profilo completo: 0%".</p>
+<p><strong>Reciprocità.</strong> Dai valore <em>prima</em> di chiedere l'iscrizione: il report vero, non quello sfocato dietro il lucchetto.</p>
+<p><strong>Effetto IKEA.</strong> Far costruire o scegliere qualcosa <strong>prima</strong> dell'iscrizione: quello che hai costruito ti costa lasciarlo.</p>
+<p><strong>Feedback sulla competenza.</strong> Far <em>vedere</em> che stai migliorando (un punteggio, una potenza in tempo reale, un record personale). È la leva più solida sul lungo periodo — e secondo una meta-analisi è proprio quella che la gamification classica <strong>non</strong> tocca.</p>
+<p><strong>Competizioni piccole e vincibili.</strong> Migliaia di micro-classifiche locali invece di una classifica globale dove sei il numero 40.000.</p>
+<p><strong>Ricompensa a grandezza variabile.</strong> Anticipazione → rivelazione un pezzo alla volta → celebrazione: un evento di piacere diventa cinque. Motore "attrazione", non "paura".</p>
+<p><strong>Spinta al completamento.</strong> Il cerchio aperto chiede di essere chiuso (gli anelli dell'orologio, la barra all'80%). Stesso principio del widget sulla schermata di blocco in <a href="design-app-che-spiccano.html">design-app-che-spiccano</a>.</p>
+<h2>Quello che invece non funziona</h2>
+<ul>
+<li><strong>Punti, badge e classifiche da soli.</strong> Più piattaforme li hanno tolti dopo averli lanciati: premiano la quantità e uccidono la qualità. "Il punteggio è il tabellone, non il gioco."</li>
+<li><strong>Impilare troppe meccaniche.</strong> La curva è a S: oltre un certo punto è sovraccarico travestito da coinvolgimento.</li>
+<li><strong>Le serie (streak) non pausabili.</strong> Da motivazione a obbligo: funzionano solo se avvolte nella <strong>libertà di scelta</strong> (obiettivo scelto dall'utente, possibilità di congelare la serie). Su questo ci sono già cause legali e una direttiva europea in arrivo.</li>
+</ul>
+<h2>Il confine con la manipolazione</h2>
+<p>Va detto chiaro, perché diverse di queste leve stanno sul crinale:</p>
+<ul>
+<li><strong>Avversione alla perdita</strong> — mostrare cosa <em>perdi</em> invece di cosa guadagni funziona (una perdita pesa il doppio). Ma il pulsante di rifiuto scritto come "va bene, me la rischio" è <strong>umiliazione del rifiuto</strong>, e un conto alla rovescia sui tuoi file è urgenza fabbricata. Sono <strong>dark pattern</strong>, non buone pratiche.</li>
+<li><strong>Effetto contrasto</strong> — mettere il prezzo accanto a qualcosa di molto più caro ("solo il 2,6% di quel portatile") sposta il metro di paragone per far sparire un costo che l'utente aveva già calcolato.</li>
+<li><strong>Effetto IKEA</strong> — diventa zona grigia se il costo reale viene rivelato <strong>dopo</strong> che hai investito venti minuti.</li>
+</ul>
+<p>Regola pratica per stare dalla parte giusta: <strong>abbassa lo sforzo, non abbassare la comprensione.</strong> Se la leva funziona solo perché l'utente non ha capito, è manipolazione.</p>
+<h2>Nota sulle prove</h2>
+<p>I numeri che circolano in questo campo (lo studio delle marmellate, "+2.000% di vendite con gli assaggi", "100% dei partecipanti") sono <strong>ordini di grandezza retorici</strong>, non dati solidi: le fonti sono citate per editore e non verificabili, e alcuni studi celebri hanno problemi noti di replicabilità. Usali per decidere, non per convincere qualcuno in una riunione. Una delle fonti, poi, porta come esempio virtuoso un'app <strong>disegnata dal proprio studio</strong>.</p>
 <h2>Fonti</h2>
 <ul>
-<li>Stop Prompting Claude. Use Karpathy's Method Instead. (Austin Marchese, 2026-07-07) — riprende un'intervista di Andrej Karpathy a AI Ascent 2026.</li>
+<li>ux-psychology-app-che-creano-dipendenza-2026-07-21 (2026-07-21) — le sei leve, i dark pattern</li>
+<li>500-app-gamificate-cosa-funziona-2026-07-21 (2026-07-21) — cosa funziona e cosa no nella gamification (nota: le "500 app" del titolo sono in realtà 12)</li>
+<li><a href="design-app-che-spiccano.html">design-app-che-spiccano</a> — il lato visivo, complementare</li>
 </ul>
 <script>
 window.SB = (function () {
