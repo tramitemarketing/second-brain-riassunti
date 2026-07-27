@@ -11,6 +11,13 @@
  *        Il client manda lo stato della pagina (b = stringa di 0/1, un bit per
  *        blocco di testo). Il server lo salva così com'è: è il client a fondere
  *        i progressi locali con quelli remoti quando apre la pagina.
+ *
+ *   Commenti-istruzione (Divan li scrive leggendo il sito; Claude li legge a
+ *   ogni /watch o a comando, li esegue e li chiude). Nessuna auth, per scelta:
+ *   Claude conferma comunque con Divan prima di eseguire azioni irreversibili.
+ *   GET  /commenti[?stato=nuovo]        -> [ {id, slug, testo, t, stato}, … ]
+ *   POST /commenti        body {slug, testo}
+ *   POST /commenti/chiudi body {id}     -> stato: 'fatto'
  */
 
 const ORIGINI = [
@@ -52,6 +59,40 @@ export default {
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(req) });
 
     const url = new URL(req.url);
+
+    // --- commenti-istruzione ---
+    if (url.pathname === '/commenti') {
+      if (req.method === 'GET') {
+        const c = (await env.LETTURE.get('commenti', 'json')) || [];
+        const solo = url.searchParams.get('stato');
+        return json(req, solo ? c.filter((x) => x.stato === solo) : c);
+      }
+      if (req.method === 'POST') {
+        let body;
+        try { body = await req.json(); } catch { return json(req, { error: 'json non valido' }, 400); }
+        const slug = String(body.slug || '').slice(0, 300);
+        const testo = String(body.testo || '').trim();
+        if (!slug || !testo || testo.length > 2000) return json(req, { error: 'dati non validi' }, 400);
+        const c = (await env.LETTURE.get('commenti', 'json')) || [];
+        if (c.length >= 200) return json(req, { error: 'troppi commenti' }, 413);
+        const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        c.push({ id, slug, testo, t: Date.now(), stato: 'nuovo' });
+        await env.LETTURE.put('commenti', JSON.stringify(c));
+        return json(req, { ok: true, id });
+      }
+      return json(req, { error: 'metodo non ammesso' }, 405);
+    }
+    if (url.pathname === '/commenti/chiudi' && req.method === 'POST') {
+      let body;
+      try { body = await req.json(); } catch { return json(req, { error: 'json non valido' }, 400); }
+      const c = (await env.LETTURE.get('commenti', 'json')) || [];
+      const x = c.find((k) => k.id === String(body.id || ''));
+      if (!x) return json(req, { error: 'non trovato' }, 404);
+      x.stato = 'fatto';
+      await env.LETTURE.put('commenti', JSON.stringify(c));
+      return json(req, { ok: true });
+    }
+
     if (url.pathname !== '/state') return json(req, { error: 'not found' }, 404);
 
     if (req.method === 'GET') {
