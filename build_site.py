@@ -4,7 +4,8 @@
 Genera un sito statico leggibile da telefono dai riassunti in <vault>/wiki/riassunti/.
 - File .md sciolti  -> video singolo (una card in homepage).
 - Sottocartelle     -> playlist: una card in homepage -> un index con i video -> pagina per video.
-Non tocca nessun'altra cartella del vault. Output in ./docs/.
+Legge anche progetti/venture-scan/pain-registry.md (pagina dedicata in home).
+Non scrive in nessuna cartella del vault. Output in ./docs/.
 Uso:  python build_site.py
 """
 import os
@@ -605,6 +606,22 @@ def main():
         with open(os.path.join(OUT, "concetti", "index.html"), "w", encoding="utf-8") as fh:
             fh.write(page("Concetti", intro + "\n".join(righe), tb, HOME_JS))
 
+    # --- pain registry (progetti/venture-scan): il registro dei pain, da leggere ---
+    card_pain = ""
+    ppath = os.path.join(VAULT, "progetti", "venture-scan", "pain-registry.md")
+    if os.path.isfile(ppath):
+        _, ptext = read_md(ppath)
+        m = re.search(r"^#\s+(.*)$", ptext, re.M)
+        ptitle = m.group(1).strip() if m else "Pain Registry"
+        tb = '<div class="topbar"><a href="index.html">← Home</a></div>'
+        with open(os.path.join(OUT, "pain-registry.html"), "w", encoding="utf-8") as fh:
+            fh.write(page(ptitle, md_to_html(ptext, set()), tb, READER_JS))
+        card_pain = ('<a class="card" href="pain-registry.html">'
+                     '<span class="tag">Progetti · venture-scan</span>'
+                     '<h2>Pain Registry — i dolori trovati</h2>'
+                     '<span class="desc">I pain documentati dalla caccia, per tema e ordinati '
+                     'per calore. Da leggere e segnare.</span></a>')
+
     # --- homepage: tutto in ordine di data, dal più recente (playlist incluse) ---
     home_cards.sort(key=lambda c: c["visto"] or "", reverse=True)
     pl = [c for c in home_cards if c["kind"] == "playlist"]
@@ -616,7 +633,7 @@ def main():
                      % len(concetti)) if concetti else ""
     body = ('<h1>%s</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. '
             'Quelli già letti si segnano da soli.</p>'
-            % html.escape(SITE_TITLE)) + card_concetti + "\n".join(c["html"] for c in home_cards)
+            % html.escape(SITE_TITLE)) + card_concetti + card_pain + "\n".join(c["html"] for c in home_cards)
     tb = '<div class="topbar"><a href="index.html">%s</a></div>' % html.escape(SITE_TITLE)
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page(SITE_TITLE, body, tb, HOME_JS))
@@ -630,6 +647,7 @@ def main():
         attesi.add(os.path.join(OUT, "concetti",
                                 os.path.splitext(os.path.basename(f))[0] + ".html"))
     attesi.add(os.path.join(OUT, "concetti", "index.html"))
+    attesi.add(os.path.join(OUT, "pain-registry.html"))
     for d in os.listdir(SRC):                       # pagine dentro le playlist
         pdir = os.path.join(SRC, d)
         if os.path.isdir(pdir):
