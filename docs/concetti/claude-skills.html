@@ -130,6 +130,8 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Context Mode / ClaudeMem</strong> (community) — memoria: la prima tiene fuori la spazzatura dei tool e ricostruisce la sessione dopo la compattazione; la seconda porta la memoria <strong>tra</strong> sessioni diverse (database locale con ricerca per significato). Vedi <a href="agent-memory.html">agent-memory</a>.</li>
 </ul>
 <p>Nota onesta: i risparmi di token dichiarati da queste skill sono benchmark dei loro repository, non misure indipendenti.</p>
+<h2>La skill come studio creativo: /generate</h2>
+<p>Il caso più spinto visto finora: una skill che sostituisce un intero SaaS in abbonamento (higgsfield). La <code>/generate</code> di robonuggets instrada ogni generazione di immagini/video al provider <strong>pay-as-you-go</strong> più economico (kie-ai → fal-ai → WaveSpeed, vedi <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a>), prepara reference e prompt, genera via API, e <strong>logga tutti i prompt</strong> + carica gli output in una galleria locale. Due lezioni generalizzabili: (1) le <strong>hard rules</strong> contano più delle istruzioni — un cap di budget e la quote del costo <em>prima</em> di generare, perché "generami 100 immagini" viene eseguito alla lettera; (2) per estendere la skill a un modello nuovo basta incollare a Claude la pagina "<strong>content for LLMs</strong>" della doc del provider — le docs LLM-ready sono il meccanismo di crescita della skill.</p>
 <h2>Fonti</h2>
 <ul>
 <li>master-claude-for-marketing-full-course-2026-07-16 (Brock, 2026-07-16) — email voice, orchestrator, plugin</li>
@@ -137,6 +139,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>claude-code-seo-50000-clicks-2026-07-16 (2026-07-16) — la skill <code>/blog</code></li>
 <li>i-tried-100-claude-code-skills-best-6-2026-07-19 (2026-07-19) — Skill Creator, Superpowers, GSD, review, Context Mode, ClaudeMem; distinzione skill/plugin</li>
 <li>ai-agent-builds-cinematic-websites-2026-07-19 (2026-07-19) — "la skill È il prodotto": una <code>skill.md</code> che codifica una pipeline a 4 passi</li>
+<li>this-1-claude-skill-fully-replaces-your-higgsfield-2026-08-08 (RoboNuggets, 2026-07-31) — /generate come sostituto di Higgsfield; hard rules di budget; docs LLM-ready</li>
 </ul>
 <script>
 window.SB = (function () {

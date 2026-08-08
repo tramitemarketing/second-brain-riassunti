@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Model routing (il modello non è il fossato, il processo sì)</title>
+<title>Aggregatori di modelli creativi (wrapper economics)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -99,26 +99,31 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
-<h1>Model routing (il modello non è il fossato, il processo sì)</h1>
-<p><strong>Gist:</strong> la qualità di quello che ottieni dall'AI dipende molto più da <strong>come</strong> la usi — quali sistemi e loop le costruisci attorno — che da <strong>quanto</strong> è potente il modello. Corollario pratico: non pagare un modello di punta per un compito che uno più piccolo chiude con la stessa qualità. Scegliere il modello e lo sforzo giusti per ogni pezzo di lavoro è il <strong>model routing</strong>, e sarà una competenza economica decisiva.</p>
-<h2>La tesi</h2>
-<p>Dai a un principiante il modello più forte (<strong>Fable 5</strong>) e a uno come andrej-karpathy un modello vecchio: Karpathy costruisce comunque qualcosa di migliore, perché conta il <em>processo</em>. La frase-chiave: <strong>non puoi tenerti l'intelligenza del modello, ma puoi tenerti il suo processo</strong>. Da qui la mossa operativa (vedi il passo "Fable mode" sotto).</p>
-<blockquote>Caveat onesto: le prove portate nel video-fonte sono test personali senza metrica né ripetizioni — aneddoto, non benchmark. La <em>logica</em> però è solida e allineata a <a href="loop-engineering.html">loop-engineering</a>.</blockquote>
-<h2>Le tre leve</h2>
-<p><strong>1. Scegliere il modello.</strong> Estrarre il <em>modo di pensare</em> del modello forte e farlo applicare a modelli più piccoli/economici (<strong>Opus 4.8</strong>, <strong>Sonnet 5</strong>, <strong>Haiku 4.5</strong>). Un giro dove un orchestratore forte pianifica e dei "scout" <strong>Haiku</strong> eseguono può costare ~3× meno a parità di risultato.</p>
-<p><strong>2. Tarare l'effort (più non è meglio).</strong> I modelli hanno livelli di sforzo (low → high → xhigh → max). Un modello di punta su effort <em>basso</em> può stare dove sta un modello inferiore su effort <em>alto</em>. Ma alzare troppo l'effort (<strong>xhigh/max</strong>) può <strong>peggiorare</strong>: il modello "pensa troppo", si rimangia le decisioni, costa di più e consegna peggio di high. Chi lascia sempre l'effort di default si perde la leva.</p>
-<p><strong>3. Separare chi pensa da chi esegue.</strong> Il modello forte fa lo <em>scoping</em> e l'<em>avvocato del diavolo</em> (cosa può andare storto), disegna il workflow; poi un modello economico <strong>esegue</strong> e riporta indietro, e il forte continua a progettare. È lì che sta il risparmio: <strong>Fable pianifica, Sonnet esegue</strong>.</p>
-<h2>"Fable mode": impacchettare il processo in una skill</h2>
-<p>La pratica più riusabile. Se un modello ti dà un risultato ottimo e non sai spiegare perché, <strong>fallo analizzare al modello stesso</strong>: <em>a cosa hai pensato per arrivare qui? come hai dimostrato che funzionava?</em>. Poi trasformi la risposta in una <strong>skill</strong> (<a href="claude-skills.html">claude-skills</a>) attivabile con un trigger tipo "Fable mode", <strong>agnostica rispetto al modello</strong> (la può eseguire Opus, GPT, un modello open). La skill del video gira su <strong>cinque cancelli</strong>: (1) scoping prima di lavorare, (2) evidenze prima del ragionamento, (3) ragionamento avversariale, (4) verifica prima di dichiarare "fatto", (5) resoconto onesto. Sono, punto per punto, la disciplina di <a href="loop-engineering.html">loop-engineering</a> e la definizione-di-fatto di <a href="spec-driven-prompting.html">spec-driven-prompting</a>.</p>
-<h2>La tabella di routing</h2>
-<p>Dare al proprio Claude una <strong>tabella dei modelli disponibili e di quando usarli</strong>, così sa da solo quando scaricare il lavoro sui piccoli. Colonne usate: <strong>Costo</strong> (punteggio, più alto = più economico), <strong>Intelligenza</strong> (quanto capisce, quanto è bravo a rivedere codice), <strong>Gusto/taste</strong> (creatività, pensiero laterale, UX). Si possono aggiungere deleghe esterne ("delega a Codex", "delega a un modello open"). Serve quando progetti squadre di agenti o dynamic workflow che mescolano più Sonnet, Haiku e qualche Opus — ed è ciò che separa chi ottiene molto spendendo poco quando contano le <em>unit economics</em>.</p>
-<h2>Routing anche per i modelli creativi</h2>
-<p>Lo stesso principio vale fuori dagli LLM: la skill <code>/generate</code> di robonuggets fa <strong>routing cheapest-first con fallback</strong> tra provider di modelli image/video (kie-ai → fal-ai → WaveSpeed) — la tabella di routing qui è "quale aggregatore serve questo modello al prezzo più basso, ed è su adesso?". Vedi <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a> per i numeri.</p>
-<h2>Perché possedere il processo</h2>
-<p>Riflessione di fondo: i modelli spariscono o cambiano (Fable tolto dagli abbonamenti, governi che ci mettono mano). <strong>Non possiedi i modelli</strong> — possiedi i <strong>processi, i sistemi, le metodologie</strong>. Ecco perché confezionarli in skill e tabelle è l'unico asset che ti resta. Collega a <a href="agent-memory.html">agent-memory</a> (la memoria come asset che sopravvive) e all'interesse per hardware/modelli locali.</p>
+<h1>Aggregatori di modelli creativi (wrapper economics)</h1>
+<p><strong>Gist:</strong> i servizi "studio creativo AI" (Higgsfield, ma anche kie.ai, fal.ai, WaveSpeed) sono <strong>wrapper</strong> che aggregano modelli image/video di terzi (Nano Banana, Veo, Seedance, GPT Image 2, Kling…) dietro un solo account e una API key. La differenza vera non è il catalogo ma il <strong>modello di business</strong>: abbonamento (paghi la capacità anche se non la usi, più ToS e attriti alla cancellazione) contro <strong>pay-as-you-go</strong> (paghi solo ciò che generi).</p>
+<h2>Il meccanismo</h2>
+<p>Le documentazioni dei modelli sono pubbliche: un aggregatore punta i propri sistemi su quelle docs, impara a collegarsi, e rivende l'accesso aggregato. Il valore che vende è la comodità dell'aggregazione — un account, un'interfaccia, tanti modelli. Ma lo stesso identico accesso è disponibile self-service: una Claude skill che chiama gli aggregatori pay-as-you-go via API replica il servizio senza il costo fisso (vedi <a href="claude-skills.html">claude-skills</a> per la skill <code>/generate</code>).</p>
+<h2>I tre aggregatori pay-as-you-go di riferimento</h2>
+<ul>
+<li><strong>kie.ai</strong> — il più economico in assoluto (GPT Image 2: <strong>$0.03/1K, $0.05/2K, $0.08/4K</strong> a immagine), ma con <strong>affidabilità altalenante</strong>. Ipotesi non confermata sul perché costi così poco: rivenderebbe accesso programmatico ad account ChatGPT sussidiati, come già fatto con Sora. Vedi kie-ai.</li>
+<li><strong>fal.ai</strong> — il <strong>default consigliato</strong>: affidabile, catalogo enorme (~500 modelli: image, video, 3D, audio), differenza di costo di pochi centesimi rispetto a kie. Vedi fal-ai.</li>
+<li><strong>WaveSpeed</strong> — go-to per i <strong>modelli di nicchia</strong> assenti altrove, libreria molto ampia.</li>
+</ul>
+<h2>I numeri del confronto (2026-07, fonte RoboNuggets)</h2>
+<p>Benchmark GPT Image 2, 2K, 1:1: Higgsfield <strong>$0.31-0.34</strong>/img (più $49-79/mese di abbonamento), fal.ai ~$0.38, WaveSpeed ~$0.41, kie.ai <strong>$0.05</strong>. Sui video (Seedance 2.0 Fast 720p/8s) i prezzi sono vicini tra tutti. Morale: l'abbonamento può vincere sul costo marginale del singolo asset, ma perde appena la tua domanda è variabile — paghi il fisso anche nei mesi scarichi.</p>
+<h2>I costi nascosti dell'abbonamento</h2>
+<p>Oltre al fisso mensile: <strong>ToS</strong> che si prendono licenze sui contenuti generati (il caso Higgsfield di luglio 2026: licenza ampia e perpetua, poi parzialmente ritrattata — resta l'uso per "far girare il servizio e migliorare i modelli") e <strong>deletion window</strong> — cancelli l'abbonamento e hai tempo limitato per scaricare i tuoi asset prima dell'eliminazione definitiva. Il setup self-service inverte entrambi: asset e prompt restano <strong>in locale</strong>, li possiedi, decidi tu cosa vive e cosa muore.</p>
+<h2>Pattern operativi</h2>
+<ul>
+<li><strong>Routing cheapest-first con fallback</strong> tra provider (kie → fal → WaveSpeed): stesso principio del <a href="model-routing.html">model-routing</a> applicato ai modelli creativi.</li>
+<li><strong>Hard rules di budget</strong> nella skill (cap di spesa, quote del costo prima di generare): senza, un "generami 100 immagini" viene eseguito alla lettera.</li>
+<li><strong>Docs LLM-ready</strong>: per aggiungere un modello nuovo alla skill si copia la pagina "content for LLMs" della doc del provider e la si incolla a Claude.</li>
+<li><strong>Feedback visivo locale</strong>: per valutare output visuali serve una galleria (canvas/masonry), non il terminale — e salvare gli <strong>styles</strong> come coppie prompt+reference riutilizzabili.</li>
+</ul>
 <h2>Fonti</h2>
 <ul>
-<li>how-i-make-opus-think-like-fable-2026-07-19 (2026-07-19)</li>
+<li>this-1-claude-skill-fully-replaces-your-higgsfield-2026-08-08 (RoboNuggets, 2026-07-31) — tesi wrapper, confronto costi, i tre aggregatori, skill /generate</li>
+<li>ai-agent-builds-cinematic-websites-2026-07-19 (2026-07-19) — uso di fal.ai/kie.ai per asset di siti cinematici</li>
 </ul>
 <script>
 window.SB = (function () {
