@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Model routing (il modello non è il fossato, il processo sì)</title>
+<title>GLM 5.2 in Claude Code E&#x27; Una Bomba</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -98,31 +98,34 @@ th { background: #f4f6f8; font-weight: 700; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
-<h1>Model routing (il modello non è il fossato, il processo sì)</h1>
-<p><strong>Gist:</strong> la qualità di quello che ottieni dall'AI dipende molto più da <strong>come</strong> la usi — quali sistemi e loop le costruisci attorno — che da <strong>quanto</strong> è potente il modello. Corollario pratico: non pagare un modello di punta per un compito che uno più piccolo chiude con la stessa qualità. Scegliere il modello e lo sforzo giusti per ogni pezzo di lavoro è il <strong>model routing</strong>, e sarà una competenza economica decisiva.</p>
-<h2>La tesi</h2>
-<p>Dai a un principiante il modello più forte (<strong>Fable 5</strong>) e a uno come andrej-karpathy un modello vecchio: Karpathy costruisce comunque qualcosa di migliore, perché conta il <em>processo</em>. La frase-chiave: <strong>non puoi tenerti l'intelligenza del modello, ma puoi tenerti il suo processo</strong>. Da qui la mossa operativa (vedi il passo "Fable mode" sotto).</p>
-<blockquote>Caveat onesto: le prove portate nel video-fonte sono test personali senza metrica né ripetizioni — aneddoto, non benchmark. La <em>logica</em> però è solida e allineata a <a href="loop-engineering.html">loop-engineering</a>.</blockquote>
-<h2>Le tre leve</h2>
-<p><strong>1. Scegliere il modello.</strong> Estrarre il <em>modo di pensare</em> del modello forte e farlo applicare a modelli più piccoli/economici (<strong>Opus 4.8</strong>, <strong>Sonnet 5</strong>, <strong>Haiku 4.5</strong>). Un giro dove un orchestratore forte pianifica e dei "scout" <strong>Haiku</strong> eseguono può costare ~3× meno a parità di risultato.</p>
-<p><strong>2. Tarare l'effort (più non è meglio).</strong> I modelli hanno livelli di sforzo (low → high → xhigh → max). Un modello di punta su effort <em>basso</em> può stare dove sta un modello inferiore su effort <em>alto</em>. Ma alzare troppo l'effort (<strong>xhigh/max</strong>) può <strong>peggiorare</strong>: il modello "pensa troppo", si rimangia le decisioni, costa di più e consegna peggio di high. Chi lascia sempre l'effort di default si perde la leva.</p>
-<p><em>Conferma indipendente (Rizzo, sui modelli open):</em> il grafico consumo/accuratezza di GLM 5.3 mostra il salto grosso da low a high con pochi token in più; la sua pratica sui coding agent è <strong>sempre high, mai max</strong> (overthinking) <strong>né low</strong> (budget di ragionamento castrato). Stesso fenomeno osservato su Qwen3.8 in locale. Fonti: everything-has-happened-in-ai-this-week-2026-08-21, qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21.</p>
-<p><strong>3. Separare chi pensa da chi esegue.</strong> Il modello forte fa lo <em>scoping</em> e l'<em>avvocato del diavolo</em> (cosa può andare storto), disegna il workflow; poi un modello economico <strong>esegue</strong> e riporta indietro, e il forte continua a progettare. È lì che sta il risparmio: <strong>Fable pianifica, Sonnet esegue</strong>.</p>
-<h2>"Fable mode": impacchettare il processo in una skill</h2>
-<p>La pratica più riusabile. Se un modello ti dà un risultato ottimo e non sai spiegare perché, <strong>fallo analizzare al modello stesso</strong>: <em>a cosa hai pensato per arrivare qui? come hai dimostrato che funzionava?</em>. Poi trasformi la risposta in una <strong>skill</strong> (<a href="claude-skills.html">claude-skills</a>) attivabile con un trigger tipo "Fable mode", <strong>agnostica rispetto al modello</strong> (la può eseguire Opus, GPT, un modello open). La skill del video gira su <strong>cinque cancelli</strong>: (1) scoping prima di lavorare, (2) evidenze prima del ragionamento, (3) ragionamento avversariale, (4) verifica prima di dichiarare "fatto", (5) resoconto onesto. Sono, punto per punto, la disciplina di <a href="loop-engineering.html">loop-engineering</a> e la definizione-di-fatto di <a href="spec-driven-prompting.html">spec-driven-prompting</a>.</p>
-<h2>La tabella di routing</h2>
-<p>Dare al proprio Claude una <strong>tabella dei modelli disponibili e di quando usarli</strong>, così sa da solo quando scaricare il lavoro sui piccoli. Colonne usate: <strong>Costo</strong> (punteggio, più alto = più economico), <strong>Intelligenza</strong> (quanto capisce, quanto è bravo a rivedere codice), <strong>Gusto/taste</strong> (creatività, pensiero laterale, UX). Si possono aggiungere deleghe esterne ("delega a Codex", "delega a un modello open"). Serve quando progetti squadre di agenti o dynamic workflow che mescolano più Sonnet, Haiku e qualche Opus — ed è ciò che separa chi ottiene molto spendendo poco quando contano le <em>unit economics</em>.</p>
-<h2>Routing anche per i modelli creativi</h2>
-<p>Lo stesso principio vale fuori dagli LLM: la skill <code>/generate</code> di robonuggets fa <strong>routing cheapest-first con fallback</strong> tra provider di modelli image/video (kie-ai → fal-ai → WaveSpeed) — la tabella di routing qui è "quale aggregatore serve questo modello al prezzo più basso, ed è su adesso?". Vedi <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a> per i numeri.</p>
-<h2>Perché possedere il processo</h2>
-<p>Riflessione di fondo: i modelli spariscono o cambiano (Fable tolto dagli abbonamenti, governi che ci mettono mano). <strong>Non possiedi i modelli</strong> — possiedi i <strong>processi, i sistemi, le metodologie</strong>. Ecco perché confezionarli in skill e tabelle è l'unico asset che ti resta. Collega a <a href="agent-memory.html">agent-memory</a> (la memoria come asset che sopravvive) e all'interesse per hardware/modelli locali.</p>
-<p><strong>Conferma dal lato costi (Fontanel, su GLM 5.2).</strong> Test reali senza skill contro Opus 4.8: risultati comparabili (a volte migliori) a <strong>1/5 del costo</strong> (~1$ vs 5$ input, &lt;5$ vs 25$ output per M token). La sua conclusione è la tesi di questa pagina parola per parola: «il nostro compito sarà scegliere il modello migliore per il task», frontier solo quando la complessità lo richiede. In più l'argomento <strong>ownership</strong>: «Fable rilasciato e ritirato in due giorni — coi modelli proprietari sei soggetto a ciò che le aziende decidono»; un modello open lo possiedi (vedi <a href="llm-in-locale.html">llm-in-locale</a>). Fonte: glm-5-2-claude-code-bomba-2026-08-21.</p>
-<p><strong>Corollario "il modello è commodity" (Rizzo).</strong> Conferma indipendente dalla direzione opposta: modelli open compatti (Qwen3.8 27B, vedi <a href="llm-in-locale.html">llm-in-locale</a>) raggiungono un'intelligenza da quasi-frontiera gratis. Se l'intelligenza è commodity, per Rizzo il collo di bottiglia — e il prossimo fossato commerciale — diventa <strong>l'hardware</strong> che la fa girare (la sua previsione: "AI box" economiche con chip e modello integrati). Stessa conclusione del gist ("il modello non è il fossato"), raggiunta da un'altra strada.</p>
-<h2>Fonti</h2>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="GLM 5.2 in Claude Code E&#x27; Una Bomba" src="https://i.ytimg.com/vi/F-yqOpW2l_Y/hqdefault.jpg"><p><strong>In sintesi:</strong> GLM 5.2, il miglior modello open al momento del video, regge il confronto con Opus 4.8 nei test reali di Fontanel (a volte vincendolo) costando 5 volte meno — e soprattutto si può possedere: quantizzato da Unsloth all'82% gira su un Mac Mini. Due vie per usarlo dentro Claude Code (OpenRouter o API Z.ai), e la conclusione è la tesi del model routing: il futuro è scegliere il modello giusto per ogni task.</p>
+<h2>Benchmark e test reali</h2>
+<p>Sui <strong>benchmark</strong> (che «lasciano il tempo che trovano», premette) GLM 5.2 raggiunge e a volte supera i migliori: su un benchmark frontier supera <strong>GPT 5.5</strong> e sfiora <strong>Opus 4.8</strong>; nella valutazione dei coding agent per livello di effort <strong>supera Opus 4.7 usando meno effort</strong> e col massimo si avvicina a Opus 4.8. Ma il cuore del video sono i <strong>test reali</strong>, con prompt semplici e <strong>l'istruzione esplicita di non usare skill</strong> (per misurare il modello grezzo), sempre contro Opus 4.8:</p>
 <ul>
-<li>how-i-make-opus-think-like-fable-2026-07-19 (2026-07-19)</li>
-<li>qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21 (Simone Rizzo, 2026-08-21) — corollario commodity/hardware</li>
+<li><strong>App 3D didattica sulla pompa di calore</strong>: la versione GLM è «estremamente ben fatta» — esplorazione componente per componente, sezioni attivabili, teoria in fondo; quella di Opus «molto più elementare», più pulita ma con molte meno informazioni.</li>
+<li><strong>Tetris</strong>: entrambi perfettamente funzionanti; Opus col design «forse leggermente più coinvolgente». Sostanziale parità.</li>
+<li><strong>Slide HTML</strong> (dalla pianta di caffè all'espresso con la moka): GLM professionale e chiaro; Opus con <strong>colori che rendono il testo difficile da leggere</strong> ed emoji non richieste che coprono il testo.</li>
+</ul>
+<p>Il verdetto volutamente non è un vincitore: «i modelli sono estremamente comparabili» — ed è proprio questo il punto.</p>
+<h2>Possedere il modello (e farlo girare su un Mac Mini)</h2>
+<p>Se le performance sono pari, il resto pende tutto da una parte: GLM è <strong>open source</strong>, <strong>molto più economico</strong> e — la parola che Fontanel sottolinea — <strong>possedibile</strong>. «Abbiamo visto Fable essere rilasciato e ritirato dal mercato dopo due giorni: finché usiamo modelli proprietari siamo soggetti a ciò che le aziende vogliono fare, ai loro costi, ai loro abbonamenti.» Con GLM 5.2 (e i suoi aggiornamenti futuri) ci si <strong>scollega dai provider</strong>. Il modello ha <strong>700 miliardi di parametri</strong> — non gira sul PC di casa — ma <strong>Unsloth l'ha quantizzato mantenendo l'82% di accuratezza</strong>, e la versione quantized gira <strong>su un Mac Mini</strong>, senza dipendere da alcuna infrastruttura. I costi a listino: <strong>5× meno di Opus 4.8</strong> — circa <strong>1$ contro 5$</strong> per milione di token in input, e <strong>meno di 5$ contro 25$</strong> in output.</p>
+<h2>Come usarlo dentro Claude Code</h2>
+<p>Due strade, entrambe alla portata di tutti:</p>
+<ol>
+<li><strong>OpenRouter</strong> (mostrata per prima perché un solo setup apre a <strong>tutti</strong> i modelli presenti e futuri): crei la chiave API su openrouter.ai, la dai a Claude Code insieme a <strong>uno screenshot dei passaggi da eseguire</strong>, e gli chiedi di configurare — <strong>solo nel progetto corrente</strong> — i percorsi di default verso OpenRouter/GLM. Nota di igiene che lo stesso Claude solleva: incollare la chiave in chat non è best practice → va in un file <strong>.env</strong> (qui era una demo con chiave a scadenza).</li>
+<li><strong>API ufficiali Z.ai</strong>: da chat.z.ai → menu API → si crea la chiave e si fa aggiungere a Claude il blocco di configurazione in <strong>settings.json</strong>, reindirizzando i percorsi di default.</li>
+</ol>
+<p>In entrambi i casi, riaperta la finestra, GLM 5.2 risponde dentro Claude Code.</p>
+<h2>La conclusione: il futuro è multi-modello</h2>
+<p>«Questo è il primo passo in una nuova direzione: abbandoniamo l'idea di un solo modello per qualsiasi scenario e ci avviciniamo a un mondo con tanti modelli diversi, dove <strong>il nostro compito sarà scegliere il modello migliore per il task</strong> da eseguire in quel momento.» Anche se Fable 5 (o i successori) tornassero, i costi imporranno di usarli <strong>solo quando la complessità del task lo richiede</strong>, indirizzandosi altrimenti su modelli molto meno costosi ma «estremamente performanti». È, parola per parola, la tesi di model-routing.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=F-yqOpW2l_Y (Dario Fontanel, 8:42, visto il 21/08/2026)</li>
+<li>report grezzo</li>
+<li>Concetti collegati: model-routing, llm-in-locale, harness</li>
+<li><strong>Modalità transcript-only:</strong> i confronti tra le app generate sono giudizi espressi a voce, non verificabili senza frame.</li>
+<li><strong>Omesso:</strong> CTA (community con la guida copia-incolla). <strong>Incerto da auto-captions:</strong> il nome del benchmark ("Frontier SV") e il refuso ricorrente del parlato tra "GLM 5.2" e "5.5" (uniformato a 5.2, il soggetto del video).</li>
 </ul>
 <script>
 window.SB = (function () {

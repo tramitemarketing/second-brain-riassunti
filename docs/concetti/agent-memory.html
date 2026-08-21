@@ -102,10 +102,13 @@ th { background: #f4f6f8; font-weight: 700; }
 <h1>Memoria per agenti AI</h1>
 <p>Un agente AI (Claude Code o simili) dimentica tutto alla fine di ogni sessione/esecuzione, a meno che non gli dai un posto <strong>esterno alla conversazione</strong> dove scrivere e rileggere cosa è successo. Senza memoria, un processo automatizzato ripete sempre gli stessi errori e spreca token.</p>
 <blockquote>"The agent forgets, the repo doesn't." — Addy Osman (Software Engineer, Google Cloud AI)</blockquote>
-<h2>Due implementazioni viste finora</h2>
+<h2>Implementazioni viste finora</h2>
 <ul>
 <li><strong>Auto memory di Claude Code</strong> (<code>memory.md</code>, attivabile con <code>/memory</code>): l'agente stesso aggiorna un file con quanto appreso di sessione in sessione — vista come parte del Livello 2 di un <a href="second-brain-a-livelli.html">second brain</a>.</li>
 <li><strong>Memoria per loop/agenti long-running</strong>: nel framework "5 pezzi + note" di Addy Osman, la memoria è il sesto elemento — un markdown file o una board (tipo Linear) che vive fuori dalla singola conversazione. Buone pratiche citate: un riassunto di una riga in cima al file, registrare le correzioni e <em>perché</em> contavano, aggiornare una nota esistente invece di crearne una duplicata.</li>
+<li><strong>Memoria ispezionabile in UI (OpenWork)</strong>: i fatti salvati con "ricordati questo" compaiono in una tab dedicata dove si vedono, si modificano e si cancellano — la memoria smette di essere una scatola nera e resta sotto controllo dell'utente. Fonte: openwork-claude-cowork-gratis-per-sempre-2026-08-21.</li>
+<li><strong>Stato del piano su GitHub issues (Wayfinder)</strong>: la mappa dei ticket con decisioni prese e dipendenze vive come issues della repo — sopravvive alle sessioni, è ispezionabile dal browser e regge il lavoro in parallelo (claim dei ticket). Fonte: skill-risolto-problema-piu-grande-claude-code-2026-08-21.</li>
+<li><strong>/prime + history.md + /commit (AIOS di Fontanel)</strong>: a inizio sessione <code>/prime</code> carica i file di contesto e le metriche; a fine sessione <code>/commit</code> scansiona le modifiche, scrive il riepilogo, aggiorna il diario <code>history.md</code> e pusha su GitHub. Memoria di lavoro <strong>versionata e reversibile</strong>. Fonte: creare-sistema-operativo-ai-2026-08-21, vedi <a href="aios.html">aios</a>.</li>
 </ul>
 <h2>Perché conta</h2>
 <p>Senza memoria: nessun miglioramento tra un'esecuzione e l'altra, token sprecati a rispiegare/riscoprire le stesse cose. Con memoria: il sistema accumula conoscenza reale nel tempo, invece di ripartire sempre da zero — lo stesso principio, applicato sia a un second brain personale sia a un loop automatizzato.</p>

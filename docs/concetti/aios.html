@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Model routing (il modello non è il fossato, il processo sì)</title>
+<title>AIOS (AI Operating System)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -99,30 +99,41 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
-<h1>Model routing (il modello non è il fossato, il processo sì)</h1>
-<p><strong>Gist:</strong> la qualità di quello che ottieni dall'AI dipende molto più da <strong>come</strong> la usi — quali sistemi e loop le costruisci attorno — che da <strong>quanto</strong> è potente il modello. Corollario pratico: non pagare un modello di punta per un compito che uno più piccolo chiude con la stessa qualità. Scegliere il modello e lo sforzo giusti per ogni pezzo di lavoro è il <strong>model routing</strong>, e sarà una competenza economica decisiva.</p>
-<h2>La tesi</h2>
-<p>Dai a un principiante il modello più forte (<strong>Fable 5</strong>) e a uno come andrej-karpathy un modello vecchio: Karpathy costruisce comunque qualcosa di migliore, perché conta il <em>processo</em>. La frase-chiave: <strong>non puoi tenerti l'intelligenza del modello, ma puoi tenerti il suo processo</strong>. Da qui la mossa operativa (vedi il passo "Fable mode" sotto).</p>
-<blockquote>Caveat onesto: le prove portate nel video-fonte sono test personali senza metrica né ripetizioni — aneddoto, non benchmark. La <em>logica</em> però è solida e allineata a <a href="loop-engineering.html">loop-engineering</a>.</blockquote>
-<h2>Le tre leve</h2>
-<p><strong>1. Scegliere il modello.</strong> Estrarre il <em>modo di pensare</em> del modello forte e farlo applicare a modelli più piccoli/economici (<strong>Opus 4.8</strong>, <strong>Sonnet 5</strong>, <strong>Haiku 4.5</strong>). Un giro dove un orchestratore forte pianifica e dei "scout" <strong>Haiku</strong> eseguono può costare ~3× meno a parità di risultato.</p>
-<p><strong>2. Tarare l'effort (più non è meglio).</strong> I modelli hanno livelli di sforzo (low → high → xhigh → max). Un modello di punta su effort <em>basso</em> può stare dove sta un modello inferiore su effort <em>alto</em>. Ma alzare troppo l'effort (<strong>xhigh/max</strong>) può <strong>peggiorare</strong>: il modello "pensa troppo", si rimangia le decisioni, costa di più e consegna peggio di high. Chi lascia sempre l'effort di default si perde la leva.</p>
-<p><em>Conferma indipendente (Rizzo, sui modelli open):</em> il grafico consumo/accuratezza di GLM 5.3 mostra il salto grosso da low a high con pochi token in più; la sua pratica sui coding agent è <strong>sempre high, mai max</strong> (overthinking) <strong>né low</strong> (budget di ragionamento castrato). Stesso fenomeno osservato su Qwen3.8 in locale. Fonti: everything-has-happened-in-ai-this-week-2026-08-21, qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21.</p>
-<p><strong>3. Separare chi pensa da chi esegue.</strong> Il modello forte fa lo <em>scoping</em> e l'<em>avvocato del diavolo</em> (cosa può andare storto), disegna il workflow; poi un modello economico <strong>esegue</strong> e riporta indietro, e il forte continua a progettare. È lì che sta il risparmio: <strong>Fable pianifica, Sonnet esegue</strong>.</p>
-<h2>"Fable mode": impacchettare il processo in una skill</h2>
-<p>La pratica più riusabile. Se un modello ti dà un risultato ottimo e non sai spiegare perché, <strong>fallo analizzare al modello stesso</strong>: <em>a cosa hai pensato per arrivare qui? come hai dimostrato che funzionava?</em>. Poi trasformi la risposta in una <strong>skill</strong> (<a href="claude-skills.html">claude-skills</a>) attivabile con un trigger tipo "Fable mode", <strong>agnostica rispetto al modello</strong> (la può eseguire Opus, GPT, un modello open). La skill del video gira su <strong>cinque cancelli</strong>: (1) scoping prima di lavorare, (2) evidenze prima del ragionamento, (3) ragionamento avversariale, (4) verifica prima di dichiarare "fatto", (5) resoconto onesto. Sono, punto per punto, la disciplina di <a href="loop-engineering.html">loop-engineering</a> e la definizione-di-fatto di <a href="spec-driven-prompting.html">spec-driven-prompting</a>.</p>
-<h2>La tabella di routing</h2>
-<p>Dare al proprio Claude una <strong>tabella dei modelli disponibili e di quando usarli</strong>, così sa da solo quando scaricare il lavoro sui piccoli. Colonne usate: <strong>Costo</strong> (punteggio, più alto = più economico), <strong>Intelligenza</strong> (quanto capisce, quanto è bravo a rivedere codice), <strong>Gusto/taste</strong> (creatività, pensiero laterale, UX). Si possono aggiungere deleghe esterne ("delega a Codex", "delega a un modello open"). Serve quando progetti squadre di agenti o dynamic workflow che mescolano più Sonnet, Haiku e qualche Opus — ed è ciò che separa chi ottiene molto spendendo poco quando contano le <em>unit economics</em>.</p>
-<h2>Routing anche per i modelli creativi</h2>
-<p>Lo stesso principio vale fuori dagli LLM: la skill <code>/generate</code> di robonuggets fa <strong>routing cheapest-first con fallback</strong> tra provider di modelli image/video (kie-ai → fal-ai → WaveSpeed) — la tabella di routing qui è "quale aggregatore serve questo modello al prezzo più basso, ed è su adesso?". Vedi <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a> per i numeri.</p>
-<h2>Perché possedere il processo</h2>
-<p>Riflessione di fondo: i modelli spariscono o cambiano (Fable tolto dagli abbonamenti, governi che ci mettono mano). <strong>Non possiedi i modelli</strong> — possiedi i <strong>processi, i sistemi, le metodologie</strong>. Ecco perché confezionarli in skill e tabelle è l'unico asset che ti resta. Collega a <a href="agent-memory.html">agent-memory</a> (la memoria come asset che sopravvive) e all'interesse per hardware/modelli locali.</p>
-<p><strong>Conferma dal lato costi (Fontanel, su GLM 5.2).</strong> Test reali senza skill contro Opus 4.8: risultati comparabili (a volte migliori) a <strong>1/5 del costo</strong> (~1$ vs 5$ input, &lt;5$ vs 25$ output per M token). La sua conclusione è la tesi di questa pagina parola per parola: «il nostro compito sarà scegliere il modello migliore per il task», frontier solo quando la complessità lo richiede. In più l'argomento <strong>ownership</strong>: «Fable rilasciato e ritirato in due giorni — coi modelli proprietari sei soggetto a ciò che le aziende decidono»; un modello open lo possiedi (vedi <a href="llm-in-locale.html">llm-in-locale</a>). Fonte: glm-5-2-claude-code-bomba-2026-08-21.</p>
-<p><strong>Corollario "il modello è commodity" (Rizzo).</strong> Conferma indipendente dalla direzione opposta: modelli open compatti (Qwen3.8 27B, vedi <a href="llm-in-locale.html">llm-in-locale</a>) raggiungono un'intelligenza da quasi-frontiera gratis. Se l'intelligenza è commodity, per Rizzo il collo di bottiglia — e il prossimo fossato commerciale — diventa <strong>l'hardware</strong> che la fa girare (la sua previsione: "AI box" economiche con chip e modello integrati). Stessa conclusione del gist ("il modello non è il fossato"), raggiunta da un'altra strada.</p>
+<h1>AIOS (AI Operating System)</h1>
+<p><strong>Gist:</strong> il framework di Dario Fontanel per trasformare Claude Code da chatbot generico ad <strong>assistente iper-specializzato sulla propria attività</strong>: una cartella in locale con file e script organizzati in <strong>5 livelli</strong> — contesto, dati, intelligence, automazioni, controllo — dove ogni livello è un modulo indipendente con valore a sé. È il parente stretto del "sistema operativo di business" di <a href="claude-co-work.html">claude-co-work</a> e del Livello 2 di <a href="second-brain-a-livelli.html">second-brain-a-livelli</a>, con più enfasi su metriche e operatività aziendale.</p>
+<h2>I 5 livelli</h2>
+<ol>
+<li><strong>Contesto (Context OS + InfraOS).</strong> Claude fa da <em>interviewer</em> (curioso, mai assumere) ed estrae chi sei, cosa fai, strategia e numeri in file di contesto; il comando <strong>/prime</strong> li carica a ogni sessione. InfraOS aggiunge <strong>git + GitHub</strong> (reversibilità e backup), un <strong>history.md</strong> come diario del workspace e il comando <strong>/commit</strong>. Flusso standard: <code>/prime</code> → lavoro → <code>/commit</code>.</li>
+<li><strong>Dati (Data OS).</strong> Script Python <strong>giornalieri</strong> scaricano le metriche dalle sorgenti reali (Google Sheets, CRM, PayPal, Notion…) in un <strong>database SQL locale</strong>; un <strong>key-metrics.md autogenerato</strong> entra nel /prime. Risultato: le risposte strategiche poggiano sui numeri veri, non su ipotesi.</li>
+<li><strong>Intelligence (Intel OS).</strong> Per team: transcript delle riunioni (Fireflies, Zoom, Meet…) e messaggi (Slack, Teams, ClickUp) collezionati, <strong>auto-classificati</strong> (vendite/prodotto/marketing) e salvati nello stesso db → "quando ho sentito X? che decisioni abbiamo preso?". Trucco di metodo: Claude verifica <strong>prima</strong> la documentazione API del tool e suggerisce alternative se le API sono scomode.</li>
+<li><strong>Automazioni.</strong> <strong>Audit dei task area per area</strong> (marketing, vendite, clienti, operations, team, dati) tramite intervista → ogni task ricorrente diventa un comando (es. <code>/invoice create</code>: tabelle clienti+fatture nel db, numerazione progressiva, dati mancanti chiesti in corsa). Il valore vero è che le automazioni <strong>combinano i livelli sottostanti</strong>.</li>
+<li><strong>Controllo.</strong> Una <strong>dashboard in localhost</strong> con dentro il terminale di Claude Code e <strong>un bottone per ogni skill/automazione</strong>: click → comando → run → risultati a schermo. Consegnabile a <strong>collaboratori non tecnici</strong>, che usano l'AIOS senza sapere cosa c'è sotto.</li>
+</ol>
+<h2>I 5 principi</h2>
+<ol>
+<li><strong>Basta chiedere</strong> — se lo descrivi a parole, l'AI può costruirlo; il confine del fattibile non esiste più.</li>
+<li><strong>Dettatura vocale</strong> (es. Wisprflow) — la tastiera è il collo di bottiglia dell'interazione.</li>
+<li><strong>Un livello alla volta</strong> — moduli indipendenti, ognuno utile da solo.</li>
+<li><strong>Costruire infrastrutture</strong> — il sistema migliora con l'uso: ogni task risolto diventa un sistema pronto per la prossima volta.</li>
+<li><strong>80/20</strong> — l'80% dei problemi ha già una soluzione pubblica da adattare (skill, tool — vedi <a href="claude-skills.html">claude-skills</a>); solo il 20% si costruisce da zero.</li>
+</ol>
+<h2>Aggiunte dalla versione compatta (video precedente)</h2>
+<ul>
+<li><strong>AIOS in tasca via Telegram:</strong> l'integrazione permette di interrogare contesto/dati/intelligence e lanciare automazioni <strong>dallo smartphone</strong>, anche a <strong>messaggi vocali</strong> (trascritti al volo): «recap della revenue di maggio» → report dal database.</li>
+<li><strong>Metodo per il livello automazioni:</strong> elenca i task che svolgi ogni giorno → <strong>riducili in blocchi più piccoli → una skill per blocco</strong> (Claude stesso aiuta a identificare i macro-task e scomporli).</li>
+<li><strong>Tool-agnostic:</strong> l'architettura vale con Claude Code, Codex o qualsiasi agente futuro — è una cartella di file markdown, script e un database, non una feature di un vendor.</li>
+</ul>
+<h2>Confini con i concetti vicini</h2>
+<ul>
+<li>Rispetto a <a href="claude-co-work.html">claude-co-work</a>: stessa idea (workspace + contesto + skill + automazioni), ma l'AIOS vive in <strong>Claude Code/terminale</strong>, aggiunge il <strong>database di metriche</strong> e il livello dashboard.</li>
+<li>Rispetto a <a href="second-brain-a-livelli.html">second-brain-a-livelli</a>: il second brain organizza <strong>conoscenza</strong>; l'AIOS organizza <strong>operatività</strong> (metriche, comunicazioni, task). Il second brain può essere il modulo-contesto di un AIOS (ed è così che Fontanel lo presenta nel video dei 15 plugin).</li>
+<li>Il flusso /prime + history.md + /commit è <a href="agent-memory.html">agent-memory</a> fatta bene: stato fuori dal contesto, versionato, ricaricabile.</li>
+</ul>
 <h2>Fonti</h2>
 <ul>
-<li>how-i-make-opus-think-like-fable-2026-07-19 (2026-07-19)</li>
-<li>qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21 (Simone Rizzo, 2026-08-21) — corollario commodity/hardware</li>
+<li>creare-sistema-operativo-ai-2026-08-21 (Dario Fontanel, 2026-08-21) — la masterclass completa</li>
+<li>15-plugins-massimo-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — l'AIOS come cornice dei 15 plugin</li>
+<li>non-usare-claude-code-senza-aios-2026-08-21 (Dario Fontanel, 2026-08-21) — versione compatta a 3 macro-livelli; Telegram + vocali; metodo task→blocchi→skill</li>
 </ul>
 <script>
 window.SB = (function () {

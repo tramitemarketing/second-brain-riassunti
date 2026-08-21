@@ -119,6 +119,14 @@ th { background: #f4f6f8; font-weight: 700; }
 <p>Un <strong>live artifact</strong> è una piccola applicazione che vive dentro Claude e <strong>pesca dati freschi</strong> dai connettori collegati. Esempi visti: un cruscotto che traccia i competitor su YouTube (con "outlier score" e bacheca idee), o un cruscotto <strong>ROAS</strong> che ripesca i dati dal Facebook Ads MCP a ogni ricarica. Spesso si appoggia a un database (<strong>Supabase</strong>) per archiviare i dati raccolti, così l'artifact li mostra formattati e interattivi. Puoi costruirne uno per qualsiasi cosa: blog tracker, database prodotti, utenti di un SaaS.</p>
 <h2>Scheduled task — le automazioni ricorrenti</h2>
 <p>Uno <strong>scheduled task</strong> è un compito che Claude esegue a un orario/giorno fisso, in automatico e in background (basta tenere aperta l'app desktop). Esempi: ogni mattina alle 7:00 scrapare i competitor; un <strong>digest ROAS</strong> ogni giorno alle 9:00 verso Slack; un anomaly detector che gira 4 volte al giorno. È il modo per far lavorare Claude anche quando non ci sei.</p>
+<h2>L'alternativa open: OpenWork</h2>
+<p><strong>OpenWork</strong> replica il modello Co-work in open source, gratis in locale (cloud opzionale a pagamento): desktop app multi-OS con skills, plugin, MCP, browser in-app, computer use, modalità build/planning e dettatura. Differenze che contano rispetto a Cowork:</p>
+<ul>
+<li><strong>Model-agnostic:</strong> default gratuito (DeepSeek V4 Flash), qualsiasi modello via OpenRouter (es. Kimi K3, «compete con Fable 5» a centesimi) o <strong>100% locale via Ollama</strong> a costo zero — il ponte con <a href="llm-in-locale.html">llm-in-locale</a>.</li>
+<li><strong>Più controlli:</strong> auto-compact del contesto disattivabile, reasoning visibile on/off, e una <strong>tab Memoria</strong> dove i fatti salvati dall'agente si vedono, si modificano e si cancellano (memoria ispezionabile — <a href="agent-memory.html">agent-memory</a>).</li>
+<li><strong>Importa il setup Claude esistente:</strong> legge <code>~/.claude</code> e aggancia da solo skill, comandi e plugin già installati (con uninstall/hide per skill).</li>
+<li>In roadmap: Git, Slack, mobile, agenti custom e gli scheduled task che Cowork già ha.</li>
+</ul>
 <h2>Il pattern di fondo</h2>
 <p>Ricorre in tutti i corsi: <strong>Claude è il cervello</strong>; gli <strong>MCP/connettori</strong> sono gli strumenti/mani (vedi <a href="mcp-connectors.html">mcp-connectors</a>); le <strong>skill</strong> confezionano i task ripetibili (vedi <a href="claude-skills.html">claude-skills</a>); <strong>workspace + memory</strong> danno il contesto stabile. Tutto il resto è comporre questi quattro mattoni.</p>
 <h2>Fonti</h2>
@@ -126,6 +134,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>master-claude-for-marketing-full-course-2026-07-16 (Brock, 2026-07-16)</li>
 <li>claude-facebook-ads-full-course-2026-07-16 (The Moonlighters, 2026-07-16)</li>
 <li>claude-code-seo-50000-clicks-2026-07-16 (2026-07-16) — parte "Claude Code + antigravity" per i siti</li>
+<li>openwork-claude-cowork-gratis-per-sempre-2026-08-21 (Dario Fontanel, 2026-08-21) — OpenWork, l'alternativa open source</li>
 </ul>
 <script>
 window.SB = (function () {

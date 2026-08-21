@@ -111,11 +111,21 @@ th { background: #f4f6f8; font-weight: 700; }
 <p>Con l'AI fare home/lock-screen widget e app Apple Watch è questione di ore (4-5h con Claude Code vs 1-2 settimane a mano). Il widget è un "cheat code" di retention: occupa spazio sulla home e batte le notifiche altrui. Il <strong>lock-screen widget</strong> (solo ~4 slot disponibili) viene visto ~150 volte al giorno → deep link all'app. Effetto dichiarato: retention più che raddoppiata.</p>
 <h2>5. Allenare l'occhio col buon design</h2>
 <p>Risorse per assorbire buon design: <strong>Mobbin</strong> (libreria enorme di screenshot, a pagamento), <strong>60fps</strong> (interazioni/animazioni), <strong>Spotted / Prod</strong> (animazioni delle top app), e l'account X <strong>Screenshots First</strong> per gli screenshot dell'App Store. Nota importante: lo <strong>screenshot dell'App Store è la prima impressione</strong> (come titolo+thumbnail su YouTube) — se è brutto non ti scaricano, e allora è inutile curare la retention.</p>
+<h2>6. Le skill anti-slop per il web design (confronto)</h2>
+<p>Per siti e landing esiste ormai una categoria di <strong>skill dedicate</strong> che codificano i pattern di AI slop e li vietano al modello. Le tre più note, confrontate da Fontanel su "da zero" e "redesign" con lo stesso prompt:</p>
+<ul>
+<li><strong>Impeccable</strong> — la vincitrice in entrambi gli scenari, e la più economica (~5$ contro ~10$ delle altre a parità di task). 7 principi + <strong>23 comandi</strong> mirati (colorize, bolder, quieter), 46 pattern di slop censiti (gradiente viola/blu, carte con icone giganti, il form fotocopia). Unica a produrre il <strong>design.md</strong> (convenzione di Google Stitch): il "CLAUDE.md del design" — colori, font, grandezze e voce del brand in un file che qualsiasi agente legge per restare coerente. Più <strong>versatile</strong>: run diversi producono schemi diversi.</li>
+<li><strong>Taste Skill</strong> — la più adottata (65k+ stelle). Buona nel <strong>redesign</strong>, debole da zero (recensioni finte, CTA che gira a vuoto, bottoni slop); tende a riusare i propri pattern.</li>
+<li><strong>Hallmark</strong> — la nuova (10k+ stelle in pochi giorni). <strong>20 temi</strong> che non sono template ma set di regole/pattern/colori (57 pattern di slop censiti), scelti in automatico dal prompt o generati custom. Azioni extra interessanti: <strong>audit</strong> (punteggio slop di un sito) e <strong>study</strong> (estrae il "DNA" di un design che ti piace per riusarlo). Risultati però giudicati troppo minimali/monotoni in entrambi i test.</li>
+</ul>
+<p>Dettagli in più su Impeccable (dal video dei 15 plugin): i 7 pilastri sono <strong>tipografia, colore/contrasto, spatial design, reattività, interazione, motion, UX writing</strong>; tre modalità operative — <strong>craft/init</strong> (da zero), <strong>critique</strong> (cosa va e cosa no), <strong>audit</strong> (controlli di qualità); compatibile con tutti gli agenti (Codex, Claude Code, Cursor, Gemini, Antigravity, OpenCode). Complemento utile: <strong>Awesome Design MD</strong>, collezione di design.md già estratti dai siti più belli (Nvidia, Airbnb, ElevenLabs) da usare come fondamenta e personalizzare.</p>
+<p>Due note di routing (<a href="model-routing.html">model-routing</a>): Fontanel usa <strong>Fable 5 perché ha più gusto di Opus</strong> nel design, e per generare apposta una base brutta da ridisegnare usa <strong>Opus a effort minimo</strong> — il "taste" scala sia col modello che con l'effort.</p>
 <h2>Nota</h2>
 <p>È un video molto <strong>visivo</strong> ingerito da sola trascrizione: qui resta il metodo, non le demo. Filo comune con <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>: il primo output dell'AI è "slop", la qualità sta nei dettagli che l'umano cura sopra.</p>
 <h2>Fonti</h2>
 <ul>
 <li>how-i-design-apps-10x-better-2026-07-16 (Chris Ro, ospite di Greg Isenberg, 2026-07-16)</li>
+<li>migliorare-frontend-design-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — confronto Hallmark / Impeccable / Taste Skill, design.md</li>
 </ul>
 <script>
 window.SB = (function () {

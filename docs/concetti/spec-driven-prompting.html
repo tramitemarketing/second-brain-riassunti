@@ -113,6 +113,14 @@ th { background: #f4f6f8; font-weight: 700; }
 <p>Un prompt che integra i tre step tipicamente include: un'istruzione a intervistarti per trovare il goal reale dietro il task, un bias verso spec piccoli/compartimentati con checkpoint, e una richiesta esplicita di verificare le decisioni chiave prima di implementare.</p>
 <h2>Nota di collegamento</h2>
 <p>Questo è il layer "a monte" di <a href="loop-engineering.html">loop-engineering</a> — uno spec ben fatto è ciò su cui poi si costruisce la verifica (vedi lì la sezione Goal + Verification per il layer successivo).</p>
+<h2>Pianificare oltre la singola sessione: il pattern Wayfinder</h2>
+<p>Quando il lavoro è <strong>più grande di una sessione</strong>, lo spec diventa una <strong>mappa di ticket</strong> (skill Wayfinder di Matt Pocock, vista in skill-risolto-problema-piu-grande-claude-code-2026-08-21). I pezzi riusabili anche senza la skill:</p>
+<ul>
+<li><strong>Grilling breadth-first.</strong> La stessa tattica dell'intervista (step 1), ma esplicitamente <em>in ampiezza</em>: prima di scendere in profondità su una strada, l'agente fa domande per far emergere <strong>tutte le strade allo stesso livello</strong> — e ogni risposta taglia interi rami (nella demo, "niente sharable link" elimina upload/hosting/viewer in un colpo).</li>
+<li><strong>Fog come misura del piano.</strong> Il piano è finito quando non c'è più "nebbia": nessun punto inesplorato, nessuna decisione aperta. Le <strong>decisioni prese si registrano nella mappa</strong> per non ripercorrerle; ciò che emerge ma non incide va in <strong>out-of-scope</strong>, annotato ed escluso.</li>
+<li><strong>Anti-overplanning coi prototipi.</strong> Tra i ticket ci sono <strong>prototype</strong> che producono artefatti da toccare con mano mentre il piano cresce — per non arrivare a un piano enorme con un risultato mai visto (l'eccesso opposto del waterfall già condannato dallo step 2).</li>
+<li><strong>Un ticket per sessione, nella zona sicura.</strong> Ogni ticket è dimensionato per stare nel 12–15% di contesto (<a href="context-rot.html">context-rot</a>); la creazione della mappa stessa si ferma lì. Lo stato vive <strong>fuori dal contesto</strong> (GitHub issues con label, dipendenze bloccanti, claim per il lavoro in parallelo) — pattern di <a href="agent-memory.html">agent-memory</a> applicato al planning.</li>
+</ul>
 <h2>Le regole operative (come promptano in Anthropic)</h2>
 <p>Sei regole raccolte dalla documentazione pubblica di Anthropic e dai suoi ingegneri (vedi how-anthropic-engineers-prompt-fable-2026-07-21):</p>
 <ol>
@@ -127,6 +135,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <h2>Fonti</h2>
 <ul>
 <li>Stop Prompting Claude. Use Karpathy's Method Instead. (Austin Marchese, 2026-07-07) — riprende un'intervista di Andrej Karpathy a AI Ascent 2026.</li>
+<li>skill-risolto-problema-piu-grande-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — pattern Wayfinder: mappa di ticket, grilling breadth-first, fog, anti-overplanning.</li>
 </ul>
 <script>
 window.SB = (function () {
