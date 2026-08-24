@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Le qualità dei programmatori di domani</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Le qualità dei programmatori di domani" src="https://i.ytimg.com/vi/ONeJRuhsoi4/hqdefault.jpg"><p><strong>In sintesi:</strong> il creatore di Redis prova a rispondere a una domanda scomoda — come fa un programmatore normale, uno che esegue e non decide, a non diventare obsoleto? La premessa che regge tutto è che <strong>leggere il codice generato dall'AI non è più sostenibile</strong>, per una ragione aritmetica e non filosofica. Da lì scendono sei qualità da coltivare: saper dire di no, possedere un modello mentale fortissimo del sistema anche senza leggerne il codice, progettare per la testabilità, distinguere le scelte reversibili da quelle che non lo sono, sapere quando fermarsi a pagare il debito tecnico, e saper comunicare le idee agli umani. L'esempio più concreto è una sua pull request su Redis che, grazie a vincoli architetturali dettati da lui, consuma il <strong>40% di memoria in meno</strong> dell'implementazione equivalente di Valkey.</p>
+<h2>Come è fatto il video, e perché conta</h2>
+<p>Non c'è montaggio. È un <strong>selfie verticale in presa diretta</strong>, ventitré minuti in una sola inquadratura, girato col telefono in mano mentre cammina in salita in Sicilia, con gli auricolari alle orecchie e il sole basso. I primi tredici secondi sono muti: la camera si avvicina lentamente a un <strong>volto dipinto su un muro di cemento</strong> a bordo strada, tra palme nane e una ringhiera arrugginita, e il murale non verrà mai spiegato. Poi la voce entra a freddo, già in mezzo al pensiero: «Questo è un video che bisognava fare per forza». A metà video si gira a inquadrare la discesa e ammette che il formato «non rende giustizia al fatto che qua io devo parlare mentre mi faccio le salitone». Le esitazioni, le auto-correzioni e le premesse aggiunte in corsa («No, scusate, devo fare un'altra piccola premessa») restano tutte dentro.</p>
+<p>Vale la pena notarlo perché è una scelta, non una sciatteria: <strong>la forma dichiara che il valore è tutto nel contenuto</strong>. Zero produzione, zero promessa esplicita, zero retention bait — la scommessa è che chi guarda sia lì per lui e non per il pacchetto.</p>
+<h2>La domanda di partenza: chi non decide cosa costruire</h2>
+<p>Sanfilippo apre dicendo che stavolta non parlerà dal suo punto di vista abituale. Di solito il suo consiglio è <em>devi avere un'idea del software, del prodotto che vuoi fare</em> — ma quel consiglio, ammette, vale per chi sviluppa <strong>open source</strong> o per chi ha una <strong>startup</strong> e costruisce un prodotto proprio. La maggior parte di chi lo ascolta non è in quella posizione: lavora in un'azienda dove qualcun altro dice <em>fate questa feature</em>, dentro un processo decisionale di cui si è al massimo «parte secondaria e non fondamentale».</p>
+<p>La domanda diventa quindi molto più ruvida: <strong>«Come si fa a non essere obsoleti? Come si fa a non essere licenziabili?»</strong> E, al di là delle sorti lavorative, come si fa a essere persone che in quella situazione <strong>generano valore attraverso l'AI e non casini per colpa dell'AI</strong>. Definisce il video «ad altissimo rischio», perché prevedere è difficile ed è difficile beccarci su tutto, ma dice di essersi fatto un'idea sempre più precisa nel corso dei mesi.</p>
+<h2>Il punto zero: smettere di leggere il codice dell'AI</h2>
+<p>Prima delle sei qualità c'è una premessa che le condiziona tutte, e che lui chiama «il punto zero» perché ne ha già parlato in video passati.</p>
+<p><strong>Se sei un programmatore già formato, non leggere il codice generato dall'AI.</strong> Farlo significa «diventare il bastone fra le ruote di un sistema produttivo che in questo momento vuole utilizzare l'AI». Il motivo, dice, è talmente banale che quasi non varrebbe la pena ripeterlo: c'è <strong>un'asincronia, un gap tra la velocità con cui puoi produrre codice nuovo con l'AI e la velocità con cui riesci a leggerlo</strong>. Non è un'opinione — «è una cosa che viene fuori dalla matematica».</p>
+<p>E c'è un secondo argomento, più affilato del primo: per trovare davvero le magagne in codice complicato scritto da altri, <strong>ci vuole più tempo a leggerlo che a scriverlo ex novo</strong>. Su codice banale il problema non si pone (ma allora anche le inefficienze saranno banali). Su codice complicato la lettura è la strada più cara. «Per cui, qual è il senso di fare una cosa del genere?»</p>
+<p>L'eccezione operativa è precisa: se una cosa non ti torna, <strong>prima chiedi all'AI come l'ha fatta</strong>. Solo se la spiegazione non basta vai ad aprire il file. Deve esserci un motivo — «non deve essere una prassi normale la lettura del codice scritto dall'AI, perché sennò già è un modo di perdere».</p>
+<h3>Il caso opposto: i programmatori junior</h3>
+<p>Su questo Sanfilippo è netto e va nella direzione contraria. Un junior <strong>non deve formarsi leggendo il codice scritto dall'AI</strong>: è «una delle peggiori formazioni possibili», tanto più se si tratta del codice del posto di lavoro, «su cose di cui non gliene frega niente». I junior si formano in due modi: <strong>usando l'AI come strumento di apprendimento e come mentore</strong>, e <strong>scrivendo codice a mano</strong>, direttamente, sotto forma di <em>toy programs</em> su una quantità enorme di temi — «dagli interpreti ai database, alla computer graphics, a un piccolo videogame». Qualsiasi cosa di complicato.</p>
+<h3>Dove va a finire il codice scritto a mano</h3>
+<p>Seconda premessa, aggiunta in corsa: non vuol dire che chi è esperto non debba mai più scrivere codice. Vuol dire che <strong>quella scrittura va riservata alle cose belle</strong>. Un piccolo programma bellissimo, magari su un tema diverso da quello lavorativo, che ti piace da matti e a cui vuoi dedicare tempo per ogni singola riga: cinquecento, mille, duemila, tremila, cinquemila righe che ti danno una grande soddisfazione, ti fanno imparare qualcosa di nuovo, o propongono un'idea mai vista. <strong>Il tempo di sviluppo "concesso" va speso lì.</strong></p>
+<h2>Qualità 1 — Sapere cosa non scrivere</h2>
+<p>«Tanto per iniziare, la cosa più importante, la qualità più importante è <strong>sapere cosa non scrivere, saper dire di no</strong>.»</p>
+<p>Il ragionamento è economico. Quando la produzione di codice diventa così economica, immediata e veloce, la prima abilità da coltivare è <strong>rinunciare a tutto il superfluo</strong> che si potrebbe benissimo non sviluppare. Il punto sottile è il seguente: il livello di complessità che possiamo sopportare grazie all'AI <strong>si è innalzato molto</strong>, ma questo non significa che la complessità sia diventata gratuita. «La complessità è ancora un costo significativo dello sviluppo di software.» Quindi, per quanto ora sia possibile pagare un prezzo di complessità più alto, <strong>tutta la complessità non necessaria va comunque scartata</strong>.</p>
+<p>Ne discende un compito quasi politico: bisogna «scappare, allontanare, silenziare» e soprattutto <strong>avere argomenti forti contro chi usa la scusa dell'AI</strong> per far diventare i software dei mastodonti senza senso. Non si tratta di ridurre tutto all'osso — se una cosa è importante si sviluppa — ma di avere parsimonia: «si può fare più qualità su meno cose». E, avverte, non basta arginare quelle persone: <strong>non devi essere tu quella persona</strong>.</p>
+<h2>Qualità 2 — Il modello mentale del sistema (il caso Redis/Valkey)</h2>
+<p>Questa è la parte più concreta del video, e la contropartita necessaria del punto zero. Non leggere il codice <strong>non significa</strong> non doverne possedere un modello: «questo è fondamentale».</p>
+<p>Sanfilippo racconta di aver rilasciato una <strong>pull request su Redis</strong> — dice esplicitamente che si può andare a vedere — sviluppata usando l'intelligenza artificiale. Ci ha messo <strong>mesi</strong> e sono forse <strong>6000 righe di codice</strong>. Quella PR <strong>abbatte l'utilizzo di memoria dei sorted set</strong>. Valkey ha fatto un'implementazione simile; la sua, dice, «utilizza tipo il <strong>40% meno di memoria</strong> rispetto all'implementazione di Valkey — che è una enormità».</p>
+<p>Come è stato possibile? Con un <strong>input fondamentale da parte dell'essere umano</strong> che sa bene come funziona quel sistema, e che quindi può dire all'AI cose di questo tipo:</p>
+<ul>
+<li>non usare come seconda rappresentazione <strong>l'hash table normale di Redis</strong>, serve una tabella specializzata;</li>
+<li>non usare <strong>bucket singoli</strong>, vanno raggruppati;</li>
+<li>usa la <strong>tecnica dei tag</strong> per fare il lookup;</li>
+<li>non usare le <strong>stringhe SDS</strong>, perché non possiamo pagare il costo del puntatore;</li>
+<li><strong>internalizza le stringhe dentro il B+tree</strong>.</li>
+</ul>
+<p>«Tutta sta roba qui è possibile perché io ho un modello di sistema chiaro in mente.» Da cui la formula che regge l'intero video: <strong>«Si può rinunciare a leggere il software, ma non a governare le idee.»</strong></p>
+<h3>Perché l'AI da sola non ci arriva</h3>
+<p>La spiegazione che dà è interessante perché non è "l'AI è stupida". Prima che lui desse quegli spunti, l'AI provava a ottimizzare e non arrivava a certi risultati — <strong>non perché le manchino le categorie concettuali</strong> per arrivarci. Il motivo è un altro: in questo momento storico (nel video cita esplicitamente una data, metà agosto 2026) l'AI <strong>si crea dei paletti</strong>. Durante il fine tuning e il reinforcement learning impara a <strong>non stravolgere ogni volta il progetto</strong> su cui lavora, altrimenti sarebbe difficile lavorare con gli agenti; e tende a <strong>attaccarsi in maniera eccessiva alle tue parole</strong>. In sintesi: «cerca di essere piuttosto conservativa».</p>
+<p>Conseguenza pratica: <strong>le idee radicali che portano un risultato gliele devi dare tu</strong>, e puoi dargliele solo se hai una comprensione del sistema. Senza quella, certi risultati non si ottengono e basta.</p>
+<h2>Qualità 3 — Progettare per essere testato</h2>
+<p>Se non leggiamo più il codice, la domanda diventa: come si mantiene la qualità durante la "salitona" produttiva? La risposta è <strong>progettare il sistema per essere testato</strong>.</p>
+<p>«Il sistema deve essere <strong>un libro aperto</strong> per la gente che lavora con esso.» Le parti devono essere <strong>modulari e testabili</strong>, e questo significa <strong>stressare gli agenti già in fase di progettazione e realizzazione</strong> perché producano un sistema che poi si possa testare bene. Spesso lo si può fare anche a posteriori, ma è meglio che la finalità sia messa dall'inizio.</p>
+<p>Qui inserisce un avvertimento sul prompting degli agenti che vale come regola generale: <strong>attenzione al modo in cui ti rivolgi agli agenti</strong>, perché se insisti troppo su una caratteristica rischi di perderne altre più importanti. Esempio suo: su un sistema <em>performance critical</em>, a forza di ripetere «deve essere testabile» l'agente rompe i confini dell'interfaccia ideale e te lo fa <strong>più lento di come potrebbe essere</strong>. Il compromesso però lo accetta, perché «testabile è testato».</p>
+<h3>Che test scrivere</h3>
+<p>La gerarchia che propone è chiara:</p>
+<ul>
+<li><strong>Test di integrazione ad alto livello, di tutti i tipi e di tutte le maniere.</strong> Sono la spina dorsale.</li>
+<li><strong>Unit test senza esagerare.</strong> La ragione è specifica dell'era degli agenti: l'AI <strong>sarà costretta a rompere quei test e a riprogettarli da capo ogni volta che cambia un'interfaccia</strong>, quindi «specialmente servono a poco».</li>
+</ul>
+<h3>L'ambiente di esecuzione</h3>
+<p>Avere un sistema testabile non basta: serve <strong>un ambiente di esecuzione</strong> per far girare i test, e deve avere <strong>granularità diverse</strong>. Non può essere che ogni modifica minuscola faccia partire test che durano tre ore; ma prima di una grande release ci deve essere la possibilità di eseguire <strong>l'intera matrice</strong>: tutte le piattaforme, tutte le architetture, tutte le modalità del programma, dalle chiamate all'API del database fino alla user experience.</p>
+<h3>La regola che si ribalta</h3>
+<p>Ed ecco il dettaglio più utile della sezione: <strong>la parsimonia francescana sulle feature non vale per i test</strong>. Il test è «codice accessorio, usa e getta, si può togliere, non succede nulla». Quindi se il tipo di sistema che stai progettando non ha buone soluzioni per il testing, <strong>te le scrivi ex novo</strong>, e va benissimo — anzi, «è un ottimo utilizzo della capacità di scrivere codice velocemente».</p>
+<h2>Qualità 4 — Riconoscere le scelte irreversibili</h2>
+<p>Bisogna diventare bravi a capire <strong>quali scelte si potranno modificare a posteriori e quali sono quasi irreversibili</strong>.</p>
+<p>Il primo blocco è quello atteso: <strong>linguaggio di programmazione, framework, scelte architetturali di base</strong>. Non sono completamente irreversibili, ma sono <strong>semi-irreversibili</strong>, perché cambiarle ti costringe a un rewrite o a un porting «bestiale» che dura mesi, mina la qualità del progetto e così via.</p>
+<p>Il secondo esempio è più tecnico e riguarda il mondo dell'inferenza: in un engine di inferenza (cita <strong>llama.cpp</strong> e <strong>vLLM</strong>), se non fai <strong>gating sulla qualità dell'inferenza</strong>, inizi subito ad ammassare kernel su kernel che portano <strong>drift numerici</strong> ed errori; quando poi vorrai recuperare la qualità di inferenza su certe famiglie di modelli, dovrai <strong>riscrivere i kernel da capo</strong>.</p>
+<p>Il terzo esempio è quello che colpisce di più, perché riguarda decisioni apparentemente banali: <strong>il fatto che il sistema sia in produzione rende irreversibili anche scelte molto più stupide a livello architetturale.</strong> Se sbagli il disegno di una tabella SQL su un sistema che ha già utenti attivi, per rimediare devi fermare tutto, fare procedure e operazioni «di stop complicatissime», poi migrazioni, eccetera. Quella scelta, di fatto, ha un grado di irreversibilità alto.</p>
+<p>La contromisura è psicologica prima che tecnica: <strong>sviluppare un campanello d'allarme</strong> per questo tipo di scelte. Quando suona, stai in allerta e «cerca di non fare stronzate»: o <strong>aumenti il grado di reversibilità</strong> del progetto in quel punto, o compi la scelta pensando anche a quello che dovrà succedere in futuro. E aggiunge una mossa operativa: se hai il dubbio, <strong>chiedi all'AI stessa</strong> se quella scelta sarà in qualche modo reversibile senza casini bestiali.</p>
+<h2>Qualità 5 — Sapere quando fermare gli sviluppi</h2>
+<p>Questa la definisce «di ordine psicologico personale».</p>
+<p>Nel software — scritto a mano o scritto con l'AI, non cambia — si creano <strong>tensioni importanti tra la voglia di fare altro e la tenuta del sistema che comincia a cedere</strong>. Te ne accorgi perché la qualità non è quella che dovrebbe essere, ci sono utenti insoddisfatti, ci sono bug. In quel momento bisogna <strong>fermarsi</strong>, prendersi del tempo per <strong>ristrutturare le basi</strong> e <strong>fixare il debito tecnico</strong> accumulato.</p>
+<p>Il punto storico è che questa cosa <strong>prima non si faceva</strong>, e per un motivo legittimo: c'era la necessità di andare avanti per forza, non ci si poteva permettere refactoring e fix che duravano mesi e mesi, e così «si accumulava schifo su schifo». Ora quelle stesse operazioni <strong>si tirano fuori in settimane</strong>. Quindi la scusa è caduta.</p>
+<p>Da qui la parte più politica del video: <strong>«fate forza anche contro il management»</strong> se vi obbligano ad andare avanti quando percepite una fragilità significativa del sistema. «Dovete avere, diciamo, <strong>coscienza di classe</strong>. Voi siete sviluppatori, il vostro software lo usano altri» — anche se siete al soldo di persone che decidono cosa fare, si può dire <em>guardate, sconsiglio fortemente questa direzione, abbiamo bisogno di fermarci, di rallentare almeno per consolidare</em>. Perché <strong>usare l'AI come scusa per andare sempre avanti</strong>, anche quando si accumulano troppa complessità e troppa fragilità, non fa che <strong>esacerbare problemi già noti</strong> dal modo tradizionale di sviluppare software.</p>
+<h2>Qualità 6 — Comunicare, con le macchine e con le persone</h2>
+<p>L'ultima. In un mondo della programmazione in cui <strong>valgono sempre di più le idee, i concetti e i modelli di sistema</strong> che abbiamo in testa, bisogna essere <strong>abili comunicatori</strong> — «non solo con gli LLM, con le AI, come ho già detto più volte, ma anche con le altre persone».</p>
+<p>Elenca tre situazioni concrete:</p>
+<ul>
+<li><strong>Rifiutare.</strong> Quando arriva qualcuno in riunione, o ti fanno una pull request, o il capo o il collega propone una feature che tu vuoi rifiutare in nome di quella semplicità che va comunque cercata — <strong>devi saper articolare le tue idee</strong>. Il modello mentale del sistema serve a niente se non sai spiegarlo.</li>
+<li><strong>Onboarding.</strong> Quando entrano persone nuove, devi essere in grado di <strong>spiegare a voce, in linguaggio naturale, come funziona il sistema a grandi linee</strong>: trasferire il modello mentale. La persona nuova potrebbe interrogare l'AI, e va bene — ma «sarebbe il caso che ciò avvenisse <strong>solo per i dettagli</strong>». Il quadro d'insieme delle componenti principali deve poterglielo raccontare un umano, in dieci minuti, in mezz'ora, in un'ora o in qualche giorno a seconda della complessità.</li>
+<li><strong>Lavorare insieme.</strong> Visto che si parla sempre più di idee e sempre meno di codice, immagina <strong>sessioni alla lavagna</strong> in cui ci si chiede <em>che direzione prendiamo?</em> Lì conta saper raccontare il sistema, capire quali sono le tensioni attuali, come si possono risolvere, quali sono le evoluzioni possibili.</li>
+</ul>
+<h2>La chiusura</h2>
+<p>Torna ad affrontare la salita, «stavolta senza parlare nel frattempo». E chiude con un invito che è anche un'istruzione d'uso per i suoi stessi contenuti: <strong>«metteteci del vostro, filtrate, scegliete cosa prendere e cosa rifiutare di questi miei video»</strong>.</p>
+<h2>Cosa portarsi via, operativamente</h2>
+<p>Tre cose sopravvivono al video e valgono anche fuori dal contesto Redis.</p>
+<p>La prima è che <strong>la leva non è il prompt, è il modello di sistema</strong>. Il caso dei sorted set dimostra che il salto di qualità è arrivato da cinque vincoli architetturali specifici che nessun prompt generico avrebbe prodotto — è la stessa tesi di spec-driven-prompting, vista dal lato di chi ha davvero il modello in testa. Chi non ce l'ha, quei vincoli non li può nemmeno formulare.</p>
+<p>La seconda è che <strong>il test di integrazione diventa il segnale di verifica</strong> che sostituisce l'occhio umano sul codice. È loop-engineering applicato: se il loop non può più chiudersi sulla lettura, deve chiudersi su qualcos'altro, e quel qualcos'altro va progettato prima, non aggiunto dopo.</p>
+<p>La terza è la nota di calibrazione sui modelli: <strong>sono addestrati a essere conservativi</strong>, a non stravolgere il progetto e ad aderire troppo alle tue parole. Non è un limite di capacità ma di addestramento, e la conseguenza pratica è che l'audacia architetturale resta un compito umano.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=ONeJRuhsoi4" target="_blank" rel="noopener">Le qualità dei programmatori di domani</a> — Salvatore Sanfilippo, pubblicato il 16 agosto 2026, 23:06.</li>
+<li>report grezzo (frame, hook microscope, trascrizione completa).</li>
+<li>Concetti collegati: spec-driven-prompting, loop-engineering, agent-memory, context-rot.</li>
+<li>Entità: Salvatore Sanfilippo (antirez), Redis, Valkey — nessuna pagina in <code>wiki/entities/</code> per ora: compaiono in questa sola fonte, e la regola del vault è di creare l'entità solo quando un nome ricorre in più video.</li>
+</ul>
+<p><strong>Cosa è stato omesso, onestamente:</strong></p>
+<ul>
+<li>Nulla di sostanziale sul piano dei contenuti: tutte e sei le qualità, la premessa, la controparte per i junior e l'esempio Redis sono riportati per intero, numeri compresi.</li>
+<li>Tolte solo le ripetizioni, le esitazioni, gli intercalari e le auto-correzioni del parlato in presa diretta, più due digressioni ambientali (il commento sulla salita a [14:05] e un'osservazione fuori tema su un cattivo odore per strada a [11:36]), riportate qui per completezza ma senza valore informativo.</li>
+</ul>
+<blockquote>⚠️ <strong>Avvertenze sulla fonte.</strong> La trascrizione viene dai <strong>sottotitoli automatici</strong> di YouTube, che su questo video sono rumorosi: rendono sistematicamente "l'AI" come <em>"lei"</em> o <em>"le Yai"</em>, e storpiano i nomi propri. In particolare: - a [16:06] Sanfilippo cita <strong>tre</strong> engine di inferenza: due sono ricostruibili con sicurezza (<strong>llama.cpp</strong>, reso come "l'Azi++", e <strong>vLLM</strong>), il terzo suona come <em>"Dwarf Star"</em> ed è <strong>non verificato</strong> — nel riassunto è stato omesso invece di essere indovinato; - a [10:49] i sottotitoli riportano <em>"15 giugno 2026"</em> come data di riferimento sullo stato dei modelli, ma il video è stato pubblicato il <strong>16 agosto 2026</strong>: qui è riportato come "metà agosto 2026", con la discrepanza segnalata; - <strong>Valkey</strong> compare nei sottotitoli come "Valchia"; - il numero <strong>−40% di memoria</strong> e le <strong>~6000 righe</strong> della PR sono affermazioni sue non verificate in modo indipendente: dice esplicitamente «se non ci credete andatelo a guardare».</blockquote>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

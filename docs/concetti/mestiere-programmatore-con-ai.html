@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Design di app che spiccano (stand out)</title>
+<title>Il mestiere del programmatore con l&#x27;AI</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
 <style>
 :root { color-scheme: light dark; }
@@ -99,42 +99,69 @@ th { background: #f4f6f8; font-weight: 700; }
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
-<h1>Design di app che spiccano (stand out)</h1>
-<p><strong>Gist:</strong> oggi chiunque "vibe-coda" un'app in 24 ore, quindi il mercato è pieno di app <strong>statiche che si vede che sono fatte con l'AI</strong>. Per spiccare non serve più saper programmare: serve curare i <strong>dettagli di design</strong> che fanno sembrare l'app premium e viva. Cinque leve, tutte fattibili in linguaggio semplice con Claude Code (vedi <a href="claude-co-work.html">claude-co-work</a>).</p>
-<h2>1. Animazioni e interazioni (la leva n.1)</h2>
-<p>È il dettaglio che separa un'app "viva" da una che "sa di AI". Prova regina: la stessa app (Amy, calorie tracker in stile "Apple Notes") tweetata due giorni di fila — la versione con l'animazione curata (il "searching" con gradiente e fonti che scendono) è diventata virale (~800 iscritti alla waitlist in 20h), quella piatta (7 like). Differenza: ~6 ore di polish. Micro-dettagli che sommati fanno la differenza: transizioni di pagina con piccolo bounce/swipe, <strong>haptics</strong> (vibrazione leggera al tocco), animazione della dettatura, sticker olografico trascinabile. Punto tecnico chiave: <strong>Claude Code è addestratissimo sulle animazioni di Apple</strong> (libreria super documentata, anche cose complesse come Swift Metal) → basta saperle <strong>descrivere</strong> in inglese semplice. Corollario: in una nicchia iper-competitiva, un nuovo modo di mostrare l'informazione via UI diventa il tuo <strong>MVP</strong> e valida l'idea da solo (basta postare il concept e vedere se piace).</p>
-<h2>2. Illustrazioni e mascot</h2>
-<p>Danno personalità e sensazione premium (Lily the ghost, Amy the cat). <strong>Pro-tip mascot:</strong> per crearne uno <strong>nuovo</strong> ChatGPT (GPT-5/5.1) batte Gemini e Nano Banana; <strong>Nano Banana</strong> (nano-banana-pro) è invece ottimo per le <strong>iterazioni</strong> una volta che hai la base. Meglio far disegnare la <strong>prima versione a un artista vero</strong> ($200-300) e usarla come reference: eviti di copiare stili altrui e resti unico (mescolare 2-3 reference dà risultati più originali). <strong>Trucco poco noto: Midjourney per animare i mascot</strong> (immagine come starting frame → mascot animato per splash/login screen). L'onboarding illustrato di Amy è la parte più lodata dell'app.</p>
-<h2>3. Iconografia e tipografia</h2>
-<p>Grande "tell" delle app vibe-coded. Regola: <strong>non mischiare icone lined (contorno) e filled (piene)</strong> a caso — usa lined e passa a filled solo sul tab selezionato. Risorse icone: <strong>Hero Icons</strong> (gratis), <strong>Font Awesome</strong>, <strong>Nucleo</strong>. Tipografia (pesi, colori, leggibilità): bastano 5 minuti di studio, l'utente sente la differenza.</p>
-<h2>4. Widget (hack di retention)</h2>
-<p>Con l'AI fare home/lock-screen widget e app Apple Watch è questione di ore (4-5h con Claude Code vs 1-2 settimane a mano). Il widget è un "cheat code" di retention: occupa spazio sulla home e batte le notifiche altrui. Il <strong>lock-screen widget</strong> (solo ~4 slot disponibili) viene visto ~150 volte al giorno → deep link all'app. Effetto dichiarato: retention più che raddoppiata.</p>
-<h2>5. Allenare l'occhio col buon design</h2>
-<p>Risorse per assorbire buon design: <strong>Mobbin</strong> (libreria enorme di screenshot, a pagamento), <strong>60fps</strong> (interazioni/animazioni), <strong>Spotted / Prod</strong> (animazioni delle top app), e l'account X <strong>Screenshots First</strong> per gli screenshot dell'App Store. Nota importante: lo <strong>screenshot dell'App Store è la prima impressione</strong> (come titolo+thumbnail su YouTube) — se è brutto non ti scaricano, e allora è inutile curare la retention.</p>
-<h2>6. Le skill anti-slop per il web design (confronto)</h2>
-<p>Per siti e landing esiste ormai una categoria di <strong>skill dedicate</strong> che codificano i pattern di AI slop e li vietano al modello. Le tre più note, confrontate da Fontanel su "da zero" e "redesign" con lo stesso prompt:</p>
-<ul>
-<li><strong>Impeccable</strong> — la vincitrice in entrambi gli scenari, e la più economica (~5$ contro ~10$ delle altre a parità di task). 7 principi + <strong>23 comandi</strong> mirati (colorize, bolder, quieter), 46 pattern di slop censiti (gradiente viola/blu, carte con icone giganti, il form fotocopia). Unica a produrre il <strong>design.md</strong> (convenzione di Google Stitch): il "CLAUDE.md del design" — colori, font, grandezze e voce del brand in un file che qualsiasi agente legge per restare coerente. Più <strong>versatile</strong>: run diversi producono schemi diversi.</li>
-<li><strong>Taste Skill</strong> — la più adottata (65k+ stelle). Buona nel <strong>redesign</strong>, debole da zero (recensioni finte, CTA che gira a vuoto, bottoni slop); tende a riusare i propri pattern.</li>
-<li><strong>Hallmark</strong> — la nuova (10k+ stelle in pochi giorni). <strong>20 temi</strong> che non sono template ma set di regole/pattern/colori (57 pattern di slop censiti), scelti in automatico dal prompt o generati custom. Azioni extra interessanti: <strong>audit</strong> (punteggio slop di un sito) e <strong>study</strong> (estrae il "DNA" di un design che ti piace per riusarlo). Risultati però giudicati troppo minimali/monotoni in entrambi i test.</li>
-</ul>
-<p>Dettagli in più su Impeccable (dal video dei 15 plugin): i 7 pilastri sono <strong>tipografia, colore/contrasto, spatial design, reattività, interazione, motion, UX writing</strong>; tre modalità operative — <strong>craft/init</strong> (da zero), <strong>critique</strong> (cosa va e cosa no), <strong>audit</strong> (controlli di qualità); compatibile con tutti gli agenti (Codex, Claude Code, Cursor, Gemini, Antigravity, OpenCode). Complemento utile: <strong>Awesome Design MD</strong>, collezione di design.md già estratti dai siti più belli (Nvidia, Airbnb, ElevenLabs) da usare come fondamenta e personalizzare.</p>
-<p>Due note di routing (<a href="model-routing.html">model-routing</a>): Fontanel usa <strong>Fable 5 perché ha più gusto di Opus</strong> nel design, e per generare apposta una base brutta da ridisegnare usa <strong>Opus a effort minimo</strong> — il "taste" scala sia col modello che con l'effort.</p>
-<h2>7. Il flusso di lavoro: taste library → rete larga → tweak (Chase AI)</h2>
-<p>Le skill anti-slop (sezione 6) non bastano da sole: «il problema non è tecnico, è la <strong>genericità</strong>» — e modelli migliori sposteranno solo l'asticella di cosa è generico. Il metodo in 3 passi:</p>
+<h1>Il mestiere del programmatore con l'AI</h1>
+<p><strong>Gist:</strong> cosa resta da fare a un programmatore quando produrre codice costa quasi zero. La risposta non è "prompta meglio": è che <strong>il baricentro del mestiere si sposta dal codice alle idee, ai vincoli e ai criteri di verifica</strong> — e che alcune abilità che prima erano contorno (dire di no, riconoscere le scelte irreversibili, saper spiegare un sistema a voce) diventano il lavoro vero. Pagina costruita sulla trattazione di <strong>Salvatore Sanfilippo (antirez)</strong>, creatore di Redis, che ragiona esplicitamente per chi <em>non</em> decide cosa costruire ma esegue.</p>
+<blockquote>Il nocciolo in una riga: <strong>si può rinunciare a leggere il software, ma non a governare le idee.</strong></blockquote>
+<h2>La premessa che condiziona tutto: il gap lettura/scrittura</h2>
+<p>Se sei un programmatore già formato, <strong>leggere riga per riga il codice generato dall'AI non è più sostenibile</strong>. Non è una questione di fiducia o di pigrizia, sono due argomenti concreti:</p>
 <ol>
-<li><strong>Coltiva il taste</strong>: libreria di ispirazione (Dribbble, Pinterest, soprattutto X) di screenshot e URL; upgrade: una web-app fatta da Claude Code che raggruppa per tipo di design, spiega il <strong>vocabolario</strong> e offre "copy image prompt" / "copy brief" per ogni voce. È l'equivalente design dei file-voce e dello "steal from the SERP" di <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>. Per i <strong>componenti</strong> (bottoni, card, pricing): <strong>21st.dev</strong>, con copy-prompt.</li>
-<li><strong>Attrezzi flessibili, non prescrittivi</strong>: Impeccable (anche in <strong>live mode</strong>: modifichi i componenti dal browser) + Taste Skill + <strong>Higgsfield MCP</strong> per hero image e asset (higgsfield). Avvertenza esplicita: le skill "miracolose" che fanno siti bellissimi sono strette e danno un solo tipo di output — il rabbit hole degli attrezzi è una trappola.</li>
-<li><strong>Build a ventaglio, mai one-shot</strong>: 5 versioni in 5 stili → scegli la direzione → 3 varianti → scegli → tweak. «Vedere tutte le opzioni su uno schermo», non una alla volta nel terminale. Prompt in <strong>4 pezzi</strong>: estetica + reference (immagini o URL — si copia il <em>feel</em>, non il contenuto) + intento (cosa/perché/pubblico/azione) + guardrail always/never (mai gradienti viola, mai Inter). Chiusura: farsi costruire una <strong>tweaks bar</strong> sul dev server (font, accent color, motion, weight) per iterare <strong>con gli occhi</strong> invece che a prompt.</li>
+<li><strong>L'asincronia di velocità.</strong> C'è un divario tra quanto codice puoi produrre con l'AI e quanto ne puoi leggere. La review integrale non scala, per aritmetica.</li>
+<li><strong>Il costo comparato.</strong> Per trovare davvero le magagne in codice <em>complicato</em> scritto da altri, ci vuole <strong>più tempo a leggerlo che a riscriverlo ex novo</strong>. Su codice banale il problema non si pone, ma allora anche i difetti sono banali.</li>
 </ol>
-<h2>Nota</h2>
-<p>È un video molto <strong>visivo</strong> ingerito da sola trascrizione: qui resta il metodo, non le demo. Filo comune con <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>: il primo output dell'AI è "slop", la qualità sta nei dettagli che l'umano cura sopra.</p>
+<p>Chi insiste a fare la review integrale «diventa il bastone fra le ruote» di un sistema produttivo che vuole usare l'AI.</p>
+<p><strong>L'eccezione operativa:</strong> quando qualcosa non torna, <strong>prima chiedi all'AI come l'ha fatta</strong>; apri il file solo se la spiegazione non basta. Deve restare l'eccezione, non la prassi.</p>
+<p><strong>Il caso opposto — i junior.</strong> Per chi si sta formando la regola si ribalta: leggere codice AI è «una delle peggiori formazioni possibili», tanto più se è il codice del posto di lavoro su cose che non interessano. I junior si formano <strong>usando l'AI come mentore</strong> e <strong>scrivendo codice a mano</strong>, sotto forma di <em>toy programs</em> su tanti temi diversi — interpreti, database, computer graphics, un piccolo videogame. Qualsiasi cosa di complicato.</p>
+<p><strong>E il codice scritto a mano dai senior?</strong> Non sparisce, si sposta: va <strong>riservato alle "cose belle"</strong>. Un programma di 500-5000 righe su un tema che ti appassiona, a cui dedichi tempo per ogni riga, che ti insegna qualcosa o propone un'idea mai vista.</p>
+<h2>Le sei qualità</h2>
+<h3>1. Sapere cosa non scrivere</h3>
+<p>Quando la produzione di codice diventa economica e immediata, <strong>l'abilità scarsa diventa il rifiuto</strong>. Il punto sottile, che smonta l'entusiasmo facile: il <strong>tetto di complessità sopportabile si è alzato molto, ma la complessità non è diventata gratuita</strong> — resta un costo significativo dello sviluppo. Quindi tutta la complessità non necessaria va scartata comunque.</p>
+<p>Due compiti pratici: <strong>avere argomenti forti</strong> contro chi usa l'AI come scusa per gonfiare i software in mastodonti, e <strong>non essere tu quella persona</strong>. «Si può fare più qualità su meno cose.»</p>
+<h3>2. Possedere il modello mentale del sistema</h3>
+<p>È la contropartita obbligatoria della premessa: <strong>non leggere il codice è accettabile solo se in cambio possiedi un modello fortissimo di cosa fa il sistema e di come opera.</strong></p>
+<p>Il caso concreto che lo dimostra (vedi le-qualita-dei-programmatori-di-domani-2026-08-24): una PR su Redis sui <em>sorted set</em>, ~6000 righe, mesi di lavoro, <strong>−40% di memoria rispetto all'implementazione equivalente di Valkey</strong>. Il risultato è arrivato da <strong>cinque vincoli architetturali dettati dall'umano</strong>, non dal modello: hash table specializzata invece di quella normale, bucket raggruppati invece che singoli, lookup con la tecnica dei tag, niente stringhe SDS (non si può pagare il costo del puntatore), stringhe internalizzate nel B+tree.</p>
+<p><strong>Perché l'AI da sola non ci arriva</strong> — e qui la spiegazione è precisa, non liquidatoria: non è che le manchino le categorie concettuali. È che i modelli attuali <strong>si creano dei paletti</strong>: il fine tuning e il reinforcement learning insegnano loro a <strong>non stravolgere il progetto</strong> su cui lavorano (altrimenti sarebbe impraticabile lavorarci con gli agenti), e a <strong>aderire troppo alle parole dell'utente</strong>. Il risultato netto è un comportamento <strong>conservativo</strong>. Le idee radicali vanno iniettate dall'esterno.</p>
+<blockquote>Nota temporale: osservazione datata <strong>metà agosto 2026</strong>. È un vincolo di addestramento, quindi può cambiare — non darla per permanente.</blockquote>
+<h3>3. Progettare per essere testato</h3>
+<p>Se il loop non può più chiudersi sull'occhio umano, deve chiudersi su qualcos'altro. Quel qualcos'altro è il test — <strong>e va progettato prima, non aggiunto dopo</strong>.</p>
+<ul>
+<li><strong>«Il sistema deve essere un libro aperto per la gente che lavora con esso.»</strong> Parti modulari, testabili.</li>
+<li><strong>Stressare gli agenti già in progettazione</strong> perché producano un sistema testabile. Si può fare a posteriori, ma è peggio.</li>
+<li><strong>Test di integrazione ad alto livello</strong>, di tutti i tipi: sono la spina dorsale.</li>
+<li><strong>Unit test con parsimonia.</strong> Ragione specifica dell'era degli agenti: l'AI <strong>sarà costretta a romperli e riscriverli a ogni cambio d'interfaccia</strong>, quindi rendono poco.</li>
+<li><strong>Ambiente di esecuzione a granularità diverse.</strong> Non ogni modifica minuscola fa partire tre ore di test; ma prima di una grande release serve la matrice completa (piattaforme, architetture, modalità, dall'API del database alla user experience).</li>
+<li><strong>La parsimonia sulle feature NON vale per i test.</strong> Il test è «codice accessorio, usa e getta, si può togliere». Se il tuo sistema non ha buoni strumenti di testing, <strong>scrivitene di nuovi</strong>: è uno dei migliori usi della velocità di generazione.</li>
+</ul>
+<p><strong>Avvertenza sul prompting degli agenti,</strong> che vale come regola generale: se martelli su una sola caratteristica, ne perdi altre. Esempio suo — a forza di ripetere «deve essere testabile» su un sistema <em>performance critical</em>, l'agente rompe i confini dell'interfaccia ideale e te lo consegna più lento di quanto potrebbe essere. Il compromesso qui si accetta, perché «testabile è testato».</p>
+<h3>4. Riconoscere le scelte irreversibili</h3>
+<p>Diventare bravi a distinguere <strong>cosa si potrà modificare a posteriori e cosa no</strong>. Tre livelli:</p>
+<ul>
+<li><strong>Semi-irreversibili:</strong> linguaggio di programmazione, framework, scelte architetturali di base. Cambiarle costa un rewrite o un porting di mesi, che mina la qualità del progetto.</li>
+<li><strong>Irreversibili per accumulo:</strong> in un engine di inferenza (cita llama.cpp e vLLM), se non fai <strong>gating sulla qualità dell'inferenza</strong> cominci ad ammassare kernel su kernel con <strong>drift numerici</strong>; per recuperare la qualità su certe famiglie di modelli dovrai riscrivere i kernel da capo.</li>
+<li><strong>Irreversibili per contesto:</strong> anche una scelta banale diventa irreversibile <strong>quando il sistema è in produzione</strong>. Uno schema SQL sbagliato con utenti attivi significa fermare tutto, procedure di stop complicate, migrazioni.</li>
+</ul>
+<p><strong>La contromisura è un campanello d'allarme</strong>, non una checklist: sviluppare la sensibilità per riconoscere quando si sta per compiere una scelta di questo tipo, e in quel momento o <strong>aumentare il grado di reversibilità</strong> o decidere pensando al futuro. Mossa operativa concreta: <strong>chiedere esplicitamente all'AI se quella scelta sarà reversibile senza casini</strong> — è uno degli usi in cui il modello aiuta davvero.</p>
+<h3>5. Sapere quando fermarsi</h3>
+<p>Qualità «di ordine psicologico personale». Nel software si creano <strong>tensioni tra la voglia di fare altro e la tenuta del sistema che comincia a cedere</strong> — la qualità scende, arrivano bug, gli utenti sono insoddisfatti. Lì bisogna fermarsi, <strong>ristrutturare le basi e pagare il debito tecnico</strong>.</p>
+<p>Il punto storico che rende la cosa nuova: <strong>prima non si faceva per un motivo legittimo</strong> — refactoring e fix duravano mesi e mesi, non ci si poteva fermare, e «si accumulava schifo su schifo». Ora le stesse operazioni <strong>si tirano fuori in settimane</strong>. La scusa è caduta.</p>
+<p>Da cui la parte più politica: <strong>fare forza anche contro il management</strong> quando si percepisce una fragilità significativa. «Dovete avere coscienza di classe: voi siete sviluppatori, il vostro software lo usano altri.» Usare l'AI come scusa per andare sempre avanti <strong>esacerba problemi già noti</strong> dal modo tradizionale di sviluppare.</p>
+<h3>6. Comunicare — con le macchine e con le persone</h3>
+<p>In un mondo in cui valgono sempre di più le idee, i concetti e i modelli di sistema, <strong>la comunicazione diventa competenza tecnica</strong>. Non solo con gli LLM: soprattutto con gli umani. Tre situazioni:</p>
+<ul>
+<li><strong>Rifiutare in modo argomentato.</strong> Una PR, una feature proposta dal capo o da un collega: il modello mentale del sistema non serve a niente se non sai articolarlo in una riunione.</li>
+<li><strong>Onboarding.</strong> Spiegare a voce, in linguaggio naturale, come funziona il sistema <strong>a grandi linee</strong> — trasferire il modello mentale. La persona nuova può interrogare l'AI, ma «sarebbe il caso che ciò avvenisse <strong>solo per i dettagli</strong>»: il quadro d'insieme deve raccontarglielo un umano, in dieci minuti o in qualche giorno a seconda della complessità.</li>
+<li><strong>Decidere insieme.</strong> Sessioni alla lavagna su <em>che direzione prendiamo</em>: raccontare il sistema, individuare le tensioni attuali, proporre evoluzioni.</li>
+</ul>
+<h2>Come si incastra col resto del vault</h2>
+<ul>
+<li><strong>Con <a href="spec-driven-prompting.html">spec-driven-prompting</a>:</strong> questa pagina è la risposta alla domanda «da dove viene una buona spec?». Viene dal modello di sistema. Il caso Redis/Valkey mostra che il salto di qualità è arrivato da cinque vincoli che nessun prompt generico avrebbe prodotto — chi non ha il modello in testa quei vincoli non li può nemmeno formulare.</li>
+<li><strong>Con <a href="loop-engineering.html">loop-engineering</a>:</strong> il punto 3 è la stessa idea vista dal lato del codice. Se il verificatore non può più essere l'occhio umano sul diff, il <strong>test di integrazione diventa il segnale di verifica</strong>, e come ogni verificatore va progettato prima che serva.</li>
+<li><strong>Con <a href="context-rot.html">context-rot</a>:</strong> il gap lettura/scrittura è il gemello umano del problema di contesto — in entrambi i casi il collo di bottiglia non è la generazione, è quanto se ne riesce a tenere sotto controllo.</li>
+</ul>
 <h2>Fonti</h2>
 <ul>
-<li>how-i-design-apps-10x-better-2026-07-16 (Chris Ro, ospite di Greg Isenberg, 2026-07-16)</li>
-<li>migliorare-frontend-design-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — confronto Hallmark / Impeccable / Taste Skill, design.md</li>
-<li>turn-claude-into-a-design-genius-2026-08-21 (Chase AI, 2026-08-21) — taste library, build a ventaglio, prompt in 4 pezzi, tweaks bar</li>
+<li>le-qualita-dei-programmatori-di-domani-2026-08-24 — Salvatore Sanfilippo (antirez), 23 min, pubblicato 2026-08-16, ingerito 2026-08-24. Fonte unica di questa pagina.</li>
 </ul>
+<p><strong>Note di onestà.</strong> (a) La pagina poggia su <strong>una sola fonte</strong>: è la visione argomentata di un singolo autore molto competente, non un consenso. Va messa alla prova con altri video prima di trattarla come stabilita. (b) I numeri della PR Redis (<strong>−40% di memoria</strong>, <strong>~6000 righe</strong>) sono affermazioni sue, non verificate in modo indipendente — dice esplicitamente «se non ci credete andatelo a guardare». (c) I sottotitoli automatici del video sono rumorosi: un terzo engine di inferenza citato a [16:06] non è stato identificato ed è stato omesso invece di essere indovinato.</p>
 <script>
 window.SB = (function () {
   var API = 'https://brain-sync.tramitemarketing-it.workers.dev';

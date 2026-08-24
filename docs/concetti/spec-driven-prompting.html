@@ -132,10 +132,18 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Dì di meno.</strong> Un'istruzione corta guida quanto un elenco di regole, <em>se</em> l'ambiente attorno è buono.</li>
 </ol>
 <blockquote>⚠️ La regola 6 tira contro l'istinto di scrivere specifiche lunghissime. La riconciliazione: <strong>la specifica vive nell'ambiente</strong> (file di progetto, skill, criteri di verifica), <strong>il prompt resta corto</strong>. Vale anche il monito opposto raccolto altrove: file di progetto e skill tendono a essere troppo lunghi, e i modelli intelligenti hanno bisogno di spazio.</blockquote>
+<h2>Da dove viene una buona spec: il modello di sistema</h2>
+<p>Tutto quel che sta sopra dà per scontato il pezzo più difficile — che tu <strong>sappia già</strong> cosa chiedere. Sanfilippo (antirez) fornisce il caso che mostra quanto quel presupposto pesi, e da che parte sta la leva.</p>
+<p>Una sua pull request su Redis per i <em>sorted set</em> — ~6000 righe, mesi di lavoro, sviluppata con l'AI — arriva a consumare il <strong>40% di memoria in meno</strong> dell'implementazione equivalente di Valkey. Non grazie a un prompt migliore: grazie a <strong>cinque vincoli architetturali dettati da un umano che conosce il sistema</strong>. Hash table specializzata invece di quella normale di Redis, bucket raggruppati invece che singoli, lookup con la tecnica dei tag, niente stringhe SDS (non si può pagare il costo del puntatore), stringhe internalizzate nel B+tree.</p>
+<p>Il punto per questa pagina: <strong>la spec vale quanto il modello di sistema che la produce.</strong> Chi quel modello non ce l'ha, quei vincoli non li può nemmeno formulare — nessuna tecnica di specking li fa emergere dal nulla, perché non sono "contesto implicito da estrarre con l'intervista": sono conoscenza di dominio.</p>
+<p><strong>E l'AI non li propone da sola.</strong> La spiegazione che dà è meccanica, non liquidatoria: i modelli attuali non mancano delle categorie concettuali per arrivarci, ma <strong>il fine tuning e il reinforcement learning li spingono a essere conservativi</strong> — a non stravolgere il progetto su cui lavorano (altrimenti sarebbe impraticabile lavorarci con gli agenti) e ad aderire troppo alle parole dell'utente. Le <strong>idee radicali vanno iniettate dall'esterno</strong>. Osservazione datata metà agosto 2026: è un vincolo di addestramento, quindi può cambiare.</p>
+<blockquote>Corollario pratico che si aggiunge alle regole qui sopra: <strong>prima di una scelta architetturale, chiedi esplicitamente all'AI se sarà reversibile senza casini.</strong> È il tipo di domanda in cui il modello aiuta davvero, perché non richiede audacia ma inventario delle conseguenze.</blockquote>
+<p>La trattazione completa sta in <a href="mestiere-programmatore-con-ai.html">mestiere-programmatore-con-ai</a>.</p>
 <h2>Fonti</h2>
 <ul>
 <li>Stop Prompting Claude. Use Karpathy's Method Instead. (Austin Marchese, 2026-07-07) — riprende un'intervista di Andrej Karpathy a AI Ascent 2026.</li>
 <li>skill-risolto-problema-piu-grande-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — pattern Wayfinder: mappa di ticket, grilling breadth-first, fog, anti-overplanning.</li>
+<li>le-qualita-dei-programmatori-di-domani-2026-08-24 (Salvatore Sanfilippo, 2026-08-24) — la spec vale quanto il modello di sistema che la produce; il caso Redis/Valkey e il conservativismo addestrato dei modelli.</li>
 </ul>
 <script>
 window.SB = (function () {
