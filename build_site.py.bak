@@ -519,28 +519,6 @@ def read_md(path):
     with open(path, encoding="utf-8") as fh:
         return parse_frontmatter(fh.read())
 
-# Concetti da fissare in homepage come schede, sopra ai video.
-# Sono pagine di wiki/concepts che vale la pena vedere senza doverle cercare.
-# Per fissarne un'altra basta aggiungere il suo slug a questa lista.
-IN_EVIDENZA = ["skill-installate"]
-
-# Miniatura per le schede senza video: stessa forma 16:9 dei fotogrammi YouTube,
-# cosi' la scheda di un concetto si allinea a quelle dei video.
-THUMB_CONCETTO = (
-    "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20"
-    "viewBox%3D%220%200%20160%2090%22%3E%3Crect%20width%3D%22160%22%20height%3D%2290%22%20"
-    "fill%3D%22%232c3444%22/%3E%3Cg%20fill%3D%22%23e8eaed%22%3E"
-    "%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2260%22%20height%3D%226%22%20rx%3D%223%22/%3E"
-    "%3Crect%20x%3D%2234%22%20y%3D%2242%22%20width%3D%2292%22%20height%3D%226%22%20rx%3D%223%22%20"
-    "opacity%3D%22.75%22/%3E"
-    "%3Crect%20x%3D%2234%22%20y%3D%2256%22%20width%3D%2276%22%20height%3D%226%22%20rx%3D%223%22%20"
-    "opacity%3D%22.5%22/%3E"
-    "%3Ccircle%20cx%3D%2224%22%20cy%3D%2231%22%20r%3D%224%22/%3E"
-    "%3Ccircle%20cx%3D%2224%22%20cy%3D%2245%22%20r%3D%224%22%20opacity%3D%22.75%22/%3E"
-    "%3Ccircle%20cx%3D%2224%22%20cy%3D%2259%22%20r%3D%224%22%20opacity%3D%22.5%22/%3E"
-    "%3C/g%3E%3C/svg%3E"
-)
-
 def id_video(meta):
     """L'id YouTube preso dal campo source: del frontmatter (se c'e')."""
     m = re.search(r"(?:v=|youtu\.be/)([A-Za-z0-9_-]{11})", meta.get("source", ""))
@@ -646,7 +624,6 @@ def main():
     # ordine cronologico: i concetti toccati piu' di recente vanno in cima
     concetti = sorted(glob.glob(os.path.join(cpath, "*.md")),
                       key=os.path.getmtime, reverse=True) if os.path.isdir(cpath) else []
-    info_concetti = {}                                  # slug -> (titolo, gist)
     if concetti:
         os.makedirs(os.path.join(OUT, "concetti"), exist_ok=True)
         known_c = {os.path.splitext(os.path.basename(f))[0] for f in concetti}
@@ -658,7 +635,6 @@ def main():
             title = m.group(1).strip() if m else slug.replace("-", " ").capitalize()
             g = re.search(r"\*\*Gist:\*\*\s*(.+?)(?:\n\n|\Z)", text, re.S)
             gist = re.sub(r"[*\[\]`]|\(.*?\)", "", g.group(1)).strip()[:150] if g else ""
-            info_concetti[slug] = (title, gist)
             tb = ('<div class="topbar"><a href="index.html">← Concetti</a> · '
                   '<a href="../index.html">Home</a></div>')
             with open(os.path.join(OUT, "concetti", slug + ".html"), "w", encoding="utf-8") as fh:
@@ -672,36 +648,34 @@ def main():
         with open(os.path.join(OUT, "concetti", "index.html"), "w", encoding="utf-8") as fh:
             fh.write(page("Concetti", intro + "\n".join(righe), tb, HOME_JS))
 
+    # --- pain registry (progetti/venture-scan): il registro dei pain, da leggere ---
+    card_pain = ""
+    ppath = os.path.join(VAULT, "progetti", "venture-scan", "pain-registry.md")
+    if os.path.isfile(ppath):
+        _, ptext = read_md(ppath)
+        m = re.search(r"^#\s+(.*)$", ptext, re.M)
+        ptitle = m.group(1).strip() if m else "Pain Registry"
+        tb = '<div class="topbar"><a href="index.html">← Home</a></div>'
+        with open(os.path.join(OUT, "pain-registry.html"), "w", encoding="utf-8") as fh:
+            fh.write(page(ptitle, md_to_html(ptext, set()), tb, READER_JS))
+        card_pain = ('<a class="card" href="pain-registry.html">'
+                     '<span class="tag">Progetti · venture-scan</span>'
+                     '<h2>Pain Registry — i dolori trovati</h2>'
+                     '<span class="desc">I pain documentati dalla caccia, per tema e ordinati '
+                     'per calore. Da leggere e segnare.</span></a>')
+
     # --- homepage: tutto in ordine di data, dal più recente (playlist incluse) ---
     home_cards.sort(key=lambda c: c["visto"] or "", reverse=True)
     pl = [c for c in home_cards if c["kind"] == "playlist"]
     vd = [c for c in home_cards if c["kind"] == "video"]
-    # stessa struttura delle schede video (miniatura + blocco di testo), altrimenti
-    # il flex mette l'etichetta al posto della miniatura e spezza il testo in colonne
     card_concetti = ('<a class="card" href="concetti/index.html">'
-                     '<img class="thumb" loading="lazy" alt="" src="%s">'
-                     '<span class="txt"><span class="tag">Concetti · %d pagine</span>'
+                     '<span class="tag">Concetti · %d pagine</span>'
                      '<h2>La conoscenza per argomento</h2>'
-                     '<span class="desc">Quello che ho imparato, fuso per tema invece che '
-                     'per video.</span></span></a>'
-                     % (THUMB_CONCETTO, len(concetti))) if concetti else ""
-    # schede fissate: concetti importanti, con miniatura, nello stile delle schede video
-    schede_evidenza = []
-    for slug in IN_EVIDENZA:
-        if slug not in info_concetti:
-            continue
-        titolo, gist = info_concetti[slug]
-        desc = ('<span class="desc">%s…</span>' % html.escape(gist)) if gist else ""
-        schede_evidenza.append(
-            '<a class="card" href="concetti/%s.html">'
-            '<img class="thumb" loading="lazy" alt="" src="%s">'
-            '<span class="txt"><span class="tag">Guida</span><h2>%s</h2>%s</span></a>'
-            % (slug, THUMB_CONCETTO, html.escape(titolo), desc))
-    card_evidenza = "\n".join(schede_evidenza)
-
+                     '<span class="desc">Quello che ho imparato, fuso per tema invece che per video.</span></a>'
+                     % len(concetti)) if concetti else ""
     body = ('<h1>%s</h1><p class="muted">Riassunti accurati dei video guardati. Un tocco per aprirne uno. '
             'Quelli già letti si segnano da soli.</p>'
-            % html.escape(SITE_TITLE)) + card_concetti + card_evidenza + "\n".join(c["html"] for c in home_cards)
+            % html.escape(SITE_TITLE)) + card_concetti + card_pain + "\n".join(c["html"] for c in home_cards)
     tb = '<div class="topbar"><a href="index.html">%s</a></div>' % html.escape(SITE_TITLE)
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as fh:
         fh.write(page(SITE_TITLE, body, tb, HOME_JS))
@@ -715,6 +689,7 @@ def main():
         attesi.add(os.path.join(OUT, "concetti",
                                 os.path.splitext(os.path.basename(f))[0] + ".html"))
     attesi.add(os.path.join(OUT, "concetti", "index.html"))
+    attesi.add(os.path.join(OUT, "pain-registry.html"))
     for d in os.listdir(SRC):                       # pagine dentro le playlist
         pdir = os.path.join(SRC, d)
         if os.path.isdir(pdir):
