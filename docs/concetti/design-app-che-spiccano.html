@@ -127,6 +127,26 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Attrezzi flessibili, non prescrittivi</strong>: Impeccable (anche in <strong>live mode</strong>: modifichi i componenti dal browser) + Taste Skill + <strong>Higgsfield MCP</strong> per hero image e asset (higgsfield). Avvertenza esplicita: le skill "miracolose" che fanno siti bellissimi sono strette e danno un solo tipo di output — il rabbit hole degli attrezzi è una trappola.</li>
 <li><strong>Build a ventaglio, mai one-shot</strong>: 5 versioni in 5 stili → scegli la direzione → 3 varianti → scegli → tweak. «Vedere tutte le opzioni su uno schermo», non una alla volta nel terminale. Prompt in <strong>4 pezzi</strong>: estetica + reference (immagini o URL — si copia il <em>feel</em>, non il contenuto) + intento (cosa/perché/pubblico/azione) + guardrail always/never (mai gradienti viola, mai Inter). Chiusura: farsi costruire una <strong>tweaks bar</strong> sul dev server (font, accent color, motion, weight) per iterare <strong>con gli occhi</strong> invece che a prompt.</li>
 </ol>
+<h2>8. L'intervista come motore anti-template (ScrollCraft)</h2>
+<p>Le skill della sezione 6 codificano <em>divieti</em> (i pattern di slop da non produrre). <strong>ScrollCraft</strong> (Nate Herk, gratuita ma distribuita solo dalla sua community Skool) attacca la genericità dall'altro lato: invece di vietare, <strong>interroga</strong>. La prima fase della skill non genera niente — sottopone all'utente una sequenza di domande a scelta multipla, ciascuna con un'opzione marcata <em>(Recommended)</em> e un campo "Other" libero per dettare deroghe.</p>
+<p>È la risposta operativa al problema che Chase AI dichiara nella sezione 7 («il problema non è tecnico, è la genericità»): a parità di skill, <strong>input diversi producono siti diversi</strong>, e il gusto non deve stare nella testa di chi scrive il prompt.</p>
+<p><strong>Le sei domande, riusabili in qualsiasi skill generativa:</strong></p>
+<ol>
+<li><strong>Il percorso</strong> — qual è il viaggio dello scroll? Cosa incontra per primo il visitatore, e in che ordine dopo? <em>(opzioni: le ricevute per prime / la storia per prima / lo sguardo dall'interno / le due porte)</em></li>
+<li><strong>La convinzione</strong> — cosa deve credere il visitatore alla fine? <strong>Una frase, non una lista di feature.</strong></li>
+<li><strong>L'inventario</strong> — che asset reali possiedi? Decide <strong>quanto viene generato e quanto viene valorizzato</strong> da ciò che già hai. <em>(multi-selezione: foto tue/eventi, screenshot community, screenshot di workflow, "niente di usabile, resta sulla tipografia")</em></li>
+<li><strong>La mossa firma</strong> — una cosa che questo sito deve fare e che nessun sito che hai visto fa.</li>
+<li><strong>La curva dell'energia</strong> — dove deve sentirsi calma la pagina e dove intensa? <em>(silenzio poi una riga sola / crescita lenta / apertura forte poi sostanza / uniforme)</em></li>
+<li><strong>Il respiro</strong> — dove la pagina deve rallentare.</li>
+</ol>
+<p><strong>Il principio di design sotto:</strong> lo scroll non deve solo muovere la pagina, deve <strong>pilotare</strong> qualcosa che accade dentro — numeri che salgono, mappe che si popolano, scorrimenti orizzontali, immagini che si rivelano. L'utente resta in controllo col mouse e può tornare indietro. Il paragone dell'autore: <em>«è quasi come lo short-form: se non ti aggancia subito, non sei altrettanto interessato»</em>. Variante narrativa del frame-on-scroll già censito in <a href="landing-prodotto-premium-claude-code.html">landing-prodotto-premium-claude-code</a>.</p>
+<p><strong>Due dettagli che valgono oltre il web design:</strong></p>
+<ul>
+<li><strong>La risposta all'intervista diventa struttura, non decorazione.</strong> Alla domanda sulla mossa firma l'autore risponde <em>«ogni affermazione ha una ricevuta, niente è asserito senza fonte»</em>: il sito generato produce un pannello <strong>SOURCES</strong> che si sblocca scrollando (0 di 9 → 9 di 9) più una tabella finale con fonte, URL e data per ogni numero — e va a cercare online i numeri <strong>veri e aggiornati</strong> invece di inventarli.</li>
+<li><strong>Iterare a voce batte riscrivere la specifica.</strong> Il secondo giro non tocca l'intervista: è una passeggiata commentata sul risultato, sezione per sezione, in linguaggio naturale («l'hero è scialbo», «il globo scorre troppo veloce, rallentalo», «togli questa sezione», «vai a prendere il link vero dal sito principale»). Più economico e più preciso di un secondo prompt lungo. Cugino della <strong>tweaks bar</strong> della sezione 7: iterare con gli occhi, non a specifiche.</li>
+</ul>
+<p><strong>Prompting emotivo.</strong> Dichiarazione di metodo dello stesso autore: <em>«ultimamente sto scoprendo che puoi istruire i modelli in modo un po' più emotivo di quanto si potesse in passato»</em> — descrivere cosa deve <strong>provare</strong> l'utente e quale emozione manipolare, invece del comportamento del codice. Complementare al prompting negativo di <a href="spec-driven-prompting.html">spec-driven-prompting</a>.</p>
+<blockquote>⚠️ Il "ultimate" del titolo è promozionale: il video <strong>non confronta</strong> ScrollCraft con Impeccable, Taste Skill o Hallmark, e non mostra mai il contenuto della skill. Quel che resta verificabile sono le domande e il metodo.</blockquote>
 <h2>Nota</h2>
 <p>È un video molto <strong>visivo</strong> ingerito da sola trascrizione: qui resta il metodo, non le demo. Filo comune con <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>: il primo output dell'AI è "slop", la qualità sta nei dettagli che l'umano cura sopra.</p>
 <h2>Fonti</h2>
@@ -134,6 +154,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>how-i-design-apps-10x-better-2026-07-16 (Chris Ro, ospite di Greg Isenberg, 2026-07-16)</li>
 <li>migliorare-frontend-design-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — confronto Hallmark / Impeccable / Taste Skill, design.md</li>
 <li>turn-claude-into-a-design-genius-2026-08-21 (Chase AI, 2026-08-21) — taste library, build a ventaglio, prompt in 4 pezzi, tweaks bar</li>
+<li>ultimate-claude-website-design-skill-scrollcraft-2026-08-25 (Nate Herk, 2026-08-25) — ScrollCraft: l'intervista a scelta multipla come motore anti-template, scroll-driven narrative, feedback dettato a voce</li>
 </ul>
 <script>
 window.SB = (function () {

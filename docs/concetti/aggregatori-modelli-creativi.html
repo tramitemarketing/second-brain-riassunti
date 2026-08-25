@@ -120,10 +120,13 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Docs LLM-ready</strong>: per aggiungere un modello nuovo alla skill si copia la pagina "content for LLMs" della doc del provider e la si incolla a Claude.</li>
 <li><strong>Feedback visivo locale</strong>: per valutare output visuali serve una galleria (canvas/masonry), non il terminale — e salvare gli <strong>styles</strong> come coppie prompt+reference riutilizzabili.</li>
 </ul>
+<h2>Pattern operativo: l'aggregatore chiamato dalla skill</h2>
+<p>Variante che toglie l'umano dal giro: invece di generare a mano gli asset e passarli al progetto, si mette la <strong>chiave API dell'aggregatore nelle variabili d'ambiente del progetto Claude Code</strong> e si lascia che sia la skill a chiamarlo quando le serve. Documentato con kie-ai in ultimate-claude-website-design-skill-scrollcraft-2026-08-25: la skill genera le immagini, le anima in video e li cuce da sola, «perché la skill le dice come». Costo non dichiarato nella fonte.</p>
 <h2>Fonti</h2>
 <ul>
 <li>this-1-claude-skill-fully-replaces-your-higgsfield-2026-08-08 (RoboNuggets, 2026-07-31) — tesi wrapper, confronto costi, i tre aggregatori, skill /generate</li>
 <li>ai-agent-builds-cinematic-websites-2026-07-19 (2026-07-19) — uso di fal.ai/kie.ai per asset di siti cinematici</li>
+<li>ultimate-claude-website-design-skill-scrollcraft-2026-08-25 (Nate Herk, 2026-08-25) — kie.ai chiamato direttamente da una skill via variabili d'ambiente del progetto</li>
 </ul>
 <script>
 window.SB = (function () {

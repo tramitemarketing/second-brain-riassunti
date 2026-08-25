@@ -116,11 +116,21 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Branding "rubato" da un sito che piace</strong>: <strong>Firecrawl.dev</strong> (<a href="mcp-connectors.html">mcp-connectors</a>) fa lo scraping del branding (es. Apple) → JSON con font/colori/stili → dallo a Claude nel progetto.</li>
 <li><strong>Pubblica</strong>: il sito è HTML/CSS/JS in locale; <strong>Netlify</strong> (hosting gratis) lo mette online — glielo chiedi a Claude; poi rinomini il sito o colleghi un dominio (GoDaddy/Aruba…).</li>
 </ol>
+<h2>La variante narrativa: scroll-driven storytelling (ScrollCraft)</h2>
+<p>Il frame-on-scroll qui sopra lega lo scorrimento a <strong>un oggetto</strong> (il prodotto che ruota). Esiste la variante che lo lega a <strong>un racconto</strong>: numeri che salgono, mappe che si popolano di puntini, sezioni che cambiano da chiaro a scuro, scorrimenti orizzontali, immagini che si rivelano. Stesso principio meccanico — <em>lo scroll pilota qualcosa che accade dentro la pagina, e l'utente resta in controllo col mouse</em> — applicato alla narrazione di un'azienda invece che alla vetrina di un prodotto.</p>
+<p>La skill di riferimento è <strong>ScrollCraft</strong> (ultimate-claude-website-design-skill-scrollcraft-2026-08-25), e la differenza di pipeline rispetto ai sei passi qui sopra è netta:</p>
+<ul>
+<li><strong>Non parte da un prompt, parte da un'intervista.</strong> Domande a scelta multipla su percorso, convinzione finale, asset posseduti, mossa firma e curva emotiva. Le sei domande sono censite in <a href="design-app-che-spiccano.html">design-app-che-spiccano</a> §8.</li>
+<li><strong>Gli asset stanno dentro la skill.</strong> Niente passaggio manuale immagine → video → frame: la skill chiama kie-ai da sola (chiave API nelle variabili d'ambiente del progetto), genera le immagini, le anima e cuce i video.</li>
+<li><strong>C'è un passo di verifica visiva.</strong> Prima di consegnare, l'agente si genera screenshot del sito e <strong>se li rilegge come immagini</strong> per controllare che non ci sia niente storto (vedi <a href="loop-engineering.html">loop-engineering</a>).</li>
+</ul>
+<p>Ordini di grandezza dichiarati: <strong>~30 minuti</strong> per la prima build (stima dell'autore), diff <strong>+38.452 / −1.651</strong> righe, <strong>Opus 5</strong> a effort <strong>High</strong>. Il primo giro esce comunque con difetti reali — didascalie sbagliate, link che puntano male, hero scialbo — corretti dettando a voce sezione per sezione.</p>
 <h2>Relazione con gli altri modi di fare siti</h2>
 <p>Diverso da <a href="seo-con-claude.html">seo-con-claude</a> (che punta su blog/service-page ranking e static-site-generation): qui l'obiettivo è <strong>una singola landing visivamente spettacolare</strong> per un prodotto/cliente. Stesso motore (Claude Code che scrive HTML/CSS/JS), scopo opposto. Filo comune con <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>: il primo output è grezzo, la qualità sta nel curare frame, branding e animazioni.</p>
 <h2>Fonti</h2>
 <ul>
 <li>come-creare-siti-web-folli-claude-code-nano-banana-2026-07-16 (Aziz, Advantage Plus, 2026-07-16)</li>
+<li>ultimate-claude-website-design-skill-scrollcraft-2026-08-25 (Nate Herk, 2026-08-25) — la variante narrativa: ScrollCraft, intervista, asset in-skill, verifica visiva</li>
 </ul>
 <script>
 window.SB = (function () {

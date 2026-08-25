@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Built The Ultimate Claude Website Design Skill (steal this)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Built The Ultimate Claude Website Design Skill (steal this)" src="https://i.ytimg.com/vi/QUI6Ug4cHnE/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk presenta <strong>ScrollCraft</strong>, una skill gratuita per Claude Code che costruisce landing page dove <strong>lo scorrimento del mouse pilota quello che succede sulla pagina</strong> — numeri che salgono, mappe che si popolano, immagini che si rivelano. La cosa davvero riutilizzabile non è la skill in sé (che non mostra mai dall'interno) ma tre pattern: la skill <strong>inizia con un'intervista a scelta multipla</strong> invece che con un prompt, e questo è il motivo per cui non sputa fuori template; Claude <strong>si fa gli screenshot del proprio sito e se li rilegge</strong> prima di consegnare, portando la verifica dove il diff testuale non arriva; e il secondo giro si fa <strong>dettando a voce sezione per sezione</strong>, non riscrivendo la specifica. Numeri: ~30 minuti per la prima build, diff di +38.452 / −1.651 righe, Opus 5 a effort High.</p>
+<h2>Che cos'è ScrollCraft, e cosa promette</h2>
+<p>La descrizione che compare in Claude Code quando la si richiama è: <em>«costruisci una landing page a interfaccia scroll-driven, premium, per qualsiasi attività»</em>. Il video si apre senza sigla, dentro un sito già finito che scorre a tutto schermo — una lattina di caffè proteico, lettering gigante, "YOUR MORNING SHOULDN'T REQUIRE TWO DRINKS" — mentre lui parla da un riquadro in alto a sinistra.</p>
+<p>L'argomento di vendita arriva subito: mostra il suo vecchio sito («è ok, no? niente di che»), dice di aver scritto a Claude <em>«guarda il mio sito, usa questa skill, trasformalo»</em>, e fa vedere il risultato. <strong>Stessa copy, stesso branding, stessa sensazione di marca</strong> — ma trasformato in qualcosa di interattivo che «ti aggancia e ti fa venire voglia di continuare a scorrere per vedere cosa arriva». Il termine con cui liquida la concorrenza è <strong>AI slop</strong>: «non è la solita roba generica».</p>
+<p>Il nome viene dal principio. <strong>ScrollCraft</strong> perché l'idea è agganciare chi guarda facendo in modo che <strong>lo scroll corrisponda a qualcosa che accade davvero sulla pagina</strong>. Sopra questo principio la skill contiene anche regole classiche di design: spaziature, tipografia, <em>feel</em>, gusto.</p>
+<p>Il paragone che usa per spiegare perché funziona è preciso: <strong>«è quasi come i contenuti short-form: se non ti aggancia subito, non sei altrettanto interessato»</strong>. E aggiunge la cosa che considera il vero controllo: l'utente <strong>comanda con il mouse</strong>, può andare avanti e tornare indietro, decide lui cosa sta guardando in ogni momento.</p>
+<p>Nella vetrina di esempi si vedono un'agenzia di viaggi con un "viaggio" letterale dentro la pagina, un sito di profumi in due varianti (una molto animata dall'inizio, una che parte semplice e poi isola un prodotto alla volta), un sito editoriale «molto professionale, molto da rivista, che dà una sensazione di fiducia» ma pieno di animazioni di scorrimento. Il punto che ci tiene a fare: <strong>escono tutti diversi</strong>.</p>
+<h2>Dove si prende, e cosa serve sapere prima</h2>
+<p>La skill è gratuita ma <strong>si scarica solo dalla sua community Skool</strong>: link in descrizione, poi classroom, poi "all YouTube resources". È un plugin installabile, oppure si copiano a mano cartelle e file dentro Claude. Nel video usa <strong>Claude Code Desktop</strong> e dichiara di dare per scontata una conoscenza di base di Claude Code, rimandando a un suo corso di sei ore per chi parte da zero.</p>
+<h2>Il pezzo che vale il video: l'intervista</h2>
+<p>Il prompt d'ingresso è volutamente povero. Scrive qualcosa come: <em>«voglio usare questa skill per rifare il sito della mia AI Automation Society; lo voglio premium, trusted, più editoriale — non un mondo dentro cui volare, non un mucchio di asset generati dall'AI»</em>. E si ferma lì, di proposito, <strong>perché la prima fase della skill è un'intervista</strong>.</p>
+<p>Quello che parte è una sequenza di domande a scelta multipla, ciascuna con le opzioni numerate, <strong>una marcata "(Recommended)"</strong> e un campo <strong>"Other"</strong> dove scrivere a mano una deroga. Le domande leggibili nel video, che valgono da sole come materiale riusabile:</p>
+<ul>
+<li><strong>«Qual è il viaggio dello scroll? Cosa incontra per primo il visitatore, e in che ordine dopo?»</strong> — con opzioni tipo <em>le ricevute per prime</em> (i numeri grossi), <em>la storia per prima</em>, <em>lo sguardo dall'interno per primo</em>, <em>le due porte per prime</em>. Lui sceglie i numeri, che è anche il consiglio della skill.</li>
+<li><strong>«Cosa deve credere il visitatore alla fine — una frase, non una lista di feature.»</strong> Qui incolla la sua mission statement.</li>
+<li><strong>«Che asset reali hai? Questo decide quanto viene generato e quanto viene valorizzato a partire da ciò che possiedi.»</strong> — a selezione multipla: foto tue e degli eventi, screenshot della community, screenshot di workflow, oppure "niente di usabile, resta sulla tipografia".</li>
+<li><strong>«Una cosa che questo sito deve fare e che nessun sito che hai visto fa. Questa diventa la mossa firma.»</strong></li>
+<li><strong>«La curva dell'energia. Dove deve sentirsi calma questa pagina e dove intensa?»</strong> — con opzioni tipo <em>silenzio e poi una riga sola</em>, <em>crescita lenta fino alla fine</em>, <em>apertura forte e poi sostanza</em>, <em>uniforme per tutta la pagina</em>.</li>
+</ul>
+<p>Nella domanda sugli asset lui fa una cosa istruttiva: usa il campo libero per dettare una richiesta ibrida. Dice di usare le due foto che ci sono già (lui che parla a un evento, il gruppo a una call), e poi chiede di <strong>generare qualche immagine non fotorealistica</strong> in stile <em>«geometrico low poly minimalista, figure umane»</em>, con scene legate alla certificazione o agli eventi — «persone che festeggiano una vittoria, persone che si insegnano a vicenda, persone che lavorano insieme» — restando dentro i colori e le linee guida del brand.</p>
+<p>Alla domanda sulla mossa firma risponde: <strong>«ogni affermazione ha una ricevuta. Niente sulla pagina è asserito senza una fonte.»</strong> Torna dopo, e conta.</p>
+<p>Il commento con cui chiude la sezione è la tesi del video: <strong>se hai le idee chiare, il campo libero ti fa arrivare a un risultato molto specifico; se non le hai, il bello è che la skill «conosce un mucchio di gusto» su cosa rende buona un'animazione di scorrimento</strong>, e ti tiene per mano con le opzioni consigliate.</p>
+<h2>Gli asset: kie.ai dentro la pipeline</h2>
+<p>Per generare le immagini e i video la skill usa <strong>kie.ai</strong>, che descrive come <em>«una specie di OpenRouter ma per modelli di immagini e video»</em>. Si prende una chiave API e si mette <strong>nelle variabili d'ambiente del progetto Claude Code</strong>; da lì la skill ci arriva da sola per tutti gli asset che le servono. Mostra i suoi log di generazione — la lattina, il flacone di profumo, la tazza — e spiega il flusso: <strong>crea le immagini, trasforma le immagini in video, cuce i video insieme</strong>, «fa quello che serve, perché la skill le dice come».</p>
+<h2>Il verificatore visivo</h2>
+<p>Questa è la parte tecnicamente più interessante, e lui la segnala apposta come una cosa a cui fare attenzione.</p>
+<p>Mentre Claude costruisce, compare un messaggio: <strong>«ora la parte che l'harness non può giudicare — zoom sui keyframe»</strong>. In pratica il modello <strong>si genera gli screenshot del sito che sta costruendo e poi li rilegge come immagini</strong>, per ispezionarli e accertarsi che non ci sia niente storto. Nel video si vede la tool call <code>Read 07.png</code> con il percorso del file e la schermata caricata sotto.</p>
+<p>Il suo commento: <em>«è così che si spera riesca a darci qualcosa al primo colpo molto migliore di quanto sarebbe senza questo passaggio di verifica»</em>. E chiude con una raccomandazione che vale al di là di questa skill: <strong>«ed è per questo che è così importante guardare Claude mentre lavora — ti fai un'idea di come si comporta davvero l'harness».</strong></p>
+<h2>Il prompting emotivo</h2>
+<p>Buttata lì mentre risponde alle ultime domande di design, ma è una dichiarazione di metodo: <strong>«ultimamente sto scoprendo che puoi istruire i modelli AI in modo un po' più emotivo di quanto si potesse in passato»</strong>. Racconta di dire alla macchina <em>cosa vuole che si senta</em> e <em>quale deve essere la motivazione</em>, e di farla ragionare mettendosi nei panni di chi apre il sito e scorre: cosa proverebbe, e come si può «manipolare quell'emozione il più possibile».</p>
+<h2>Il risultato del primo giro</h2>
+<p>La prima build dura <strong>circa trenta minuti</strong> (sua stima). Claude consegna anche uno screenshot che ripercorre l'intero scorrimento, così si vede il <em>vibe</em> prima ancora di aprire il sito.</p>
+<p>Il verdetto a caldo è misto e onesto: <em>«di primo acchito sembra piuttosto noioso»</em>, ma la sensazione professionale-editoriale c'è. Poi cominciano le sorprese:</p>
+<ul>
+<li><strong>I numeri sono veri e freschi.</strong> È andato a cercarli davvero: 441.500 membri della community gratuita, 953.000 iscritti YouTube. Lui verifica aprendo la sua pagina Skool: coincidono.</li>
+<li><strong>La mossa firma è diventata interfaccia.</strong> Sulla sinistra compare un pannello <strong>SOURCES</strong> che dice <em>«0 di 9»</em> e <strong>si sblocca man mano che si scorre</strong>, fino a nove su nove. Alla fine c'è una sezione intera intitolata <em>«Everything this page just claimed»</em> — una tabella con ogni numero, la fonte, l'URL e la data. La risposta all'intervista non è diventata decorazione, è diventata struttura.</li>
+<li><strong>Ha cercato materiale che non gli era stato dato.</strong> Trova e inserisce gli screenshot delle classifiche per il claim «quattro trimestri su quattro in cima alla leaderboard», immagini che sul sito originale non esistevano. «Non so dove li tenessi, ma è andato a trovarli.»</li>
+<li>Ci sono uno scorrimento orizzontale sugli "exhibit", una sezione dark che si apre con <em>«ha smesso di essere una stanza molto tempo fa»</em> mentre una mappa del mondo si riempie di puntini, testimonianze di persone reali che erano davvero alla call mostrata sopra, un video low poly per la certificazione.</li>
+</ul>
+<p>E ci sono i difetti, che <strong>lascia dentro il video invece di tagliarli</strong>: una didascalia sbagliata («quella non era AIS Live, era Africa AI»), un pulsante che punta al posto sbagliato, copy da rivedere, e l'hero iniziale che non convince.</p>
+<h2>Il secondo giro: feedback dettato a voce</h2>
+<p>Il modo in cui itera è la seconda cosa da rubare. Non riscrive la specifica: <strong>riguarda il sito sezione per sezione e detta</strong>, con un tono da revisione tra colleghi. Apre addirittura con un complimento — <em>«prima di tutto voglio dirti che hai fatto un buon lavoro, sei stato creativo e hai recepito il mio feedback»</em>. Poi:</p>
+<ul>
+<li>l'<strong>hero</strong> è «un po' scialbo» quando la pagina si carica, non sembra premium: serve profondità, perché è lì che si aggancia il pubblico;</li>
+<li>l'animazione del <strong>globo che si riempie</strong> gli piace molto ed è on brand, ma <strong>scorre troppo veloce</strong>: rallentala parecchio, così l'utente capisce cosa sta succedendo;</li>
+<li>le sezioni <strong>exhibit B–F</strong> e lo scorrimento laterale funzionano ma sono scialbi: lavoraci per farli sentire più premium;</li>
+<li>la sezione <strong>fondatore</strong> non ha niente di speciale, aggiungici un'animazione di scorrimento;</li>
+<li>l'animazione della <strong>certificazione</strong> «non dura abbastanza»: rallentala o esagerala;</li>
+<li>il <strong>link della certificazione</strong> deve puntare alla lista d'attesa vera, «vai a prenderlo dal sito principale»;</li>
+<li>la sezione <strong>register</strong> non gli piace: <strong>toglila</strong>.</li>
+</ul>
+<p>La v2 torna con tutto eseguito. Il nuovo hero è <strong>una copertina di rivista</strong> che entra in scorrimento; il globo è rallentato e ora si vedono i numeri salire e la mappa popolarsi di collegamenti; le card hanno colori dinamici che reagiscono al passaggio del mouse; la copy è stata riscritta più specifica per la coorte («il programma non è un attestato»); i link puntano nei posti giusti; register è sparito. Fa poi un ulteriore giro chiedendo un ingresso <strong>a macchina da scrivere</strong> per una sezione, e ottiene un'animazione in cui i volti delle persone entrano uno schermo alla volta — «super elegante, mi piace un sacco». Segnala anche l'ultimo difetto rimasto: <strong>un bug quando si ricarica la pagina</strong>.</p>
+<h2>La tesi finale</h2>
+<p>Chiude su quello che considera il punto: <strong>«non avevo ancora creato un esempio che assomigliasse a questo»</strong>. È l'argomento con cui difende la skill dall'accusa di essere un template: applica <em>principi</em> di design, ma il risultato resta legato a come tu hai descritto le emozioni, il percorso e gli obiettivi del business. Poi il consueto rimando alla community per scaricarla, e i saluti.</p>
+<h2>Cosa portarsi via</h2>
+<p>Tre cose sopravvivono anche senza scaricare ScrollCraft.</p>
+<p><strong>L'intervista è il motore anti-template.</strong> Le sei domande funzionano su qualunque skill generativa, non solo sui siti: chiedono il percorso, la convinzione finale in una frase, l'inventario di ciò che già possiedi, la mossa distintiva, la curva emotiva. È spec-driven-prompting messo in pratica dal lato giusto — non "scrivi un prompt migliore", ma "fatti intervistare da chi ha il gusto".</p>
+<p><strong>Il verificatore può guardare.</strong> Il passaggio in cui l'agente si fa gli screenshot e li rilegge è il pezzo che mancava a loop-engineering per gli output visivi: dove il diff testuale non dice niente, il segnale di verifica diventa un'immagine ispezionata dal modello stesso. Con l'avvertenza già registrata in quella pagina: è pur sempre auto-valutazione, quindi vale come rete di sicurezza al primo colpo, non come giudice indipendente.</p>
+<p><strong>Iterare a voce batte riscrivere la specifica.</strong> Il giro di feedback non tocca l'intervista: è una passeggiata commentata sul risultato, in linguaggio naturale, sezione per sezione. Più economico e più preciso di un secondo prompt lungo.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=QUI6Ug4cHnE" target="_blank" rel="noopener">I Built The Ultimate Claude Website Design Skill (steal this)</a> — Nate Herk | AI Automation, 16:44.</li>
+<li>report grezzo (frame dell'intervista, del verificatore visivo e del risultato v2, trascrizione completa).</li>
+<li>Concetti collegati: design-app-che-spiccano, landing-prodotto-premium-claude-code, claude-skills, loop-engineering, spec-driven-prompting, aggregatori-modelli-creativi.</li>
+<li>Entità: nate-herk, kie-ai, claude-code.</li>
+</ul>
+<p><strong>Cosa è stato omesso, onestamente:</strong></p>
+<ul>
+<li>Tolti gli inviti alla community, il rimando al corso di sei ore, la richiesta di like e i saluti finali.</li>
+<li>Tolta la parte in cui commenta a ruota libera esempi di siti già mostrati («questo non mi piaceva, ma ha delle carte d'imbarco molto belle alla fine») senza aggiungere metodo.</li>
+<li>La sequenza esatta delle ultime domande di design non è ricostruibile: a [07:52] dice «passo in rassegna alcune di queste altre domande e vi richiamo quando succede qualcosa di interessante», e il video taglia. Le domande riportate sopra sono quelle effettivamente visibili a schermo.</li>
+</ul>
+<blockquote>⚠️ <strong>Avvertenze sulla fonte.</strong> - <strong>È una demo, non un teardown.</strong> Il contenuto della skill non viene mai aperto: non ci sono il prompt interno, la struttura dei file, né le regole di design. Tutto ciò che è riportato qui è stato ricostruito da ciò che compare a schermo e da ciò che lui racconta. - <strong>La skill si scarica solo dalla sua community Skool gratuita</strong>, non da un repository pubblico: è un lead magnet, e non è stato possibile verificarne il contenuto. - <strong>I ~30 minuti di build sono una sua stima</strong> («circa trenta minuti, credo»), non un dato misurato. - <strong>kie.ai è a pagamento</strong> e il video non dice quanto sia costata questa generazione. Per gli ordini di grandezza vedi aggregatori-modelli-creativi e kie-ai. - I sottotitoli automatici rendono "Claude Code" come <em>"CloudCode"</em> e "kie.ai" come <em>"key.ai"</em>: corretti qui. - <strong>Nessun confronto con le alternative.</strong> Non nomina Impeccable, Taste Skill o Hallmark (censite in design-app-che-spiccano), quindi il "ultimate" del titolo resta un'affermazione promozionale non messa alla prova.</blockquote>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
