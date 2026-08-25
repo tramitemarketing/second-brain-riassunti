@@ -95,7 +95,7 @@ th { background: #f4f6f8; font-weight: 700; }
   box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
 #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
 .sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
-  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
   vertical-align: middle; }
 .sec:hover { background: #eceff3; color: #4a5560; }
 .sec.ok { color: #1a7f37; }
@@ -107,7 +107,7 @@ th { background: #f4f6f8; font-weight: 700; }
 @media (prefers-color-scheme: dark) {
   #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
   #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
-  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
   .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
   .pill.done { background: #1a7f37; color: #fff; } }
 """
