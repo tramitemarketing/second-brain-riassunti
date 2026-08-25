@@ -27,18 +27,7 @@ CSS = """
 body { margin: 0; padding: 1.1rem 1.1rem 4rem;
   font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
-@media (prefers-color-scheme: dark) {
-  body { color: #e6e6e6; background: #17181a; }
-  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
-  code { background: #2a2c30; } hr { border-color: #2a2c30; }
-  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
-  .tag { background: #2a2c30; color: #cbd0d6; }
-  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
-  details.gia { border-color: #2a2c30; background: #1c1e21; }
-  details.gia > summary { color: #9aa0a6; }
-  details.gia > summary:hover { color: #7db3ff; }
-  details.gia[open] { background: transparent; }
-  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+
 a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
 h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
 h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
@@ -104,6 +93,20 @@ th { background: #f4f6f8; font-weight: 700; }
   background: #eceff3; color: #4a5560; }
 .pill.done { background: #1a7f37; color: #fff; }
 .card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
 @media (prefers-color-scheme: dark) {
   #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
   #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
