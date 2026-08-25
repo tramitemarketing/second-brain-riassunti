@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Le skill installate — guida d&#x27;uso</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #9aa0a6; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>Le skill installate — guida d'uso</h1>
+<p><strong>Gist:</strong> l'inventario ragionato di tutto quello che è installato su questo computer, con <strong>cosa fa ciascuna cosa e quando chiamarla</strong>. Serve a non dimenticare cosa hai, che è il modo più comune di sprecare strumenti. Aggiornato al <strong>25 agosto 2026</strong>.</p>
+<blockquote>Regola di lettura: la colonna che conta è <strong>"quando serve"</strong>. Se una skill non ha un momento chiaro in cui la useresti, probabilmente non ti serve.</blockquote>
+<h2>Come funziona una skill, in due righe</h2>
+<p>Ogni skill è una cartella con dentro un file di istruzioni. Di quel file, <strong>la sola descrizione sta sempre in memoria</strong> (poche decine di parole); il resto — che può essere lunghissimo — <strong>si carica solo quando la skill viene invocata</strong>.</p>
+<p>Questo spiega due cose. Primo: avere tante skill installate costa poco, ma non costa zero. Secondo: <strong>spegnere un plugin lo porta a costare esattamente zero</strong>, perché sparisce anche la descrizione.</p>
+<p>Oggi il totale è <strong>~5.300 parole-macchina fisse</strong> a sessione per 96 skill attive. La soglia oltre la quale la qualità cala è intorno a 120.000 (vedi <a href="context-rot.html">context-rot</a>): siamo al 4,4%, quindi c'è margine, ma non è infinito.</p>
+<p><strong>Comandi di servizio:</strong></p>
+<ul>
+<li><code>claude plugin list</code> — cosa c'è e cosa è acceso</li>
+<li><code>claude plugin enable &amp;lt;nome&amp;gt;@&amp;lt;marketplace&amp;gt;</code> / <code>disable</code> — accendere e spegnere</li>
+<li><code>/context</code> — cosa sta occupando la memoria adesso, diviso per categoria</li>
+<li><code>/usage</code> — cosa sta consumando i limiti, diviso per skill, plugin e server MCP</li>
+</ul>
+<hr>
+<h1>1. Le skill di Matt Pocock (37)</h1>
+<p>Il pacchetto più ricco. Matt Pocock è un divulgatore noto nel mondo TypeScript; queste sono le skill che usa lui, tirate fuori dalla sua cartella di lavoro. Il plugin si chiama <code>mattpocock-skills</code>.</p>
+<p>Molte hanno scritto <code>disable-model-invocation: true</code>, che vuol dire: <strong>non partono da sole, le devi chiamare tu</strong>. È una buona cosa — nessun rumore di fondo.</p>
+<h2>Le tre grigliate — il motivo per cui l'hai voluto</h2>
+<p>Sono la stessa idea a tre livelli di profondità: <strong>l'agente ti interroga senza pietà finché il tuo piano non regge</strong>.</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>grill-me</code></strong></td><td>Hai un'idea o un piano e vuoi che qualcuno ci sbatta contro. L'interrogatorio puro.</td></tr><tr><td><strong><code>grilling</code></strong></td><td>Uguale, ma parte anche da solo quando dici cose tipo "mettimi alla prova su questo".</td></tr><tr><td><strong><code>grill-with-docs</code></strong></td><td>La versione che <strong>lascia traccia</strong>: mentre vi parlate scrive le decisioni prese in un file di contesto e un registro delle scelte architetturali. Da usare quando la conversazione produce decisioni che vanno ricordate.</td></tr></tbody></table></div>
+<p>Nel vault il concetto sta in <a href="spec-driven-prompting.html">spec-driven-prompting</a>: è la stessa tecnica dell'intervista, applicata al piano invece che al brief.</p>
+<h2>Gestione del contesto</h2>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>handoff</code></strong></td><td>⭐ La più utile per te. Comprime la conversazione in corso in un documento di consegna, così un agente nuovo riparte da dove eri senza portarsi dietro la spazzatura. Da usare <strong>quando un <code>/watch</code> lungo ti ha riempito la sessione</strong> e devi continuare a lavorare.</td></tr><tr><td><strong><code>claude-handoff</code></strong></td><td>Come sopra, ma passa direttamente il lavoro a un agente che parte in sottofondo.</td></tr></tbody></table></div>
+<h2>Pianificare lavoro grosso</h2>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>wayfinder</code></strong></td><td>⭐ Già documentata nel vault (skill-risolto-problema-piu-grande-claude-code-2026-08-21). Per lavori <strong>più grandi di quanto una sessione possa contenere</strong>: trasforma il progetto in una mappa di decisioni da risolvere una alla volta.</td></tr><tr><td><strong><code>to-spec</code></strong></td><td>Trasforma la conversazione appena fatta in una specifica scritta. Nessuna intervista: sintetizza quello che vi siete già detti.</td></tr><tr><td><strong><code>to-tickets</code></strong></td><td>Spezza un piano in compiti piccoli, ognuno che dichiara da cosa dipende.</td></tr><tr><td><strong><code>implement</code></strong> / <strong><code>implement-spec</code></strong></td><td>Esegue una specifica o una lista di compiti.</td></tr><tr><td><strong><code>loop-me</code></strong></td><td>Ti griglia per definire i flussi di lavoro che vuoi costruire.</td></tr></tbody></table></div>
+<h2>Scrivere e capire codice</h2>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>diagnosing-bugs</code></strong></td><td>Bug difficili e rallentamenti misteriosi. Parte quando dici "diagnostica" o "debugga questo".</td></tr><tr><td><strong><code>tdd</code></strong></td><td>Sviluppo guidato dai test: prima il test, poi il codice.</td></tr><tr><td><strong><code>code-review</code></strong></td><td>Revisione su due assi: rispetta gli standard del progetto? e fa quello che la specifica chiedeva?</td></tr><tr><td><strong><code>codebase-design</code></strong></td><td>Vocabolario condiviso per progettare moduli "profondi" — interfaccia piccola, dentro tanta sostanza.</td></tr><tr><td><strong><code>improve-codebase-architecture</code></strong></td><td>Scansiona il progetto cercando occasioni di semplificazione e te le presenta in un rapporto visuale.</td></tr><tr><td><strong><code>prototype</code></strong></td><td>Prototipo usa e getta per rispondere a un dubbio di progettazione.</td></tr><tr><td><strong><code>resolving-merge-conflicts</code></strong></td><td>Conflitti git in corso.</td></tr><tr><td><strong><code>domain-modeling</code></strong></td><td>Mettere ordine nel vocabolario di un progetto.</td></tr><tr><td><strong><code>triage</code></strong></td><td>Fa passare le segnalazioni attraverso stati definiti e prepara istruzioni pronte per un agente.</td></tr></tbody></table></div>
+<h2>Scrivere in italiano (o in inglese) — non codice</h2>
+<p>Tre skill in sequenza, ed è un flusso di lavoro completo per scrivere articoli:</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>writing-fragments</code></strong></td><td>Prima fase: raccogli materiale grezzo, nessuna struttura.</td></tr><tr><td><strong><code>writing-beats</code></strong></td><td>Seconda: monta il materiale in una sequenza di momenti, e <strong>prima di ogni momento verifica che i termini usati siano già stati spiegati</strong>.</td></tr><tr><td><strong><code>writing-shape</code></strong></td><td>Terza: dai forma all'articolo, paragrafo per paragrafo.</td></tr><tr><td><strong><code>writing-for-agents</code></strong></td><td>⭐ Diversa e molto utile a te: <strong>come si scrivono documenti che gli agenti seguono davvero</strong>. Da usare quando ritocchi le tue skill o il <code>CLAUDE.md</code> del vault.</td></tr></tbody></table></div>
+<h2>Utilità</h2>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>ask-matt</code></strong></td><td>Non sai quale delle 37 usare? Questa fa da smistatore.</td></tr><tr><td><strong><code>teach</code></strong></td><td>Ti insegna un concetto nuovo restando dentro il progetto.</td></tr><tr><td><strong><code>wait-what</code></strong></td><td>"Fermo, l'ultimo messaggio non è arrivato: rispiegamelo."</td></tr><tr><td><strong><code>research</code></strong></td><td>Indaga una domanda su fonti primarie affidabili e salva le conclusioni in un file.</td></tr><tr><td><strong><code>to-questionnaire</code></strong></td><td>Trasforma una decisione che non sai prendere in un questionario da girare a qualcun altro.</td></tr><tr><td><strong><code>retro</code></strong></td><td>Retrospettiva su una sessione di lavoro.</td></tr><tr><td><strong><code>wizard</code></strong></td><td>Genera una procedura guidata da terminale per i passi che <strong>solo un umano può fare</strong> (credenziali, configurazioni).</td></tr><tr><td><strong><code>git-guardrails-claude-code</code></strong></td><td>⭐ Blocca i comandi git pericolosi (<code>push</code>, <code>reset --hard</code>, <code>clean</code>, cancellazione di rami) prima che partano.</td></tr><tr><td><strong><code>setup-pre-commit</code></strong></td><td>Controlli automatici prima di ogni commit.</td></tr><tr><td><strong><code>setup-matt-pocock-skills</code></strong></td><td>Da lanciare <strong>una volta</strong> per configurare un progetto all'uso delle altre.</td></tr></tbody></table></div>
+<p>Le restanti (<code>migrate-to-shoehorn</code>, <code>scaffold-exercises</code>, <code>setup-ts-deep-modules</code>) sono specifiche di TypeScript e a te non servono.</p>
+<hr>
+<h1>2. Design — due scuole diverse</h1>
+<p>⚠️ <strong>Usane una alla volta.</strong> Codificano due opinioni diverse su cosa sia il buon design: se lavorano insieme sullo stesso file si contraddicono.</p>
+<h2><code>impeccable</code> — il misuratore</h2>
+<p>Una skill sola, ma è un metro. <strong>59 regole deterministiche</strong> che girano <strong>senza intelligenza artificiale e senza chiave API</strong>: o la regola scatta o non scatta, non c'è opinione.</p>
+<p>Comandi: <code>init</code> (crea i file che descrivono il tuo prodotto e il tuo stile), <code>audit</code> (dà un punteggio), <code>critique</code> (dice cosa va e cosa no), più verbi diretti — <code>polish</code>, <code>distill</code>, <code>harden</code>, <code>animate</code>, <code>colorize</code>, <code>bolder</code>, <code>quieter</code>.</p>
+<p><strong>Quando serve:</strong> quando vuoi sapere <strong>oggettivamente</strong> se una pagina ha i difetti tipici dell'AI. È l'unico strumento che ti dà un numero.</p>
+<h2><code>taste-skill</code> — il gusto</h2>
+<p>Tredici skill, orientate al <strong>generare</strong> più che al misurare.</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>design-taste-frontend</code></strong></td><td>La principale. L'agente legge il brief, deduce la direzione giusta e produce interfacce che non sembrano un modello prestampato.</td></tr><tr><td><strong><code>high-end-visual-design</code></strong></td><td>Insegna a progettare come un'agenzia costosa: font, spaziature, ombre, animazioni esatte. Blocca i valori predefiniti banali.</td></tr><tr><td><strong><code>redesign-existing-projects</code></strong></td><td>Rifà un sito esistente senza romperne il funzionamento.</td></tr><tr><td><strong><code>minimalist-ui</code></strong></td><td>Stile editoriale pulito: monocromatico caldo, niente sfumature, niente ombre pesanti.</td></tr><tr><td><strong><code>industrial-brutalist-ui</code></strong></td><td>L'opposto: griglie rigide, contrasti tipografici estremi, estetica da terminale militare.</td></tr><tr><td><strong><code>brandkit</code></strong></td><td>Tavole di linee guida di marca, sistemi di logo, presentazioni d'identità.</td></tr><tr><td><strong><code>imagegen-frontend-web</code></strong></td><td>Genera immagini di riferimento per un sito, <strong>una immagine orizzontale per ogni sezione</strong>.</td></tr><tr><td><strong><code>imagegen-frontend-mobile</code></strong></td><td>Come sopra, per schermate di app.</td></tr><tr><td><strong><code>image-to-code</code></strong></td><td>Genera prima l'immagine del design, la analizza, poi scrive il sito che la riproduce.</td></tr><tr><td><strong><code>stitch-design-taste</code></strong></td><td>Produce file <code>DESIGN.md</code> nel formato Google Stitch.</td></tr><tr><td><strong><code>gpt-taste</code></strong></td><td>Motore di animazioni con randomizzazione della disposizione e struttura di pagina rigida.</td></tr><tr><td><strong><code>full-output-enforcement</code></strong></td><td>⭐ Utile ovunque: <strong>impedisce all'agente di troncare l'output</strong> e di scrivere segnaposto tipo "resto del codice qui".</td></tr><tr><td><strong><code>design-taste-frontend-v1</code></strong></td><td>La vecchia versione, tenuta per compatibilità.</td></tr></tbody></table></div>
+<h2>Non è una skill: <code>~/.claude/design-md/</code></h2>
+<p><strong>74 sistemi di design già pronti</strong> — Apple, Airbnb, Nvidia, ElevenLabs, Stripe, Claude, BMW, Binance e altri 66. Sono file di testo che descrivono colori, tipografia, spaziature e sensazione di ogni marchio.</p>
+<p><strong>Come si usano:</strong> dici a Claude di leggere quello che ti piace e di partire da lì. Costo di memoria: <strong>zero</strong>, perché sono file, non skill.</p>
+<hr>
+<h1>3. Ricerca</h1>
+<h2><code>last30days</code></h2>
+<p>Interroga <strong>Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub e il web</strong> sugli <strong>ultimi 30 giorni</strong> e produce un rapporto con le fonti citate.</p>
+<p><strong>Quando serve:</strong> quando devi sapere cosa dice <em>la gente</em> di un argomento adesso, non cosa dice il primo risultato di Google. Per il vault è la fonte complementare a <code>/watch</code>: quella porta dentro i video, questa porta dentro le discussioni.</p>
+<hr>
+<h1>4. Generare interfacce da terminale</h1>
+<h2><code>cli-printing-press</code> (19 skill)</h2>
+<p>Trasforma qualsiasi servizio in un comando da terminale. Accetta una specifica tecnica, una registrazione del traffico del browser, o una descrizione a parole, e genera un programma vero.</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>printing-press</code></strong></td><td>La principale: crea il collegamento a un servizio nuovo.</td></tr><tr><td><strong><code>printing-press-polish</code></strong></td><td>Rifinisce quello generato finché non passa tutti i controlli.</td></tr><tr><td><strong><code>printing-press-publish</code></strong></td><td>Lo pubblica nella libreria condivisa.</td></tr><tr><td><strong><code>printing-press-score</code></strong></td><td>Gli dà un voto.</td></tr><tr><td><strong><code>printing-press-amend</code></strong></td><td>Lo corregge partendo dagli attriti incontrati usandolo.</td></tr><tr><td><strong><code>printing-press-reprint</code></strong></td><td>Lo rigenera da zero mantenendo le correzioni fatte a mano.</td></tr></tbody></table></div>
+<p>Le restanti sono interne o materiale di prova.</p>
+<p><strong>Onestamente: a te oggi non serve.</strong> I servizi che usi (Cloudflare, Supabase, Gmail, Drive, Vercel, Netlify) hanno già un collegamento diretto. Diventa utile il giorno che devi pilotare un gestionale o un sito che non offre nessun modo programmatico di parlarci.</p>
+<hr>
+<h1>5. Second brain automatico</h1>
+<h2><code>claude-obsidian</code> (16 skill)</h2>
+<p>⚠️ <strong>Non è puntato sul vault <code>ai</code>.</strong> Il tuo impianto attuale (<code>CLAUDE.md</code> + <code>.scripts</code>) resta l'unico padrone di quella cartella. Questo serve per <strong>vault nuovi</strong>.</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>wiki</code></strong></td><td>Inizializza e configura un vault nuovo.</td></tr><tr><td><strong><code>wiki-ingest</code></strong></td><td>Fa entrare materiale nel vault tracciando da dove viene ogni affermazione.</td></tr><tr><td><strong><code>wiki-query</code></strong></td><td>Risponde a una domanda <strong>usando solo il vault</strong> come prova, senza modificarlo.</td></tr><tr><td><strong><code>wiki-lint</code></strong></td><td>⭐ Controllo di salute: pagine orfane, collegamenti morti, intestazioni sbagliate. Interessante anche solo come idea da copiare.</td></tr><tr><td><strong><code>wiki-retrieve</code></strong></td><td>Costruisce un indice di ricerca locale con riordino dei risultati.</td></tr><tr><td><strong><code>wiki-fold</code></strong></td><td>Compatta le voci vecchie del registro.</td></tr><tr><td><strong><code>wiki-mode</code></strong></td><td>Sceglie il metodo di archiviazione (PARA, Zettelkasten, LYT).</td></tr><tr><td><strong><code>obsidian-markdown</code></strong></td><td>Spiega e verifica la sintassi di Obsidian: proprietà, collegamenti, incorporamenti, riquadri, formule, diagrammi.</td></tr><tr><td><strong><code>obsidian-bases</code></strong></td><td>I file <code>.base</code>, cioè le viste tipo database dentro Obsidian.</td></tr><tr><td><strong><code>canvas</code></strong></td><td>Le lavagne visuali di Obsidian.</td></tr><tr><td><strong><code>autoresearch</code></strong></td><td>Ciclo di ricerca autonomo che produce un dossier con fonti.</td></tr><tr><td><strong><code>defuddle</code></strong></td><td>Ripulisce una pagina web e la trasforma in testo leggibile — <strong>chiede il permesso prima di andare in rete</strong>.</td></tr><tr><td><strong><code>save</code></strong></td><td>Salva una decisione o un'intuizione della conversazione dentro il vault.</td></tr><tr><td><strong><code>think</code></strong></td><td>Un ciclo di ragionamento in 10 fasi per decisioni ambigue.</td></tr><tr><td><strong><code>wiki-cli</code></strong></td><td>Usa la riga di comando ufficiale di Obsidian in sola lettura.</td></tr></tbody></table></div>
+<p><strong>Nota di merito:</strong> il suo documento sulla privacy è tra i più seri visti — locale per costruzione, nessuna telemetria, e il gancio che parte all'avvio della sessione <strong>non fa niente</strong> se non attivi una variabile apposta.</p>
+<hr>
+<h1>6. Le due spente — e perché</h1>
+<p>Si accendono con <code>claude plugin enable &amp;lt;nome&amp;gt;@&amp;lt;nome&amp;gt;</code>.</p>
+<h2><code>ponytail</code> (6 skill) — scrivere meno codice</h2>
+<p>L'idea: prima di scrivere qualsiasi riga, chiedersi <strong>deve esistere?</strong> Se no, non farla. Poi: esiste già nel progetto? c'è già una libreria standard? basta una riga?</p>
+<div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>ponytail</code></strong></td><td>La modalità principale: forza la soluzione più pigra che funziona.</td></tr><tr><td><strong><code>ponytail-review</code></strong></td><td>Revisione che cerca <strong>solo</strong> l'eccesso di ingegneria: cosa cancellare.</td></tr><tr><td><strong><code>ponytail-audit</code></strong></td><td>Come sopra ma su tutto il progetto, con una classifica di cosa togliere.</td></tr><tr><td><strong><code>ponytail-debt</code></strong></td><td>Raccoglie tutte le scorciatoie lasciate in giro in un registro, così non marciscono.</td></tr><tr><td><strong><code>ponytail-gain</code></strong></td><td>Mostra i numeri dichiarati di risparmio.</td></tr><tr><td><strong><code>ponytail-help</code></strong></td><td>Promemoria dei comandi.</td></tr></tbody></table></div>
+<p>⚠️ <strong>I numeri dichiarati</strong> (−54% di codice, −20% di costo, −27% di tempo) <strong>sono dell'autore e nessuno li ha replicati.</strong> Trattali come pubblicità finché qualcuno non li verifica.</p>
+<h2><code>caveman</code> (24 skill) — parlare per risparmiare</h2>
+<p>L'idea di base: far parlare Claude in modo ultra-compresso per tagliare le parole in uscita. Taglio dichiarato: <strong>65% delle parole in uscita</strong>.</p>
+<p>⚠️ <strong>Ma i conti non tornano per te.</strong> Le parole in uscita sono circa il 6% di una sessione: il 65% di quel 6% fa <strong>~4% di risparmio reale</strong>, e la skill stessa <strong>aggiunge parole in entrata a ogni turno</strong>. I tuoi <code>/watch</code> bruciano memoria sulle <strong>immagini in entrata</strong>, che Caveman non tocca. È il motivo per cui l'abbiamo lasciata spenta.</p>
+<p>🔴 <strong>Attenzione seria a <code>caveman-setup</code>.</strong> Nella sua descrizione c'è scritto che <em>«collega il repository al gateway Caveman Cloud così ogni richiesta LLM viene misurata»</em>. Tradotto: <strong>farebbe passare il tuo traffico dai loro server</strong>. Ci sono altre sei skill dello stesso filone (<code>caveman-manage</code>, <code>caveman-optimize</code>, <code>caveman-evidence-review</code>, <code>caveman-learn</code>, <code>caveman-discover</code>, <code>caveman-stats</code>). <strong>Non toccare quelle</strong>: sono l'aggancio a un servizio commerciale, non compressione.</p>
+<p>Dentro Caveman ci sono però alcune skill slegate dal cloud e di buon senso: <code>investigate-first</code> (diagnosticare prima di modificare), <code>safe-refactor</code>, <code>surgical-patch</code> (correggere al livello più stretto possibile), <code>verify-and-stop</code> (dimostrare che il lavoro è finito senza allargarlo), <code>lean-build</code>, <code>migration</code>.</p>
+<hr>
+<h1>7. Strumenti da terminale (non sono skill)</h1>
+<p>Vivono nel terminale e costano <strong>zero memoria</strong> finché non li chiami.</p>
+<div class="tw"><table><thead><tr><th>Comando</th><th>Cosa fa</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>codeburn</code></strong></td><td>Traccia parole-macchina e costi su 41 strumenti diversi. <code>codeburn optimize</code> trova gli sprechi: server mai usati, skill mai invocate, file riletti a vuoto, <code>CLAUDE.md</code> gonfi. <code>codeburn guard install</code> mette un tetto di spesa.</td><td>⭐ Quando vuoi capire dove finiscono i soldi</td></tr><tr><td><strong><code>gws</code></strong></td><td>Google Workspace da terminale: Drive, Gmail, Calendario, Fogli, Documenti. Installate 6 skill di servizio su 95 disponibili.</td><td>Quando devi produrre Documenti Google formattati</td></tr><tr><td><strong><code>playwright-cli</code></strong></td><td>Pilota il browser da terminale, <strong>senza far passare la pagina intera nella memoria</strong> di Claude.</td><td>Automazioni web che durano a lungo</td></tr><tr><td><strong><code>supabase</code></strong></td><td>Ambiente Supabase in locale, migrazioni, funzioni.</td><td>Se un giorno svilupperai in locale</td></tr></tbody></table></div>
+<hr>
+<h1>8. Cosa avevi già</h1>
+<p><strong>Plugin ufficiali Anthropic:</strong> <code>superpowers</code> (brainstorming, sviluppo guidato dai test, debug sistematico), <code>code-review</code>, <code>code-simplifier</code> (semplifica il codice <strong>già scritto</strong> — agisce a valle, mentre Ponytail agisce a monte), <code>frontend-design</code>, <code>skill-creator</code>, <code>ralph-loop</code>, <code>telegram</code>.</p>
+<p><strong>Le tue, cucite su misura:</strong> <code>prompt</code> (l'analisi a ogni messaggio), <code>watch</code> (guardare video), <code>skill-scout</code> (trova skill nuove seguendo la tua lista bianca), <code>idea</code>, <code>find-skills</code>, <code>file-organizer</code>, <code>market-research</code>, <code>mckinsey-research</code>, <code>web-perf</code>, più il gruppo Cloudflare.</p>
+<blockquote>Nota: <strong><code>skill-scout</code> è migliore di <code>find-skills</code></strong> per te. Parte da quello che hai già e propone un candidato <strong>solo se copre più lavoro</strong> di quello installato. <code>find-skills</code> cerca e basta.</blockquote>
+<hr>
+<h1>9. Le cinque che userai davvero</h1>
+<p>Se dovessi ricordarne solo cinque:</p>
+<ol>
+<li><strong><code>handoff</code></strong> — quando la sessione è satura e devi continuare</li>
+<li><strong><code>grill-me</code></strong> — quando un piano ti sembra buono e vuoi scoprire che non lo è</li>
+<li><strong><code>codeburn optimize</code></strong> — quando vuoi sapere cosa sta bruciando memoria e soldi</li>
+<li><strong><code>last30days</code></strong> — quando serve materiale fresco per il vault che non sia un video</li>
+<li><strong><code>impeccable audit</code></strong> — quando una pagina "non convince" e vuoi sapere perché, con un numero</li>
+</ol>
+<h2>Fonti e note</h2>
+<ul>
+<li>Origine della lista: 15-plugins-massimo-claude-code-2026-08-21 (Dario Fontanel). Di quei 15, <strong>sei sono stati scartati</strong> perché già coperti da strumenti collegati o perché non applicabili — il ragionamento sta nel riassunto.</li>
+<li>Concetti collegati: <a href="claude-skills.html">claude-skills</a>, <a href="context-rot.html">context-rot</a>, <a href="design-app-che-spiccano.html">design-app-che-spiccano</a>, <a href="spec-driven-prompting.html">spec-driven-prompting</a>, <a href="loop-engineering.html">loop-engineering</a>, <a href="produttivita-claude-code.html">produttivita-claude-code</a>.</li>
+<li>Regole di sicurezza sulle fonti: <code>~/.claude/skill-sources.md</code>.</li>
+</ul>
+<p><strong>Cosa non è verificato:</strong></p>
+<ul>
+<li>Le descrizioni qui sopra sono <strong>estratte dai file di ciascuna skill</strong>, non riscritte a memoria. Quello che fanno <strong>davvero</strong> non è stato provato: nessuna di queste skill è stata eseguita.</li>
+<li>I numeri di Ponytail e Caveman sono <strong>dichiarazioni degli autori</strong>, senza verifica indipendente.</li>
+<li>Nessuno di questi pacchetti è passato da uno scanner di sicurezza: la decisione è stata di fidarsi dell'adozione (fra 12.000 e 236.000 stelle su GitHub) invece che scansionarli.</li>
+<li>Il conto delle parole-macchina fisse (~5.300) è una <strong>stima</strong>, calcolata sulla lunghezza delle descrizioni divisa per quattro. Per il dato vero serve <code>/context</code>.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
