@@ -107,14 +107,20 @@ th { background: #f4f6f8; font-weight: 700; }
 <blockquote>Regola di lettura: la colonna che conta è <strong>"quando serve"</strong>. Se una skill non ha un momento chiaro in cui la useresti, probabilmente non ti serve.</blockquote>
 <h2>Come funziona una skill, in due righe</h2>
 <p>Ogni skill è una cartella con dentro un file di istruzioni. Di quel file, <strong>la sola descrizione sta sempre in memoria</strong> (poche decine di parole); il resto — che può essere lunghissimo — <strong>si carica solo quando la skill viene invocata</strong>.</p>
-<p>Questo spiega due cose. Primo: avere tante skill installate costa poco, ma non costa zero. Secondo: <strong>spegnere un plugin lo porta a costare esattamente zero</strong>, perché sparisce anche la descrizione.</p>
-<p>Oggi il totale è <strong>~5.300 parole-macchina fisse</strong> a sessione per 96 skill attive. La soglia oltre la quale la qualità cala è intorno a 120.000 (vedi <a href="context-rot.html">context-rot</a>): siamo al 4,4%, quindi c'è margine, ma non è infinito.</p>
+<p>Oggi il totale è <strong>~7.400 parole-macchina fisse</strong> a sessione per <strong>94 skill</strong>. La soglia oltre la quale la qualità cala è intorno a 120.000 (vedi <a href="context-rot.html">context-rot</a>): siamo al <strong>6%</strong>, quindi c'è margine, ma non è infinito.</p>
+<h2>⚠️ La lezione che è costata più tempo: plugin ≠ skill visibili</h2>
+<p><strong>Scoperto il 25 agosto 2026, dopo un'ora persa a cercare skill che c'erano ma non si vedevano.</strong></p>
+<p>Ci sono due posti da cui arrivano le skill, e <strong>si comportano in modo diverso</strong>:</p>
+<div class="tw"><table><thead><tr><th></th><th><code>~/.claude/skills/</code></th><th><code>~/.claude/plugins/</code></th></tr></thead><tbody><tr><td>Si caricano</td><td><strong>subito, a caldo</strong></td><td>al riavvio</td></tr><tr><td>Compaiono nell'elenco skill dell'app</td><td><strong>sì</strong></td><td><strong>no</strong> — solo i loro <em>comandi</em></td></tr><tr><td>Si gestiscono</td><td>copiando cartelle</td><td><code>claude plugin enable/disable</code></td></tr></tbody></table></div>
+<p><strong>La prova:</strong> i plugin <code>superpowers</code>, <code>frontend-design</code> e <code>skill-creator</code> sono installati da mesi, ma <strong>nessuna delle loro skill compare nell'elenco</strong>. Di <code>ralph-loop</code> compaiono solo voci tipo <em>"Ralph Loop: Source Command Cancel"</em>, cioè i <strong>comandi</strong>, non le skill.</p>
+<p><strong>Conseguenza pratica:</strong> se vuoi che una skill sia visibile e richiamabile dall'elenco, deve stare in <code>~/.claude/skills/</code>. Installarla come plugin <strong>non basta</strong>.</p>
+<p><strong>Com'è organizzato adesso:</strong> tutte le 94 skill stanno in <code>~/.claude/skills/</code>, copiate lì dai plugin. I plugin sorgente sono stati <strong>disattivati</strong>: altrimenti le stesse skill verrebbero caricate due volte e pagheresti il contesto doppio. Restano installati solo come archivio, per riscaricare la roba quando si aggiorna.</p>
 <p><strong>Comandi di servizio:</strong></p>
 <ul>
-<li><code>claude plugin list</code> — cosa c'è e cosa è acceso</li>
-<li><code>claude plugin enable &amp;lt;nome&amp;gt;@&amp;lt;marketplace&amp;gt;</code> / <code>disable</code> — accendere e spegnere</li>
-<li><code>/context</code> — cosa sta occupando la memoria adesso, diviso per categoria</li>
-<li><code>/usage</code> — cosa sta consumando i limiti, diviso per skill, plugin e server MCP</li>
+<li><code>ls ~/.claude/skills</code> — l'elenco vero di cosa hai</li>
+<li><code>claude plugin list</code> — i plugin (quasi tutti spenti di proposito)</li>
+<li><code>/context</code> — cosa occupa la memoria adesso, diviso per categoria</li>
+<li><code>/usage</code> — cosa consuma i limiti, diviso per skill, plugin e server MCP</li>
 </ul>
 <hr>
 <h1>1. Le skill di Matt Pocock (37)</h1>
@@ -169,7 +175,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <p><strong>Nota di merito:</strong> il suo documento sulla privacy è tra i più seri visti — locale per costruzione, nessuna telemetria, e il gancio che parte all'avvio della sessione <strong>non fa niente</strong> se non attivi una variabile apposta.</p>
 <hr>
 <h1>6. Le due spente — e perché</h1>
-<p>Si accendono con <code>claude plugin enable &amp;lt;nome&amp;gt;@&amp;lt;nome&amp;gt;</code>.</p>
+<p>Le loro skill <strong>non</strong> sono state copiate in <code>~/.claude/skills/</code>, quindi non compaiono nell'elenco e non costano niente. Per usarne una si copia la sua cartella lì dentro.</p>
 <h2><code>ponytail</code> (6 skill) — scrivere meno codice</h2>
 <p>L'idea: prima di scrivere qualsiasi riga, chiedersi <strong>deve esistere?</strong> Se no, non farla. Poi: esiste già nel progetto? c'è già una libreria standard? basta una riga?</p>
 <div class="tw"><table><thead><tr><th>Skill</th><th>Quando serve</th></tr></thead><tbody><tr><td><strong><code>ponytail</code></strong></td><td>La modalità principale: forza la soluzione più pigra che funziona.</td></tr><tr><td><strong><code>ponytail-review</code></strong></td><td>Revisione che cerca <strong>solo</strong> l'eccesso di ingegneria: cosa cancellare.</td></tr><tr><td><strong><code>ponytail-audit</code></strong></td><td>Come sopra ma su tutto il progetto, con una classifica di cosa togliere.</td></tr><tr><td><strong><code>ponytail-debt</code></strong></td><td>Raccoglie tutte le scorciatoie lasciate in giro in un registro, così non marciscono.</td></tr><tr><td><strong><code>ponytail-gain</code></strong></td><td>Mostra i numeri dichiarati di risparmio.</td></tr><tr><td><strong><code>ponytail-help</code></strong></td><td>Promemoria dei comandi.</td></tr></tbody></table></div>
