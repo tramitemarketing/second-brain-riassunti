@@ -134,11 +134,20 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Stack C — skill "Video Use" + ElevenLabs Scribe</strong> (how-to-fully-automate-video-editing-setup-2026-07-19): guida di <strong>setup</strong>. Si installa una skill gratuita open-source (<strong>Video Use</strong>) incollando il link GitHub a Claude ("installamelo") — Claude si tira dietro FFmpeg e registra la skill; trascrizione con <strong>ElevenLabs Scribe</strong> (a pagamento, chiave API) invece di WhisperX. Modello: <strong>Claude Fable 5</strong>. Slogan: "no terminal, no Premiere".</li>
 </ul>
 <blockquote>⚠️ WARN: sulla <strong>trascrizione</strong> le fonti divergono — WhisperX (gratis, locale) vs Whisper OpenAI vs ElevenLabs Scribe (a pagamento). Tutte danno timestamp per-parola: non è contraddizione, è scelta costo/comodità. Idem sul motore grafico: <strong>HyperFrames</strong> vs <strong>Remotion</strong> vs pacchetti di moduli pronti.</blockquote>
+<h2>Generare motion graphics da zero (stack D ed E)</h2>
+<p>I tre stack sopra <strong>montano girato esistente</strong>. Due fonti successive fanno l'operazione inversa — generano l'animazione da un'idea — con lo stesso schema: <strong>una skill che scrive il prompt e impone lo stile, higgsfield via MCP che genera</strong>.</p>
+<ul>
+<li><strong>Stack D — skill Vox-style + Higgsfield</strong> (animazione-stile-vox-con-un-prompt-2026-07-21): da una frase a un explainer giornalistico di 2 minuti; la skill ricerca l'argomento, scrive il copione, genera voce e scene, e — punto tecnico vero — <strong>scrive lo stile una volta e lo impone a ogni richiesta di generazione</strong>, altrimenti dodici scene sembrano di dodici designer diversi.</li>
+<li><strong>Stack E — skill <code>/motion-design</code> + Higgsfield MCP (Seedance 2.5)</strong> (gpt-6-astra-is-insane-for-motion-design-2026-09-20): per spot, explainer brevi e promo da 15-30 secondi. La skill è una <strong>galleria di dieci stili con i prompt originali archiviati</strong>; tu scegli lo stile e dai una riga, un'immagine o l'URL di un sito, lei adatta il prompt (palette, hero, type, motion, beat sheet, soundscape) e spedisce <strong>un solo job per l'intero film</strong>, poi confronta e rigenera la scena debole. Default: 15 s, 16:9, musica + effetti senza voce. Gira uguale in Codex e Claude Code; dettagli in <a href="claude-skills.html">claude-skills</a>.</li>
+</ul>
+<blockquote>⚠️ Costo: entrambi passano da Higgsfield, cioè abbonamento a crediti; nessuna delle due fonti dichiara quanto costa una generazione. Le alternative pay-as-you-go e il ragionamento sul "wrapper" stanno in <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a>.</blockquote>
 <h2>Fonti</h2>
 <ul>
 <li>how-i-fully-automated-my-video-editing-2026-07-16 (2026-07-16) — stack WhisperX + HyperFrames</li>
 <li>how-i-fully-automated-my-video-editing-2026-07-19 (2026-07-19) — stack Descript + Remotion</li>
 <li>how-to-fully-automate-video-editing-setup-2026-07-19 (2026-07-19) — setup skill "Video Use" + ElevenLabs Scribe</li>
+<li>animazione-stile-vox-con-un-prompt-2026-07-21 (2026-07-21) — stack D: skill Vox-style + Higgsfield, lo stile imposto a ogni generazione</li>
+<li>gpt-6-astra-is-insane-for-motion-design-2026-09-20 (Chase AI, 2026-09-08) — stack E: skill /motion-design (galleria di 10 stili) + Higgsfield MCP con Seedance 2.5</li>
 </ul>
 <script>
 window.SB = (function () {

@@ -121,7 +121,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Clay</strong> — database di lead da 150 fonti, con <em>waterfall enrichment</em> (cerca in sequenza finché trova email/telefono/LinkedIn verificati). Numeri reali: un singolo fornitore trova ~30% delle email, la cascata <strong>80-90%</strong>. Costo misurato: <strong>172 crediti ≈ 12 $ per 50 contatti arricchiti</strong>. Il plugin si installa <strong>solo da terminale</strong> e Clay stesso spedisce una propria skill per guidare il setup (pattern nuovo: il fornitore distribuisce una skill). Limite dichiarato: l'MCP <strong>non</strong> copre importazione, campagna e domini — quella parte resta manuale. Vedi claude-code-clay-lead-generation-2026-07-21.</li>
 <li><strong>Supabase</strong> — database per archiviare i dati (dietro i live artifact, o gli utenti di un SaaS).</li>
 <li><strong>SEMrush</strong> — dati SEO/keyword; vedi <a href="seo-con-claude.html">seo-con-claude</a>. Entità: semrush.</li>
-<li><strong>Higgsfield / Super Scale / Nano Banana Pro / Arc Ads</strong> — generazione immagini e video (Claude non è forte a generarle da sé). Entità: higgsfield, nano-banana-pro.</li>
+<li><strong>Higgsfield / Super Scale / Nano Banana Pro / Arc Ads</strong> — generazione immagini e video (Claude non è forte a generarle da sé). Entità: higgsfield, nano-banana-pro. Higgsfield espone sia <strong>MCP</strong> sia <strong>CLI</strong> (da higgsfield.ai → <em>MCP &amp; CLI</em>, con plugin pronti per ChatGPT, Claude, Claude Code, Cursor, Grok e altri; login con le credenziali dell'account). Nel 2026-09 è il motore video (Seedance 2.5) dietro la skill <code>/motion-design</code>: il modello scrive il prompt, l'MCP genera, senza rimbalzare tra agente e interfaccia web — vedi gpt-6-astra-is-insane-for-motion-design-2026-09-20.</li>
 <li><strong>Facebook Ads MCP</strong> — leggere/gestire ad account; vedi <a href="facebook-ads-con-claude.html">facebook-ads-con-claude</a>. Oggi solo ~10-20% degli account ha accesso.</li>
 <li><strong>Blot</strong> — schedulare e distribuire post su tutti i social.</li>
 </ul>
@@ -129,6 +129,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <ul>
 <li>master-claude-for-marketing-full-course-2026-07-16 (Brock, 2026-07-16) — Firecrawl, Clay, Superbase, Higgsfield, Zapier, Blot, SEMrush</li>
 <li>claude-facebook-ads-full-course-2026-07-16 (The Moonlighters, 2026-07-16) — Facebook Ads MCP, permessi, Super Scale</li>
+<li>gpt-6-astra-is-insane-for-motion-design-2026-09-20 (Chase AI, 2026-09-08) — Higgsfield MCP/CLI come motore di generazione dietro una skill, in Codex e Claude Code</li>
 </ul>
 <script>
 window.SB = (function () {

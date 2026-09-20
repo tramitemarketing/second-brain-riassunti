@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>GPT 6 Astra Is INSANE for Motion Design</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="GPT 6 Astra Is INSANE for Motion Design" src="https://i.ytimg.com/vi/eyDKoGU_vHk/hqdefault.jpg"><p><strong>In sintesi:</strong> Chase AI presenta una <strong>skill pubblica su GitHub chiamata "motion design"</strong> (repo <code>cth9191/motion-design</code>) che trasforma un'idea, un'immagine di riferimento o l'indirizzo di un sito in un <strong>filmato di motion graphics completo, audio incluso</strong>. La skill gira in <strong>Codex con GPT-6 Astra</strong> ma anche in <strong>Claude Code con Fable 5.1</strong>; la generazione vera la fa <strong>Higgsfield</strong>, collegato via <strong>MCP o CLI</strong>, con il modello video <strong>Seedance 2.5</strong>. Il cuore non è il modello ma il metodo: la skill è una <strong>libreria di dieci stili</strong>, ognuno con un video di riferimento e il <strong>prompt completo</strong> che lo ha prodotto — tu scegli lo stile, la skill <strong>adatta quel prompt</strong> al tuo soggetto e lo spedisce a generare, così «non si parte mai da zero». Ha in più un <strong>ciclo di revisione automatico</strong> (genera, confronta con il prompt centrale, rigenera la scena debole). Tre demo con prompt di partenza minimi escono «solide»; ma l'autore stesso chiude dicendo che il motion design <strong>non è risolto</strong>: la skill è un «floor raiser» per chi non è motion designer — alza il livello minimo, non quello massimo (glossa nostra, non sua).</p>
+<h2>La promessa: motion graphics da un prompt, un'immagine o un link</h2>
+<p>Il video apre con il superlativo del titolo — <strong>GPT-6 Astra</strong> sarebbe «il miglior modello mai visto per il motion design» — e subito dopo con la prova visiva: pochi secondi di un video generato, macro di un tasto Enter verde e degli switch rossi di una tastiera meccanica che si smonta a mezz'aria. La promessa concreta viene un attimo dopo: aggiungendo la skill <strong>motion design</strong> a GPT-6, basta andare in Astra e dare <strong>un prompt di testo, un'immagine di riferimento o anche il link di un sito</strong>, e ne esce la grafica animata per un <strong>video esplicativo, una pubblicità di prodotto o «qualunque altra cosa»</strong>.</p>
+<p>La scaletta dichiarata è in tre pezzi: tre esempi, il setup, e «come funziona sotto il cofano, così puoi personalizzarla come vuoi». Una precisazione arriva subito ed è importante per chi legge da questo vault: il video è costruito attorno ad Astra, ma la skill <strong>funziona con qualsiasi modello</strong> — «se usi Claude Code, questa skill funziona anche lì».</p>
+<h2>La libreria di motion: non si parte mai da zero</h2>
+<p>Il pezzo che «fa funzionare tutto» è la skill, e quello che la skill fa in concreto è dare al modello una <strong>motion library</strong>: «un mucchio di video diversi su cui basare la sua creazione, così non partiamo mai da zero». Il README che compare a schermo lo riassume in una riga: <em>Turn a product, website or idea into a complete motion film. Choose a look. Adapt the prompt. Generate with Higgsfield.</em> Sottotitolo: <strong>Codex + Claude Code · 10 motion styles · One shared skill</strong>.</p>
+<p>L'esempio che usa per spiegarlo: vuoi un video di prodotto che mostri <strong>le parti interne</strong> di quel che vendi? Nella libreria c'è già uno stile che fa esattamente questo, si chiama <strong>Exploded product</strong>, e cliccandolo parte il video di riferimento — un orologio che si scompone nei suoi componenti. «È probabile che tu non debba fare l'exploded product di un orologio», ammette; ma se hai un altro oggetto di cui vuoi esporre le viscere, <strong>quel video diventa il template</strong>, e soprattutto <strong>non devi scrivere il prompt</strong>: quello che ha generato il video dell'orologio è già dentro la skill, e viene <strong>riusato come modello</strong> per il tuo caso.</p>
+<p>Il principio è esteso a tutta la galleria, e vale anche per gli stili che non ci sono: se vuoi inventarne uno tuo, la skill può comunque <strong>usare i prompt dietro gli stili esistenti come base</strong>. La frase che riassume la filosofia, e che è la cosa più riutilizzabile del video: «<strong>non lavoriamo mai da zero; costruiamo su cose che sappiamo funzionare davvero</strong>».</p>
+<p>Gli stili leggibili a schermo nella galleria (<em>Start with a look</em>, con filtri per tipo: software, prodotti, architettura, explainer, footage) sono <strong>Kinetic typography</strong> (titoli come sequenza di fotogrammi fissi, su ponte di icone, scorrimento), <strong>Glass UI launch</strong> (pannelli di vetro stratificati per lanci software), <strong>Product hyper-motion</strong> (un prodotto fisico lanciato da un turbine di componenti che si assemblano), <strong>Tropical product</strong> (fotografia di prodotto lenta, un colpo ogni tre, ingredienti sospesi), <strong>Exploded product</strong> (le parti si separano lungo un asse mentre macro camera si muovono), <strong>Blueprint to building</strong> (linee di disegno che diventano geometria e superfici), <strong>Hybrid 2D + 3D</strong>, <strong>Flat vector explainer</strong> (forme piatte e giocose che portano un personaggio dal problema alla soluzione) ed <strong>Editorial collage</strong> (ritagli di carta, tipografia grossa, movimento a scatti). Il decimo, non leggibile nei fotogrammi ma confermato aprendo il repo, è <strong>Footage + graphics</strong> (grafiche sovrapposte a presentatori e girato esistente).</p>
+<p>Una cosa che il video <strong>non dice</strong> e il README sì, in piccolo sotto la galleria: quei dieci video <strong>non sono output della skill</strong>, sono <strong>esempi sorgente di Higgsfield</strong> (del suo Marketing Studio) di cui la skill conserva i prompt originali archiviati «con hash verificati» e li adatta. Cambia poco per l'uso, ma molto per il giudizio: la galleria mostra cosa sa fare Higgsfield con prompt curati a mano, non cosa esce dalla skill al primo colpo.</p>
+<h2>L'altra metà: Higgsfield e Seedance 2.5</h2>
+<p>La skill da sola non genera niente. «L'altra metà dell'equazione è l'<strong>MCP di Higgsfield</strong>»: la skill tiene il video di riferimento e <strong>scrive il prompt</strong>, poi lo <strong>manda a Higgsfield</strong>, che usa <strong>Seedance 2.5</strong> per produrre davvero le immagini in movimento (vedi higgsfield e mcp-connectors).</p>
+<p>C'è una differenza pratica tra le due piattaforme. <strong>Dentro Astra il modello sa creare da solo le immagini di riferimento</strong>; se invece si lavora in <strong>Claude Code / Fable 5.1</strong>, anche le immagini di partenza vanno chieste a Higgsfield. La tabella del README letta a schermo lo conferma: per le <em>reference images</em> Codex usa la generazione integrata quando c'è, altrimenti Higgsfield; Claude Code passa sempre da <strong>Higgsfield MCP, preferendo GPT Image 2</strong>; per il <em>filmato completo</em> entrambi usano Higgsfield MCP con «il modello Seedance corrente più adatto».</p>
+<p>Il collegamento si fa da <strong>higgsfield.ai → sezione MCP &amp; CLI</strong>: «funzionano entrambi», si clicca la propria piattaforma (nella pagina compaiono ChatGPT, Claude, Grok, Cursor, Claude Code, OpenClaw, Hermes) — per ChatGPT si aggiunge il <strong>plugin Higgsfield</strong> e si fa il login con utente e password. Il vantaggio dichiarato dell'MCP rispetto all'interfaccia web è di <strong>non rimbalzare</strong> tra Higgsfield e l'agente: «posso stare dentro Codex o dentro Claude Code e fare tutto da lì».</p>
+<p>Sulla flessibilità: Seedance 2.5 è il default «perché è il miglior modello di generazione video là fuori», ma <strong>si può sostituire con qualunque altro</strong>; lato immagini il default è <strong>GPT Image 2</strong>, anch'esso sostituibile. In ingresso si può dare <strong>testo, immagini di riferimento e persino un video di riferimento</strong>. La sintesi dell'autore è che devi «presentarti con un'idea e una vaga nozione di cosa vuoi fare», decidere lo <strong>stile</strong> guardando gli esempi, e la skill «fa tutto il resto». Il README aggiunge un dettaglio sul video di riferimento: un clip fornito da te <strong>guida per default una nuova generazione</strong> (sequenza, inquadrature, tempi, movimenti di camera) con il tuo messaggio adattato su quei tempi; modificare il tuo girato esistente è «una richiesta separata».</p>
+<h2>Come funziona sotto: Choose → Adapt → Generate → Review</h2>
+<p>La pagina <em>How it works</em> del repo, mostrata a schermo, spiega la meccanica in quattro passi. La skill parte dal <strong>prompt originale completo dell'esempio più vicino</strong> — «e il takeaway che il tuo spettatore dovrebbe portarsi via». Conserva le <strong>tecniche visive e di movimento</strong> della fonte mentre <strong>adatta scene, sequenza, tempi e transizioni</strong> al tuo soggetto. La <strong>sequenza temporizzata</strong> che ne risulta viene inviata come <strong>un unico filmato completo</strong> attraverso l'MCP di Higgsfield. Le immagini di riferimento sono facoltative: una foto del prodotto aiuta a <strong>preservare l'identità</strong>, un fotogramma di stile chiarisce l'aspetto. Dopo la generazione, l'assistente <strong>controlla il risultato rispetto alle note di movimento, alla pertinenza del prodotto, alla copy esatta, all'audio e al finale</strong>, e indica le correzioni necessarie.</p>
+<p>Questo è anche il passaggio che Chase mette in evidenza a voce: «la maggior parte di questi video <strong>non è stata necessariamente un one-shot</strong>». Il modello <strong>genera una prima volta</strong>, <strong>confronta la generazione con il prompt centrale</strong> («cosa stavamo davvero cercando di ottenere?») e, se ritiene che una sezione abbia bisogno di lavoro, la <strong>rigenera con Seedance 2.5</strong>. È un sistema incorporato «per assicurarci di non fare <em>one-shot and pray</em>»: continua ad aggiustare finché non ottieni quel che volevi. Chi si preoccupa di crediti o token <strong>può ridurre</strong> il numero di giri. Per il vault questo è un loop di verifica in piena regola, con il limite noto: <strong>è il generatore che giudica sé stesso</strong>.</p>
+<h2>Il setup</h2>
+<p>Installare è «davvero facile»: ci sono <strong>due prompt da incollare</strong> in Claude Code o in Codex e il modello <strong>installa la skill da solo</strong>; nel pacchetto c'è anche una <strong>guida specifica per Higgsfield</strong>. Poi si entra in Codex e si digita <strong><code>/motion-design</code></strong> seguito dal proprio prompt. Dal <em>Quick start</em> a schermo: per Codex si usa <code>$skill-installer</code> con «install the skill from https://github.com/cth9191/motion-design/tree/main/skills/motion-design»; per Claude Code il prompt dice di installarla dallo stesso repo copiando <code>skills/motion-design</code> in <code>~/.claude/skills/motion-design</code> («se esiste già, confrontala, preserva le personalizzazioni locali e aggiornala»). Sotto: <em>Connect Higgsfield using the setup guide — include il comando MCP di Claude Code, l'autenticazione e un controllo di sola lettura dell'accesso; la generazione richiede accesso al modello e crediti o un allowance applicabile.</em></p>
+<h2>Demo 1 — l'explainer 2D sulla cancellazione del rumore</h2>
+<p>Primo esempio: un <strong>video esplicativo 2D</strong> su come funzionano le cuffie a cancellazione del rumore — e «non fa solo la grafica, fa anche l'<strong>audio</strong>». Il prompt di partenza è quasi banale: <em>«Use motion design to make a 15-second flat vector explainer about how noise canceling headphones work. Adapt the flat vector sample, show the mechanism, and show me the full prompt before generating.»</em></p>
+<p>Da lì la skill produce il <strong>prompt effettivamente inviato a Higgsfield</strong>, «molto più approfondito»: scompone tutto <strong>dalla palette colori all'hero, alla tipografia, al movimento, fino a un beat sheet</strong> con quel che deve accadere in ogni singola scena. La morale: «invece di doverti presentare con <strong>questo</strong> [il prompt lungo], ti serve solo la skill e <strong>un input semplice</strong>».</p>
+<p>Un dettaglio che nel video passa come un vezzo e invece è una regola della skill: tutti e tre i prompt finiscono con <strong>«show me the full prompt before generating»</strong>. Nel <code>SKILL.md</code> del repo quella frase è definita un <strong>arresto vincolante</strong> — «a firm stop before image generation, uploads or video submission» — e nessuna chiamata può inviare un job «solo per controllare accesso o costo». È il freno sui crediti Higgsfield: prima leggi il prompt adattato, poi autorizzi la spesa. Stessa logica delle <em>hard rules</em> di budget della skill <code>/generate</code> in claude-skills.</p>
+<p>Il risultato che si vede: cuffie viola su fondo giallo, un'onda rossa che arriva da un aereo, la scritta <em>Detect</em>, e una voce narrante: «<em>La cancellazione del rumore combatte il suono con il suono. I microfoni rilevano il rumore. Un processore crea un segnale opposto. L'altoparlante lo riproduce. Le onde si combinano all'orecchio, riducendo il rumore, specialmente i ronzii costanti.</em>» Giudizio dell'autore: «non male per quello che dalla nostra parte è stato un one-shot»; il sistema ha fatto <strong>due generazioni</strong>. La durata era fissata a 15 secondi; Seedance 2.5 arriva, «credo», a <strong>30 secondi</strong>. Ed era <strong>solo testo</strong>, nessuna immagine di partenza.</p>
+<h2>Demo 2 — la tastiera esplosa</h2>
+<p>Il secondo esempio riprende lo stile <strong>exploded product</strong> con il template del <strong>deconstructed watch</strong>. Il prompt: <em>«Use motion design to create a 20-second exploded product for this keyboard using the two images»</em>, più <strong>due immagini di riferimento che Astra stesso aveva creato</strong>: la tastiera con i tasti e un'inquadratura degli interni. Nella pagina <em>Behind this film</em> si legge la versione completa: <strong>Keychron Q1 Max</strong>, «black background, separated layers, component close-ups, then reassembly. Keep the keyboard identity consistent. Show me the full prompt before generating». Il video — bianco, nero e verde acqua, gli strati che si separano lungo l'asse — viene mostrato intero, ~25 secondi. Verdetto: «lavoro piuttosto solido».</p>
+<h2>Demo 3 — la campagna Canva da un link</h2>
+<p>Terzo esempio, il più vicino a un uso commerciale: un <strong>promo di 20 secondi in kinetic typography</strong> per <strong>Canva</strong>, partendo dal <strong>link di una pagina prodotto</strong> (la <em>Visual Suite</em>). A voce lo racconta così: <em>«use motion design to make a 20-second kinetic promo based on canva.com's visual suite… show one fictional coffee shop campaign becoming a social post, a story presentation, adapt the kinetic typography example, and end with one idea every format»</em> — in pratica «ehi, possiamo trasformare questa pagina in un video?». La versione completa si legge nella pagina <em>Behind this film</em>: «…becoming a social post, a story and a presentation. Adapt the kinetic typography example. End with "One idea. Every format." <strong>Use music and effects without narration. Show me the full prompt before generating.</strong>»</p>
+<p>Anche qui il prompt espanso <strong>scompone ogni scena</strong> e arriva a definire il <strong>soundscape</strong>. Il risultato — sfondo pastello, tazza da caffè, «One idea. A coffee-shop launch.», la parola «On» che scorre — è «essenzialmente un one-shot», «un output piuttosto solido, con cose da ritoccare».</p>
+<h2>Cosa portarsi via, e cosa non è risolto</h2>
+<p>Il <strong>takeaway</strong> che l'autore trae dai tre casi: «ho dato <strong>prompt piuttosto basilari</strong> all'inizio di ogni generazione, l'input di partenza non è niente di serio, e stiamo ottenendo <strong>output legittimi</strong>». Con una <strong>visione più forte</strong> di ciò che si vuole e la disponibilità a <strong>iterare, iterare, iterare</strong> invece di accontentarsi del primo colpo, si ottiene motion graphics solida: 2D, prodotto, campagne con kinetic typography, o qualunque altra cosa nella galleria.</p>
+<p>Poi la domanda onesta: il motion design è <strong>risolto</strong> da GPT-6 e da questa skill con l'MCP di Higgsfield? «<strong>No. Non è completamente risolto.</strong> C'è ancora molto lavoro da fare.» Ma il confronto con «anche solo pochi mesi fa» mostra la direzione, e la natura di questi strumenti: sono <strong>floor raiser</strong> — «per quelli di noi che non sono motion designer», alzano il livello minimo raggiungibile. La combinazione consigliata in chiusura è <strong>Astra, Fable 5.1 e una skill come motion design</strong>, con l'invito a <strong>personalizzarla</strong> a piacere.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=eyDKoGU_vHk (Chase AI, 08:41, pubblicato l'8 settembre 2026, ~61.000 visualizzazioni; visto il 20/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: claude-skills (la skill come libreria di esempi), loop-engineering (il ciclo genera-confronta-rigenera), claude-code-video-editing (quinto stack: motion graphics generati da zero), mcp-connectors, aggregatori-modelli-creativi (cosa costa passare da Higgsfield)</li>
+<li>Entità: chase-ai, higgsfield</li>
+<li>Video imparentato già nel vault: <a href="animazione-stile-vox-con-un-prompt-2026-07-21.html">animazione-stile-vox-con-un-prompt-2026-07-21</a> — stesso schema skill + Higgsfield MCP, lì per explainer giornalistici in stile Vox.</li>
+<li><strong>Omesso:</strong> la CTA finale («check out down below to get the skill for yourself») e i saluti. Nel parlato non ci sono altre promozioni; in <strong>descrizione</strong> ci sono i link alla community Skool, alla masterclass «Master Claude Code + Codex» e al sito chaseai.io. Il link a Higgsfield in descrizione è un <strong>link di affiliazione</strong> (<code>higgsfield.ai/s/chase-h-ai-…</code>): va tenuto presente quando l'autore lo definisce «il miglior modello video là fuori».</li>
+<li><strong>Non verificato / da sapere:</strong> (1) le demo sono tutte fatte <strong>in Codex/Astra</strong>; il percorso Claude Code è descritto e documentato nel README ma <strong>non viene mai mostrato</strong>. (2) Il <strong>costo in crediti Higgsfield</strong> di ogni generazione non è dichiarato — per gli ordini di grandezza e le alternative pay-as-you-go vedi aggregatori-modelli-creativi. (3) La durata massima di Seedance 2.5 («30 secondi, credo») è un'approssimazione sua. (4) I contenuti dei prompt espansi si vedono a schermo ma scorrono troppo veloci per essere trascritti: qui sono riportate solo le <strong>categorie</strong> che l'autore nomina (palette, hero, type, motion, beat sheet, soundscape). (5) Il decimo stile della galleria non è leggibile nei fotogrammi. (6) I sottotitoli automatici rendono «Claude Code» come <em>Cloud Code</em>, «Higgsfield» come <em>Higgs field</em>, <em>HAXZEL MCP</em> [04:00] e persino <em>HeyGen MCP</em> [08:04]: corretti qui in Higgsfield, che è l'unico MCP mostrato a schermo. (8) Il repo non ha un file di licenza: è pubblico, non è detto che sia open-source in senso stretto. (7) Il vault non ha ancora una pagina su GPT-6 Astra né su Codex: nel video sono il contesto, non il tema.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
