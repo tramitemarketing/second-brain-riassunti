@@ -128,12 +128,23 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>C'è un passo di verifica visiva.</strong> Prima di consegnare, l'agente si genera screenshot del sito e <strong>se li rilegge come immagini</strong> per controllare che non ci sia niente storto (vedi <a href="loop-engineering.html">loop-engineering</a>).</li>
 </ul>
 <p>Ordini di grandezza dichiarati: <strong>~30 minuti</strong> per la prima build (stima dell'autore), diff <strong>+38.452 / −1.651</strong> righe, <strong>Opus 5</strong> a effort <strong>High</strong>. Il primo giro esce comunque con difetti reali — didascalie sbagliate, link che puntano male, hero scialbo — corretti dettando a voce sezione per sezione.</p>
+<h2>La variante col video vero: hero animato con Seedance 2.5</h2>
+<p>Il frame-on-scroll nasce per evitare il video pesante. Quando invece si vuole <strong>un video vero come sezione hero</strong> — il caso di turn-claude-into-a-web-design-genius-3-steps-seedance-2-5-2026-09-21 (Chase AI) — le regole cambiano e vale la pena averle scritte:</p>
+<ol>
+<li><strong>Prima l'immagine, poi il video.</strong> Si genera un'immagine di riferimento che farà da <strong>primo fotogramma</strong> (Seedream 5, Nano Banana Pro o GPT Image 2), così il modello video non inventa da zero; poi «usa Seedance 2.5 con l'immagine che hai creato» più una frase sul movimento. Tutto da Claude Code via higgsfield MCP.</li>
+<li><strong>Componi per il testo.</strong> Se la copy sta a sinistra, il soggetto va <strong>spinto a destra</strong> e l'immagine deve avere «una tonnellata di spazio vuoto»; se il testo sta in alto, soggetto al centro e spazio sopra. «L'animazione accentua, non è lo scopo.»</li>
+<li><strong>Movimento minimo.</strong> Nella demo è solo una sfera che pulsa e dà una luce debole: «di più distrae». Il motion che rende di più non è nel video ma in <strong>come gli elementi entrano in pagina</strong> (rivelazioni "pesanti" dall'alto o dal lato, con stagger regolabile).</li>
+<li><strong>Mobile → immagine.</strong> Sotto una certa larghezza si serve il poster statico, non il video: nel clone della demo il video parte a viewport ≥ 820 px.</li>
+<li><strong>Attenzione a header e taglio.</strong> Il primo montaggio aveva il video coperto dall'header e un taglio duro tra hero e corpo: due difetti da mettere in lista prima ancora di iterare sullo stile.</li>
+</ol>
+<p>Rispetto alla pipeline dei sei passi qui sopra, il branding non viene «rubato» con Firecrawl ma <strong>clonato al pixel</strong> con <code>/clone-site</code> e poi remixato: vedi <a href="design-app-che-spiccano.html">design-app-che-spiccano</a> §7b, avvertenza legale inclusa.</p>
 <h2>Relazione con gli altri modi di fare siti</h2>
 <p>Diverso da <a href="seo-con-claude.html">seo-con-claude</a> (che punta su blog/service-page ranking e static-site-generation): qui l'obiettivo è <strong>una singola landing visivamente spettacolare</strong> per un prodotto/cliente. Stesso motore (Claude Code che scrive HTML/CSS/JS), scopo opposto. Filo comune con <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>: il primo output è grezzo, la qualità sta nel curare frame, branding e animazioni.</p>
 <h2>Fonti</h2>
 <ul>
 <li>come-creare-siti-web-folli-claude-code-nano-banana-2026-07-16 (Aziz, Advantage Plus, 2026-07-16)</li>
 <li>ultimate-claude-website-design-skill-scrollcraft-2026-08-25 (Nate Herk, 2026-08-25) — la variante narrativa: ScrollCraft, intervista, asset in-skill, verifica visiva</li>
+<li>turn-claude-into-a-web-design-genius-3-steps-seedance-2-5-2026-09-21 (Chase AI, 2026-08-23) — la variante col video vero: immagine → Seedance 2.5 via Higgsfield, dead space, movimento sottile, poster su mobile</li>
 </ul>
 <script>
 window.SB = (function () {
