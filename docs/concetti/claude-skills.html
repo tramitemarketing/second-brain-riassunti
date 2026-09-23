@@ -130,6 +130,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Le domande sono la vera specifica.</strong> Non chiedono preferenze estetiche ma decisioni strutturali: il percorso, la convinzione finale in una frase, l'inventario di ciò che si possiede già, la mossa distintiva, la curva emotiva. È <a href="spec-driven-prompting.html">spec-driven-prompting</a> step 1 (farsi intervistare per estrarre il goal) confezionato dentro una skill invece che improvvisato a mano.</li>
 <li><strong>Il campo "Other" è il punto di fuga.</strong> Nel video l'autore lo usa per una richiesta ibrida che nessuna opzione prevedeva («usa queste due foto vere, e in più generami immagini low poly geometriche di scene didattiche, dentro i colori del brand»).</li>
 </ul>
+<p>Altre skill costruite sull'intervista, citate in anthropic-8-nuove-regole-prompt-claude-5-2026-09-23: <strong>doc-coauthoring</strong> (ufficiale Anthropic: contesto con domande → struttura → <strong>test di leggibilità</strong>), <strong>grill me</strong> di matt-pocock, <strong>brainstorming</strong> di Superpowers, e la skill <strong><code>prompt</code></strong> di Beggiato (tre domande veloci — cos'è, cosa consegnare, vincoli — poi compila il prompt dichiarando le proprie ipotesi). Stessa idea della skill <code>/prompt</code> installata qui.</p>
 <p>Nella stessa skill compare anche un <strong>passo di verifica visiva</strong> prima della consegna — l'agente si fa gli screenshot dell'output e li rilegge come immagini. Trattato in <a href="loop-engineering.html">loop-engineering</a>.</p>
 <h2>Skill vs plugin (distinzione tecnica)</h2>
 <p>Nel parlato comune "skill" copre due cose diverse. Una <strong>skill</strong> è il pacchetto di istruzioni per un task (il file <code>SKILL.md</code>). Un <strong>plugin</strong> è l'involucro più grande: può contenere più skill, più <strong>hook</strong> (agganci che scattano da soli in certi momenti della sessione) e <strong>server MCP</strong> (<a href="mcp-connectors.html">mcp-connectors</a>). Il plugin cambia il comportamento di Claude Code "sotto il cofano"; la skill insegna un compito. Nella pratica si chiamano tutte "skill".</p>
@@ -171,6 +172,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>15-plugins-massimo-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — i 15 plugin per performance/produttività/design</li>
 <li>gpt-6-astra-is-insane-for-motion-design-2026-09-20 (Chase AI, 2026-09-08) — /motion-design: la skill come galleria di stili con prompt archiviati; «show me the prompt» come arresto vincolante</li>
 <li>turn-claude-into-a-web-design-genius-3-steps-seedance-2-5-2026-09-21 (Chase AI, 2026-08-23) — /clone-site (teardown + pixel-diff) e /remix-site (ampiezza, anchor, tre direzioni, tweak panel)</li>
+<li>anthropic-8-nuove-regole-prompt-claude-5-2026-09-23 (Giovanni Beggiato, 2026-09-22) — skill di intervista: doc-coauthoring, grill me, brainstorming, <code>prompt</code></li>
 </ul>
 <script>
 window.SB = (function () {

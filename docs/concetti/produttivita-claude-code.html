@@ -125,6 +125,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <h2>Lavorare in parallelo</h2>
 <ul>
 <li><strong>Sotto-agenti</strong>: agenti isolati con memoria propria che lavorano in contemporanea e riferiscono al thread principale (che resta pulito). Trucco costi: farli girare su <strong>Haiku</strong> (piccolo, economico) tenendo <strong>Opus</strong> sul thread principale — es. un sotto-agente Haiku spulcia 100k token di articoli e restituisce 4 righe.</li>
+<li><strong>Mettere un tetto ai sotto-agenti</strong>: Opus 5 li lancia molto più volentieri dei modelli precedenti e brucia token. Il numero lo decidi tu, <strong>uno per angolo</strong> del problema (es. dieta: schemi alimentari / ormoni e salute / aderenza e praticità = 3, non 5). Al ritorno, <strong>sintetizzare attorno a una tesi</strong>, non incollare i report uno dopo l'altro. Fonte: anthropic-8-nuove-regole-prompt-claude-5-2026-09-23.</li>
 <li><strong>Squadre di agenti</strong>: come i sotto-agenti ma <strong>si parlano tra loro</strong> e si assegnano lavoro. Costano di più, danno coerenza su progetti grossi.</li>
 <li><strong>Worktree di Git</strong> (<code>claude --worktree &amp;lt;nome&amp;gt;</code>): copie parallele del progetto, ognuna su un ramo, per far girare 3-5 sessioni senza che si pestino i file. Alla fine si uniscono i rami. Vedi <a href="loop-engineering.html">loop-engineering</a>.</li>
 </ul>
@@ -139,6 +140,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <ul>
 <li>32-tricks-to-level-up-claude-code-2026-07-19 (2026-07-19) — la carrellata dei comandi</li>
 <li>i-tried-100-claude-code-skills-best-6-2026-07-19 (2026-07-19) — context rot, sotto-agenti, /ultra review</li>
+<li>anthropic-8-nuove-regole-prompt-claude-5-2026-09-23 (Giovanni Beggiato, 2026-09-22) — tetto ai sotto-agenti, sintesi invece di concatenazione, concisione da chiedere esplicitamente</li>
 </ul>
 <script>
 window.SB = (function () {

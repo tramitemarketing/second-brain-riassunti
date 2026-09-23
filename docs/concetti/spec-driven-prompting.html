@@ -135,6 +135,16 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Dì di meno.</strong> Un'istruzione corta guida quanto un elenco di regole, <em>se</em> l'ambiente attorno è buono.</li>
 </ol>
 <blockquote>⚠️ La regola 6 tira contro l'istinto di scrivere specifiche lunghissime. La riconciliazione: <strong>la specifica vive nell'ambiente</strong> (file di progetto, skill, criteri di verifica), <strong>il prompt resta corto</strong>. Vale anche il monito opposto raccolto altrove: file di progetto e skill tendono a essere troppo lunghi, e i modelli intelligenti hanno bisogno di spazio.</blockquote>
+<h3>Aggiornamento per la generazione 5 (Opus 5, Fable 5)</h3>
+<p>Una seconda lettura delle guide Anthropic, due mesi dopo, conferma le regole 1 (il perché) e 4 (riporta solo ciò che è provato) e ne aggiunge cinque (anthropic-8-nuove-regole-prompt-claude-5-2026-09-23, Beggiato):</p>
+<ul>
+<li><strong>Compito completo subito, passaggi liberi.</strong> Tipo di compito, perché, materiale e strumenti, paletti, come lavorare, <strong>quando fermarsi</strong>, cosa ricordare, quando è finito — ma <strong>nessuna sequenza di step</strong>: i passaggi intermedi li sceglie il modello.</li>
+<li><strong>Fatti intervistare prima</strong>, anche solo per imparare il vocabolario: <em>«non so cos'è il color grading, insegnamelo abbastanza da poterlo promptare»</em> (tecnica di Thariq, "insegnami quello che non so"). È lo step 1 di questa pagina, esteso a quando non sai nemmeno cosa chiedere.</li>
+<li><strong>Test di leggibilità</strong>: se una persona non capisce il prompt, probabilmente non lo capisce nemmeno Claude.</li>
+<li><strong>Occhio alla falsa chiusura.</strong> Nelle sessioni lunghe il modello può chiudere con un'intenzione («ora faccio X») senza farla. Per le pipeline autonome: <em>se il tuo ultimo paragrafo è un piano, un'analisi, una domanda, una lista di prossimi passi o una promessa, non hai finito</em>; proporre dopo aver finito va bene, chiedere il permesso su cose già decise no.</li>
+<li><strong>L'effort non decide la lunghezza.</strong> Opus 5 è verboso: la concisione va chiesta esplicitamente, con disclaimer corti.</li>
+</ul>
+<blockquote>⚠️ WARN: la stessa fonte dice anche di <strong>togliere le istruzioni di autocontrollo</strong> («fai sempre un loop di verifica prima di dire fatto»), perché i modelli 5 si verificano già da soli e l'istruzione in più fa ricontrollare a cascata. Tira contro la regola 4 qui sopra e contro <a href="loop-engineering.html">loop-engineering</a>. Riconciliazione proposta nella pagina dei loop: via l'autocontrollo <strong>ripetuto dentro lo stesso modello</strong>, resta il verificatore <strong>esterno</strong>. Verificare sulla guida originale di Anthropic, che non è stata aperta.</blockquote>
 <h2>Da dove viene una buona spec: il modello di sistema</h2>
 <p>Tutto quel che sta sopra dà per scontato il pezzo più difficile — che tu <strong>sappia già</strong> cosa chiedere. Sanfilippo (antirez) fornisce il caso che mostra quanto quel presupposto pesi, e da che parte sta la leva.</p>
 <p>Una sua pull request su Redis per i <em>sorted set</em> — ~6000 righe, mesi di lavoro, sviluppata con l'AI — arriva a consumare il <strong>40% di memoria in meno</strong> dell'implementazione equivalente di Valkey. Non grazie a un prompt migliore: grazie a <strong>cinque vincoli architetturali dettati da un umano che conosce il sistema</strong>. Hash table specializzata invece di quella normale di Redis, bucket raggruppati invece che singoli, lookup con la tecnica dei tag, niente stringhe SDS (non si può pagare il costo del puntatore), stringhe internalizzate nel B+tree.</p>
@@ -147,6 +157,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>Stop Prompting Claude. Use Karpathy's Method Instead. (Austin Marchese, 2026-07-07) — riprende un'intervista di Andrej Karpathy a AI Ascent 2026.</li>
 <li>skill-risolto-problema-piu-grande-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — pattern Wayfinder: mappa di ticket, grilling breadth-first, fog, anti-overplanning.</li>
 <li>le-qualita-dei-programmatori-di-domani-2026-08-24 (Salvatore Sanfilippo, 2026-08-24) — la spec vale quanto il modello di sistema che la produce; il caso Redis/Valkey e il conservativismo addestrato dei modelli.</li>
+<li>anthropic-8-nuove-regole-prompt-claude-5-2026-09-23 (Giovanni Beggiato, 2026-09-22) — otto regole per la generazione 5: compito completo senza step, intervista, falsa chiusura, concisione esplicita, niente autocontrollo ridondante</li>
 </ul>
 <script>
 window.SB = (function () {
