@@ -119,12 +119,17 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Handoff invece di auto-compact</strong>: la skill <em>Handoff</em> (Matt Pocock) estrae dalla sessione un riassunto specifico (cosa stavi facendo, cosa manca) in un markdown, da dare a un agente nuovo che riparte pulito — più controllabile della compattazione automatica.</li>
 <li>È il fondamento teorico del pilastro "tenere pulito il contesto" di <a href="produttivita-claude-code.html">produttivita-claude-code</a> (<code>/clear</code>, <code>/compact</code>, sessioni corte) e della modalità "minimal" degli harness per modelli locali con poca finestra (<a href="harness.html">harness</a>, <a href="llm-in-locale.html">llm-in-locale</a>).</li>
 </ul>
+<h2>Potare il contesto con un classificatore</h2>
+<p>Oltre a compattare o ripartire da zero, si può <strong>togliere in diretta</strong> quello che non serve più. A ogni messaggio Claude Code rimanda tutta la storia, compresi <strong>tutte le chiamate ai tool e i loro risultati</strong> (un file letto all'inizio resta nel contesto anche quando il lavoro è passato ad altro). Fontanel fa partire un hook a una soglia di contesto: manda a Jev l'elenco delle chiamate e chiede quali servono ancora al compito attuale. Nella demo (soglia abbassata all'8% solo per mostrarlo) Jev taglia <strong>otto chiamate</strong> e fa risparmiare circa <strong>8.000 token</strong>. Vedi <a href="modelli-sistema-1.html">modelli-sistema-1</a>. Fonte: jev-ha-potenziato-claude-code-2026-09-23.</p>
 <h2>Fonti</h2>
 <ul>
 <li>skill-risolto-problema-piu-grande-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — zona sicura 12–15%, meccanismo, articolo Chroma</li>
 <li>15-plugins-massimo-claude-code-2026-08-21 (Dario Fontanel, 2026-08-21) — 60% dichiarato vs ~120k/12% reale; skill Handoff</li>
 </ul>
 <blockquote>🔧 <strong>Misura reale su questo computer (25/08/2026):</strong> 96 skill attive occupano ~5.300 parole-macchina fisse a ogni sessione, cioè il <strong>4,4%</strong> della soglia di degrado dei 120k. Spegnere un plugin porta il suo costo a zero. Inventario e comandi in <a href="skill-installate.html">skill-installate</a>.</blockquote>
+<ul>
+<li>jev-ha-potenziato-claude-code-2026-09-23 (Dario Fontanel, 2026-09-23) — potatura live delle chiamate ai tool con Jev</li>
+</ul>
 <script>
 window.SB = (function () {
   var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
