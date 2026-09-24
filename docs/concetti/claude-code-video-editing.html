@@ -141,6 +141,8 @@ th { background: #f4f6f8; font-weight: 700; }
 <li><strong>Stack E — skill <code>/motion-design</code> + Higgsfield MCP (Seedance 2.5)</strong> (gpt-6-astra-is-insane-for-motion-design-2026-09-20): per spot, explainer brevi e promo da 15-30 secondi. La skill è una <strong>galleria di dieci stili con i prompt originali archiviati</strong>; tu scegli lo stile e dai una riga, un'immagine o l'URL di un sito, lei adatta il prompt (palette, hero, type, motion, beat sheet, soundscape) e spedisce <strong>un solo job per l'intero film</strong>, poi confronta e rigenera la scena debole. Default: 15 s, 16:9, musica + effetti senza voce. Gira uguale in Codex e Claude Code; dettagli in <a href="claude-skills.html">claude-skills</a>.</li>
 </ul>
 <blockquote>⚠️ Costo: entrambi passano da Higgsfield, cioè abbonamento a crediti; nessuna delle due fonti dichiara quanto costa una generazione. Le alternative pay-as-you-go e il ragionamento sul "wrapper" stanno in <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a>.</blockquote>
+<h2>Codex + Hyperframes: il ciclo in cinque passi (Nate Herk, settembre 2026)</h2>
+<p>Lo Stack A rifatto in <strong>Codex con GPT-6 Astra</strong> (gpt-6-astra-finally-solves-ai-video-editing-full-guide-2026-09-23): grafiche, sottotitoli e 3D generati come <strong>pagine HTML animate</strong> da <strong>Hyperframes</strong> e poi resi in video. Il ciclo: <strong>trascrivere</strong> con i tempi di ogni parola (ElevenLabs, ~5 $/mese), <strong>tagliare</strong>, <strong>pianificare i beat</strong> (un beat = una scena), <strong>generare</strong> con le skill e Hyperframes, <strong>verificare</strong>; gli ultimi due girano in loop finché l'agente è sicuro che tutto sia sincronizzato e dentro i bordi. Demo: un'intro grezza di <strong>1:05 diventa 28 secondi</strong> con un unico prompt-regista lunghissimo (18 minuti di lavoro dell'agente) e due giri di correzioni. La lezione: il primo prompt è il pezzo più duro, poi diventa una skill e si corregge quella. Costi in token non detti.</p>
 <h2>Fonti</h2>
 <ul>
 <li>how-i-fully-automated-my-video-editing-2026-07-16 (2026-07-16) — stack WhisperX + HyperFrames</li>
@@ -148,6 +150,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>how-to-fully-automate-video-editing-setup-2026-07-19 (2026-07-19) — setup skill "Video Use" + ElevenLabs Scribe</li>
 <li>animazione-stile-vox-con-un-prompt-2026-07-21 (2026-07-21) — stack D: skill Vox-style + Higgsfield, lo stile imposto a ogni generazione</li>
 <li>gpt-6-astra-is-insane-for-motion-design-2026-09-20 (Chase AI, 2026-09-08) — stack E: skill /motion-design (galleria di 10 stili) + Higgsfield MCP con Seedance 2.5</li>
+<li>gpt-6-astra-finally-solves-ai-video-editing-full-guide-2026-09-23 (Nate Herk) — Codex + Hyperframes, ciclo in cinque passi</li>
 </ul>
 <script>
 window.SB = (function () {

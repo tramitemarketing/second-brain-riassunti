@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Claude Code NON E&#x27; più ABBASTANZA (e perché dovresti aggiungerci Codex)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Claude Code NON E&#x27; più ABBASTANZA (e perché dovresti aggiungerci Codex)" src="https://i.ytimg.com/vi/SrXc3Vu6Ebk/hqdefault.jpg"><p><strong>In sintesi:</strong> Dario Fontanel presenta <strong><code>/verify</code></strong>, una skill gratuita che fa <strong>verifica avversariale tra modelli diversi</strong> sul lavoro di un agente. Il punto di partenza: di solito il lavoro si controlla <strong>con lo stesso modello</strong> che l'ha fatto e con una domanda gentile («è tutto a posto?»), e la risposta è sempre sì. Con <code>/verify</code> un <strong>secondo modello di famiglia diversa</strong> — di default <strong>Codex</strong>, in alternativa <strong>Gemini</strong>, un modello di <strong>OpenRouter</strong> o uno locale con <strong>Ollama</strong> — fa il <strong>reviewer</strong>: legge il piano e cerca di <strong>dimostrare che il lavoro non lo rispetta</strong>. Claude fa l'<strong>arbitro</strong>: verifica ogni segnalazione con prove, corregge o confuta. Si parte da un <strong>brief</strong> che fa da contratto, si fanno prima i <strong>controlli meccanici</strong> (test, build, prove nel browser), poi fino a <strong>tre round</strong> di botta e risposta, e alla fine c'è un <strong>verdetto</strong> con un registro. Nella demo, un CRM locale fatto con Claude Code passa i 12 controlli meccanici ma Codex trova comunque <strong>un difetto grave e tre minori</strong>, tutti confermati e corretti, fino al verdetto «verificato» al terzo round. L'avvertenza più utile: <strong>un reviewer scarso è peggio di nessun reviewer</strong>.</p>
+<h2>Il pezzo che manca: la verifica</h2>
+<p>Chi usa Claude Code o Codex per progetti lunghi, con tanti passaggi, prima o poi si chiede come essere sicuro che l'agente abbia fatto <strong>tutto quello che gli era stato chiesto, nel modo in cui era stato chiesto</strong> — e non è banale, specialmente senza un background tecnico. Fontanel (ingegnere informatico con dottorato in AI, esperienza in big tech e in PMI italiane) lo spiega con uno schema disegnato a mano: un'<strong>idea da realizzare</strong> diventa un <strong>piano</strong> (con framework come <strong>Superpowers</strong>, <strong>GSD</strong> o <strong>Wayfinder</strong>, il suo preferito), il piano passa a un <strong>veicolo</strong> che lo esegue (<strong>Claude Code</strong>, <strong>Codex</strong>, <strong>Cursor</strong>), e da lì si arriva all'<strong>obiettivo raggiunto</strong>. Nella maggior parte dei casi ci si ferma all'esecuzione «sperando che il lavoro sia stato portato a termine». Il passaggio che manca è la <strong>verifica</strong>.</p>
+<p>Quando la verifica si fa, ha due difetti. Il primo: la fa <strong>lo stesso modello</strong> che ha generato il codice, e ogni modello ha i suoi <strong>bias</strong>; chi ha scritto il codice tende a ritenerlo già corretto. Il secondo: si chiede un <strong>controllo</strong> invece di una <strong>critica</strong>. Se domandi al modello di controllare che sia stato fatto tutto, ti dirà di sì, perché la domanda è <strong>mal posta</strong>. Quello che serve è <strong>attaccare</strong> il lavoro con critiche sensate, così che il modello debba verificarle e poi smentirle oppure correggere.</p>
+<h2>Come funziona <code>/verify</code></h2>
+<p>La skill chiede a <strong>un altro agente</strong>, con bias diversi e <strong>nessuna informazione</strong> sul lavoro fatto o sul contesto usato, di controllare che il risultato sia completo, corretto e accurato. Vale per codice, documenti, dati, configurazioni, «qualsiasi cosa». Lo SKILL.md mostrato a schermo ha un principio in inglese: <strong>«nobody grades their own work»</strong> — il modello che ha prodotto il lavoro, o un suo clone, non può correggersi da solo; serve un modello <strong>di famiglia diversa</strong>, istruito <strong>per attaccare, non per approvare</strong>.</p>
+<p>I ruoli sono due e fissi. Il <strong>reviewer</strong> è il modello esterno, in <strong>sola lettura</strong>: cerca di confutare che il lavoro rispetti il brief. L'<strong>arbitro</strong> è Claude, nella sessione corrente: <strong>verifica meccanicamente ogni segnalazione</strong>, poi la corregge o la confuta con prove. Una segnalazione (<em>finding</em>) «è un'affermazione, non una verità — anche i reviewer allucinano».</p>
+<h3>Il brief è il contratto</h3>
+<p>Tutto parte da un <strong>artefatto</strong> (cosa verificare: se non viene detto, il lavoro appena fatto in sessione) e da un <strong>brief</strong>, il piano che descrive il compito e come dovrebbe risultare. La skill lo cerca in quest'ordine: un file di specifica passato dall'utente o presente nel progetto (cartelle <code>docs/</code>, <code>specs/</code>, <code>plans/</code>, dove lo salvano Superpowers, GSD e simili); una issue GitHub collegata (con Wayfinder il piano sta lì); un <strong>documento di handoff</strong> già esistente; se non c'è niente, lo <strong>ricava dalla conversazione</strong> in 5-10 righe e lo mostra per conferma; se si parte da una sessione nuova senza riferimenti, <strong>chiede all'utente</strong> cosa si stava cercando di ottenere. Tutto viene congelato in un file <code>BRIEF.md</code> dentro <code>tmp/verify/&amp;lt;nome-del-task&amp;gt;/</code>, perché il reviewer è un programma esterno e deve trovare tutto su disco. La riga evidenziata nello SKILL.md: <strong>«il brief è il contratto. Senza un brief chiaro nessuna review può dire "è corretto", può solo dire "è plausibile"»</strong>.</p>
+<h3>Prima i controlli meccanici, poi le opinioni</h3>
+<p>Prima di chiedere un parere a un LLM, la skill dimostra ciò che è dimostrabile. La tabella a schermo, per tipo di artefatto: per il <strong>codice</strong> test, lint, build ed esecuzione reale sul caso d'uso del brief; per un <strong>documento o report</strong> link raggiungibili, numeri ricalcolati dalla fonte, affermazioni riscontrate; per <strong>dati e migrazioni</strong> conteggi prima/dopo, invarianti, query di controllo; per <strong>configurazioni</strong> validazione della sintassi, prova a secco, confronto con lo stato precedente. <strong>Ogni controllo fallito è già una segnalazione grave</strong> (BLOCKER), senza bisogno di un reviewer. Gli esiti vanno nel registro come <strong>Round 0</strong>.</p>
+<h3>Il reviewer: chi e cosa riceve</h3>
+<p>Il backend si sceglie per priorità: <strong>Codex CLI</strong> (serve il login ChatGPT), <strong>Gemini</strong> via API, <strong>OpenRouter</strong> via API (dà accesso a molti modelli open in cloud), <strong>Ollama</strong> in locale; si possono indicare più backend insieme («verifica con gemini e codex»), e in quel caso i reviewer girano in parallelo e le segnalazioni doppie si uniscono tenendo la gravità più alta. Il file <code>references/backends.md</code> contiene i comandi per ciascuno e una regola di scelta: un modello <strong>di punta di famiglia diversa</strong> da chi ha fatto il lavoro (lavoro di Claude → reviewer GPT, Gemini o DeepSeek; lavoro di Codex → reviewer Claude o Gemini).</p>
+<p>Il reviewer riceve <strong>solo</strong> il brief, l'artefatto e gli esiti dei controlli meccanici — <strong>mai il ragionamento di Claude, la conversazione o le giustificazioni</strong> del perché il lavoro è fatto così. Il prompt a schermo comincia: <em>«Sei un reviewer avversariale. Un altro agente AI ha prodotto il lavoro descritto sotto. Il tuo UNICO compito è provare a dimostrare che il lavoro NON rispetta il brief. Non sei qui per approvare: sei qui per trovare problemi.»</em> E indica tre assi d'attacco, in ordine: <strong>specifica</strong> (requisiti mancanti o fatti a metà, e comportamenti presenti ma <strong>non richiesti</strong>), <strong>correttezza</strong> (dove il lavoro fa la cosa sbagliata, con quali input fallisce, casi limite ignorati, affermazioni false), <strong>effetti collaterali</strong> (file toccati fuori dal perimetro, segreti esposti, regressioni). Ogni segnalazione deve avere gravità, <strong>evidenza</strong> e <strong>come verificarla</strong>; se regge, il reviewer scrive PASS e dice cosa ha attaccato e perché ha retto.</p>
+<p>L'avvertenza che Fontanel ripete a voce, e che nel file è un riquadro a parte: <strong>«reviewer debole = falsa confidenza»</strong>. Un modello piccolo in locale (7-12 miliardi di parametri) che dice PASS <strong>non è una prova</strong>: probabilmente non ha capito il brief. Un modello poco capace su un compito complesso rischia di <strong>sottostimarne la complessità</strong>, e «una revisione fatta male rischia di essere peggiore di nessuna revisione». Ollama va bene per privacy o lavoro offline <strong>con modelli grandi</strong>; con quelli piccoli la skill deve avvisare che il verdetto pesa poco.</p>
+<h3>L'arbitrato e il verdetto</h3>
+<p>Per ogni segnalazione, in ordine di gravità, Claude <strong>esegue il passo di verifica</strong> indicato dal reviewer — mai accettare o respingere sulla fiducia. Se è confermata la <strong>accetta</strong> e corregge (o la segna come riserva esplicita se non è correggibile subito); se non è confermata la <strong>confuta</strong> scrivendo la controprova (output di un comando, citazione del brief). Poi rimanda al reviewer l'artefatto aggiornato con la tabella <em>segnalazione → esito → evidenza</em> (con Codex si usa <code>codex exec resume --last</code>, così ricorda i round precedenti). Il reviewer può insistere su una segnalazione confutata <strong>solo portando evidenza nuova</strong>. Ci si ferma quando il reviewer dice PASS — <strong>convergenza</strong> — o dopo <strong>tre round</strong>. A voce Fontanel dice «di default tre round, ma nulla vieta di farne di più»; lo SKILL.md scrive «max 3 round» e spiega il tetto: «la convergenza è il segnale di fiducia; il tetto evita il ping-pong infinito su giudizi di gusto».</p>
+<p>Ogni round finisce in <code>REVIEW-LOG.md</code>. Il verdetto è uno di tre: <strong>VERIFICATO</strong> (controlli meccanici verdi e reviewer a PASS), <strong>VERIFICATO CON RISERVE</strong> (nessun problema grave aperto, ma restano problemi medi o minori elencati uno per riga), <strong>BOCCIATO</strong> (almeno un problema grave confermato e non corretto, con cosa va rifatto). In chat va solo il verdetto, il conteggio delle segnalazioni accettate e confutate, le riserve e il percorso del log.</p>
+<h2>La demo: un CRM locale</h2>
+<p>Per la prova Fontanel non usa Wayfinder né Superpowers ma l'uso più comune di Claude Code, la <strong>plan mode</strong>, con un prompt minimo: «voglio che mi crei un CRM in locale». Claude fa qualche domanda (cosa gestire: contatti e aziende con nome, email, indirizzi, telefoni; che tipo di app: web app locale; preferenze di stack: nessuna; utenti: solo lui sul suo Mac) e scrive il piano: <strong>Next.js 15 + TypeScript</strong>, database <strong>SQLite</strong> in un file, <strong>Tailwind</strong>, niente autenticazione; tabelle per aziende, contatti, tag e i collegamenti tra loro; CRUD completo di contatti e aziende, tag con colore, dashboard con i conteggi, eliminazioni con conferma (cancellando un'azienda i contatti restano). Approvato il piano ed eseguito con <strong>bypass permissions</strong>, il CRM funziona: dashboard vuota, form per nuovo contatto e nuova azienda, pagina dei tag.</p>
+<p>La verifica parte in una <strong>sessione nuova</strong>. Due strade: creare un documento di handoff dalla sessione precedente, oppure — visto che il piano è salvato come file Markdown — passare direttamente il percorso: <em>«usa verify sul CRM appena creato rispetto a questo piano»</em>. La skill si carica, legge il piano, prepara le cartelle in <code>tmp/verify</code> e scrive il brief (quasi identico al piano, perché c'era già).</p>
+<p><strong>Round 0.</strong> I controlli meccanici con <strong>Playwright</strong>, che automatizza il browser: il registro mostra <strong>12 controlli, tutti PASS</strong> — lint, build con verifica dei tipi, schema del database creato al primo avvio con quattro tag predefiniti (Cliente, Prospect, Fornitore, Partner), creazione di un'azienda e di due contatti collegati, ricerca per nome, email e telefono, filtri per tag e per azienda, modifica di un contatto, eliminazione di un'azienda con conferma, <strong>riavvio del server</strong> con i dati ancora lì, gestione dei tag. Il registro annota perfino che il database esistente è stato messo da parte e verrà ripristinato a fine verifica.</p>
+<p><strong>Round 1 (Codex).</strong> Nonostante tutto verde, Codex trova <strong>un problema grave</strong>: i <strong>tag cancellati ricompaiono dopo il riavvio</strong>, perché a ogni connessione, se la tabella è vuota, il codice reinserisce i quattro tag predefiniti — quindi cancellarli tutti non è persistente. E <strong>due minori</strong>: creare o rinominare un tag con un nome già esistente fa andare in errore l'operazione invece di dare un messaggio gestito; i caratteri <strong><code>%</code></strong> e <strong><code>_</code></strong> nella ricerca non vengono cercati alla lettera (in SQLite sono caratteri jolly, quindi cercare <code>%</code> restituisce quasi tutto). Claude li verifica uno per uno — per il primo svuota la tabella, riavvia, e i quattro tag ricompaiono — li conferma tutti e tre e applica le correzioni.</p>
+<p><strong>Round 2.</strong> Codex rivede le correzioni e trova <strong>un solo problema minore</strong>, di tipo diverso: la ricerca dei contatti cerca anche nel <strong>ruolo</strong>, che il piano non prevedeva (il piano diceva nome, email e telefono, e lo stesso segnaposto dell'interfaccia lo conferma). È un comportamento <strong>in più, non richiesto</strong>. Claude conferma e toglie il ruolo dalla ricerca.</p>
+<p><strong>Round 3.</strong> Codex ricontrolla tutto e <strong>non trova niente</strong>: convergenza al terzo round, verdetto <strong>VERIFICATO</strong> (non «con riserve»). Nella cartella restano i file di ogni passaggio — brief, prompt del reviewer, round di Codex, arbitrati, log del server — tutti dentro <code>tmp/verify</code>, che si può cancellare a mano o chiedere a Claude di cancellare, così il progetto resta pulito. Dalle date dei file a schermo, la verifica ha preso circa un quarto d'ora.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=SrXc3Vu6Ebk (Dario Fontanel, 14:58, pubblicato il 25/08/2026, ~3.000 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Skill: https://github.com/DarioFontanel/verify-agent (link in descrizione; non aperto per questo riassunto — la descrizione dello SKILL.md, i ruoli, la tabella dei controlli, i backend, il prompt del reviewer, i verdetti e i numeri della demo sono letti dai fotogrammi)</li>
+<li>Concetti collegati: loop-engineering (il giudice non può essere l'imputato; secondo modello come critico; tetto di round), spec-driven-prompting (il brief come contratto), model-routing (scegliere il reviewer per famiglia e capacità), llm-in-locale (Ollama come reviewer e i suoi limiti), context-rot (handoff tra sessioni), claude-skills</li>
+<li>Riassunti imparentati: <a href="jev-ha-potenziato-claude-code-2026-09-23.html">jev-ha-potenziato-claude-code-2026-09-23</a> (stesso autore: Jev come revisore economico), <a href="skill-risolto-problema-piu-grande-claude-code-2026-08-21.html">skill-risolto-problema-piu-grande-claude-code-2026-08-21</a> (Wayfinder), <a href="15-plugins-massimo-claude-code-2026-08-21.html">15-plugins-massimo-claude-code-2026-08-21</a> (Superpowers, GSD, Handoff), <a href="how-to-actually-choose-the-right-ai-agent-2026-09-23.html">how-to-actually-choose-the-right-ai-agent-2026-09-23</a> (Mark Kashef fa litigare Codex e Claude Code sul piano per dieci round)</li>
+<li>Entità: dario-fontanel</li>
+<li><strong>Omesso:</strong> presentazione della sua community Skool e del sito di consulenza, invito finale a corsi su Claude Code e sul suo AIOS, rimando a un suo video precedente su Wayfinder.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) <strong>Il titolo promette più del video:</strong> il video non dimostra che Claude Code «non basta più»; mostra che un secondo modello trova difetti che il primo non ha visto, su <strong>un solo caso</strong>. (2) Nessun confronto di controllo: non si vede cosa avrebbe trovato un reviewer <strong>Claude</strong> in sessione pulita con lo stesso prompt avversariale, quindi non si può separare il merito del «modello diverso» da quello della «domanda avversariale + contesto pulito». (3) <strong>Costi</strong> non detti a voce; nella barra di stato del terminale a fine video si intravede un contatore di sessione di circa 9 $ e 17 minuti, lettura incerta e non commentata. (4) La discrepanza sul numero di round (a voce «si possono fare di più», nel file «max 3») è riportata sopra. (5) I sottotitoli automatici scrivono "Clockcode/Clode/Cloud" = Claude Code, "Superpers" = Superpowers, "All Lama/un lama" = Ollama, "Playwrite" = Playwright, "TNP" = <code>tmp</code>, "serem" = CRM, "asterisco e" = i caratteri <code>%</code> e <code>_</code>, "Fontanell" = Fontanel; corretti leggendo i fotogrammi. (6) Il reviewer della demo era <strong>Codex CLI 0.147.0</strong> in sandbox di sola lettura (dal log a schermo); il modello GPT usato sotto non è indicato.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

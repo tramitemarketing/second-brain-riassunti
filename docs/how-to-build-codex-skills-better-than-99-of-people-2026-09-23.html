@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How to Build Codex Skills Better than 99% of People</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How to Build Codex Skills Better than 99% of People" src="https://i.ytimg.com/vi/9KOtMsZ9I28/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk mette in fila <strong>sei regole per costruire skill</strong> (in Codex, ma valgono identiche per Claude Code): <strong>partire dall'output e risalire</strong> al procedimento (<em>reverse engineer</em>), dare a ogni skill <strong>un solo compito e un solo innesco</strong>, decidere il <strong>grado di libertà</strong> (istruzioni rigide per i processi prevedibili, margine di giudizio per quelli creativi), costruire dentro la skill un <strong>ciclo di verifica</strong> (controlli oggettivi più un <em>LLM-as-a-judge</em> per quelli soggettivi), <strong>"scendere la scala dei modelli"</strong> finché la qualità regge, e trattare la skill come <strong>un bambino da far andare in bici</strong>: non è mai finita, a ogni esecuzione si dà feedback e le si fa aggiornare sé stessa. La seconda metà è una prova dal vivo: la sua skill <strong>x-article</strong> (video YouTube → articolo lungo su X, con screenshot) fatta girare su tre modelli più economici — e il risultato smentisce la gerarchia di prezzo: <strong>Luna</strong>, il più economico, batte <strong>Terra</strong>.</p>
+<h2>Che cos'è una skill: la ricetta dei pancake</h2>
+<p>Prima delle sei regole, un ripasso per chi non sa cos'è una skill, con l'analogia dei <strong>pancake con gocce di cioccolato</strong>. C'è uno chef che li fa buonissimi; tu vuoi lo stesso risultato; il modo per copiarlo è avere <strong>la sua ricetta</strong>. La ricetta è la skill: un file <strong><code>SKILL.md</code></strong>, cioè markdown — linguaggio naturale con cancelletti per i titoli e trattini per gli elenchi, niente di tecnico. Grazie a quel file, quando dici all'agente «fammi quei pancake», lui non deve mettersi a ricercare come si fanno né indovinare quanto grandi li vuoi: segue la ricetta e ottiene <strong>lo stesso risultato, ogni volta</strong>, perché è tutto documentato.</p>
+<p>Una skill può essere semplicissima — un prompt tipo «rendi questa email più professionale, o fai che suoni come me» (la sua «Nate email skill») — oppure un processo complesso, come analizzare il mercato su cinquanta titoli e dire quale comprare. Il criterio è sempre lo stesso: <strong>ogni volta che vuoi codificare un processo che fai, per delegarlo a un agente</strong>, lo trasformi in una skill.</p>
+<h2>1. Reverse engineer: partire da cosa vuol dire "fatto"</h2>
+<p>La prima regola è cominciare <strong>dall'output</strong>: qual è la <strong>definizione di fatto</strong>, cosa stai cercando davvero. L'esempio: chiedi all'agente «pollo» ma vuoi <strong>pollo alla parmigiana su un letto di pasta</strong>; siccome hai detto solo «pollo», lui ti fa un <strong>panino al pollo</strong>, e la volta dopo delle <strong>cosce di pollo</strong>. Non sa cosa vuoi. Se invece parti dal piatto finito e dici «smontiamo questo cibo: cosa c'è dentro, quanto l'abbiamo cotto, come ci siamo arrivati», così si scrive la ricetta.</p>
+<p>Applicato al lavoro: per una skill che produce il <strong>report di fine settimana</strong>, con certe colonne nel foglio Excel e certi calcoli, è molto più facile <strong>dare all'agente il foglio finito</strong> e dire «questo è un output che mi piace, voglio una skill che da un input grezzo arrivi qui ogni volta». L'agente allora ti <strong>accompagna a ritroso</strong>: che dati hai guardato, da dove li hai presi, come hai calcolato, come hai formattato. Rispondi, e hai una prima versione della skill che conosce già la sua <strong>stella polare</strong>. La sua preferenza netta: <strong>prima fai il processo, ottieni l'output, poi lo trasformi in skill</strong> — invece di dire «costruiscimi una skill per una dashboard YouTube», dove tu hai una visione, l'agente un'altra, e ti arrabbi quando ti consegna il panino al posto della parmigiana.</p>
+<h2>2. Un solo compito, un solo innesco</h2>
+<p>Anatomia del file (lo mostra con uno schema e poi nel file vero): in cima c'è il <strong>frontmatter YAML</strong>, separato da tre trattini, che dice <strong>come si chiama la skill e quando va usata esplicitamente</strong>, più eventuali campi extra (nella sua skill c'è un <strong><code>argument-hint</code></strong>, l'URL del video YouTube); sotto ci sono <strong>le istruzioni vere</strong>, «la ciccia». L'agente legge prima solo i metadati per capire quale skill serve — «Nate vuole trasformare questo video in un articolo X: ecco la skill giusta» — e <strong>solo dopo averla scelta legge tutte le istruzioni</strong>. Nell'app di Codex si può vedere il markdown formattato o, con <em>View source</em>, quello grezzo.</p>
+<p>La skill che userà per tutto il video è <strong>x-article</strong>: trasforma un video YouTube in un <strong>post lungo su X</strong>, e per farlo lo scarica, lo trascrive, ne fa gli screenshot. È lunga, e non l'ha scritta in un colpo: l'ha <strong>iterata «25 volte o più»</strong>.</p>
+<p>La regola: una skill deve fare <strong>un lavoro molto specifico</strong>. Non «gestisci il team marketing», ma quel team spezzato nei suoi passaggi singoli. Nel suo libro <em>Becoming AI Native</em> lo chiama <strong>function breakdown</strong>, o <strong>l'albero</strong>: il tuo lavoro è un albero, ogni voce del mansionario è un <strong>tronco</strong>, i tronchi hanno <strong>rami</strong> e i rami <strong>foglie</strong>; sono le foglie, i compiti minimi, che diventano skill, perché poi le skill <strong>si concatenano</strong>. Il vantaggio è diretto: un compito preciso permette un <strong>innesco preciso</strong>, quindi l'agente la esegue in modo più costante e la <strong>invoca da solo</strong>, molto meglio che con una skill di trenta pagine che fa mille cose.</p>
+<h2>3. Il grado di libertà</h2>
+<p>Quando automatizzi devi capire se il processo è <strong>deterministico</strong> — sai esattamente cosa entra, cosa succede e cosa esce — o <strong>non deterministico</strong>, una scatola nera dove conosci più o meno l'input e il processo, ma sai comunque <strong>com'è fatto un buon risultato</strong>. La domanda pratica: posso automatizzarlo con <strong>regole dure</strong> («x è maggiore di 10? è uguale a 500?») o richiede <strong>giudizio</strong> («analizza questo, trasformalo in un'email, in un foglio di calcolo»)?</p>
+<p>Conta perché la skill va scritta di conseguenza. Se il compito è deterministico — prendere un foglio Excel e <strong>copiare le celle nel CRM</strong>, puro spostamento di dati — e la scrivi in modo vago, lasci spazio all'AI per interpretare male e sbagliare: lì la skill dev'essere «passo uno fai questo, passo due fai questo, esattamente». Se il compito è di giudizio, come la sua x-article, succede il contrario: ogni video è diverso, quindi ogni articolo e ogni screenshot saranno diversi. Non potrebbe mai scrivere «screenshot al minuto 1, al 2 e al 5, e mettili alle righe 400, 600 e 700»: gli articoli verrebbero <strong>generici</strong> e forse nemmeno sensati. Il test per capire da che parte stai: quando lo fai a mano, <strong>segui ogni volta le stesse istruzioni</strong> o usi continuamente il giudizio per arrivare alla definizione di buono?</p>
+<h2>4. La verifica, il pezzo più importante</h2>
+<p>Per lui questa è <strong>la regola che conta di più</strong>. Lo scopo di una skill è potersi fidare che l'output rispetti il tuo standard; ma non vuoi che ti venga consegnata ogni volta <strong>la V1</strong> dell'agente: vuoi qualcosa di pronto, che <strong>scorri, approvi e spedisci</strong>. Il bello degli agenti è che possono <strong>controllare il proprio lavoro</strong>, o farlo controllare ad altri agenti. Tutte le sue skill girano dentro un <strong>ciclo di verifica</strong>: l'agente che costruisce consegna, poi lo stesso agente o dei <strong>sub-agent</strong> diversi verificano e danno feedback, e il giro si ripete — a volte approva alla V2, a volte alla V7, gli è capitato di arrivare alla <strong>V15 o V16</strong>. Così il tempo speso a verificare e rimandare indietro non è il tuo.</p>
+<p>Distingue due tipi di controllo. Quelli <strong>oggettivi</strong> si possono dimostrare, come le regole deterministiche: «raccogli <strong>500 fonti</strong>, riducile alle <strong>250 migliori</strong>, e ogni fatto dell'articolo va ricontrollato da un <strong>secondo agente</strong>» — tutto verificabile, x è uguale a y. Quelli <strong>soggettivi</strong> riguardano cose senza metrica dura, come un video o un sito: sembra tutto a posto? sta tutto nei margini? si carica nel modo giusto? Qui l'agente diventa un <strong>LLM-as-a-judge</strong>, un giudice: siccome approva usando il giudizio, devi spiegargli <strong>che aspetto ha, che sensazione dà, un buon risultato</strong>, anche senza regola dura. Nella x-article convivono: oggettivo è «ci sono <strong>10 screenshot</strong> del video»; soggettivo è «l'articolo scorre? suona come Nate? le immagini sono <strong>ritagliate</strong> bene?» — e per questi l'agente apre l'app, scorre, legge, fa screenshot e verifica. È proprio sui controlli soggettivi che iterare una skill richiede tempo: esegui, analizzi, dai feedback, riesegui, e la skill <strong>si allena</strong> migliorando a ogni uso.</p>
+<p>Alla domanda «ma io non saprei come far verificare questo processo a un agente» risponde che <strong>un modo c'è sempre</strong>: gli agenti usano il computer, il browser, guardano, ascoltano. Il trucco: <strong>se avessi affidato il compito a una persona, cosa faresti per dargli il timbro di approvazione?</strong> Spiegalo all'agente, e quella è la tua verifica. Non uscirà perfetto al 100%, ma sarà più vicino al <strong>95%</strong> invece di partire da <strong>75-80</strong>.</p>
+<h2>5. Scendere la scala dei modelli</h2>
+<p>«Walk it down»: scendere lungo la lista dei modelli, sia in Claude Code sia in Codex. I modelli più forti costano di più; nel caso di Codex la scala che nomina è <strong>Astra</strong> (il più capace e caro), poi <strong>Soul</strong>, poi <strong>Terra</strong>, poi <strong>Luna</strong> (nell'interfaccia il modello compare come «<strong>GPT-6 Astra</strong>»). Il procedimento: costruisci la skill e ottieni un buon risultato, magari testando su Astra; poi la rifai girare su Soul — stesso risultato e costa meno? — poi su Terra, poi su Luna. Non ha senso usare Astra se Luna dà lo stesso output. Ma <strong>va testato</strong>, perché non tutte le skill si prestano. Ha skill che fa girare su <strong>Haiku o Luna</strong> perché semplicissime — per esempio <strong>descrizione e timestamp</strong> di un video YouTube, dove Astra sarebbe uno spreco — mentre per la x-article usa almeno <strong>Soul o Astra</strong>, che capiscono meglio come scattare gli screenshot, piazzarli, ritagliarli e perfino <strong>sfocare</strong> le parti sensibili: vanno molto meglio nell'<strong>uso del browser</strong>.</p>
+<p>Trovato il modello, si scende anche <strong>il livello di effort</strong>: parti da <em>high</em>; se non basta sali, se va bene scendi a <em>medium</em>, e così via, cercando <strong>il modello più leggero ed economico che mantiene la qualità</strong> che vuoi.</p>
+<h2>6. Il metodo della bici</h2>
+<p>L'ultima regola riassume le altre: <strong>una skill non è mai finita</strong>. Ogni volta che la esegui le dici cosa ti è piaciuto e cosa no, e le chiedi di <strong>aggiornarsi</strong> perché la volta dopo vada meglio — lui lo fa «quasi ogni volta». L'immagine è <strong>insegnare a un bambino ad andare in bici</strong>: all'inizio sei cauto, guardi tutto, hai la mano sul manubrio; dai feedback («andava bene, ma pendevi a sinistra, tieni il peso al centro»); col tempo togli <strong>le rotelle</strong>, poi <strong>le ginocchiere</strong>, man mano che la fiducia cresce. Ma non gli togli il casco per mandarlo in autostrada, e non lo lasci partire per andare a fare un pisolino: qualche forma di sorveglianza e di <strong>guardrail</strong> resta sempre.</p>
+<p>Per questo non crede nel «prodotto finito», salvo per le skill super deterministiche che vanno perfette ogni volta. Più una skill sta dal lato del <strong>giudizio</strong>, meno può dirsi finita: ogni esecuzione è un po' diversa, il tuo processo cambia, <strong>escono modelli nuovi</strong>, e si continua a dare feedback.</p>
+<h2>Dove stanno le skill in Codex e in Claude Code</h2>
+<p>Passando alla pratica: nel progetto (il suo è il suo <strong>AIOS</strong>, vedi aios) le skill di Codex stanno nella cartella <strong><code>.agents/skills</code></strong>, quelle di Claude Code in <strong><code>.claude/skills</code></strong>. Sono <strong>trasferibili</strong>: lui dice a Codex o a Claude «guarda tutte le skill lì e portale anche qui», e tiene dei duplicati. In alternativa possono stare a <strong>livello globale</strong>, disponibili in tutti i progetti. Se non ricordi dove sta una skill, basta chiederlo all'agente, che trova il percorso e può spostarla.</p>
+<h2>La prova dal vivo: la skill x-article su quattro modelli</h2>
+<p>Mostra prima il risultato normale: la skill ha appena girato su un video, ha scritto la bozza (a schermo: <strong>1.713 parole e dieci screenshot</strong>, salvata ma non pubblicata, «il link al video va nel primo commento») e lui l'ha pubblicata <strong>senza cambiare nulla</strong>: formattazione fatta, screenshot presi dal video e messi al punto giusto rispetto al testo, ritagli, e perfino un effetto <strong>spotlight</strong> che evidenzia un dettaglio — cose che fa perché gliele ha scritte nella skill. Quell'articolo era stato prodotto da <strong>GPT-6 Astra</strong>. È una skill complessa: trascrive il video, apre l'editor degli articoli di X, crea la miniatura, formatta, scatta gli screenshot, li inserisce e <strong>li trascina</strong> nella posizione giusta; tantissimo browser e tantissimo giudizio.</p>
+<p>Poi dà lo <strong>stesso prompt</strong> a <strong>Soul, Terra e Luna</strong>, tutti su effort <em>high</em>. Dopo circa dieci minuti si vede che <strong>tutti stanno guardando immagini</strong> — Luna le ha aperte moltissime volte — per capire quali screenshot usare e dove; succede perché la skill e la sua verifica lo impongono. C'è anche un vincolo esterno: <strong>X limita il numero di immagini</strong> per articolo. Il video usato come test è il suo sul business da un milione con Claude (lo stesso di <a href="anthropics-ceo-how-to-build-a-1-person-business-with-claude-2026-09-23.html">anthropics-ceo-how-to-build-a-1-person-business-with-claude-2026-09-23</a>).</p>
+<p><strong>Luna</strong> ci mette <strong>28 minuti e 33 secondi</strong>. Difetti: il titolo coincide con la frase d'apertura, che non gli piace, e c'è uno spazio strano; la prima immagine arriva tardi. Ma lo screenshot dei tre tipi di idee da confrontare è quello giusto, l'«agent report card» corrisponde al testo, c'è uno spotlight sul prezzo; un solo passaggio non torna (clicca «crea report» e il report non si vede). Il suo giudizio: «sono <strong>colpito</strong> che Luna lo faccia così bene». Ciò che controlla, dice, è soprattutto che <strong>suoni come lui</strong> — la skill è allenata sulle sue guide di stile di LinkedIn e YouTube e sul suo modo di parlare — e che le immagini siano belle.</p>
+<p><strong>Terra</strong> ci mette <strong>26 minuti</strong>, due e mezzo meno di Luna, ma il risultato è peggiore: l'articolo si apre con un'immagine <strong>tagliata male</strong>, «non è un buon modo di iniziare»; un'altra immagine è brutta. Ha dei meriti: uno <strong>zoom</strong> sul punteggio che passa da <strong>88 a 94</strong>, e soprattutto <strong>oscura da solo i dettagli sensibili</strong>, con un riquadro «sensitive details redacted» — lo fa più e più volte. Ma in fondo ci sono <strong>quattro immagini di fila</strong>, messe male: la verifica non è stata abbastanza buona, forse perché trascinare le immagini nel browser è difficile e il modello «si è arreso» o si è creduto finito. Verdetto provvisorio: <strong>Luna meglio di Terra</strong>, benché Terra sia sulla carta più capace e più cara.</p>
+<p><strong>Soul</strong> ci mette <strong>38 minuti</strong>. Tutte le immagini sono <strong>zoomate</strong>, segno che usa più intelligenza visiva per scegliere cosa mostrare; oscura le ricevute demo; zooma sul report ma evidenzia «<strong>14 test passati, 2 falliti</strong>» invece del punteggio 88; mette spotlight sul 94 e sui soldi, oscura gli ID interni. «Non male», ma si chiede onestamente se quello di Luna non fosse migliore.</p>
+<p>La conclusione è prudente: i suoi video sono molto diversi fra loro (tutorial, video montati), quindi <strong>un solo test non basta</strong> per dire «passo a Luna». Avendolo fatto più volte su video diversi, <strong>Astra resta il migliore</strong>, e lui lo usa su effort <strong>low</strong> e in <strong>fast mode</strong> per fare prima; ma vale la pena provare su più esempi. Tutti e tre i modelli, comunque, hanno prodotto un <strong>QA report</strong> (Luna anche un piano visivo e i fotogrammi scelti): titolo, corpo, <strong>76 blocchi di testo</strong>, <strong>11 screenshot</strong>, <strong>7 titoli H2</strong>, revisione visiva e privacy, copertura editoriale. È la parte che conta: <strong>dimostrano di aver verificato</strong>. «Fidatevi: senza quel QA report e senza verifica, questa skill sarebbe molto peggio» nel mettere gli screenshot al posto giusto.</p>
+<h2>Le sei regole applicate alla skill vera</h2>
+<p>Chiude mostrando come la x-article incarna le sei regole. <strong>Reverse engineer</strong>: ha scritto a mano alcuni articoli — guardando il video, scattando gli screenshot, piazzandoli — e li ha dati all'agente dicendo «analizza questi output, voglio farne una skill: cosa c'è di buono, come scegli gli screenshot, come li piazzi». <strong>Un compito</strong>: non «scrivere articoli su X» (per quello ha un'altra skill) ma solo «<strong>video YouTube → articolo X</strong>», e infatti basta scrivere «trasforma questo video in un articolo X» perché la skill parta da sola, oppure la si chiama con lo slash. <strong>Libertà</strong>: processo estremamente non deterministico. <strong>Verifica</strong> e <strong>scala dei modelli</strong>: appena mostrate.</p>
+<p>Il <strong>metodo della bici</strong> in pratica è un messaggio di feedback come questo, a Terra: «all'inizio hai messo screenshot strani, sembravano tagliati; l'idea è che chi guarda lo screenshot <strong>non abbia bisogno del contesto</strong> di cosa succedeva qualche secondo prima o dopo; il primo e il secondo non vanno bene; in fondo ci sono quattro immagini a caso messe male, quindi la tua verifica non è bastata; e la seconda delle tre immagini finali è presa <strong>a metà di un'animazione</strong>, quindi è uno screenshot sbagliato messo nel posto sbagliato. Analizza, capisci cosa intendo e <strong>aggiorna la skill</strong> perché non ricapiti». La regola finale: a ogni esecuzione dai <strong>feedback buono e cattivo</strong> e fai aggiornare la skill; altrimenti tutte le correzioni che fai a mano <strong>dovrai rifarle a mano la volta dopo</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=9KOtMsZ9I28 (Nate Herk | AI Automation, 27:04, pubblicato il 19 settembre 2026, ~38.000 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: claude-skills (come si costruisce una skill), loop-engineering (la verifica dentro la skill, giudice separato dall'esecutore), model-routing (scendere la scala dei modelli e dell'effort), spec-driven-prompting (partire dalla definizione di fatto), aios</li>
+<li>Entità: nate-herk</li>
+<li>Video imparentati: <a href="anthropics-ceo-how-to-build-a-1-person-business-with-claude-2026-09-23.html">anthropics-ceo-how-to-build-a-1-person-business-with-claude-2026-09-23</a> (è il video usato come cavia per la prova), <a href="i-tried-100-claude-code-skills-best-6-2026-07-19.html">i-tried-100-claude-code-skills-best-6-2026-07-19</a>, <a href="skill-risolto-problema-piu-grande-claude-code-2026-08-21.html">skill-risolto-problema-piu-grande-claude-code-2026-08-21</a></li>
+<li><strong>Omesso:</strong> lo spot per la SOP gratuita «First AI Automation Client» (AI Automation Society), la chiusura sul secondo canale, like e iscrizioni.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) Il confronto fra modelli è <strong>un test solo</strong>, giudicato a occhio dall'autore: nessuna metrica, nessun costo in dollari o token riportato, e lui stesso conclude che su più prove vince Astra. (2) I nomi dei modelli <strong>Astra / Soul / Terra / Luna</strong> e «GPT-6» sono quelli detti e visibili a schermo; i sottotitoli scrivono anche «Tara» e «Terara». La frase «Astra più caro di Soul, Soul più caro di Terra» e la posizione di Luna in fondo sono dichiarazioni sue, non verificate su un listino. (3) «Iterata 25 volte o più», «V15 o V16», «95% invece di 75-80%» sono stime a voce. (4) Il libro <em>Becoming AI Native</em> è suo; la «function breakdown / albero» è citata, non spiegata oltre. (5) I sottotitoli storpiano «codec skills» (Codex), «aagents»/«calledkills» (<code>.agents/skills</code>), «aclad» (<code>.claude</code>), «ex article» (x-article), «bike method» è corretto. (6) Il percorso <code>.agents/skills</code> per Codex è detto a voce, non mostrato in un file system.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

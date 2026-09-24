@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How to Actually Choose the Right AI Agent</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How to Actually Choose the Right AI Agent" src="https://i.ytimg.com/vi/6LNlCpQPYFc/hqdefault.jpg"><p><strong>In sintesi:</strong> una conversazione tra <strong>Nate Herk</strong> e <strong>Mark Kashef</strong>, registrata di persona in <strong>Montenegro</strong> durante un evento AI. La tesi di Kashef: l'<strong>harness</strong>, cioè tutto quello che sta attorno al modello (leggere e scrivere file, usare il terminale, il ciclo agentico), conta <strong>più del modello stesso</strong>. Lo mostra con un modello locale in LM Studio che scrive l'HTML di una landing ma non riesce a pubblicarla, perché «non ha gli arti». Da qui la sua regola: <strong>«mai fedele a un provider, solo al mio harness e ai miei asset»</strong>. Scrive skill che funzionano con qualsiasi modello, le fa controllare ogni mese da un'automazione, oggi usa <strong>Codex per circa il 60%</strong> del tempo (Claude Code «artista» per ideare, Codex «chirurgo» per eseguire) e li fa <strong>litigare sul piano per dieci round</strong>. Poi due idee di manutenzione. La prima è un file <strong><code>rot.md</code></strong> che dice quanto in fretta invecchia ogni strato del sistema. La seconda viene da <strong>Boris Cherny</strong>: <strong>cancellare le skill ogni sei mesi</strong>, perché un modello più forte può non averne più bisogno. Chiude con l'organizzazione: <strong>25 sistemi separati</strong>, tutto a livello di progetto finché non «merita» di diventare globale, per capire subito se un problema viene dal modello, dall'harness o da come hai organizzato le cose.</p>
+<h2>Il cervello nel barattolo: modello e harness</h2>
+<p>Il punto di partenza, spiega Nate, sono le domande che arrivano nella sua community: bisogna passare a <strong>Hermes</strong>? E quella cosa locale chiamata <strong>Pi</strong>? Con così tanti strumenti che girano, vuole che quello che si costruisce oggi resti <strong>valido l'anno prossimo e quello dopo</strong>, visto che non si sa cosa succederà a Claude Code o a Codex. Kashef parte da un diagramma disegnato a mano (titolo <strong>HARNESSES</strong>). Al centro c'è un <strong>cervello in un barattolo</strong>, attorno una fabbrica di macchinari, in alto i loghi dei vari fornitori di modelli. Quando si discute se sia meglio Claude, Codex o un domani Gemini, «tutti litigano sul cervello, ma è tutto quello che c'è attorno a farlo funzionare». Le capacità di <strong>leggere</strong>, <strong>scrivere e modificare file</strong>, usare la <strong>bash</strong> (cioè il terminale: creare cartelle, spostarle) <strong>non sono dentro il modello</strong>. Se chiedi a un modello locale «fammi un sito e avvialo sul mio computer», fa la prima parte ma non la seconda: ti dà l'HTML, non può avviare un server locale. «Non ha gli arti.» Più separi il cervello da tutto il resto, più puoi arricchire il resto e <strong>dipendere meno dal cervello</strong>.</p>
+<p>Questo conta perché, secondo lui, molti modelli locali (cita <strong>Kimi</strong> e «qualsiasi modello open source») fanno già <strong>l'80% del lavoro quotidiano</strong>. Non avranno la potenza di Claude Code o Codex, ma per sempre più ruoli, soprattutto nel prossimo anno, vede un mondo in cui si fa girare in locale <strong>il 70-80%</strong> del lavoro, se si ha l'hardware, e si chiamano «i geni» solo per i compiti da genio o per la pianificazione.</p>
+<p>Nate chiede la differenza pratica tra <strong>Claude in chat</strong> e <strong>Claude Code</strong> (nello scambio esce anche il rammarico che si chiami «Code», perché il «codice» sono proprio questi strumenti; dai sottotitoli non è chiaro chi dei due lo dica). La chat ha strumenti diversi: può fare la ricerca e creare il PDF, ma magari non può chiamare altre piattaforme o spostare file sul tuo computer, e deve «supporre in background cose che non può toccare». Claude Code come harness può agire sia sul tuo computer sia sul cloud. La previsione di Kashef: <strong>la chat evaporerà</strong>, resterà <strong>Cowork</strong>, una versione leggera dell'harness di Claude Code; tutto avrà un harness, cambierà solo quanto è capace. Nate ricorda la sua paura iniziale, a gennaio, e come le cose siano diventate semplici quando ha cominciato a fare domande: l'harness sa quali strumenti ha e li usa da solo, come mano e spalla quando prendi un bicchiere d'acqua.</p>
+<p>Sopra la base che l'harness dà già pronta, dice Kashef, si aggiungono <strong>mattoncini Lego</strong>: <strong>skill</strong>, <strong>plugin</strong>, e tutto ciò che si può impilare. Il cervello dirige l'orchestra, e un modello più intelligente capisce meglio che per quel compito serve un po' di bash più una scrittura, e poi entra nel <strong>ciclo agentico</strong>: chiedi una cosa, la cosa viene eseguita, esce un risultato (un errore o un successo), il modello lo prende come stimolo e continua. Quanto bene gira quel ciclo <strong>dipende da quanto è sofisticato l'harness</strong>. È la differenza tra un tuttofare che ha studiato tanto e uno con «le cicatrici di battaglia», gli attrezzi potenti e il sapere pratico di quando usarli.</p>
+<h3>La prova in LM Studio</h3>
+<p><strong>LM Studio</strong> è un programma per usare un modello open source come fosse ChatGPT, <strong>senza harness</strong>: parli solo con il cervello. Kashef usa <strong>Qwen 3.6 27B</strong> (a schermo <code>qwen/qwen3.6-27b</code> in formato MLX; ha modelli più potenti ma non vuole «far esplodere il computer» mentre registra) e detta: <em>«fammi una landing page molto semplice per la mia consulenza AI, chiamala Prompt Advisors, e avviala in locale sul mio computer così la mostro al pubblico»</em>. Il modello si mette a pensare e scrive l'HTML, ma per quanto tempo gli si dia <strong>non potrà avviarla</strong>: non ha l'arto per creare il server. La stessa richiesta a Codex o Claude Code «non li fa nemmeno sudare». Nate aggiunge un ricordo: all'inizio, prima degli harness, c'erano aziende che costruivano prodotti <strong>copiando e incollando</strong> il codice che Claude scriveva.</p>
+<h2>Fedele all'harness, non al provider</h2>
+<p>Nate chiede come Kashef passi da un harness all'altro (Codex, Hermes, OpenClaw, «il tuo AIOS, second brain, come lo chiamano adesso»). La risposta è la frase del video: <strong>«il mio obiettivo numero uno è non essere mai fedele a un provider, solo al mio harness e ai miei asset, e cambio il cervello quando serve. Zero lealtà.»</strong> Usa molto Claude Code solo perché ci è abituato e ne conosce il ritmo. Ma scrive <strong>tutte le skill perché funzionino con qualsiasi modello</strong>, aperto o chiuso, e le collauda con tutto quello che può. Ha una skill che chiama <strong><code>/poly-skill</code></strong>: prende una skill fatta per Claude Code e la <strong>adatta e ottimizza per Codex</strong>, così ogni skill vale per entrambi. E tiene <strong>un solo link con tutti gli asset principali</strong>, indipendenti dal modello, così tutti i modelli sanno dove trovare le stesse cose.</p>
+<p>Negli ultimi tempi usa <strong>Codex il 60% del tempo</strong>, pur essendo stato a lungo fedele a Claude Code. Claude Code è ottimo per <strong>ideare e pianificare</strong>, «è un visionario», gli piace il botta e risposta e ti giudica; quello che a volte non fa è <strong>seguire l'istruzione esatta nel modo esatto</strong>. Per lui <strong>Codex è un chirurgo e Claude Code un artista di talento</strong>. Spesso fa rileggere a Codex il piano di Claude Code e <strong>li fa litigare in un loop per dieci round</strong>, finché Claude Code ha tutti i pezzi mancanti che Codex vedeva e che lui non aveva previsto. Nate cita un tweet con la stessa idea: Claude Code è un <strong>vecchio gufo saggio</strong> con cui ragioni e che ti contraddice un po'; Codex è un <strong>Rottweiler</strong> che addenta il compito, obbedisce e va avanti finché non ha finito; e Nate aggiunge di suo che i <strong>cicli di verifica</strong> di Codex gli «sembrano molto affilati». La domanda giusta non è quale harness o modello sia il migliore in assoluto, ma <strong>quale è il migliore per questo passaggio</strong>: in un processo a cinque passi, magari i primi due con uno e il resto con l'altro.</p>
+<h3>Hermes, OpenClaw e Pi</h3>
+<p>Con <strong>Hermes</strong> porti l'harness di Hermes e ci infili il modello che vuoi. Per questo chi lo usa deve renderlo «un fiocco di neve speciale»: a seconda di come usa i modelli, continua a <strong>modificare l'harness</strong> di Hermes, non solo i file delle skill. Ciò che ha reso Hermes migliore di <strong>OpenClaw</strong> è proprio l'harness. Da nuovo, Hermes contro Codex dà risultati diversi; ma lo puoi <strong>modellare</strong> finché fa un ciclo di verifica simile a quello che piace di Codex, una specie di «monkey see, monkey do».</p>
+<p>Poi <strong>Pi</strong> (pi.dev, open source, «nessuna affiliazione»): a schermo si presenta come «un harness minimale da terminale per il coding», piccolo al centro ed estendibile con estensioni, skill, template di prompt e pacchetti. Si installa con un comando; se spaventa, Kashef dà il link a Codex o Claude Code e chiede di <strong>leggere la documentazione con più agenti in parallelo</strong> e imparare tutto sull'harness. Poi gli fa leggere i <strong>file JSONL</strong>: ogni conversazione con Codex e Claude Code resta salvata sul computer, con i metadati di quali strumenti sono stati chiamati, quali verifiche fatte e in che ordine. Da lì chiede di costruire la sua versione dell'harness che si comporti allo stesso modo sugli stessi tipi di compito. Così si <strong>ricostruisce ciò che piace</strong> di Claude Code e Codex e alla fine si ha <strong>un solo harness</strong> in cui ogni modello è «un cervello in affitto» da cambiare. Si può anche far eseguire lo stesso compito a Pi e agli altri, con Claude che guarda nel terminale cosa succede e cerca di capire cosa fanno gli altri che il tuo harness non fa. Oggi, dice, è tutto <strong>tribale</strong> («sono team Codex, team Claude Code, team open source: siete tutti Neanderthal»); lui vuole un sistema in cui il cervello migliore per velocità, prezzo e momento si innesti <strong>quasi senza adattamento</strong>. Se domani Gemini diventasse fortissimo, gli basterebbero <strong>24 ore</strong> per spostare tutto. E Claude Code potrebbe tornare avanti, perché Anthropic «probabilmente andrà in borsa prima e farà una grossa spinta», e se arrivasse un <strong>Mythos</strong> «non castrato all'infinito» potresti voler spostare tutto lì. Nate aggiunge l'argomento del <strong>prezzo</strong>: nessuno sa cosa succederà ai costi per i consumatori, quindi quello che stai costruendo è <strong>proprietà intellettuale tua</strong> e va tenuto spostabile.</p>
+<h2>Skill che funzionano ovunque</h2>
+<p>Una skill, strutturalmente, è quasi sempre un file Markdown principale, a volte con qualche script Python e degli asset. In cima c'è il <strong>frontmatter YAML</strong>: il nome in <em>kebab-case</em> e la <strong>descrizione</strong>, che contiene le <strong>parole d'innesco</strong> («quando l'utente fa X, usa la skill per fare Y»). Kashef ha delegato il lavoro: ha chiesto a Codex di leggere la documentazione di Claude Code, la propria e quella di un altro provider, e di capire come fare una skill «coltellino svizzero» ottimizzata per tutti. Codex dà priorità a cose delle skill che Claude Code non considera e viceversa, e bisogna includerle entrambe. Gli script non sono un problema, «Python è Python». Quello che va sistemato è <strong>come e quando</strong> il modello capisce di dover usare lo script. Per questo <code>/poly-skill</code> cerca le piccole differenze: «Codex potrebbe non accorgersi di questo innesco, quindi rendiamo la descrizione <strong>molto più corposa</strong>», così la probabilità che la skill venga presa in qualsiasi harness sale.</p>
+<p>La manutenzione è automatica: <strong>una volta al mese, con un cron job</strong>, fa un <strong>audit</strong> di tutto il suo ecosistema. Rifinisce le skill, trova quelle che ha aggiunto e <strong>non usa</strong>, <strong>unisce</strong> quelle che possono diventare una skill composta e controlla che siano tutte indipendenti dal modello. Il bersaglio sono i <strong>repository gonfi</strong>: chi scarica una raccolta di «skill fantastiche», ne ha <strong>300</strong> caricate ogni volta e ne usa <strong>cinque</strong>.</p>
+<h3>Delegare il pensiero, non la comprensione</h3>
+<p>Nate sottolinea che l'AI fa il lavoro sporco ma <strong>tu resti al comando e capisci</strong>: «puoi delegare il pensiero, ma non puoi mai delegare la comprensione». Anche i creator imparano con l'AI, ma sanno che documentazione darle e cosa fare con quello che ne esce: va usata come <strong>partner di pensiero</strong>, senza delegarle tutto. Kashef racconta il <strong>leak dell'harness di Claude Code di marzo 2026</strong> (un <em>map file</em> finito online): ci ha passato <strong>quattro o cinque giorni</strong>, e la cosa più interessante era che gran parte dell'harness era fatta di <strong>stampelle date al cervello</strong>. Per esempio, una lista di <strong>espressioni regolari con tutte le parolacce</strong> per capire quando l'utente impreca e dire al modello come reagire. Vedere tante stampelle per un modello presentato come «quasi AGI» l'ha svegliato: <strong>«non è magia, c'è un'intera fabbrica di operai che fa sembrare il modello molto più intelligente di quanto sia»</strong>. Da lì si guardano i benchmark in un altro modo. Impressiona meno quale test un modello ha stracciato e più quanto bene il fornitore ha adattato l'harness al nuovo cervello. Per questo gli importa il <strong>dato empirico</strong>: come va quando lo spingo io, non quanto dovrebbe andare secondo loro.</p>
+<h2>Il file <code>rot.md</code>: ogni strato invecchia alla sua velocità</h2>
+<p>La domanda che Nate riceve più spesso: aggiungendo ogni mese skill o una wiki al proprio second brain o OS, come si tiene <strong>ottimizzato</strong>? Lui stesso non crede esista un solo modo ottimale; si tratta di <strong>accorgersi</strong> quando il sistema cerca troppo a lungo una cosa che dovrebbe trovare subito, o quando <strong>inventa</strong> per colpa del disordine in una cartella.</p>
+<p>La risposta di Kashef è un file <strong><code>rot.md</code></strong> («rot» = decadimento). Un AIOS ha cinque o sei <strong>strati</strong>: l'<strong>identità</strong>, il <strong>substrato</strong> (il contesto di base che cambia poco), le <strong>skill</strong>, le <strong>regole</strong>, gli <strong>hook</strong>, gli <strong>agenti</strong> e altro. Ogni strato <strong>invecchia a una velocità diversa</strong>. L'<strong>identità</strong> (chi sei, cosa fai, obiettivi e aspirazioni) cambia poco e resta valida per <strong>1-3 mesi</strong>, anche di più in un'azienda. Le <strong>skill</strong> le aggiorna e ottimizza <strong>ogni mese</strong> (inciampando, dice «optimate», e ride: «ho appena inventato una parola nuova»; Nate: «mi piace, in realtà»). Le <strong>regole</strong> possono cambiare <strong>ogni giorno</strong>, perché usando lo stesso AIOS su compiti nuovi trova limiti e casi limite nuovi; in media le sue scadono <strong>ogni settimana</strong>. Gli <strong>hook</strong>, i controlli che scattano sempre, durano di più: quello che, quando fa il push su GitHub di un progetto cliente, <strong>toglie i dati personali e sensibili</strong> del cliente può reggere <strong>sei mesi</strong> con piccoli ritocchi. <strong>Skill e agenti</strong>, invece, invecchiano <strong>velocissimi</strong>.</p>
+<h2>Quando il modello supera le skill</h2>
+<p>Qui arriva la citazione anticipata nel teaser: <strong>Boris Cherny</strong> avrebbe twittato che bisognerebbe <strong>cancellare tutte le skill ogni sei mesi</strong>. Il motivo, per Kashef: una skill è <strong>una stampella in più</strong> che aiuta il cervello a capire come usare gli strumenti per fare una cosa. Se il modello diventa davvero più intelligente, può raggiungere l'obiettivo della skill <strong>con un prompt vago</strong>, senza la skill iniettata ogni volta. Bisogna assicurarsi che la skill <strong>aggiunga valore</strong> e non tenga al guinzaglio «un drago che diventa solo più grande». Quindi le skill vanno controllate <strong>in modo aggressivo</strong>. Lo stesso vale per gli agenti: «assumi agenti come assumi dipendenti», e un agente per la contabilità può non servire più se il modello, con una memoria migliore, capisce da solo i 18-20 sotto-compiti. Si può arrivare a <strong>poche skill e poche regole</strong>, con skill che contengono solo <strong>conoscenza tacita</strong> che il modello non avrebbe mai, per quanto intelligente, invece di istruzioni passo passo.</p>
+<p>Nate racconta che a ogni nuovo modello (per esempio un nuovo Opus in Claude Code) gli fa <strong>ripassare tutte le skill</strong> per controllare che le usi nello stesso modo, ma non aveva mai pensato di chiedersi <strong>se servano ancora</strong>, provando il processo senza skill. L'esempio di Kashef: due anni fa una skill «come si fa un video YouTube» scritta da lui sarebbe stata utile a Nate; oggi Nate lo guarderebbe inclinando la testa: «hai visto i nostri iscritti?». Nate <strong>ha superato quella skill</strong>. Il suo caso concreto: aveva una skill che spiegava <strong>dove trovare i file delle conversazioni</strong> e come spezzarli per non riempire il contesto con 50.000 token alla volta per cento file. Ora basta <strong>una frase</strong> («leggi tutte le nostre conversazioni e dimmi 15 cose da ottimizzare») e il modello sa da solo come farlo e come risparmiare contesto.</p>
+<p>Nate solleva il rischio: senza skill il modello è più creativo nel trovare la strada, ma una skill lo teneva anche su <strong>binari più stretti</strong>, e da solo potrebbe fare cose dannose al sistema. Kashef risponde che per questo l'AIOS non è fatto solo di skill: ci sono le <strong>regole</strong> e altri strati che «fanno da baby-sitter». Il futuro potrebbe essere <strong>meno skill e regole più rigide</strong>, con un CLAUDE.md che dice solo «segui queste regole in queste situazioni». Anche creare un agente sempre uguale potrebbe diventare superfluo. Non dice che succederà, ma che bisogna restare aperti e tenere <strong>gli asset principali agili</strong>.</p>
+<p>Nate aggiunge un dettaglio: nel blog di Anthropic per il lancio di un modello (non ricorda se <strong>Opus 5</strong> o <strong>Fable 5</strong>), tra i consigli su come usarlo c'era in cima <strong>«dagli compiti più ambiziosi»</strong>. Il fatto che sentano il bisogno di scriverlo gli fa pensare che la gente <strong>non spinga i modelli al limite</strong> e non si tolga di mezzo. Da allora fa esperimenti con un <code>/goal</code> del tipo «costruiscimi questo, ma <strong>stupiscimi</strong>, fammi vedere cosa sai fare». Una skill scritta tempo fa e usata alla cieca, perché funziona, può <strong>limitare</strong> quello che il modello saprebbe fare.</p>
+<h2>Venticinque sistemi operativi e la promozione a globale</h2>
+<p>L'ultima domanda: cosa fa Kashef nel suo setup che quasi nessuno fa? Ha circa <strong>25 sistemi operativi diversi</strong>, ciascuno in un <strong>mondo isolato</strong>. Non uno grande: <strong>tasse e finanza</strong> vivono separate dall'OS di <strong>consulenza</strong>, a sua volta separato da quello della <strong>scuola</strong> (la sua community) e dai contenuti. Ogni parte del business, le offerte formative, il lavoro per i clienti enterprise hanno il proprio sistema. È più da mantenere, ma più ne costruisci più hai leva. Sopra c'è <strong>un sistema generale</strong> che fa l'audit di tutti. Propone miglioramenti per il singolo sistema e altri che valgono per tutti.</p>
+<p>Nelle cartelle ci sono skill, regole e CLAUDE.md <strong>di progetto</strong> e <strong>globali</strong>. Molti mettono <strong>tutto globale</strong>, ed è «terribile»: aggiungendo cose si vede il rendimento calare e ci si dimentica di quello «spettro globale di regole» che si applica a ogni cosa. Lui ragiona per <strong>promozione</strong>: <strong>tutto è di progetto finché non merita di essere promosso a globale</strong>. Così sa sempre cosa gira globalmente, e le cose globali sono pochissime. Il vantaggio è un <strong>raggio d'esplosione piccolo</strong>: può sperimentare su una cartella senza che l'effetto passi a un altro progetto. Soprattutto, può capire se un problema è <strong>del modello, dell'harness o dell'organizzazione</strong>. Esempio: <strong>Fable</strong> va benissimo con il suo sistema per le tasse e malissimo con quello di consulenza. Potrebbe non essere colpa del modello né di una skill, ma un problema di <strong>organizzazione</strong> di quel progetto per quel modello. Isolare le cose lo aiuta a trovare il punto di attrito e a controllare il disordine.</p>
+<p>Nate conferma: con sistemi così autonomi bisogna poter trovare <strong>la variabile che ha rotto tutto</strong>, altrimenti non si impara niente. E scommette che Kashef troverebbe un documento anche solo cliccando tra le cartelle, perché sa dove vivono le cose: è di nuovo il punto che <strong>la comprensione non si delega</strong>. La chiusura di Kashef: questa diventa una <strong>abilità acquisita</strong>. La maestria è capire <strong>come funziona tutta la fabbrica da capo a fondo</strong> e dove sta ogni pezzo. Se ti senti dire «questo modello fa schifo» per <strong>pigrizia intellettuale</strong>, prima di giudicare verifica che non faccia schifo <strong>per il setup che hai adesso</strong>: <strong>nel dubbio, fai l'audit del setup, delle skill e del disordine</strong>, perché modelli diversi… (il video si chiude qui, a metà frase).</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=6LNlCpQPYFc (canale Nate Herk | AI Automation, ospite Mark Kashef, 34:08, pubblicato l'11/09/2026, ~68.500 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: harness (tesi centrale; Pi, Hermes, OpenClaw; ricostruire un harness dai log), model-routing (fedeltà agli asset e non al provider; Claude Code per pianificare, Codex per eseguire; 70-80% in locale), claude-skills (skill portabili, audit mensile, skill che scadono), aios (strati, <code>rot.md</code>, 25 sistemi, promozione a globale), llm-in-locale (LM Studio, Qwen 3.6 27B senza harness), loop-engineering (dieci round di critica tra Codex e Claude Code), context-rot (skill caricate e mai usate), claude-co-work (la previsione «la chat evapora, resta Cowork»)</li>
+<li>Riassunti imparentati: <a href="anthropic-engineer-explains-what-to-build-instead-of-ai-agen-2026-09-23.html">anthropic-engineer-explains-what-to-build-instead-of-ai-agen-2026-09-23</a> (stesso canale: skill al posto di agenti, verifica dentro la skill), <a href="how-to-build-codex-skills-better-than-99-of-people-2026-09-23.html">how-to-build-codex-skills-better-than-99-of-people-2026-09-23</a> (Nate Herk: skill che si aggiornano, «scendere la scala dei modelli»), <a href="claude-code-non-e-piu-abbastanza-e-perche-dovresti-aggiunger-2026-09-23.html">claude-code-non-e-piu-abbastanza-e-perche-dovresti-aggiunger-2026-09-23</a> (Fontanel: Codex come revisore avversariale del lavoro di Claude Code), <a href="qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21.html">qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21</a></li>
+<li>Entità: nate-herk, boris-cherny, qwen, claude-code</li>
+<li><strong>Omesso:</strong> lo sponsor <strong>Clay</strong> (09:26-10:29: piattaforma di arricchimento dati per lead, «2.000 crediti gratis», demo con la Clay CLI in Claude Code), i link di descrizione (playbook agenzia, community Skool, dettatura Glaido, VPS Hostinger con codice sconto), la menzione di Glaido detta a voce durante la demo, i complimenti reciproci dell'introduzione.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) <strong>Il tweet di Boris Cherny</strong> («cancellate tutte le skill ogni sei mesi») è riportato a voce da Kashef e non mostrato; Nate stesso chiede «ah sì?». Da verificare prima di citarlo. (2) <strong>Il leak dell'harness di Claude Code di marzo 2026</strong> e le regex per le parolacce: racconto di Kashef, non verificato qui. (3) Le percentuali (Codex al 60%, 70-80% del lavoro in locale, 80% del lavoro quotidiano fatto dai modelli open) sono stime personali, non misure. (4) Le «24 ore» per migrare tutto a un altro modello sono una stima a parole, mai provata nel video. (5) La previsione su un'IPO di Anthropic e il «Mythos non castrato» sono speculazioni. (6) <code>/poly-skill</code> e <code>rot.md</code> sono strumenti privati di Kashef, non pubblicati nel video. (7) I sottotitoli scrivono "Marge/Mark Cashf/Cashup" = Mark Kashef, "Boris Churnney" = Boris Cherny, "Quen 27B" = Qwen 3.6 27B (letto a schermo), "Open Cloud/openclaw" = OpenClaw, "cloud code" = Claude Code, "codeex/CEX" = Codex, "Glido" = Glaido. (8) Il diagramma «HARNESSES» è un'illustrazione su Excalidraw: i loghi in alto sembrano OpenAI, Anthropic, Gemini e altri due non leggibili con certezza (uno pare Mistral). (9) Non c'è una risposta vera alla domanda del titolo «come scegliere l'agente giusto»: la risposta implicita è «scegli per passaggio, non per tribù, e tieni gli asset portabili».</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

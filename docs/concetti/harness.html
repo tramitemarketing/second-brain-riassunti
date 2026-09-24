@@ -115,10 +115,13 @@ th { background: #f4f6f8; font-weight: 700; }
 </ul>
 <h2>Perché conta adesso</h2>
 <p>I modelli convergono (<a href="model-routing.html">model-routing</a>, corollario commodity): quando tutti hanno la stessa intelligenza, <strong>la partita si gioca su harness e hardware</strong> — è la tesi con cui Rizzo chiude entrambe le fonti. Per chi costruisce: il valore difendibile non è l'accesso al modello ma l'impalcatura (memoria, loop, skill, verifiche) che ci metti attorno — lo stesso motivo per cui questo vault investe su CLAUDE.md, skill e loop invece che sul modello del mese.</p>
+<h2>Il cervello nel barattolo</h2>
+<p>L'immagine di Mark Kashef (how-to-actually-choose-the-right-ai-agent-2026-09-23): un modello senza harness è <strong>un cervello in un barattolo</strong>, senza «arti» (leggere, scrivere, eseguire comandi, il ciclo agentico). Nella demo <strong>Qwen 3.6 27B in LM Studio</strong> scrive l'HTML della landing ma <strong>non riesce ad avviare il server</strong>. Conseguenze: Hermes batte OpenClaw <strong>per l'harness</strong>, non per il modello; <strong>Pi</strong> (pi.dev) è un harness minimale da terminale a cui si può far ricostruire quello che piace di Claude Code o Codex dandogli i log JSONL delle sessioni passate; e un fornitore di modelli si giudica da <strong>quanto bene adatta l'harness al modello nuovo</strong>, non dai benchmark. Kashef cita anche la fuga del codice di Claude Code di marzo 2026 come prova che l'harness è pieno di stampelle (per esempio espressioni regolari per riconoscere le parolacce): è una sua affermazione, non mostrata. La memoria su file come estensione della finestra di contesto, nell'esempio di OpenClaw, è in <a href="agent-memory.html">agent-memory</a>.</p>
 <h2>Fonti</h2>
 <ul>
 <li>everything-has-happened-in-ai-this-week-2026-08-21 (Simone Rizzo, 2026-08-21) — dato 13%→40%, harness DeepSeek nel dettaglio</li>
 <li>qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21 (Simone Rizzo, 2026-08-21) — «prima l'LLM, poi la capsula»: harness su modello locale</li>
+<li>how-to-actually-choose-the-right-ai-agent-2026-09-23 (Nate Herk con Mark Kashef, 2026-09-11) — il cervello nel barattolo, Pi, giudicare il fornitore dall'harness</li>
 </ul>
 <script>
 window.SB = (function () {

@@ -165,6 +165,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <h2><code>last30days</code></h2>
 <p>Interroga <strong>Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub e il web</strong> sugli <strong>ultimi 30 giorni</strong> e produce un rapporto con le fonti citate.</p>
 <p><strong>Quando serve:</strong> quando devi sapere cosa dice <em>la gente</em> di un argomento adesso, non cosa dice il primo risultato di Google. Per il vault è la fonte complementare a <code>/watch</code>: quella porta dentro i video, questa porta dentro le discussioni.</p>
+<p><strong>Costi e limiti</strong> (da the-1-trending-github-repo-just-solved-claudes-search-2026-09-23, Chase AI): sta <strong>a metà tra la ricerca web</strong> («un Google glorificato») <strong>e la deep research</strong> (5-20 minuti, milioni di token). Interroga le piattaforme in parallelo leggendo commenti e trascrizioni, e dà <strong>più peso a ciò che compare su più piattaforme</strong>; lo scraping lo fa uno script Python, non il modello. Si può limitare a una fonte («solo Reddit»). <strong>Costa solo X</strong>: serve una chiave xAI, circa <strong>10 centesimi a ricerca</strong>; TikTok e Instagram passano da un account ScrapeCreators sovvenzionato («circa 6 mesi gratis»). Regola: <strong>non usarla per tutto</strong>. La community ha sollevato <strong>dubbi di sicurezza</strong> (credenziali, hook; c'è una issue su GitHub). Fontanel la chiamava «deep research multi-fonte»; Chase la mette esplicitamente sotto la deep research.</p>
 <hr>
 <h1>4. Generare interfacce da terminale</h1>
 <h2><code>cli-printing-press</code> (19 skill)</h2>
@@ -221,6 +222,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>I numeri di Ponytail e Caveman sono <strong>dichiarazioni degli autori</strong>, senza verifica indipendente.</li>
 <li>Nessuno di questi pacchetti è passato da uno scanner di sicurezza: la decisione è stata di fidarsi dell'adozione (fra 12.000 e 236.000 stelle su GitHub) invece che scansionarli.</li>
 <li>Il conto delle parole-macchina fisse (~5.300) è una <strong>stima</strong>, calcolata sulla lunghezza delle descrizioni divisa per quattro. Per il dato vero serve <code>/context</code>.</li>
+<li>the-1-trending-github-repo-just-solved-claudes-search-2026-09-23 (Chase AI, 2026-07-28) — last30days: costi, ranking per convergenza, limiti</li>
 </ul>
 <script>
 window.SB = (function () {

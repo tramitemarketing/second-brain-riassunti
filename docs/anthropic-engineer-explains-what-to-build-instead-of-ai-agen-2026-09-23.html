@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Anthropic Engineer Explains: What to Build Instead of AI Agents</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Anthropic Engineer Explains: What to Build Instead of AI Agents" src="https://i.ytimg.com/vi/HIRDzMtuWFk/hqdefault.jpg"><p><strong>In sintesi:</strong> partendo da un talk di <strong>Barry Zhang</strong> e <strong>Mahesh Murag</strong> — i due che in Anthropic hanno creato le <strong>Agent Skills</strong> — Nate Herk sostiene che non conviene più costruire <strong>un agente diverso per ogni lavoro</strong>: l'agente sotto (Claude Code) è diventato abbastanza generale, e quello che va costruito sono le <strong>skill</strong> da dargli. La metafora è il telefono: il <strong>modello</strong> è il processore, il <strong>runtime dell'agente</strong> è il sistema operativo, le <strong>skill</strong> sono le app. Poi quattro regole pratiche, ciascuna con un prompt pronto: <strong>salvare dentro la skill il codice che ha già funzionato</strong> invece di farlo riscrivere; scrivere <strong>descrizioni precise</strong> perché Claude sceglie la skill leggendo solo nome e descrizione; trasformare <strong>ogni correzione in un'istruzione che resta</strong> nella skill; far <strong>verificare il lavoro alla skill</strong> con un'evidenza esterna prima che arrivi a te. Frase che riassume il video: «il tuo primo sguardo non dovrebbe essere il primo sguardo dell'agente, ma il suo quarto, quinto o sesto». Nessuna demo reale: è un video spiegato con grafiche.</p>
+<h2>La tesi: non agenti nuovi, ma skill per lo stesso agente</h2>
+<p>L'apertura è volutamente provocatoria: «gli ingegneri di Anthropic hanno detto di aver <strong>smesso di costruire agenti</strong>», e chi ci si concentra ancora «sta probabilmente sprecando ore». Subito dopo la precisazione: Anthropic <strong>non dice che gli agenti sono morti</strong>. Barry Zhang e Mahesh Murag (a schermo lo si vede sul palco con il logo <strong>AIE</strong>, cioè la conferenza AI Engineer) spiegano di aver smesso di <strong>ricostruire un agente separato per ogni singolo lavoro</strong>, perché l'agente sottostante era diventato «molto più general purpose del previsto». La pagina di sintesi del talk mostrata a schermo ha per titolo <strong>«The real gap is expertise, not intelligence»</strong> — il divario vero è la competenza, non l'intelligenza — e dice che il codice diventa un'<strong>interfaccia universale</strong> per il lavoro digitale, con un'impalcatura che può essere semplice quanto una shell e un file system. L'esempio è un report finanziario: chiamare un'API, organizzare i dati in file, analizzarli in Python, scrivere il documento. Non serve un agente "da report finanziari", servono un modello capace, un runtime usabile e <strong>la conoscenza di come quel lavoro va fatto</strong>.</p>
+<p>Il modo più semplice per capirlo, dice Nate, è il <strong>telefono</strong>. Ha un <strong>processore</strong>, un <strong>sistema operativo</strong> e le <strong>app</strong> che usi ogni giorno. Processore e sistema operativo li fanno poche aziende enormi e non li cambi; le app le scegli tu, e ognuna dà allo stesso telefono una capacità precisa. Lo stack dell'AI assomiglia sempre di più a questo: il <strong>modello</strong> è il processore, il <strong>runtime dell'agente</strong> è il sistema operativo, le <strong>skill</strong> sono le app. Claude Code sa già leggere file, scrivere codice, chiamare tool e portare avanti un compito; non va ricostruito ogni volta che serve una presentazione, una ricerca su un'azienda o un post LinkedIn. Si dà allo stesso agente una <strong>skill</strong> che contiene il processo, il contesto, gli script e gli esempi di quel lavoro.</p>
+<h2>1. Non far risolvere a Claude lo stesso problema due volte</h2>
+<p>Il team di Anthropic vedeva Claude scrivere <strong>ogni volta praticamente lo stesso script Python</strong> per applicare lo stile a una presentazione. Spendeva molti token a ricreare codice già scritto e, siccome ripartiva da zero, <strong>il risultato cambiava da un run all'altro</strong>. La soluzione: far salvare a Claude quello script <strong>dentro la skill</strong>, «uno strumento per il suo sé futuro» (parole loro). La volta dopo esegue la versione già provata.</p>
+<p>È il vecchio principio dei programmatori <strong>DRY</strong>, <em>don't repeat yourself</em>: un problema risolto nel codice si salva e si riusa. Nate racconta di fare lo stesso nel suo <strong>AI operating system</strong>: il suo flusso per i <strong>caroselli</strong> non chiede a Claude di reinventare a ogni run come si renderizza una slide, la skill lo manda ai file che già funzionano e Claude si occupa solo del contenuto nuovo — «letteralmente cambiare il testo».</p>
+<p>Il prompt suggerito, quando uno script dà un risultato che ti piace: <em>salva lo script che hai appena usato nella cartella scripts della skill; aggiorna lo SKILL.md perché i run futuri eseguano quel file invece di riscriverlo; poi rilancia la skill e verifica il risultato</em>. E va <strong>testato</strong>: stesso tipo di compito lanciato <strong>due volte</strong>, confronto delle parti importanti, controllo che la skill chiami davvero il file salvato. Il resto dell'output può variare un po', ma hai sostituito «un'ipotesi nuova con un pezzo di codice provato». Morale: <strong>non pagare Claude per riscoprire una soluzione che hai già</strong>.</p>
+<h2>2. Far scegliere a Claude la skill giusta</h2>
+<p>Quando le skill diventano tante, Claude deve capire quale serve. L'immagine è quella del <strong>meccanico</strong>: ha centinaia di attrezzi, ma per cambiare una gomma non li rovescia tutti sul banco; capisce il lavoro, prende i pochi che servono e lascia il resto nella cassetta. Le skill funzionano così grazie a quella che Anthropic chiama <strong>progressive disclosure</strong> (rivelazione progressiva). All'avvio Claude <strong>non legge</strong> le istruzioni, gli esempi e gli script di tutte le skill: sarebbe uno spreco di tempo e di token. Legge solo <strong>nome e descrizione</strong> di ciascuna, il <strong>frontmatter YAML</strong>; quando la tua richiesta corrisponde a una descrizione, carica lo <strong>SKILL.md completo</strong>, e i riferimenti e gli script più pesanti restano nella cartella finché il compito non li chiede. A schermo c'è la pagina Anthropic «The anatomy of a skill», che chiama il frontmatter il <strong>primo livello</strong> e il corpo del file il <strong>secondo</strong>. Questo tiene fuori dal contesto le istruzioni che non c'entrano ed evita il degrado che si chiama <strong>context rot</strong>.</p>
+<p>Tutto però regge solo se <strong>la descrizione è chiarissima</strong>. Se una skill dice «aiuta con i contenuti» e un'altra «crea asset di marketing», Claude <strong>tira a indovinare</strong>: le due descrizioni si sovrappongono e nessuna dice <em>quando</em> va usata. Una descrizione forte suona così: <em>«Questa skill crea caroselli LinkedIn a partire da un argomento, una trascrizione o una scaletta. Usala quando l'utente chiede un carosello, delle slide per un carosello o un documento LinkedIn»</em>. Così Claude sa cosa fa e quando usarla. Le regole: <strong>una skill, un lavoro</strong>; nella descrizione le <strong>parole che userebbe una persona vera</strong>; <strong>mai due skill in competizione</strong> per la stessa richiesta.</p>
+<p>L'audit si può far fare a Claude Code: <em>rivedi tutte le descrizioni delle mie skill; per ognuna dimmi cosa fa, quando dovrebbe attivarsi e dove si sovrappone ad altre; riscrivi solo quelle ambigue</em>. Poi tre prove per skill: una <strong>richiesta ovvia</strong> che deve attivarla, una <strong>richiesta formulata diversamente</strong> che deve attivarla lo stesso, e una <strong>richiesta estranea</strong> che non deve attivarla. «Una skill che Claude non trova è una skill che non hai.»</p>
+<h2>3. Far migliorare la skill a ogni uso</h2>
+<p>Ogni volta che correggi Claude e poi chiudi la chat, dice Nate, «c'è una buona probabilità che tu abbia buttato via quella lezione». Il tono sbagliato, un passaggio di validazione saltato, un formato che non vuoi più vedere: se ti limiti a dire «sistemalo», lo sistema, ma <strong>il processo resta rotto</strong>.</p>
+<p>Il suo esempio personale: se un agente gli dice di non trovare un file che lui sa esistere, non gli dà il percorso e basta. Gli chiede di <strong>tornare indietro</strong>: mostrami dove hai cercato, capisci perché non l'hai trovato, poi <strong>aggiorna il routing o la skill</strong> in modo che il prossimo run parta dal posto giusto. A schermo c'è una citazione del talk: le skill sono pensate come <strong>un passo concreto verso l'apprendimento continuo</strong>, con una garanzia importante — «qualsiasi cosa Claude scriva può essere usata in modo efficiente da una versione futura di sé stesso» — e l'obiettivo che Claude al trentesimo giorno di lavoro con te sia molto migliore che al primo; già oggi si possono creare skill con la skill <strong>skill-creator</strong>.</p>
+<p>Precisazione: le skill <strong>non ricordano tutto</strong> e non sono la registrazione delle conversazioni; conservano la <strong>conoscenza procedurale</strong> di un lavoro. Quindi: se è sbagliato <strong>il processo</strong>, si aggiornano le istruzioni nello SKILL.md; se manca <strong>la tua voce, il brand o gli esempi</strong>, si aggiunge un <strong>file di riferimento</strong>; se <strong>lo stesso errore si ripete</strong>, si aggiunge <strong>una regola esplicita</strong> che lo impedisca. E poi si rilancia lo stesso compito. Il prompt: <em>rivedi cosa è andato storto in questo run; decidi se la causa era il processo, il contesto mancante, una regola debole o del codice inaffidabile; aggiorna la skill <strong>nel posto durevole più piccolo possibile</strong>; rilancia lo stesso compito e verifica la correzione</em>. Col tempo la skill diventa «un registro vivo di come vuoi che il lavoro sia fatto».</p>
+<h3>"A prova di modello"? Solo il processo</h3>
+<p>Nate vuole essere preciso sull'espressione <em>model proof</em>. Nessuna skill costringe un modello più debole a rendere come uno più forte; modelli diversi danno risultati diversi e interpretano le skill in modo diverso. Ma <strong>il processo può essere portabile</strong>: le Agent Skills sono un <strong>formato aperto</strong>, e la stessa cartella di skill funziona su harness compatibili come <strong>Codex</strong> o <strong>Hermes agent</strong>. Consiglio: prova una skill importante <strong>con un altro agente compatibile</strong>; se il risultato crolla, cerca le <strong>assunzioni nascoste</strong>, gli esempi mancanti o le istruzioni che capisce un solo modello, e stringi la skill.</p>
+<h2>4. La skill deve verificare prima di consegnare</h2>
+<p>«Le prime tre erano importanti, ma questa è probabilmente la più importante», ed è secondo lui la lacuna più grande dei flussi con l'AI. Lanci la skill, crea la cosa, salva il file e dice «fatto»; apri e scopri che la formattazione è rotta, che le fonti non sostengono le affermazioni, o che il copione cade nel vuoto per il pubblico a cui era destinato. L'AI ha fatto <strong>il 70-80%</strong> e tu fai a mano l'ultimo <strong>20-30%</strong>. Ma se sai già come controllarlo tu, <strong>quei controlli si mettono dentro la skill</strong>.</p>
+<p>Gli esempi: per una <strong>presentazione</strong>, la skill renderizza ogni slide come immagine, guarda gli screenshot, sistema ciò che è tagliato, illeggibile o fuori dai bordi, e rigenera. Per un <strong>report di ricerca</strong>, apre le <strong>fonti primarie</strong>, abbina ogni affermazione alla prova e <strong>toglie ciò che non riesce a verificare</strong>. Per qualcosa di <strong>soggettivo</strong> (un copione, un annuncio) fa rivedere il testo a più <strong>personas</strong>, cioè sotto-agenti con ruoli diversi: il <strong>principiante</strong> dice dove si è perso, l'<strong>acquirente scettico</strong> cosa non crede, qualcuno del <strong>pubblico vero</strong> dove smetterebbe di leggere. Non si accetta ogni osservazione — «probabilmente peggiorerebbe l'output» — ma si prendono quelle che <strong>tornano più volte</strong>, si fanno le revisioni più forti e si ripete la review.</p>
+<p>La definizione che conta: <strong>verificare non è Claude che rilegge il proprio lavoro e dice «mi sembra buono»</strong>. Serve un'<strong>evidenza fuori dalla prima bozza</strong>: uno screenshot, un test, una fonte, un esempio di riferimento, o il feedback di prospettive diverse. Il prompt da aggiungere a quasi ogni skill: <em>prima di restituire l'output finale, definisci i criteri di accettazione; crea la prima versione; ispezionala con il metodo di verifica adatto; correggi ogni problema; fai un altro passaggio; restituisci l'output solo quando rispetta i criteri, con un breve riepilogo di cosa hai controllato; e se qualcosa non si può verificare, dimmi esattamente cosa resta</em>. Ancora meglio se esiste una <strong>metrica di successo oggettiva</strong> e gli agenti lavorano finché non la raggiungono.</p>
+<p>Così il primo output diventa una <strong>bozza interna</strong> («Output #1: internal draft» a schermo). Tu resti il giudice finale, soprattutto dove contano <strong>gusto, strategia o giudizio di business</strong>; l'obiettivo è smettere di spendere tempo su problemi che l'AI poteva trovare da sola.</p>
+<h2>Riepilogo</h2>
+<p>Gli ingegneri di Anthropic <strong>salvano il codice provato</strong> invece di riscriverlo, danno a ogni skill <strong>una descrizione precisa</strong> perché Claude carichi solo quella giusta, trasformano <strong>le correzioni in istruzioni durevoli</strong> che continuano a migliorare, e <strong>verificano il lavoro</strong> prima che arrivi all'umano. È così che un agente general purpose impara <strong>come lavori tu</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=HIRDzMtuWFk (Nate Herk | AI Automation, 09:47, pubblicato il 13/09/2026, ~325.000 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: claude-skills (le quattro regole), loop-engineering (la regola 4: verifica con evidenza esterna, il giudice non è l'imputato), context-rot (progressive disclosure), agent-memory (correzioni come conoscenza procedurale), harness (modello/runtime/skill, portabilità tra harness), aios (il suo "AI operating system")</li>
+<li>Riassunti imparentati: <a href="how-to-build-codex-skills-better-than-99-of-people-2026-09-23.html">how-to-build-codex-skills-better-than-99-of-people-2026-09-23</a> (stesso autore, sei regole per le skill: stessa idea di verifica e di skill che si aggiorna da sola), <a href="how-to-actually-choose-the-right-ai-agent-2026-09-23.html">how-to-actually-choose-the-right-ai-agent-2026-09-23</a> (stesso canale, la dieta delle skill e il loro invecchiamento), <a href="anthropic-8-nuove-regole-prompt-claude-5-2026-09-23.html">anthropic-8-nuove-regole-prompt-claude-5-2026-09-23</a></li>
+<li>Entità: nate-herk</li>
+<li><strong>Omesso:</strong> i link iniziali e finali a corso "AI operating system", community gratuita e community Plus su Skool, i link di affiliazione in descrizione (voice-to-text, VPS Hostinger); il breve spezzone a schermo di un post LinkedIn di Nate («Ho testato Claude Code contro Codex sul design», 9 agenti contro 25, 5 ore contro 14, ~100$ contro 444$ di costo API stimato), mostrato come B-roll ma mai commentato a voce: numeri suoi, non verificati.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) Il titolo e l'apertura esagerano: «hanno smesso di costruire agenti» è un'iperbole che il video stesso corregge dopo 20 secondi. (2) Le affermazioni attribuite ad Anthropic (script di stile delle slide riscritto a ogni run, «tool per il sé futuro», la citazione sul continuous learning) vengono dal talk e da pagine di sintesi di terzi mostrate a schermo (<strong>AI Engineer</strong>, <strong>cto4ai</strong>), non dalla fonte originale; il talk non è linkato in descrizione. (3) I sottotitoli scrivono "Barry Jien" e "Mahesh Marog": a schermo i nomi sono <strong>Barry Zhang</strong> e <strong>Mahesh Murag</strong>; "Enthropic" = Anthropic, "context rod" = context rot, "skill.mmd" = SKILL.md. (4) Il presentatore non si presenta a voce; è Nate Herk (stesso volto dell'intervista a Mark Kashef, dove viene chiamato per nome). (5) Le cifre del 70-80% sono un modo di dire, non una misura.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

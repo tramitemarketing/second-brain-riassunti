@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Loop Engineering das NEUE Agent Framework verändert alles!</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Loop Engineering das NEUE Agent Framework verändert alles!" src="https://i.ytimg.com/vi/0Jk5ijUWt24/hqdefault.jpg"><p><strong>In sintesi:</strong> Sascha Hoffmann, in tedesco, sostiene che tutti i grandi framework di agenti — <strong>OpenClaw, Hermes, Claude Code e Codex</strong> — si stanno spostando «dal prompting al looping», e mostra in modo volutamente superficiale come si imposta un loop in ciascuno. Per lui un loop ha <strong>tre pezzi: trigger, goal e condizione di stop</strong>. La distinzione pratica che regge il video è tra <strong><code>/goal</code></strong> (un problema complesso che l'agente itera e rivede da sé per ore, con <strong>revisione umana finale</strong>) e <strong><code>/loop</code></strong> (un compito <strong>ricorrente</strong> a intervallo), con la combinazione <strong>loop + goal</strong> indicata come la più potente e anche la più <strong>costosa</strong>. La mappa: Claude Code ha <code>/goal</code> e <code>/loop</code>; Codex ha <code>/goal</code> più una scheda <strong>Automazioni</strong>; OpenClaw e Hermes hanno <code>/goal</code> e ottengono la ricorrenza con l'<strong>heartbeat</strong> (Hermes con un tetto predefinito di <strong>20 turni</strong>). L'esempio concreto è il suo flusso di contenuti: un <strong>articolo madre</strong> in una cartella Drive che, via skill, diventa post per <strong>Reddit</strong>, con un secondo ciclo che misura le performance e <strong>aggiorna la skill</strong>. Chiude con un'ammissione rara: nessuno sa ancora come si comportino questi loop su <strong>6-12 mesi</strong>.</p>
+<h2>Il cambio di direzione, e da dove viene</h2>
+<p>Il video si apre su spezzoni di un'intervista a <strong>Boris Cherny</strong> (Anthropic) e poi sull'autore al microfono: il prompting come lo conosciamo sta finendo, «e non lo dico io: lo dicono quelli che hanno costruito OpenClaw e Claude Code». Il movimento, sostiene, è lo stesso in tutti i framework, «che sia OpenClaw, Hermes, Claude Code o Codex»: via dal prompting, verso il <strong>looping</strong>.</p>
+<p>È il seguito di un video precedente in cui aveva spiegato cos'è il loop engineering in generale; molti gli hanno chiesto di vederlo in pratica su Hermes, Codex e OpenClaw, e questo video risponde con un <strong>esempio molto semplice per tutti e quattro</strong> — dichiarando subito che il tema è molto più grande e che qui c'è solo un primo assaggio pratico.</p>
+<h2>La scala, in versione sua, e i tre pezzi di un loop</h2>
+<p>La sua genealogia è leggermente diversa da quella che circola di solito: prima il <strong>prompt engineering</strong>, poi il <strong>context engineering</strong>, poi lo <strong>skill engineering</strong> — «una fase relativamente breve», dice — e ora il <strong>loop engineering</strong>, diventato un tema enorme. Loop, looping, loop engineering: il nome conta poco («loops» è probabilmente il termine migliore).</p>
+<p>Un loop, dal suo punto di vista, è fatto di <strong>tre cose</strong>: un <strong>trigger</strong> (quando parte), un <strong>goal</strong> (cosa deve raggiungere) e una <strong>condizione</strong> (quando si deve fermare). Sulla lavagna Figma compaiono proprio «Looping», «Trigger» e «Goal».</p>
+<h2>/goal e /loop: la domanda più frequente</h2>
+<p>La domanda che gli fanno più spesso è quale sia la differenza tra <strong><code>/loop</code></strong> e <strong><code>/goal</code></strong> — premessa importante: <strong>non tutti i framework li hanno entrambi</strong>, alcuni hanno solo i goal.</p>
+<p><strong><code>/goal</code></strong> serve per i <strong>problemi complessi</strong>. Fa partire un loop che può durare <strong>diverse ore</strong>: l'agente ha il compito di <strong>rivedere il proprio lavoro</strong> per arrivare al miglior risultato possibile. Ma il risultato finale, precisa, <strong>va comunque rivisto da te</strong> — c'è sempre un <em>human in the loop</em> alla fine. Nella sua esperienza è solo una piccola parte del loop engineering. La sua routine: la sera pianifica i compiti più complessi del giorno dopo — contenuto, contesto — e la mattina lancia il <code>/goal</code> e va in palestra, «tanto ci vogliono una trentina di minuti». Lo usa su <strong>Claude Code</strong> con il <strong>remote control</strong>, che gli permette di seguire tutti i processi dal telefono e rispondere se l'agente ha domande.</p>
+<p><strong><code>/loop</code></strong> invece è semplicemente un <strong>compito ricorrente</strong>. Esempio: «controlla il mio repository per problemi di deploy <strong>ogni 30 minuti</strong> e, se c'è qualcosa, creami un ticket nel sistema dei to-do». Il compito si ripete di continuo, e la condizione è legata a GitHub: se non c'è un nuovo stato di deploy, non fa nient'altro. Questa è per lui la «seconda parte» del loop engineering, quella che riguarda <strong>il momento in cui scatta</strong>, ed è particolarmente importante.</p>
+<p>Come si ottiene la ricorrenza cambia per strumento: in <strong>Codex</strong> con le <strong>automazioni</strong>, in <strong>Claude Code</strong> con <code>/loop</code>, in <strong>Hermes</strong> e <strong>OpenClaw</strong> con l'<strong>heartbeat</strong>, il meccanismo che fa compiere un'azione a intervalli regolari. Sono gli approcci che sta testando.</p>
+<h2>La combinazione più potente, e il suo costo</h2>
+<p>L'approccio migliore per lui è <strong>la combinazione dei due: loop più goal</strong> — cioè «ogni 30 minuti provo a raggiungere questo obiettivo specifico». Permette implementazioni molto complesse e una qualità «estremamente alta», ma è <strong>estremamente costoso</strong> e complicato se hai molti loop che girano per un prodotto o un'azienda.</p>
+<p>Da qui un suggerimento di architettura: a seconda di cosa usi, può valere la pena mettere davanti un <strong>classificatore AI</strong> o un <strong>proxy</strong>, cioè un <strong>modello open source</strong> che classifica la richiesta e gestisce i loop, lasciando i compiti complessi ai modelli via API più cari. Cita una conferenza Google a cui ha assistito il giorno prima, dove erano stati mostrati casi d'uso di questo tipo con un modello Gemini che classifica le query; promette un video a parte.</p>
+<h2>L'esempio: dall'articolo madre ai post su Reddit</h2>
+<p>Per restare sul concreto usa il suo flusso di contenuti. Una o più volte a settimana scrive un <strong>articolo madre</strong> («Masterartikel») quando vede qualcosa su cui ha un'opinione: è la sua base di contenuto, da cui genera i contenuti per LinkedIn, YouTube, newsletter, Reddit e Twitter.</p>
+<p>Il loop che sta costruendo riguarda <strong>Reddit</strong>. Prima era una <strong>skill manuale</strong>; ora vuole trasformarla in un loop che controlli <strong>una volta a settimana, o magari ogni giorno</strong>, se c'è un nuovo articolo madre nella sua <strong>cartella Drive</strong>; se c'è, crea il post con la skill e lo salva dove serve (in questo caso di nuovo in un Drive). Accanto gira un'altra <strong>automazione</strong> — che precisa <em>non</em> essere un loop — che <strong>misura le performance</strong>: così il loop controlla anche quali post passati sono andati bene e quali no, per <strong>imparare e aggiornare la skill di Reddit</strong>. È «un loop dentro un loop», e anche gli articoli madre si validano sulle performance; ma nel video guarda solo il loop di livello più alto e come inizializzarlo nei quattro strumenti.</p>
+<h2>OpenClaw e Hermes: goal, condizione di uscita, heartbeat</h2>
+<p>Parte da <strong>OpenClaw</strong> e <strong>Hermes</strong> perché lì il loop è un po' più semplice. Entrambi hanno un comando <strong><code>/goal</code></strong> che funziona in modo simile: imposti un obiettivo, puoi vedere i goal, metterli in pausa, cancellarli o eliminarli. Ma devi sempre specificare <strong>la condizione di uscita</strong>: quando deve terminare?</p>
+<p>In <strong>Hermes</strong> c'è in più un <strong>tetto massimo</strong>: di default <strong>20 turni</strong>, modificabile nella configurazione. La pagina della documentazione a schermo, «<strong>Persistent Goals</strong>», spiega il meccanismo: <code>/goal</code> dà a Hermes un obiettivo permanente che sopravvive tra un turno e l'altro; <strong>dopo ogni turno un modello-giudice leggero controlla</strong> se l'obiettivo è soddisfatto dall'ultima risposta; se no, Hermes rimette nella stessa sessione un prompt di continuazione e va avanti finché il goal è raggiunto, lo metti in pausa o lo cancelli, o finisce il <strong>budget di turni</strong>. La stessa pagina lo definisce la loro versione del <strong>Ralph loop</strong>, ispirata al <code>/goal</code> della <strong>Codex CLI</strong> di OpenAI. Anche in <strong>OpenClaw</strong> si possono fissare limiti analoghi; la sua documentazione mostra il riepilogo di un goal attivo con obiettivo, token usati e budget di token, e avverte che <strong>un goal non è una coda di compiti</strong>: per lavoro staccato, ricorrente o da smistare in sotto-lavori si usano task, cron job o <em>standing orders</em>.</p>
+<p>In entrambi la ricorrenza passa per l'<strong>heartbeat</strong>. Sul suo OpenClaw imposta un goal del tipo «controlla l'articolo madre nella cartella Drive X e genera…» — e qui nota che la <strong>skill deve essere definita in modo da sapere dove si trova</strong> — oppure la variante «esegui il controllo del goal sull'articolo madre <strong>una volta a settimana</strong>». Su <strong>Hermes</strong> è quasi identico («esegui ogni giorno quanto segue, <code>/goal</code> …»). Un dettaglio di Hermes che gli piace molto: si può lanciare tutto come <strong>processo in background</strong>, in pratica un <strong>subagente</strong> incaricato di eseguire il <code>/goal</code> ogni giorno e iterarci sopra <strong>senza bloccare la chat principale</strong>. Entrambi, dice, li farebbe girare su un <strong>VPS</strong>.</p>
+<h2>Claude Code e Codex</h2>
+<p>Qui le cose sono un po' diverse. In <strong>Claude Code</strong> i comandi giusti sono <code>/goal</code> e <code>/loop</code>. In <strong>Codex</strong> c'è <code>/goal</code>, ma i loop si impostano diversamente: c'è una <strong>scheda Automazioni</strong> dove li crei a mano e scrivi il prompt — «goal, articolo madre, cartella Drive…», cioè cosa va raggiunto e come l'agente chiude il goal. Crede che si possa anche indicare un <strong>numero massimo di esecuzioni</strong>, ma che probabilmente l'agente controlli da sé di non andare oltre. Se il progetto cresce, per il <strong>context engineering</strong> conviene farlo girare dentro un <strong>progetto</strong> dove il contesto è disponibile: le skill, il modo in cui gestisci le cose, quando vuoi farle, quale modello usare.</p>
+<p>Il limite, uguale a Claude Code, è che in locale il loop dipende dalla tua macchina (il passaggio nella traduzione è confuso, il senso si ricava da ciò che segue) — ed è il motivo, dice, dei suoi tanti video recenti su come far girare Claude Code, Codex e simili <strong>su un server</strong>, per piazzarci i loop.</p>
+<p>Nel terminale di Claude Code mostra come apparirebbe il suo loop: <strong><code>/loop 6h /goal Masterartikel Drive Skill Post</code></strong>, cioè <strong>l'orizzonte temporale</strong> con <code>/loop</code> e <strong>l'obiettivo</strong> con <code>/goal</code>. «È estremamente costoso e anche difficile da rivedere, ma ottieni risultati impressionanti: questo è vero engineering, non più solo vibecoding.»</p>
+<h2>Le decisioni che restano a te</h2>
+<p>Il messaggio operativo è che, prima degli strumenti, ci sono delle scelte: avere <strong>la skill giusta al posto giusto</strong>; far girare l'agente nel posto giusto, <strong>in locale o su un VPS</strong>; decidere <strong>quante volte</strong> il loop deve girare; chiedersi se serve davvero un <strong>goal</strong> o basta un <strong>prompt semplice</strong>. Un loop non deve essere sempre collegato a un goal: se deve solo controllare se compare un messaggio d'errore, basta quello. Queste decisioni le prendi tu, ogni volta che fai loop engineering: quanto spesso gira, se deve raggiungere un obiettivo o solo elaborare un compito, quali skill servono, con quali modelli.</p>
+<h2>Il suo setup sperimentale, e l'onestà finale</h2>
+<p>Quello che sta testando: un agente <strong>Hermes o OpenClaw su un VPS</strong>, con un <strong>modello open source che fa da proxy</strong>, capace a sua volta di <strong>pilotare Claude Code</strong> sul VPS per mantenere i loop, dargli feedback e <strong>avviarne di nuovi</strong>. L'idea è non dover più entrare nel terminale per gestire i loop a mano, ma scrivere al suo agente Hermes: «vorrei un nuovo loop, usa queste skill, avvia Claude Code come sistema di loop».</p>
+<p>Lo definisce un modo di lavorare molto moderno, ma aggiunge: <strong>solo il tempo dirà quanto funziona davvero</strong>. Oggi nessuno ha abbastanza esperienza per sapere come va sul lungo periodo, <strong>6-12 mesi</strong>, e non sappiamo come cambierà la situazione nelle prossime settimane. Per questo si limita a condividere le sue esperienze: sta a te valutare se vuoi provarlo, o se non ci credi, o se semplicemente non ti interessa — «va benissimo». Ammette anche di aver mostrato gli strumenti in modo molto superficiale: l'output vero lo farà vedere in un prossimo video.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=0Jk5ijUWt24 (Sascha Hoffmann, canale The Autopilot, 17:00, in tedesco, pubblicato il 28 giugno 2026, ~3.900 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: loop-engineering (goal vs loop, terminazione, loop dentro loop), model-routing e modelli-sistema-1 (il classificatore/proxy open source), claude-skills (la skill che il loop aggiorna), harness</li>
+<li>Entità: boris-cherny, claude-code</li>
+<li>Riassunti imparentati: <a href="loops-claude-quando-come-usarli-2026-08-21.html">loops-claude-quando-come-usarli-2026-08-21</a> (la stessa distinzione <code>/loop</code> temporale vs <code>/goal</code>), <a href="stop-prompting-claude-start-loop-engineering-2026-07-07.html">stop-prompting-claude-start-loop-engineering-2026-07-07</a>, <a href="se-usi-ancora-i-prompt-devi-vedere-questa-evoluzione-2026-09-23.html">se-usi-ancora-i-prompt-devi-vedere-questa-evoluzione-2026-09-23</a> (stessa scala, ma con «harness» dove qui c'è «skill»)</li>
+<li><strong>Omesso:</strong> l'invito alla newsletter (in descrizione), le richieste di commenti e di idee per i prossimi video, la chiusura con «Nächstes Video / Abonnieren».</li>
+<li><strong>Non verificato / da sapere:</strong></li>
+<li><strong>La trascrizione non è quella originale</strong>: il video è in tedesco e i sottotitoli disponibili erano una <strong>traduzione automatica in inglese</strong>, qui ritradotta in italiano. Le sfumature e alcune frasi sono incerte; i passaggi confusi (per esempio sulla configurazione di OpenClaw a [08:25]-[09:28]) sono stati resi solo nel senso ricavabile.</li>
+<li>La <strong>conferenza Google</strong> «di ieri» e il modello citato («Gemini 1.5» nella traduzione) sono dubbi: il nome del modello potrebbe essere un errore di traduzione. Non ripetere senza verificare.</li>
+<li>Il <strong>tetto di 20 turni</strong> di Hermes e il suo meccanismo (giudice leggero dopo ogni turno, ispirazione al <code>/goal</code> di Codex CLI e al Ralph loop) vengono dalla <strong>documentazione di Hermes a schermo</strong>, non dal parlato; il nome dell'autore del <code>/goal</code> di Codex citato lì non è verificato qui.</li>
+<li>«Heartbeat» come meccanismo di ricorrenza di Hermes e OpenClaw è una sua affermazione; la sidebar di Hermes a schermo mostra anche una voce «Scheduled Tasks (Cron)».</li>
+<li>Nessun output reale mostrato: i loop sono solo impostati, non se ne vedono risultati né costi.</li>
+<li>Il «remote control» di Claude Code dal telefono è citato come suo uso, non dimostrato.</li>
+<li>Sottotitoli/traduzione corretti leggendo lo schermo o per contesto: <em>OpenCla / Open Claw</em> = OpenClaw, <em>Hermis / Hermers</em> = Hermes, <em>Codx</em> = Codex, <em>Cloud Code</em> = Claude Code, <em>Slashgal / SLGL / gols / golds</em> = <code>/goal</code>, <em>SLOPS</em> = <code>/loop</code>, <em>Hardbeat</em> = heartbeat, <em>grid prepo</em> = repository (probabile), <em>Hixfield</em> = Higgsfield.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

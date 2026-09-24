@@ -119,6 +119,10 @@ th { background: #f4f6f8; font-weight: 700; }
 <ul>
 <li><strong>Memoria di sessione al posto dei prompt lunghi (guida Anthropic per i modelli 5)</strong>: a fine sessione il modello scrive un file con <strong>un riassunto di una riga in cima</strong>, le <strong>correzioni ricevute</strong> e gli <strong>approcci confermati</strong>, con il <strong>perché</strong> hanno funzionato. Sono le stesse buone pratiche di Addy Osman qui sopra, ora raccomandate da Anthropic. Esempi di lezioni uscite da una sola sessione: «se l'utente risponde "è una demo", smetti di raccogliere requisiti»; «i report dei sotto-agenti si <strong>sintetizzano attorno a una tesi</strong>, non si concatenano». Fonte: anthropic-8-nuove-regole-prompt-claude-5-2026-09-23.</li>
 </ul>
+<ul>
+<li><strong>Memoria su file in OpenClaw</strong> (se-usi-ancora-i-prompt-devi-vedere-questa-evoluzione-2026-09-23, Rizzo): un <code>MEMORY.md</code>, <strong>un file di memoria per ogni giorno</strong>, un <code>DREAMS.md</code>, e due strumenti di ricerca (per significato e a lettura diretta). È l'esempio concreto di «il file system estende la finestra di contesto»: invece di comprimere di continuo la conversazione, l'harness scrive e rilegge file.</li>
+<li><strong>Le skill come memoria procedurale</strong> (anthropic-engineer-explains-what-to-build-instead-of-ai-agen-2026-09-23): per Anthropic «qualunque cosa Claude scriva può essere usata in modo efficiente da una sua versione futura» — la skill è la memoria del <em>come si fa</em>, e ogni correzione va messa nel posto più piccolo e durevole.</li>
+</ul>
 <h2>Perché conta</h2>
 <p>Senza memoria: nessun miglioramento tra un'esecuzione e l'altra, token sprecati a rispiegare/riscoprire le stesse cose. Con memoria: il sistema accumula conoscenza reale nel tempo, invece di ripartire sempre da zero — lo stesso principio, applicato sia a un second brain personale sia a un loop automatizzato.</p>
 <p>Versione umana dello stesso principio in otto-abitudini-persone-super-produttive (abitudine 6, il taccuino): «la testa è un'officina meravigliosa, ma un pessimo magazzino» — il cervello genera e collega, non conserva; serve un posto esterno, uno solo, sempre lo stesso.</p>
@@ -128,6 +132,8 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>Stop Prompting Claude. Start Loop Engineering (Austin Marchese, 2026-07-07) — citazione di Addy Osman e framework "5 pezzi + note".</li>
 <li>turn-claude-into-a-web-design-genius-3-steps-seedance-2-5-2026-09-21 (Chase AI, 2026-08-23) — la taste library come memoria esterna del gusto, letta dalle skill di design</li>
 <li>anthropic-8-nuove-regole-prompt-claude-5-2026-09-23 (Giovanni Beggiato, 2026-09-22) — memoria di sessione come raccomandazione Anthropic per la generazione 5</li>
+<li>se-usi-ancora-i-prompt-devi-vedere-questa-evoluzione-2026-09-23 (Simone Rizzo, 2026-07-07) — la memoria su file di OpenClaw</li>
+<li>anthropic-engineer-explains-what-to-build-instead-of-ai-agen-2026-09-23 (Nate Herk, 2026-09-13) — le skill come memoria procedurale</li>
 </ul>
 <script>
 window.SB = (function () {

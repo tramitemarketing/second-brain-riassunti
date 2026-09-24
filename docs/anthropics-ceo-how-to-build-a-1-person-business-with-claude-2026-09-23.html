@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Anthropic&#x27;s CEO: How to Build a 1 Person Business with Claude</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Anthropic&#x27;s CEO: How to Build a 1 Person Business with Claude" src="https://i.ytimg.com/vi/QDsenEcAJIk/hqdefault.jpg"><p><strong>In sintesi:</strong> Nate Herk parte da una previsione di <strong>Dario Amodei</strong> (il CEO di Anthropic: la prima azienda da <strong>un miliardo con una persona sola</strong> nascerà quest'anno) e ne ricava <strong>tre filtri</strong> per scegliere un business da solista: (1) un'azienda che <strong>investe il proprio capitale</strong> (la scarta: troppo rischio), (2) il <strong>software</strong>, che ora chiunque costruisce con Claude Code, (3) <strong>vendite e assistenza automatizzabili</strong> senza rovinare l'esperienza del cliente. Messi alla prova tre idee con Claude in modalità «avvocato del diavolo», costruisce <strong>Agent Report Card</strong>: un software che <strong>mette alla prova gli agenti AI di assistenza clienti</strong> con 16 test prima che vadano online e produce un report da dare al cliente. Il business è diviso in tre pezzi — il <strong>prodotto</strong>, un <strong>agente per vendite e supporto</strong> che passa al fondatore solo le decisioni su soldi e dati, e un <strong>flusso di ricerca clienti</strong> con Clay — tutti mostrati funzionanti ma <strong>nessuno ancora con clienti veri</strong>. Il conto: a <strong>499 $ al mese</strong> servono <strong>168 clienti</strong> per superare un milione l'anno; primo traguardo, <strong>cinque agenzie paganti</strong>. Chiude con il suo schema delle <strong>tre P</strong> (dolore, persona, promessa) e con la ragione per partire <strong>stretti</strong>.</p>
+<h2>La previsione di Amodei e perché un milione invece di un miliardo</h2>
+<p>Il video si apre sulla frase del CEO di Anthropic: <strong>la prima azienda da un miliardo di dollari con una sola persona</strong> verrà creata <strong>quest'anno usando Claude</strong>. A schermo passa l'articolo di <em>Inc.</em> del 23 maggio 2025, «Anthropic CEO Dario Amodei Predicts the First Billion-Dollar Solopreneur by 2026». Rincara con un secondo aneddoto: il cofondatore di <strong>Instagram</strong> ha detto che potrebbe probabilmente costruire e gestire Instagram da zero <strong>solo con Claude e il suo cofondatore</strong>. Dal testo che scorre a schermo si capisce che è <strong>Mike Krieger</strong>, intervistato da Amodei: senza il socio <strong>Kevin Systrom</strong> non ce l'avrebbe fatta, ma in due, con Claude, avrebbero potuto gestirla <strong>senza le 13 persone</strong> che avevano al lancio; e il commento dell'articolo: il solopreneur da un miliardo non è questione di capacità sovrumane, è l'AI che <strong>comprime il lavoro di 10-50 persone</strong> in quello che una persona sola riesce a dirigere.</p>
+<p>Nate sceglie di costruire un business da <strong>un milione</strong>, non da un miliardo: il miliardo fa un bel titolo, il milione è <strong>più avvicinabile e realistico</strong> per chi comincia. E fa una precisazione onesta: Amodei <strong>non ha pubblicato una checklist</strong> in tre punti; rispondeva a una domanda in un'intervista su come potrebbe essere un'azienda da un miliardo con una persona. I tre filtri sono <strong>esempi della sua risposta trasformati da Nate</strong> in criteri usabili.</p>
+<h2>I tre filtri</h2>
+<p>Il <strong>primo filtro</strong> è un business che <strong>commercia o investe il proprio capitale</strong>. L'esempio di Amodei è una <strong>società di trading proprietario</strong>; lo stesso modello vale per chi <strong>compra e rivende case</strong> o per un <strong>concessionario di auto usate</strong>: usi i tuoi soldi per comprare qualcosa, migliorarlo o scambiarlo, e sperabilmente rivenderlo a di più. Il vantaggio è che <strong>non servono migliaia di clienti né una grande squadra di vendita</strong>; lo svantaggio è che servono <strong>soldi, competenza e la disponibilità a correre un rischio finanziario vero</strong>. A Nate questo filtro è servito a <strong>escludere</strong> la strada ad alta intensità di capitale: voleva qualcosa che una persona normale potesse avviare senza mettere a rischio molti soldi suoi.</p>
+<p>Il <strong>secondo filtro</strong> è il <strong>software</strong>, perché ormai le persone normali costruiscono software utile <strong>solo con Claude Code</strong>, e le possibilità sono infinite — dal software che scrive contenuti a quello che fa un audit di cybersicurezza. Ma saper costruire software <strong>non basta</strong> a fare un buon business da solista: potresti ritrovarti con un prodotto che richiede <strong>onboarding su misura, assistenza continua e un venditore per ogni contratto</strong>.</p>
+<p>Da qui il <strong>terzo filtro</strong>: <strong>vendite e assistenza devono essere altamente automatizzate</strong> senza che l'esperienza diventi pessima per gli utenti. È il filtro che restringe di più. L'offerta dev'essere <strong>ripetibile e poco personalizzata</strong>, facile da cominciare a usare, senza <strong>regolamentazione pesante</strong> né una marea di domande di supporto diverse: quelle domande devono poterle gestire un agente AI. Per questo hanno senso prodotti semplici come un <strong>convertitore di file</strong> o un <strong>revisore di annunci</strong>: il cliente capisce cosa compra, ottiene il risultato in fretta e non ha bisogno di una consulenza per trarne valore. Riassunto: il primo filtro ha escluso il capitale, il secondo ha portato al software, il terzo a un prodotto che gira <strong>senza assumere una squadra — o nessuno</strong>.</p>
+<h2>Tre idee alla prova, e la scelta di Agent Report Card</h2>
+<p>Nate dà a Claude <strong>tre idee da confrontare</strong>: un <strong>tool di prenotazione appuntamenti</strong> tipo Calendly; un tool che <strong>ricerca aziende e scrive messaggi di outreach a freddo</strong>; un tool che <strong>stressa gli agenti AI rivolti ai clienti prima che un'azienda li lanci</strong>. Chiede a Claude di fare l'avvocato del diavolo, di mettere in piedi una specie di <strong>«war room» con un pannello che dibatte</strong>, e di rispondere a tre domande per ciascuna: <strong>chi pagherebbe</strong>, <strong>se il risultato può essere consegnato da un software</strong>, e <strong>se una persona sola può realisticamente venderla e assisterla</strong>. Il tool di prenotazione è facilissimo da usare ma entra in un <strong>mercato pieno di prodotti maturi</strong>; quello di outreach è facilissimo da spiegare, ma <strong>non dimostra che quelle email convertano</strong>; il terzo ha un <strong>risultato molto più chiaro</strong>: l'azienda collega il suo agente, il software lo mette in <strong>situazioni difficili con i clienti</strong>, e l'azienda riceve un report che mostra <strong>dove l'agente ha sbagliato</strong>.</p>
+<p>È quella che costruisce, e insieme a Claude la chiama <strong>Agent Report Card</strong>. In parole semplici: <strong>controllo qualità per agenti AI</strong>, software di <strong>eval</strong>. Il cliente tipico è un'<strong>agenzia AI</strong> che costruisce chatbot di assistenza per, poniamo, <strong>dieci clienti</strong>: prima di consegnarne uno deve sapere che non <strong>inventerà una nuova policy</strong>, non <strong>rimborserà la persona sbagliata</strong>, non <strong>esporrà dati privati</strong>. Serve una <strong>prova</strong> che l'agente si comporterà come previsto, invece di andare «a sensazione». Senza software qualcuno deve testare a mano tutte quelle conversazioni, e ogni volta che l'agenzia aggiorna l'agente con un <strong>prompt nuovo o un modello nuovo</strong> il comportamento cambia. Agent Report Card esegue i test, <strong>salva le prove</strong>, aiuta a <strong>diagnosticare</strong> i fallimenti e crea il <strong>report da dare al cliente</strong>.</p>
+<p>Lo stack è semplice: <strong>Claude</strong> fa il lavoro di AI, <strong>Claude Code</strong> ha aiutato a costruire il prodotto, l'app conserva lo <strong>storico dei test</strong> (a schermo: un registro eventi su SQLite), e <strong>Clay</strong> trova i potenziali clienti. Precisa che il business <strong>non</strong> investe capitale proprio — è la strada scartata — ma rientra nella strada del software, ed è abbastanza ripetibile da automatizzare vendite e supporto ordinario. Il business da una persona è diviso in <strong>tre parti</strong>: il <strong>lavoro per cui il cliente paga</strong>, l'<strong>agente di vendite e assistenza</strong>, e il <strong>flusso che trova i clienti e prepara i messaggi</strong>.</p>
+<h2>Parte 1 — Il prodotto: 16 «clienti misteriosi»</h2>
+<p>Nella demo un <strong>agente di assistenza clienti</strong> è collegato ad Agent Report Card (a schermo: «Customer Support Agent», endpoint live verificato). L'app lo sottopone a <strong>16 test</strong>, che Nate paragona a dei <strong>clienti misteriosi</strong> (<em>mystery shopper</em>): alcuni fanno domande normali, altri cercano di spingere l'agente a <strong>un'azione rischiosa</strong> o a rispondere <strong>senza abbastanza informazioni</strong>. È il <strong>golden dataset</strong>: un insieme di casi di cui si conosce già la risposta o l'azione corretta.</p>
+<p>Il primo giro fa <strong>88</strong>: <strong>14 test passati, 2 falliti</strong>. Aprendo un fallimento si vedono la domanda del cliente, la risposta dell'agente e <strong>perché è sbagliata</strong>: un cliente minacciava una <strong>contestazione dell'addebito</strong>, e l'agente avrebbe dovuto fermarsi e <strong>passare la conversazione a un umano</strong>, ma non l'ha fatto in modo abbastanza chiaro. Nate manda quella conversazione a Claude («Ask Claude to diagnose this run»), che diagnostica il problema e propone un'<strong>istruzione più stretta</strong> per le contestazioni; lui <strong>approva la nuova versione della policy</strong> e rifà gli stessi 16 test. Risultato: <strong>ancora 88</strong>. Il problema della contestazione era risolto, ma <strong>un altro test è fallito</strong>, perché gli agenti AI <strong>rispondono in modo un po' diverso da un'esecuzione all'altra</strong>: sono <strong>non deterministici</strong>. La lezione: sistemare un esempio non dimostra che l'agente sia affidabile; qui i test sono 16, ma <strong>più grande è il golden dataset, più fiducia</strong> puoi avere. Al giro successivo il punteggio sale a <strong>94</strong>: entrambi i fallimenti originali sono risolti, ma l'agente sbaglia ancora una <strong>richiesta di esportare dati privati dei clienti</strong>. Si vede esattamente cosa è migliorato e cosa resta da fare: l'app <strong>non forza un punteggio perfetto</strong> per far bella figura, aiuta a diagnosticare e correggere.</p>
+<p>Poi «<strong>crea report</strong>», ed ecco il <strong>prodotto consegnato</strong>: una pagina «AI agent release review» con il <strong>punteggio complessivo 94</strong>, lo stato di rilascio <strong>«conditional»</strong>, i test eseguiti, il passaggio <strong>da 88 a 94</strong>, la <strong>copertura</strong> per categoria (tre al 100%, una al 67%) e il <strong>problema ancora aperto</strong>. Le conversazioni private e i prompt completi restano nello spazio di lavoro dell'agenzia. La frase chiave: <strong>il cliente non paga la dashboard, paga la prova</strong> che il suo agente è stato testato prima di arrivare agli utenti veri e di mettere a rischio la sua reputazione o la sua azienda.</p>
+<h2>Parte 2 — Vendite e assistenza: l'AI prepara, il fondatore decide</h2>
+<p>Il business deve gestire i nuovi contatti <strong>senza che Nate faccia la stessa chiamata introduttiva tutto il giorno</strong>. Un potenziale cliente compila un <strong>modulo di prova</strong>: nell'esempio un'agenzia gestisce <strong>14 agenti</strong>, li testa ancora tutti <strong>a mano</strong> e ha già visto un agente <strong>tentare di rimborsare l'ordine sbagliato</strong>. Claude legge la richiesta, spiega <strong>se l'azienda è in target</strong>, raccomanda una <strong>piccola prova</strong> partendo dal suo agente più a rischio (i sottotitoli dicono «human risk agent», probabilmente <em>highest-risk</em>) e mostra la <strong>ragione</strong> per cui ha qualificato il contatto. Ma <strong>la decisione finale resta a Nate</strong>: Claude <strong>non manda email, non addebita carte e non promette nulla</strong> da solo. La parte ripetitiva della prima conversazione di vendita è coperta.</p>
+<p>L'assistenza funziona allo stesso modo (a schermo la «Ticket inbox»). A una domanda normale — «come rifaccio <strong>solo i test falliti</strong>?» — Claude trova la risposta nella <strong>guida del prodotto</strong> e la <strong>pubblica</strong> nella pagina di supporto del cliente. A una richiesta di <strong>rimborso e cancellazione definitiva dell'account</strong> scrive una bozza di risposta e <strong>gira il ticket a Nate</strong>, lasciando <strong>intatti</strong> il rimborso e la cancellazione; a schermo c'è anche un «I'm locked out» segnato «human approval required», perché accesso e autenticazione richiedono una verifica umana. La regola: le domande di routine scorrono, <strong>le decisioni che toccano soldi o dati dei clienti</strong> — quelle ad alto rischio — <strong>arrivano al fondatore</strong>. «Zero dipendenti», chiarisce, non vuol dire che nessuno lavora: è un'azienda con <strong>una persona</strong>, lui; il software fa il lavoro ripetitivo, lui prende le decisioni di giudizio e pensa a come far crescere il tutto.</p>
+<h2>Parte 3 — Trovare i clienti con Clay</h2>
+<p>L'ultimo pezzo trova le aziende che potrebbero averne bisogno. Con <strong>Clay</strong> cerca le aziende che <strong>stanno pubblicamente mettendo in produzione agenti AI</strong>; Claude controlla le <strong>fonti pubbliche</strong>, spiega perché l'azienda potrebbe essere pertinente e scrive un messaggio <strong>basato su quelle prove</strong>. A schermo la pagina «Find prospects» con la ricerca «AI agent companies with customer-facing support agents», il flusso <strong>ricerca web live → punteggio di aderenza di Claude → approvazione umana</strong>, e una lista di aziende con il loro punteggio (Bik.ai 96, Interface.ai 94, Ema 92, poi Intercom, Sierra, Decagon, Ada…); per Bik.ai la prova pubblica è che i suoi materiali descrivono <strong>oltre 500 agenti e-commerce</strong> su sei canali.</p>
+<p>Qui Nate si dilunga su <strong>Clay</strong> — secondo lui i <strong>migliori dati B2B</strong> in circolazione: per fare outreach a freddo serve una lista di <strong>decisori che corrispondono al tuo cliente ideale (ICP)</strong>, bisogna <strong>arricchire</strong> i contatti per personalizzare i messaggi su larga scala, e dentro Clay si può anche <strong>programmare l'invio</strong>; dice che recupera dati <strong>non accessibili ad altri strumenti o agenti</strong>, e che anche i messaggi personalizzati, qui scritti da Claude, potrebbe scriverli Clay. Rimanda a un suo video più approfondito su Clay e Claude Code.</p>
+<p>Aprendo un'azienda si vedono <strong>la fonte e il messaggio</strong> scritto da Claude; lui può rivederlo e approvarlo, ma resta segnato <strong>«non inviato»</strong>. E questo conta, perché <strong>trovare un'azienda pertinente e scrivere un buon messaggio non equivale ad avere un cliente</strong>: il flusso automatizza la ricerca e la preparazione, che sono lente. Il vero test viene dopo: <strong>mandare</strong> l'outreach, ricevere risposte, vedere se le aziende <strong>pagano</strong>, e sistemare il processo, perché nell'imbuto dell'outreach a freddo ci sono <strong>diversi punti in cui i clienti si perdono</strong>.</p>
+<h2>I numeri: 499 $, 168 clienti, e il primo traguardo</h2>
+<p>A <strong>499 dollari al mese</strong>, Agent Report Card avrebbe bisogno di <strong>168 clienti attivi</strong> per superare <strong>un milione di dollari di ricavi ricorrenti annui</strong> (a schermo, nella pagina «Model the path to $1M ARR», 168 × 499 × 12 = <strong>1.005.984 $</strong>; la stessa pagina precisa che è la <strong>matematica dell'obiettivo</strong>, non ricavi né previsioni). Ha il flusso del prodotto, il sistema di vendite e supporto e il flusso di acquisizione clienti che servirebbero a un fondatore solo. Quello che <strong>non ha</strong> sono <strong>168 clienti paganti</strong>. Il <strong>primo traguardo</strong> è ottenere che <strong>cinque agenzie</strong> colleghino i loro agenti, usino il report e <strong>paghino</strong>, per capire che feedback arriva e come migliorare il processo.</p>
+<h2>Le tre P: dolore, persona, promessa</h2>
+<p>Per arrivarci bisogna chiarire quella che chiama la <strong>valutazione di prontezza alla monetizzazione AI</strong>: le <strong>tre P</strong>, che nel video riordina da «pain, promise, person» a <strong>pain, person, promise</strong>. <strong>Il dolore</strong> preciso che vuoi risolvere, <strong>la persona</strong> esatta per cui lo risolvi, e <strong>la promessa</strong> che il tuo software risolverà quel dolore per quella persona. Per Agent Report Card: il dolore è che le agenzie <strong>testano a mano</strong> gli agenti di assistenza e <strong>non possono dimostrarne la qualità</strong> prima di metterli in produzione; la persona è un'<strong>agenzia di automazione AI</strong> che costruisce agenti di assistenza per i suoi clienti; la promessa è che il software <strong>passa gli agenti attraverso 16 o più scenari ad alto rischio</strong>, mostra <strong>esattamente dove falliscono</strong> e crea un <strong>report pronto per il cliente</strong>.</p>
+<h2>Perché partire stretti</h2>
+<p>Perché solo gli agenti di <strong>assistenza</strong> e non tutti gli agenti AI? Perché «tutti gli agenti» è troppo ampio: agenti di vendita, di finanza, di supporto hanno <strong>test e processi diversi</strong>, e coprendo tutto il prodotto diventerebbe <strong>generico</strong> e la promessa <strong>vaga</strong>. Inoltre esistono <strong>già altri prodotti</strong> che fanno eval o QA di agenti AI, e probabilmente hanno <strong>clienti, più capitale e una reputazione</strong>. Gli agenti di assistenza offrono invece una situazione <strong>ripetibile e ad alto rischio</strong> in cui diventare davvero bravi: <strong>rimborsi, fatturazione, contestazioni, cancellazione dell'account, richieste di dati privati, capire quando coinvolgere un umano</strong> (le escalation). Si diventa esperti di quel processo, e <strong>solo dopo</strong>, se serve, ci si allarga ad altri agenti. Partire stretti dà <strong>un cliente specifico, un problema molto doloroso e una promessa che il software può mantenere</strong>. I 168 clienti non arriveranno presto né facilmente, conclude, ma in quella nicchia sono <strong>realistici</strong>.</p>
+<p>In chiusura ricorda che la sua strada personale è stata un'altra, quella dei <strong>servizi</strong>: ha cominciato come <strong>freelance AI</strong> e, superati da solo circa <strong>10.000 dollari al mese</strong>, ha iniziato a prendere sviluppatori e venditori, per poi scalare l'attività con alcuni soci (vedi ai-service-business).</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=QDsenEcAJIk (Nate Herk | AI Automation, 11:40, pubblicato il 18 settembre 2026, ~146.000 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: ai-service-business (la strada alternativa, quella dei servizi), vendere-servizi-ai, verifica-business-pitch-video (come leggere con scetticismo i video «ho costruito un business da X»), loop-engineering (eval, golden dataset, non determinismo), claude-skills</li>
+<li>Entità: nate-herk</li>
+<li>Video imparentati: <a href="how-to-build-codex-skills-better-than-99-of-people-2026-09-23.html">how-to-build-codex-skills-better-than-99-of-people-2026-09-23</a> (stesso autore: usa questo video come cavia per la sua skill che ne ricava un articolo su X), <a href="fable-5-business-con-un-prompt-2026-07-21.html">fable-5-business-con-un-prompt-2026-07-21</a>, <a href="claude-code-clay-lead-generation-2026-07-21.html">claude-code-clay-lead-generation-2026-07-21</a> (il video su Clay + Claude Code a cui rimanda)</li>
+<li><strong>Omesso:</strong> i link in descrizione (Clay, Glaido, Hostinger con codice sconto), l'invito alla community Skool gratuita (skill, prompt e framework del video «in regalo»), il link alla roadmap per il percorso a servizi, like e iscrizioni.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) <strong>È un business costruito per la telecamera, non un'azienda che fattura</strong>: nessun cliente pagante, nessun outreach inviato; il milione è una moltiplicazione, e lo dice lui stesso. (2) La <strong>fonte primaria di Amodei</strong> non è citata: a schermo c'è l'articolo di <em>Inc.</em> (maggio 2025, «by 2026»), e la frase «quest'anno» del video va letta in quel contesto; i tre filtri sono un'<strong>interpretazione di Nate</strong>, dichiarata come tale. (3) Il nome <strong>Mike Krieger</strong> e i dettagli (Kevin Systrom, 13 persone al lancio, «10-50 persone») sono letti da un articolo a schermo («OPC Community»), non detti a voce. (4) La lunga lode a <strong>Clay</strong> («i migliori dati B2B», «dati non accessibili ad altri strumenti») è con ogni probabilità un <strong>segmento sponsorizzato</strong>: il primo link della descrizione è un link tracciato di Clay (<code>via=nate-herk-int2</code>, cioè «integrazione»), anche se a voce non viene dichiarato. Le affermazioni su Clay vanno prese come pubblicità, non come confronto. (5) I nomi delle aziende nella lista prospect (Bik.ai, Intercom, Sierra, Decagon, Ada…) e i loro punteggi sono dell'app demo, non contatti reali verificati. (6) Il «war room» di Claude che valuta le tre idee è raccontato, non mostrato. (7) Il prezzo di 499 $/mese non è giustificato con un'analisi di mercato.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

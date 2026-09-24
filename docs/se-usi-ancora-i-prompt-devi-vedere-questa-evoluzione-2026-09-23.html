@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Se usi ancora i prompt... devi vedere questa evoluzione</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Se usi ancora i prompt... devi vedere questa evoluzione" src="https://i.ytimg.com/vi/BSUHmVcaO1g/hqdefault.jpg"><p><strong>In sintesi:</strong> Simone Rizzo ripercorre alla lavagna la scala <strong>prompt engineering → context engineering → harness engineering → loop engineering</strong>, mostrando che ogni gradino nasce dal limite di quello prima: il prompt non basta quando servono informazioni esterne, il contesto si riempie e <strong>marcisce</strong> (oltre ~200.000 token, dice), la <strong>compaction</strong> ripetuta perde pezzi, e allora l'<strong>harness</strong> spezza il lavoro in sottotask con memoria su <strong>file markdown</strong>. Il loop engineering è «<strong>un loop sul loop sul loop</strong>»: si mette l'intero harness dentro un ciclo che parte da un <strong>trigger</strong> (un orario, una issue su GitHub, una notizia), esegue, <strong>verifica</strong> il goal, scrive <strong>output e memoria</strong>, e aspetta il trigger successivo. Il cuore pratico del video sono la <strong>condizione di terminazione</strong> (sempre un tetto di tentativi o di ore) e i <strong>cinque livelli di verifica</strong>, dal controllo deterministico al <strong>checkpoint umano</strong>, passando per un'idea poco vista altrove: il <strong>loop a verità terrena ritardata</strong>, dove il risultato di un giro si legge solo uno o due giri dopo. Chiude con una demo di <code>/goal</code> che ottimizza uno script di <strong>prodotto fra matrici</strong> in 10 tentativi, con uno speedup dichiarato di <strong>320 volte</strong>.</p>
+<h2>Il punto di partenza: «non scrivo più prompt, scrivo loop»</h2>
+<p>Il video si apre su una lavagna Figma con una linea del tempo disegnata a mano, dal 2022 al 2027, su cui sono segnati <strong>Prompt</strong>, <strong>Context</strong> e <strong>Harness</strong> — quest'ultimo, osserva Rizzo, «è durato veramente poco» — e ora un quarto nome, <strong>loop engineering</strong>, di cui «stanno parlando veramente tutti». La domanda è quella scettica di rito: è tutto hype, è marketing?</p>
+<p>Il termine, spiega, è stato lanciato da due persone molto seguite. <strong>Boris Cherny</strong>, creatore di Claude Code, in un'intervista (se ne vede uno spezzone su un palco) ha detto che non scrive più i prompt a Claude: è Claude che si scrive i prompt da sola attraverso i loop che crea, e il suo lavoro ora è <strong>creare loop</strong>. <strong>Peter Steinberger</strong>, che Rizzo presenta come creatore di <strong>OpenClaw</strong> («l'agente generalista più famoso al mondo»), in un post su X dice la stessa cosa: non dovresti più fare prompting all'agente, dovresti <strong>progettare i loop che lo promptano in automatico</strong>. Da qui il programma del video: rifare tutti i passaggi che hanno portato fin qui, spiegando perché servono.</p>
+<h2>Primo gradino: il prompt engineering</h2>
+<p>Il prompt engineering consisteva nello scrivere il <strong>system prompt</strong>: «sei un avvocato», «sei un front-end developer», «sei un assistente per la customer care». Fissato quel prompt, a ogni domanda il modello risponde seguendo quelle istruzioni, e tutta l'arte stava nello scriverlo in modo che le risposte rispecchiassero ciò che volevi. È una pratica che si fa ancora oggi. Come esempio mostra il system prompt di un modello di generazione "5" ottenuto con <strong>prompt leaking</strong>: gigantesco, secondo lui sui <strong>25.000 token</strong>, pieno di cosa fare e non fare, esempi di risposte giuste e sbagliate, limitazioni, frammenti di codice. E i produttori stessi pubblicano nei loro <strong>cookbook</strong> come strutturare i prompt per i loro modelli: a schermo c'è l'«anatomia del prompt di Claude» — task, file di contesto, riferimenti, <em>success brief</em>, regole, piano di conversazione, allineamento.</p>
+<h2>Secondo gradino: il context engineering e il suo limite</h2>
+<p>Qui, dice, è dove si è lavorato più a lungo, perché entra in gioco la <strong>context window</strong>: la memoria che il modello può gestire, cioè quanti token può leggere in ingresso. Il system prompt ne occupa una parte, il resto è spazio per il contesto; i modelli di frontiera oggi arrivano al massimo a circa <strong>1 milione di token</strong>, quindi c'è margine, ma il problema del riempimento si presenta sempre.</p>
+<p>Il salto del context engineering è che il modello <strong>diventa un agente</strong>: può leggere e scrivere file, andare sul web, collegarsi alle app (per esempio tramite il protocollo <strong>MCP</strong>), chiamando funzioni in autonomia. Ogni chiamata — «guarda che file ci sono in questa cartella», «fammi una ricerca», «scrivi il report su un file», «vai nel mio CRM» — riempie il contesto, e le persone iniziano a concatenare tool su tool.</p>
+<p>Il problema ha un nome, <strong>context rot</strong>: all'aumentare dei token in ingresso le prestazioni degradano, e secondo Rizzo <strong>oltre i 200.000 token</strong> «iniziano a degradare drasticamente», perché con così tanto testo il modello si confonde. Il context engineering si sforza quindi di tenere il contesto il più compatto possibile — accorciarlo, ottenere risposte più brevi dai tool, pulire. Ma sui lavori con <strong>orizzonte temporale lungo</strong>, che richiedono tanti tool, il riempimento è inevitabile, e la risposta classica è la <strong>compaction</strong>: riassumere il contesto per liberare spazio, poi riassumere di nuovo, e di nuovo — perdendo prestazioni a ogni passaggio (mostra la pagina della documentazione ufficiale di Claude sulla compaction).</p>
+<h2>Terzo gradino: l'harness e il file system come memoria</h2>
+<p>L'<strong>harness engineering</strong> nasce da una domanda: invece di riassumere il riassunto del riassunto, perché non costruire <strong>una struttura esterna</strong> che gestisca il contesto in modo efficace? L'harness è un'<strong>impalcatura esterna</strong> attorno al modello: dato il task, lo struttura in una serie di passi e di file, e a ogni passo <strong>reinizializza l'agente</strong> facendolo ripartire da dove era rimasto — step 2, poi step 3, poi step 4. Ogni sottotask ha a disposizione <strong>tutta la finestra di contesto</strong>; finito quello, si svuota e si passa al successivo, fino all'obiettivo finale.</p>
+<p>Tutto questo si regge su <strong>file markdown</strong> creati dall'agente in locale: il classico <code>CLAUDE.md</code> o <code>AGENTS.md</code>, lo storico, un file di memoria, le cartelle. Quando il contesto si satura, invece di compattarlo l'agente <strong>scrive su file</strong> cosa ha fatto, svuota la memoria e rilegge i file alla ripartenza: memoria <strong>persistente su file</strong>. «È da qui che è nata tutta questa gestione dei file markdown.»</p>
+<p>L'esempio è la documentazione della memoria di <strong>OpenClaw</strong> («OpenClaw ricorda le cose scrivendo file Markdown semplici nel workspace del tuo agente; il modello ricorda solo ciò che viene salvato su disco, non c'è stato nascosto»). C'è un <strong><code>MEMORY.md</code></strong> per la memoria a lungo termine (fatti durevoli, preferenze, decisioni); una cartella <strong><code>memory/</code></strong> con un file per ogni giorno (anno-mese-giorno) dove finisce tutto quello che fai, così il contesto non si riempie perché viene svuotato; un <strong><code>DREAMS.md</code></strong> opzionale, il «diario dei sogni»; e altre memorie configurabili, ma sempre file. Il <strong>file system diventa un'estensione della context window</strong>, e al modello si danno strumenti come <strong><code>memory_search</code></strong> e <strong><code>memory_get</code></strong> per cercare in quei file e leggersi in modo dinamico quello che serve — la ricerca è sia <strong>semantica</strong> sia per lettura diretta del file.</p>
+<h2>Tre domande sulla Ferrari per vedere la differenza</h2>
+<p>Per rendere concreti i tre gradini, Rizzo fa tre richieste nell'app di Claude (il modello selezionato a schermo è Opus 4.8). «<strong>Di che colore è fatta la Ferrari?</strong>» è puro prompt engineering: il modello risponde con la sua conoscenza, il <strong>Rosso Corsa</strong>, senza usare nessun tool. «<strong>Come si chiama l'ultimo modello lanciato da Ferrari?</strong>» costringe l'agente a controllare le notizie recenti: è già context engineering, perché chiama strumenti per prendere informazioni. La risposta a schermo cita la <strong>Ferrari Elettrica</strong>, chiamata anche «<strong>Luce</strong>», prima auto 100% elettrica di Maranello, svelata il 25 maggio 2026, con quattro porte, quattro posti, quattro motori oltre i 1.000 CV e una batteria strutturale da 122 kWh per oltre 530 km di autonomia, con le fonti citate. Terza richiesta: «<strong>clonami il sito della Ferrari così com'è</strong>». Il sito è complesso, il lavoro non entrerebbe nemmeno in un milione di token di contesto, quindi va strutturato in sottotask e gestito da un harness — e si vede Claude Code partire dalla barra di navigazione e dalla gamma dei modelli.</p>
+<h2>Il quarto gradino: un loop sul loop sul loop</h2>
+<p>Qui arriva il loop engineering, e Rizzo lo presenta come <strong>tre cicli impilati</strong>. Un modello che chiama i suoi strumenti e riceve le risposte è <strong>già un loop</strong>, perché cicla sui tool. L'harness è <strong>un altro loop</strong>, perché cicla finché tutti i sottotask sono risolti. Il loop engineering prende tutto questo e lo mette <strong>dentro un terzo loop</strong>. «Starai pensando: esagerato, tre loop uno sopra l'altro?» Il senso, risponde, è che il loop esterno ti evita di fare tu ogni volta le richieste e leggere le risposte: <strong>è l'agente stesso che si fa le domande e le risposte</strong>. Tu parti con la prima richiesta, imposti il loop, e da lì il modello cicla e l'intero harness gira dentro il ciclo.</p>
+<p>Gli esempi. Una <strong>pagina web tipo portale dei Mondiali</strong> con tutte le partite, costruita da un agente (Codex, Claude Code, Antigravity) tramite harness: messa in un loop, a ogni news che l'agente pesca riscrive il codice, lo sistema, lo migliora e aggiorna i link, tenendo l'app sempre aggiornata senza lavoro tuo. Un'<strong>app open source di assistente per le riunioni in locale</strong>, pubblicata su GitHub: messa in un loop, ogni <strong>issue</strong> aperta dagli utenti fa partire il ciclo, che controlla l'errore, riscrive il codice e rilancia l'harness sull'applicazione per migliorarla — «senza che io debba scrivere il prompt <em>risolvi questo problema</em>: sta attivo e parte quando riceve il trigger».</p>
+<p>E non vale solo per le applicazioni. <strong>Andrej Karpathy</strong>, dice Rizzo, è stato il primo a costruire una struttura del genere per la ricerca, con il progetto <strong>AutoResearch</strong>: un harness messo dentro un loop che fa una serie di esperimenti sul codice fino a raggiungere un obiettivo. Uno script prepara il dataset, uno esegue il <strong>training loop</strong> del modello, i risultati vengono scritti in un file markdown, e si continua a ciclare fino a una condizione finale («voglio che il modello abbia una recall superiore al 90%») oppure fino a un <strong>limite massimo</strong> di iterazioni o di ore. Il pregio: è un loop sopra un harness che <strong>si porta dietro</strong> tutti i server MCP, le skill, il contesto e gli strumenti, riutilizzabili al giro successivo.</p>
+<h2>Anatomia del loop: quattro passi e due comandi</h2>
+<p>Il loop engineering, riassume alla lavagna, si basa su quattro blocchi in cerchio: <strong>Trigger → Execution → Goal/Verify → Output + Memory</strong>, e di nuovo al trigger. Il <strong>trigger</strong> è ciò che fa partire il giro: le issue su GitHub nell'esempio dell'app, le news via mail o via API nell'esempio del portale. Poi parte l'<strong>esecuzione</strong> (l'harness), poi la <strong>verifica</strong> che la issue sia risolta o la news implementata, poi si <strong>scrive su file</strong> cosa è stato fatto, come memoria, e ci si prepara al giro successivo, che parte al trigger seguente. Il trigger può essere <strong>a orario</strong> («ogni giorno a quest'ora») oppure <strong>a evento</strong>.</p>
+<p>Su Claude Code, dice, è «veramente semplice» e ci sono due modi. <strong><code>/loop</code></strong> seguito da un <strong>intervallo</strong> e dal prompt: «ogni mattina alle 9 prendi le informazioni da lì, aggiorna il codice, fai partire i test», oppure ogni settimana. E <strong><code>/goal</code></strong> seguito dall'obiettivo — «ottimizza tutto il codice della mia pagina web perché si apra in meno di <strong>100 millisecondi</strong>» — e, dopo una barra, una seconda condizione: «fai al massimo <strong>100 tentativi</strong>», oppure «al massimo per <strong>8 ore</strong> totali».</p>
+<h2>La condizione di terminazione e il goal verificabile</h2>
+<p>Perché quella seconda condizione? Perché se hai chiesto qualcosa di <strong>impossibile</strong> — magari la pagina non scenderà mai sotto i 100 millisecondi — l'agente entra in un <strong>ciclo infinito</strong> e ti fa consumare tantissimi token. Quindi c'è <strong>sempre</strong> un'altra condizione di terminazione. E il goal deve essere <strong>valutabile</strong>: «sotto i 100 millisecondi» lo è, perché l'agente modifica il codice, misura, e se non ci sta riparte. Lo è anche «<strong>completa la migrazione</strong> di questo servizio», perché a migrazione finita sa se ha terminato. Lo è «<strong>addestra questo modello</strong> finché sul validation set raggiunge tot% di accuratezza», sempre con il tetto accanto («al massimo 1.000 tentativi»). Sulle condizioni, insiste, «dobbiamo fare molta attenzione».</p>
+<h2>I cinque livelli di verifica</h2>
+<p>Il pezzo più originale del video è una scala di <strong>cinque livelli di verifica</strong>, dal più solido al più fragile.</p>
+<p>Il primo è la <strong>verifica deterministica</strong>: un sì o un no. «Realizzami questa applicazione, deve <strong>compilare senza errori</strong>»: è booleano, vero o falso. Il secondo sono <strong>regole e vincoli numerici</strong>: sotto i 100 millisecondi, accuratezza sopra il 90%, consumo di RAM entro una soglia, testo al massimo di 100 caratteri — non più un sì/no ma un numero da rispettare.</p>
+<p>Il terzo è quello che trova «molto interessante»: la <strong>verità terrena ritardata</strong>. Sono cose verificabili, ma <strong>non adesso</strong>. Esempio: «con <code>/goal</code> creami un post su LinkedIn dalle ultime news, e che sia <strong>virale</strong>». <em>Virale</em> è vago, non è deterministico e non ha regole; meglio riformularlo: «un post che su LinkedIn raggiunga <strong>300 reazioni</strong>, e continua a migliorarti finché non raggiungi l'obiettivo». Il guaio è che l'agente crea il post, lo pubblica, ma non può verificare subito le 300 reazioni, perché maturano in <strong>due o tre giorni</strong>. Qui è perfetto <strong><code>/loop</code></strong>: gli spieghi l'obiettivo e ogni giorno a una certa ora controlla i tuoi ultimi post su LinkedIn e <strong>migliora il suo modo di crearti i caroselli</strong> per arrivare a 300 reazioni a post. È un loop ritardato perché il risultato del post di oggi lo vedrà al giro successivo, o due giri dopo — ed è prezioso perché «<strong>il mondo reale molto spesso ha dei risultati ritardati</strong>»: un deploy che non dia problemi, clienti soddisfatti, un certo engagement, l'ottimizzazione di una <strong>campagna pubblicitaria</strong> di cui vedrai l'esito tra giorni.</p>
+<p>Il quarto è <strong>l'LLM come giudice</strong>. «Fammi il refactoring del codice <strong>finché sei soddisfatto</strong>»: in fase di verifica è il modello stesso che si assegna un punteggio — da 1 a 20, da 1 a 100, decide lui — e decide se ha finito. Il caso d'uso che mostra è la <strong>clonazione di pagine web</strong>: fai lo screenshot della pagina vera, chiedi di clonarla, e il risultato di solito non è identico. Allora lo metti in un loop: «sei nella codebase di questa app; con <code>/goal</code> migliora la UI/UX finché è <strong>esattamente uguale a questa immagine</strong> che ti allego; provaci fino a <strong>80 modifiche</strong> e per ogni modifica mostrami il render». L'agente modifica, rilegge l'immagine, confronta e <strong>si autogiudica</strong>: «l'originale e il render sono lontani, 0,30», altre modifiche, finché magari si dà <strong>0,90</strong> perché ha sistemato header, bottoni, effetti e font, e dichiara concluso.</p>
+<p>Il quinto, «nel caso peggiore», è il <strong>checkpoint umano</strong>: sei tu che guardi ogni pagina, ogni modifica, e dici sì o no, o dai un punteggio perché l'agente capisca se sta andando bene.</p>
+<p>La sua graduatoria: meglio restare nei casi verificabili in autonomia (i primi due); il terzo «più o meno ci sta» perché è verificabile con ritardo; nel quarto valuta l'AI; nel quinto valuti tu.</p>
+<h2>Perché Cherny e Steinberger possono dire «faccio solo loop»</h2>
+<p>Rizzo chiude la parte teorica con una precisazione onesta. L'approccio funziona benissimo <strong>a loro due</strong> perché sono <strong>sviluppatori</strong>: scrivono codice, e il loro lavoro si presta a loop definiti in modo netto — «fammi il refactoring di tutto questo servizio perché sia più efficiente, occupi meno memoria, riduca i token del 70%» — da lasciar correre fino all'obiettivo senza fare da babysitter. «Funziona perché questo task è verificabile. Per questo lo dicono: io non scrivo più prompt, faccio solo loop.» Negli altri casi l'approccio va guardato nel dettaglio, perché ci sono cose che <strong>non si verificano in automatico</strong> e non sono deterministiche: lì o fai tu da giudice, o lo fa il modello, o devi tenere più controllo su ciò che accade.</p>
+<h2>La demo: il prodotto fra matrici, 320 volte più veloce</h2>
+<p>Per il test reale fa creare a Claude uno <strong>script Python</strong> che moltiplica matrici di grandi dimensioni e misura quanto ci mette: è un «problema aperto che tutti cercano di ottimizzare». Il primo lancio misura matrici da <strong>500×500, 1.000×1.000, 2.000×2.000 e 3.000×3.000</strong>; nella tabella che si vede nell'app i tempi sono di 0,003, 0,014, 0,100 e 0,329 secondi (tra 80 e 164 GFLOP/s, con NumPy che sfrutta già una libreria BLAS ottimizzata e multi-thread), mentre a voce legge valori di poco diversi, probabilmente da un altro lancio.</p>
+<p>Poi il comando: «<strong><code>/goal</code> migliora i tempi del prodotto fra matrici di questo script Python; a ogni test che fai scrivilo su un file markdown, con una breve descrizione delle modifiche, per avere tracciabilità</strong> — e fai <strong>al massimo 10 tentativi</strong> di ottimizzazione». L'ottimizzazione di algoritmi è per lui «il caso d'uso più bello» del loop, perché si vedono gli esperimenti passo per passo; e il punto è che non deve più dire «no, migliora questo, no, riportalo com'era».</p>
+<p>Finiti i dieci tentativi, il risultato dichiarato è uno <strong>speedup di 320 volte</strong>, ottenuto usando i <strong>Tensor Core</strong>. L'<em>optimization log</em> mostra la strada: script originale in <strong>float64</strong>, poi il passaggio a NumPy in <strong>float32</strong> su BLAS con quattro thread (la voce del log parla di «doppia banda di memoria»), poi <strong>PyTorch</strong> (a quanto si capisce prima su CPU), poi PyTorch su <strong>GPU con CUDA</strong>, fino a PyTorch GPU in <strong>float16</strong>, calcolo in mezza precisione sui Tensor Core «a massimo throughput». È un esempio semplice, ammette, ma mostra il potenziale soprattutto su codice e app; e poiché Claude si collega a tutto via MCP, lo stesso schema vale per modelli 3D, post sui social, «praticamente qualsiasi cosa».</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=BSUHmVcaO1g (Simone Rizzo, 31:23, pubblicato il 7 luglio 2026, ~54.000 visualizzazioni; visto il 23/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: loop-engineering (la scala dei quattro gradini, i quattro passi del loop, la terminazione, i livelli di verifica), context-rot, harness, agent-memory (la memoria su file di OpenClaw), mcp-connectors, spec-driven-prompting</li>
+<li>Entità: simone-rizzo, boris-cherny, andrej-karpathy, claude-code</li>
+<li>Riassunti imparentati: <a href="qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21.html">qwen3-8-27b-harness-ultimate-local-coding-agent-2026-08-21</a> (stesso autore, harness di DeepSeek con <code>/goal</code>), <a href="stop-prompting-claude-start-loop-engineering-2026-07-07.html">stop-prompting-claude-start-loop-engineering-2026-07-07</a> (stesso giorno, stesse citazioni di Cherny e Steinberger), <a href="loops-claude-quando-come-usarli-2026-08-21.html">loops-claude-quando-come-usarli-2026-08-21</a> (<code>/loop</code> temporale vs <code>/goal</code>), <a href="turn-claude-into-a-web-design-genius-3-steps-seedance-2-5-2026-09-21.html">turn-claude-into-a-web-design-genius-3-steps-seedance-2-5-2026-09-21</a> (clonare un sito verificando con un pixel-diff invece che con l'autogiudizio)</li>
+<li><strong>Omesso:</strong> i rimandi all'«Accademia» dell'autore (dove promette una lezione con casi d'uso reali), la richiesta di commenti e di seguire il canale; in descrizione i link all'accademia, a un servizio di consulenza e a Instagram.</li>
+<li><strong>Non verificato / da sapere:</strong></li>
+<li>Lo <strong>speedup di 320×</strong> è auto-dichiarato e confronta un punto di partenza in float64 con un arrivo in <strong>float16</strong>: è anche un cambio di precisione numerica, non solo un'ottimizzazione a parità di risultato. Il video non dice se il risultato finale è stato controllato contro quello originale.</li>
+<li>La soglia di <strong>200.000 token</strong> per il context rot è una sua affermazione; nel vault context-rot indica un degrado molto prima (~120k, 12-15% della finestra).</li>
+<li>Il quarto livello di verifica (LLM che «si autogiudica» sul clone) è esattamente l'<strong>autovalutazione</strong> che loop-engineering considera debole; Rizzo lo mette sotto i livelli deterministici ma non segnala il pregiudizio del modello verso sé stesso.</li>
+<li>«Cinque livelli di verifica» lo dice anche a voce («questi sono i cinque livelli di verifica», 21:25) ed è il titolo del capitolo in descrizione; nel parlato però il numero è pronunciato esplicitamente solo per il secondo e il quarto, e il quinto (checkpoint umano) è descritto come «caso peggiore».</li>
+<li>Il system prompt «trapelato» da ~25.000 token non è identificato con certezza (i sottotitoli dicono «promptable 5»); la cifra è una sua stima.</li>
+<li>Steinberger «creatore di OpenClaw» e i dettagli di <strong>AutoResearch</strong> di Karpathy sono riportati come li dice lui, non verificati qui.</li>
+<li>I dati sulla Ferrari Elettrica «Luce» vengono dalla risposta di Claude a schermo, non da una verifica.</li>
+<li>Sottotitoli automatici corretti leggendo lo schermo: <em>Arnest/Ernest Engineering</em> = harness engineering, <em>Open Engineering</em> = loop engineering, <em>Boris Cerni</em> = Boris Cherny, <em>Open Clow</em> = OpenClaw, <em>Cloud Code</em> = Claude Code, <em>sloop / slg / slash gol</em> = <code>/loop</code> / <code>/goal</code>, <em>Andrew Garpati</em> = Andrej Karpathy, <em>Auto Resarch</em> = AutoResearch, <em>flot</em> = float, <em>non pai</em> = NumPy, <em>patorch / Porch</em> = PyTorch.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
