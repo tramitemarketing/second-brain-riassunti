@@ -563,9 +563,20 @@ def data_it(s):
     m = re.match(r"^(\d{4})-(\d{2})-(\d{2})$", s)
     return "%s/%s/%s" % (m.group(3), m.group(2), m.group(1)) if m else s
 
-def sub(meta):
+def lettura(text):
+    """Minuti di lettura del riassunto (240 parole/min, la stessa velocità della
+    barra di lettura). Non conta "Fonti e note": è materiale di servizio."""
+    corpo = re.split(r"^##\s+Fonti e note", text, flags=re.M)[0]
+    parole = len(re.findall(r"\w+", corpo))
+    return "%d min di lettura" % max(1, round(parole / 240)) if parole else ""
+
+def riga_lettura(text):
+    l = lettura(text)
+    return '<p class="muted">📖 %s</p>' % l if l else ""
+
+def sub(meta, text=""):
     return " · ".join(x for x in [meta.get("autore", ""), meta.get("durata", ""),
-                                  data_it(meta.get("visto", ""))] if x)
+                                  lettura(text), data_it(meta.get("visto", ""))] if x)
 
 def main():
     os.makedirs(OUT, exist_ok=True)
@@ -591,22 +602,22 @@ def main():
             tb = '<div class="topbar"><a href="index.html">← %s</a> · <a href="../index.html">Home</a></div>' % html.escape(pname)
             vid = id_video(meta)
             with open(os.path.join(OUT, d, slug + ".html"), "w", encoding="utf-8") as fh:
-                fh.write(page(title, copertina(vid, "cover", title) + md_to_html(text, known),
-                              tb, READER_JS))
+                fh.write(page(title, copertina(vid, "cover", title) + riga_lettura(text)
+                              + md_to_html(text, known), tb, READER_JS))
             try:
                 ordine = int(str(meta.get("ordine", "")).strip())
             except ValueError:
                 ordine = 10 ** 6          # senza "ordine:" finisce in coda, ma stabile
             vids.append({"slug": slug, "title": title, "durata": meta.get("durata", ""),
                          "visto": meta.get("visto", ""), "descr": meta.get("descrizione", ""),
-                         "ordine": ordine, "vid": vid})
+                         "ordine": ordine, "vid": vid, "lett": lettura(text)})
         # ordine cronologico: prima la data di visione, poi il campo "ordine" del
         # frontmatter (utile quando più video sono stati visti lo stesso giorno)
         vids.sort(key=lambda v: (v["visto"], v["ordine"], v["title"]))
         # index della playlist
         rows = []
         for v in vids:
-            meta_line = " · ".join(x for x in [v["durata"], data_it(v["visto"])] if x)
+            meta_line = " · ".join(x for x in [v["durata"], v["lett"], data_it(v["visto"])] if x)
             desc = ('<span class="desc">%s</span>' % html.escape(v["descr"])) if v["descr"] else ""
             rows.append('<a class="card" href="%s.html">%s<span class="txt"><h2>%s</h2>'
                         '<span class="muted">%s</span>%s</span></a>'
@@ -636,13 +647,13 @@ def main():
         tb = '<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>'
         vid = id_video(meta)
         with open(os.path.join(OUT, slug + ".html"), "w", encoding="utf-8") as fh:
-            fh.write(page(title, copertina(vid, "cover", title) + md_to_html(text, known_loose),
-                          tb, READER_JS))
+            fh.write(page(title, copertina(vid, "cover", title) + riga_lettura(text)
+                          + md_to_html(text, known_loose), tb, READER_JS))
         home_cards.append({"kind": "video", "visto": meta.get("visto", ""),
             "html": '<a class="card" href="%s.html">%s<span class="txt"><h2>%s</h2>'
                     '<span class="muted">%s</span></span></a>'
                     % (slug, copertina(vid, "thumb", ""), html.escape(title),
-                       html.escape(sub(meta)))})
+                       html.escape(sub(meta, text)))})
 
     # --- concetti (wiki/concepts): la conoscenza fusa per argomento ---
     cpath = os.path.join(VAULT, "wiki", "concepts")
