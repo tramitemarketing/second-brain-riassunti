@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Opus 5.5 Just Changed Video Editing Forever (free skills)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Opus 5.5 Just Changed Video Editing Forever (free skills)" src="https://i.ytimg.com/vi/7jHXoPGnA4c/hqdefault.jpg"><p class="muted">📖 9 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk sostiene che, per montare video con l'AI, <strong>Claude Opus 5.5</strong> gli dà i risultati migliori mai avuti, meglio di Fable 5.1 e GPT-6 Astra. Il motivo: oltre a fare quello che gli si chiede, <strong>ci mette gusto suo</strong> e <strong>si controlla da solo</strong>, rivedendo il proprio lavoro con degli screenshot. Lo strumento è lo stesso già visto con Codex, <strong>Hyperframes</strong> (grafiche scritte come pagine HTML animate e poi rese in video), ma qui dentro <strong>Claude Code</strong>, con Opus 5.5 a effort <strong>High</strong>. Il video è una serie di esempi reali, quasi tutti fatti <strong>con un solo prompt</strong>: l'intro del video stesso, un reel "alla YouTube" nato da una skill ricavata da un video d'ispirazione, un reel dell'azienda, un <strong>sizzle reel</strong> di un evento da una cartella di 105 GB di registrazioni, lo stesso video sul toast all'avocado montato in <strong>tre stili</strong>, e uno spot per <strong>Lululemon</strong>. Chiude con i suoi <strong>cinque passi fissi</strong>: trascrivere, tagliare, pianificare i "beat", usare le skill, lasciare che l'agente verifichi. La lezione più nuova: <strong>non serve sapere esattamente cosa si vuole</strong>, a volte basta dire <strong>l'emozione</strong> che il video deve dare, oppure mostrare un video che piace e far <strong>ricavare all'AI il perché è bello</strong>, trasformandolo in una skill.</p>
+<h2>Perché Opus 5.5</h2>
+<p>Nate monta video con i modelli AI da tempo, e dice di aver provato anche <strong>Fable 5.1</strong> e <strong>GPT-6 Astra</strong>, ma che <strong>Opus 5.5</strong> gli sta dando «alcuni dei migliori risultati di sempre». Un solo prompt, e il modello fa il <strong>motion design</strong>, il <strong>sound design</strong>, va a prendere il <strong>B-roll</strong>, fa gli <strong>screenshot</strong> e, se serve, <strong>genera immagini e video</strong>. Due qualità che ripete per tutto il video: ha <strong>«un gusto incredibile»</strong> e <strong>va bene sulla verifica</strong>. E tutto si fa in linguaggio naturale. L'intro del video stesso, dice, è stata montata così, ed è il video vero: le grafiche sono nate dentro Claude.</p>
+<p>Dalle immagini: il lavoro si svolge nell'<strong>app desktop di Claude Code</strong>, con il modello <strong>Opus 5.5</strong> a effort <strong>High</strong> e un progetto chiamato "Herk-2.0". Nella sezione finale precisa che quasi tutti gli esempi sono stati fatti a effort <strong>High</strong>.</p>
+<h2>Lo strumento: Hyperframes, e come si installa</h2>
+<p><strong>Hyperframes</strong> è gratuito: Claude Code lo usa per <strong>scrivere HTML e animarlo</strong>, e il risultato diventa video. Per installarlo si cerca Hyperframes su Google, si prende il link del <strong>repository GitHub</strong> e lo si dà a Claude Code dicendo «configura Hyperframes così lo usiamo per animare video». In più Nate ha un repository gratuito, <strong>"Hyperframes Student Kit"</strong>, con le skill e gli esempi della sua pipeline (distribuito nella sua community).</p>
+<h2>Esempio 1 — L'intro: un prompt da regista</h2>
+<p>Il prompt dell'intro, letto a schermo, parte dal video originale e chiede di montarlo in modo «super coinvolgente e pulito» con Hyperframes. Poi, in ordine:</p>
+<p><strong>Primo, trascrivere</strong>, perché grafiche e animazioni entrino al momento esatto. Per la trascrizione si può usare l'<strong>API di ElevenLabs</strong> (a consumo, più veloce) o <strong>Whisper</strong> (in locale, gratis ma più lento); si chiede a Claude di configurarlo.</p>
+<p><strong>Poi le animazioni, frase per frase.</strong> Quando dice «modelli potenti come Fable 5.1 e GPT-6 Astra», le scritte devono entrare <strong>dove lui indica con la mano</strong>: Fable 5.1 a sinistra con il logo di Claude animato, GPT-6 Astra a destra con il logo di OpenAI; dietro ogni elemento una <strong>carta in "vetro liquido"</strong>, altrimenti non si legge sullo sfondo. Quando dice «i migliori risultati di sempre», le tre parole in basso, evidenziate. Per il resto del video, quando parla di B-roll, screenshot, immagini e video generati, gli elementi devono entrare da destra e sinistra con un velo sotto, e l'AI deve <strong>andare davvero</strong> a prendere una registrazione dello schermo, uno screenshot e il resto, perché il senso è <strong>dimostrare in tempo reale</strong> cosa sa fare.</p>
+<p><strong>Cosa ha aggiunto da sola.</strong> Qui sta il punto per Nate: il modello ha fatto quanto chiesto ma <strong>ci ha messo del suo</strong>. Uno zoom lentissimo in apertura; un'interfaccia in stile Claude con il testo del prompt («Edit my intro with Apple-style motion graphics, B-roll, screenshots, and sound design», si legge a schermo) quando lui dice «un solo prompt»; un'animazione sulla verifica con screenshot e controlli. Niente di questo era nel prompt, e secondo lui rende l'intro più coinvolgente. Nessun secondo prompt: il risultato è quello che si vede nel video.</p>
+<h2>Esempio 2 — Il reel "YouTube": dall'ispirazione a una skill</h2>
+<p>Il secondo esempio dell'intro è un piccolo <strong>reel su YouTube</strong>, anche questo con un solo prompt. Il modello è andato a prendere gli screenshot di molte miniature dei suoi video e ha scelto di <strong>zoomare su quella del "grazie"</strong>, con Nate che tiene in mano il pulsante d'argento, spiegando che quella rappresenta meglio il marchio e la cultura di YouTube. Ha generato anche suono e musica. Dalle immagini: un reel di 15 secondi con l'interfaccia di un player, un pulsante play 3D rosso lucido, uno short verticale, una schermata "+10s".</p>
+<p><strong>Come è nato.</strong> Il principio: essere chiari su cosa si vuole, ma <strong>non per forza in modo tecnico</strong>. A volte non si sa cosa si vuole, ma si sa <strong>l'emozione</strong> che il video deve dare. Nate ha visto su X un reel fatto con Hyperframes e Opus da <strong>Kenn Ejima</strong> (a schermo il post: «legit insane for a single prompt», con Opus 5.5 a effort <strong>xhigh</strong>). L'ha scaricato e ha chiesto a Claude Code: <strong>«Analizza questo video, fatto con Opus 5.5, e capisci perché è così buono»</strong>. Poi: <strong>«Trasformalo in una skill.»</strong> È nata la skill <strong>"motion show reel"</strong>, con le istruzioni su come si progettano reel di quel tipo (la regala nella sua community). Infine: «usa quella skill e crea il mio show reel su YouTube; raccogli B-roll, immagini e tutto quello che serve; tipografia, design, linguaggio, colori e marchio devono rendere YouTube inconfondibile».</p>
+<p>Per le due scene animate del pulsante play, il modello ha <strong>generato delle immagini</strong>, le ha mandate a <strong>Kling</strong> per trasformarle in video, e Opus ha rimesso tutto insieme in un video coerente.</p>
+<h2>Esempio 3 — Il reel dell'azienda, senza skill</h2>
+<p>Un altro show reel, questa volta <strong>senza</strong> la skill. Il prompt, visto a qualcuno su X: «Fai un video di motion graphics dinamico da 15 secondi che mostri che designer incredibile sei, come fosse il tuo show reel per un curriculum. Esagera.» In più: che parli della sua azienda <strong>AIS</strong>, che usi asset e loghi veri dei loro prodotti, che possa usare <strong>kie.ai</strong> per generare quello che serve, e Hyperframes o altri strumenti per motion design, musica ed effetti. Un solo prompt. Nate nota le somiglianze con il reel su YouTube (la "B" che cade con l'effetto sonoro, i colori, lo stesso senso dello spazio). Ha preso foto dal loro sito, <strong>sapeva quanti membri hanno</strong>, ha usato un'immagine 3D generata e poi animata; lo sfondo è dal sito. Dalle immagini: un logo "AIS" in vetro e luce azzurra.</p>
+<h2>Esempio 4 — Il sizzle reel da 105 GB di materiale</h2>
+<p>Il suo nuovo <strong>benchmark preferito</strong>: dare a Claude Code una cartella con <strong>105 GB</strong> di video, registrazioni e materiali del loro evento <strong>AIS Live</strong> e chiedere «guarda tutto e fammi un <strong>sizzle reel</strong>, racconta una storia». Non è un prompt singolo: <strong>un prompt, un giro di correzioni e una correzione puntuale</strong>, cioè tre prompt (per questo si chiama "V2.1"). Nel montato ci sono frasi dei partecipanti prese dalle registrazioni ("ero elettrizzato", "ho firmato il contratto", "ho avuto la pelle d'oca").</p>
+<p>Il giudizio di Nate: raccontare una storia a partire da una cartella di materiali è un lavoro complicato, e il risultato ha <strong>qualche difetto</strong> (qualche taglio goffo nel mezzo di una frase, cose da ritoccare). Ma la <strong>galleria di schermi a tunnel</strong>, gli <strong>zoom su singoli schermi</strong>, i <strong>momenti presi dalle trascrizioni</strong> delle chiamate che rendono l'energia dell'evento, e il finale in cui tutte le scene si ricompongono nel <strong>logo "AIS Live"</strong> con il puntino rosso, su cui la camera zooma con la scritta «il tuo posto è in mezzo», lo hanno colpito. Dalle immagini: Claude spiega di aver sostituito l'apertura lenta con un logo animato; la schermata finale dice "AIS LIVE — Build your AI OS — 17-18 ottobre 2026, virtuale".</p>
+<h2>Esempio 5 — Lo stesso video in tre stili</h2>
+<p>Nate registra un video semplice in cui spiega come fa il <strong>toast all'avocado</strong> (il pane in piedi e non disteso sul piatto, così non si ammolla sotto; avocado schiacciato, condimento "everything bagel", aceto balsamico, uova sopra) e lo fa montare in tre modi:</p>
+<p><strong>Lavagna disegnata a mano.</strong> «Stile animazione su lavagna disegnata a mano, semplice e pulito, come se spiegassi a un bambino come si fa il toast all'avocado»; immagini e video, se servono, da kie.ai; alcune scene a lavagna piena, altre con la lavagna a sinistra e la faccia di Nate a destra. Un solo prompt. La sua critica: le uova sono minuscole e il balsamico sta su un pezzetto solo del pane, «così non sarebbe buono».</p>
+<p><strong>Lezione di un corso.</strong> Il primo uso che aveva fatto dell'AI per il montaggio, per i video dei corsi. Prompt: camera a tutto schermo che poi diventa un <strong>ritaglio arrotondato</strong>; sfondo minimale; <strong>punti elenco grandi</strong> con i concetti chiave, poco testo; immagini generate e motion graphics leggerissimi. Un solo prompt. A metà del video parte un'immagine ferma e Nate precisa: «era solo un'immagine, stava facendo la verifica». Dalle immagini: il titolo "Four steps" con le fasi, e Claude che dichiara di aver <strong>controllato tutti i 795 fotogrammi</strong> del montato. Tutte le immagini e i video sono generati.</p>
+<p><strong>Short verticale.</strong> Senza altre skill, per mostrare cosa fa Opus 5.5 con un solo prompt: «genera gli asset che servono, coinvolgente, ritmo veloce, facile da capire». Il risultato «non è perfetto», ma cambia continuamente scena con B-roll sullo sfondo e tiene l'attenzione.</p>
+<p>Il senso dei tre: <strong>filmare non deve più voler dire montare</strong>, soprattutto quando si costruiscono skill con le proprie preferenze, gli stili di movimento e le regole del proprio marchio.</p>
+<h2>Esempio 6 — Lo spot per Lululemon</h2>
+<p>Un prodotto fisico: uno <strong>spot per Lululemon</strong> (dalle immagini: 29 secondi, verticale). Secondo Nate, il modello è andato sul sito di Lululemon, ha trovato <strong>capi veri</strong>, ha preso le foto della modella e ne ha generato dei video in cui corre o salta con quei vestiti, e ha chiuso con le immagini vere del catalogo. Lui ha dato solo la <strong>sensazione</strong>: energia alta, ritmo veloce, coinvolgente, musica a tempo con i beat, effetti sonori.</p>
+<h2>I cinque passi fissi</h2>
+<p>Li passa in rassegna in fretta, dicendo che basterebbe dare la trascrizione di questa parte al proprio agente.</p>
+<p><strong>1. Trascrivere.</strong> Se si parte da un girato, va trascritto prima di tutto, perché i beat entrino al momento giusto e l'AI sappia costruire una storia. Whisper, ElevenLabs o altro.</p>
+<p><strong>2. Tagliare.</strong> Gli errori, e i momenti morti (per esempio 20 secondi di silenzio trovati nella trascrizione). Spesso Nate usa l'AI solo per questo, poi prende il pezzo pulito e ne fa quello che vuole: è molto più veloce che cercare i vuoti a mano nel programma di montaggio.</p>
+<p><strong>3. Pianificare i beat.</strong> Essere specifici: «qui voglio che entri questo». Nell'intro il modello è andato anche oltre, ma se gli avesse detto «solo questi beat, nient'altro», l'avrebbe fatto. Più si chiarisce cosa si considera buono, più il risultato è allineato.</p>
+<p><strong>4. Usare le skill.</strong> Se fai molti reel, costruisci skill per i reel; usa ispirazione e risorse, come il video trasformato in skill. Poi a ogni esecuzione: «in questa versione mi è piaciuto questo e non questo; <strong>aggiorna la skill</strong>, rilancia, ti do altro feedback». Così la skill migliora a ogni giro. Regola: <strong>se ti ritrovi a ripetere una cosa, mettila nella skill</strong>.</p>
+<p><strong>5. Il ciclo di verifica</strong>, per lui il più importante. Mentre lavora, l'agente <strong>fa screenshot, li guarda e corregge</strong>: consegna la versione uno, la guarda, trova gli errori, fa la due, e così via finché la ritiene abbastanza buona da dargliela. Così si riceve la quinta o sesta versione già controllata, invece della prima e poi tanta frustrazione. Non serve esperienza di montaggio: «non lasciare che il montaggio sia il tuo collo di bottiglia».</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=7jHXoPGnA4c (Nate Herk | AI Automation, 19:22, pubblicato il 25/09/2026, ~125.000 visualizzazioni; visto il 27/09/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: claude-code-video-editing (Hyperframes e i cinque passi, qui con Opus 5.5 in Claude Code), claude-skills (una skill ricavata da un video d'ispirazione; la skill che si aggiorna dopo ogni giro), loop-engineering (la verifica con screenshot che il modello fa da solo), model-routing (Opus 5.5 contro Fable 5.1 e GPT-6 Astra per il montaggio), aggregatori-modelli-creativi (kie.ai e Kling per gli asset)</li>
+<li>Entità: nate-herk, kie-ai, kling</li>
+<li>Video imparentato: <a href="gpt-6-astra-finally-solves-ai-video-editing-full-guide-2026-09-23.html">gpt-6-astra-finally-solves-ai-video-editing-full-guide-2026-09-23</a> — lo stesso metodo in Codex con GPT-6 Astra, due giorni prima.</li>
+<li><strong>Omesso:</strong> l'invito alla community gratuita (Student Kit, skill "motion show reel", sezione AI skills), la pubblicità della skill ScrollCraft, l'invito all'evento AIS Live, le richieste di like; in descrizione i link a Glaido e Hostinger con codice sconto.</li>
+<li><strong>Fotogrammi:</strong> ne ho guardati 25 su 59; gli altri 34 sono fotogrammi in rapidissima successione dentro il reel iniziale (secondi 12-27) e il sizzle reel (9:12-9:42). Le descrizioni dei reel sono quindi parziali.</li>
+<li><strong>Da sapere / non verificato:</strong> (1) Il confronto «meglio di Fable 5.1 e GPT-6 Astra» è <strong>un'impressione sua</strong>, senza prove affiancate con lo stesso prompt. (2) <strong>Costi e tempi</strong> non detti: né token, né minuti di lavoro dell'agente, né quanto sono costati asset e video generati. (3) «Un solo prompt» vale per gli esempi mostrati, scelti da lui; il sizzle reel ha richiesto tre prompt. (4) Lo spot Lululemon: come il modello abbia trovato e usato i capi è una sua ricostruzione («sono abbastanza sicuro che»); usare foto e marchio di un'azienda vera per uno spot non commissionato pone questioni di diritti d'immagine che il video non tocca. (5) Sottotitoli storpiati: «GBD6» = GPT-6, «Cling» = Kling, «key.ai» = kie.ai, «11 Labs» = ElevenLabs, «Ken» = Kenn Ejima (letto a schermo). (6) La verifica «da sola» è coerente con la guida ufficiale di Opus 5 (il modello verifica senza che glielo si chieda): vedi loop-engineering.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
