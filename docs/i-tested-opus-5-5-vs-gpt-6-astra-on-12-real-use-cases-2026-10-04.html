@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Tested Opus 5.5 vs. GPT-6 Astra on 12 Real Use Cases</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Tested Opus 5.5 vs. GPT-6 Astra on 12 Real Use Cases" src="https://i.ytimg.com/vi/GmLcJVzkxPA/hqdefault.jpg"><p class="muted">📖 24 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk manda <strong>Claude Opus 5.5</strong> e <strong>GPT-6 Astra</strong> sugli stessi dodici compiti veri — siti, montaggio video, reel, deliverable aziendali, giochi, mondi 3D, itinerari, una sfida di codice, disegno in Canva, caroselli — e per ognuno mette a schermo <strong>quanto ha impiegato e quanto è costato</strong> a tariffa API. Finisce <strong>8-4 per Opus</strong>, ma il dato che conta è un altro: Astra costa <strong>2,5 volte più di Opus al token</strong> ($10/$50 per milione contro $4/$20) eppure ha chiuso tutto in <strong>6h01 e 132,43 $</strong> contro le <strong>10h54 e 214,54 $</strong> di Opus — <strong>44,8% meno tempo e 38,3% meno soldi</strong>. La linea di frattura non è "creativo contro tecnico", è <strong>quanto è chiusa la specifica</strong>: Opus vince dove il prompt è vago e il giudizio è estetico, Astra dove il criterio è verificabile o dove conviene iterare a basso costo. La sintesi che Herk propone come regola di routing è una metafora: i modelli Claude sono un <strong>«gufo saggio»</strong> (giudizio, gusto, reggono gli obiettivi vaghi), i modelli GPT un <strong>«bravo lavoratore obbediente»</strong> (goal-oriented, vogliono una spec precisa, con obiettivi vaghi ti frustrano). Lui stesso però smonta metà del proprio punteggio due volte: con i 48 dollari risparmiati da Astra in un singolo esperimento ci si pagano <strong>quattro giri di feedback</strong>, e nell'unica prova giudicata da <strong>criteri esterni</strong> i due modelli finiscono <strong>100 a 100 pari</strong>.</p>
+<h2>Il patto del video: dodici prove, con il cronometro e lo scontrino</h2>
+<p>Il video si apre con un rendiconto già chiuso — «ho passato tutta la giornata a giocare con Opus 5.5 e GPT-6 Astra, e li ho messi <strong>testa a testa su 12 casi d'uso reali</strong>» — e con l'elenco di cosa c'è dentro: costruire siti, montare video e <strong>reel per Instagram</strong>, pianificare itinerari di viaggio, produrre <strong>deliverable professionali brandizzati</strong> come presentazioni, fogli di calcolo, analytics e <strong>conti economici</strong>, creare mondi veri come <strong>giochi 3D giocabili</strong> o esperienze 3D per imparare concetti nuovi, più <strong>browser use</strong> e caroselli. La promessa che tiene insieme tutto non è "scoprirai chi vince", è: «su tutti e 12 vi mostro <strong>quanto ci ha messo ciascun modello e quanto è costato ogni volta</strong>».</p>
+<p>Il protocollo dichiarato è semplice. <strong>Stesso prompt identico</strong> sparato ai due modelli nei rispettivi harness, entrambi a effort <strong>High</strong>, lavorando dentro i suoi abbonamenti ma riconvertendo i costi <strong>come se fosse fatturazione API</strong> — «perché non so se sei sul piano da 20 dollari al mese o da 200». Una correzione metodologica dichiarata subito: nel video del giorno prima, lo stesso confronto ma contro <strong>GPT-6 Soul</strong>, due esperimenti si erano rovinati perché i due agenti avevano finito per <strong>collaborare</strong>. Qui ha rimesso in piedi la sua pratica abituale, cioè chiuderli in <strong>work tree separati</strong> «così non possono letteralmente toccarsi». Alcuni esperimenti di Opus sono riciclati dal video precedente; quelli di Astra sono nuovi.</p>
+<h2>Il prezzo di listino, e perché inganna</h2>
+<p>Prima di partire, la tabella delle tariffe API, disegnata a mano su una lavagna Excalidraw che farà da spina dorsale a tutto il video. <strong>Anthropic: 4 dollari in input, 20 in output</strong> per milione di token. <strong>OpenAI: 10 in input, 50 in output</strong>. Cioè <strong>Astra costa 2,5 volte Opus 5.5</strong>. La domanda che Herk si pone, e che è il vero filo del video: «renderà <strong>2,5 volte meglio</strong> di Opus 5.5?».</p>
+<p>La risposta, anticipata qui perché è il pezzo che resta: no, ma la domanda era mal posta. Il prezzo per token non è il costo del lavoro. A fine giornata Astra, pur costando 2,5 volte di più a parità di token, aveva speso <strong>il 38,3% in meno</strong> in totale, semplicemente perché <strong>brucia molti meno token e molto meno tempo</strong>.</p>
+<h2>1 — Il sito di prodotto: Perkform</h2>
+<p>Stesso prompt, stesse <strong>brand guideline</strong>, un sito per una bevanda proteica al caffè. Della versione <strong>Opus</strong> gli piacciono le chiavi e la lattina messe su <strong>livelli diversi</strong> rispetto allo sfondo, il testo che entra mentre si scorre, un'immagine generata dall'AI («caffè in una mano, proteine nell'altra»), l'effetto in cui si <strong>tira la linguetta</strong> della lattina e l'animazione parte (sospetta che il modello abbia generato un video apposta), il drop shadow sulle immagini, e un'animazione in cui gli elementi <strong>ruotano verso la vista frontale</strong>; non gli piace una scritta rimasta troppo piccola.</p>
+<p>La versione <strong>Astra</strong> ha stile e sensazione simili ma scelte diverse: il grande numero «uno» sullo sfondo è «un bel tocco», la stratificazione c'è, ma due elementi che si fondono in uno «non sono molto fluidi — mi piace la visione, si poteva fare meglio». Il pezzo che lo convince davvero è la vista dei <strong>gusti selezionabili</strong>, con il colore dello sfondo che cambia: «questa sembra premium, è pulitissima, <strong>non sembra generata dall'AI</strong>».</p>
+<p>Il verdetto però va a Opus, e la motivazione è tutta sulla <strong>prima impressione</strong>: «la hero section è la prima impressione, e quella di Astra sembra un po' più economica». Opus <strong>40m21s e 18,32 $</strong>, Astra <strong>32m23s e 11,33 $</strong> — Astra più veloce e più economico, eppure perde. «Quando si tratta di <strong>creatività, design e giudizio visivo</strong>, penso che Opus batta Astra nella maggior parte dei casi.» <strong>1-0 Opus.</strong></p>
+<h2>2 — Il sizzle reel da 105 gigabyte</h2>
+<p>La prova che Herk usa da tempo come suo benchmark personale, «perché mostra di cosa sono davvero capaci i modelli». Dà a entrambi una cartella con <strong>105 GB di registrazioni</strong> del suo ultimo evento, <strong>AIS Live</strong>, e chiede un <strong>sizzle reel da 30 secondi</strong> per promuovere l'edizione di ottobre (17 e 18), montato con <strong>Hyperframes</strong>.</p>
+<p>Il montaggio di Opus è, per lui, «incredibile», e il punto che dice che nessuno sottolinea abbastanza è la <strong>sincronizzazione sui beat della musica</strong>: «faceva <em>bum</em> e tutto entrava con la musica». Energico, con <strong>stratificazione e profondità</strong> — non «ecco una registrazione e del testo», ma una registrazione sullo sfondo, un'altra sovrapposta con drop shadow, un overlay con l'opacità abbassata.</p>
+<p>Quello di Astra no: l'inizio «è imbarazzante», molto silenzioso, la musica lenta e che sembra entrare solo dopo cinque secondi. Il giudizio è netto e vale come diagnosi: «Astra fa un buon lavoro con la <strong>vision</strong>, con gli screenshot e col mettere dentro del B-roll — ha senso — ma <strong>l'energia non c'era. La creatività non c'era per niente</strong>».</p>
+<p>È l'unico dei dodici esperimenti in cui <strong>Opus vince su tutti e tre gli assi</strong>: <strong>31m32s e 10,36 $</strong> contro <strong>39m27s e 21,85 $</strong>. Più veloce, meno della metà del costo, output migliore. <strong>2-0 Opus.</strong></p>
+<h2>3 — Il reel Instagram sui tre strati di Karpathy</h2>
+<p>Stessa registrazione di sé stesso, stesso obiettivo (un reel per Instagram), stessi strumenti — Hyperframes più una <strong>skill</strong> del suo student kit dedicata ai reel. I due modelli producono lo <strong>stesso identico copione</strong>, che è anche un bel riassunto di una tesi già nel vault: «Smetti di fare prompt a Claude. <strong>Andrej Karpathy</strong> pensa che ci sia un modo molto migliore di lavorare con l'AI, e il suo metodo ha <strong>tre strati</strong>. Il primo è la <strong>spec</strong>: invece di dare a Claude un compito e sperare che ti capisca, lavora con lui per creare prima una spec dettagliata; fatti intervistare su cosa stai davvero cercando di ottenere, poi spezza il lavoro in checkpoint più piccoli prima che cominci. Il secondo è il <strong>verificatore</strong>: prima che Claude faccia qualsiasi cosa, definisci esattamente che aspetto ha un buon risultato, poi dagli modi per <strong>controllare il proprio lavoro</strong> — un altro modello, dati veri, test che può far girare da solo. Il terzo è l'<strong>ambiente</strong>: costruisci uno spazio di lavoro dove Claude ha già le tue istruzioni, la tua conoscenza, le tue skill e le tue regole ogni singola volta. Così invece di diventare più bravo a scrivere prompt, stai costruendo <strong>un intero sistema attorno a Claude</strong> che lo rende migliore ogni volta che lo usi.»</p>
+<p>A parità di testo, cambia tutto il resto. Quello di Opus «sembra decisamente meglio, più coinvolgente, succedono più cose, il B-roll è più interessante, le animazioni sono più interessanti» — con l'unico appunto che «alcuni effetti sonori erano un po' troppo». Quello di Astra «sembrava <strong>insipido, molto vaniglia, molto banale</strong>, non era creativo».</p>
+<p>Qui compare per la prima volta un sospetto che tornerà due volte: «più uso Astra da quando sono usciti Opus e Soul, più <strong>sembra che sia peggiorato, declassato</strong>. Avevo fatto un video in cui montavo con Astra ed era davvero molto buono, e da allora gli output di montaggio di Astra sono <strong>chiaramente degradati</strong>. Non so cosa stia succedendo.»</p>
+<p>Opus <strong>40m14s e 11,14 $</strong>, Astra <strong>22m38s e 8,91 $</strong> — Astra circa metà tempo e due dollari in meno, ma perde. <strong>3-0 Opus.</strong></p>
+<h2>4 — I deliverable aziendali: deck, conto economico, dashboard, landing</h2>
+<p>Il compito più grosso: una montagna di <strong>dati finti</strong> e la richiesta di quattro consegne in un colpo solo — un <strong>investor deck</strong>, un <strong>report finanziario</strong>, una <strong>dashboard di analytics</strong> e una <strong>landing page</strong> per il cliente, un'azienda immaginaria chiamata BrightPath. Lanciato con un prompt <code>/goal</code> su entrambi.</p>
+<p>Qui succede la cosa più interessante del segmento, e <strong>non riguarda il modello ma l'harness</strong>: a metà lavoro <strong>Astra si ferma e gli fa una domanda</strong> (quali metriche mettere in una certa slide). Opus tira dritto e inventa. Herk attribuisce la differenza a Codex, non a GPT-6: «<strong>Codex in generale è molto meglio di Claude Code a farti domande</strong>, e tiene vivo il goal nel caso tu non risponda; ma me ne fa molte di più, e questo mi piace perché aiuta a far sì che gli output siano più <strong>tarati su di me</strong>».</p>
+<p>I quattro deliverable di <strong>Astra</strong>: un deck da <strong>17 slide</strong> con branding BrightPath generato, un'immagine, grosse statistiche nella hero, slide semplici e non troppo verbose ma piatte — «potevano sembrare più professionali se ci fossero state <strong>linee e confini</strong>». Il report finanziario l'ha costruito <strong>collegandosi direttamente a Google Sheets</strong>: metriche di testa, grafici, un grande riepilogo, le assunzioni, un piano di cassa, il conto economico, i ricavi; formattato bene e brandizzato, ma con <strong>formule molto basilari</strong> (somme) e non su tutti i fogli. La dashboard: «è esattamente quello che mi aspettavo che Astra disegnasse, ha sempre quest'aria» — ricavi ricorrenti, filtro per trimestre, pipeline di vendita con filtri, customer health, efficienza di acquisizione, performance finanziaria, un execution tracker. La landing page: logo inclinato sullo sfondo, un numero animato (il 412) ma <strong>solo quello</strong> — «per questo tolgo un punto» — un elemento dashboard che gli sembra professionale, pricing, FAQ. Giudizio complessivo: «niente di pazzesco, poteva sfruttare di più la <strong>generazione di immagini</strong>; questo stile di output si poteva ottenere anche con Soul o persino con <strong>Luna</strong>».</p>
+<p>Quelli di <strong>Opus</strong>: il deck lo fa in <strong>PowerPoint</strong> anziché in Google Sheets, con un'immagine di sfondo, e soprattutto «mette almeno <strong>delle linee</strong>, dà un po' più di profondità di quanto avesse fatto Astra»; tabelle, grafici, colori diversi, una vista churn contro nuovi clienti. Il report finanziario è su <strong>12 schede</strong> ed è più verboso: «si capisce subito che questo sembra <strong>un'analisi</strong>, non solo un foglio di calcolo». E qui arriva <strong>il dettaglio più concreto di tutto il video</strong>: una scheda di Opus ha <strong>molti più riferimenti e molte più formule</strong>. «Penso che sia una cosa enorme. Avere un foglio <strong>dinamico</strong>, dove posso cambiare i numeri e vedere cosa cambia davvero, è un fattore importante — non vuoi un foglio statico che devi far <strong>rigenerare a un agente</strong> ogni volta che vuoi cambiare un numero.» La dashboard invece è praticamente identica a quella di Astra («nessuna delle due spicca sull'altra»). La landing page è un <strong>artifact di Claude</strong>, con un'immagine dinamica sullo sfondo, numeri che si muovono mentre scorri, una citazione, pricing scalabile; l'unico appunto è un blocco allineato a destra che non gli piace.</p>
+<p>La sintesi: «Opus sta facendo un lavoro migliore sul design, perché <strong>non è solo il design: è che sembra di più che stia raccontando una storia</strong>». E l'ammissione di soggettività, ripetuta per la seconda volta: «alcuni di voi avrebbero preferito di gran lunga il sito di Astra».</p>
+<p>Opus <strong>39m20s e 17,50 $</strong>, Astra <strong>46m15s e 16,61 $</strong>. Qui per una volta Opus è <strong>più veloce di sette minuti</strong> e costa solo un dollaro in più: «quel dollaro in più lo pagherei». <strong>4-0 Opus.</strong></p>
+<h2>5 — Il gioco: fuga dal museo</h2>
+<p>Il prompt, letto a schermo: «costruisci un gioco browser rifinito in cui il giocatore scappa da un museo in miniatura dopo la chiusura. Includi <strong>tre stanze collegate, un inventario, cinque enigmi concatenati, suggerimenti contestuali, controlli audio e un finale completo</strong>. Vi giudicherò su creatività, realismo, illuminazione, design e sull'intera esperienza attorno al gioco.»</p>
+<p><strong>Opus</strong> costruisce un <strong>3D immersivo in prima persona</strong>. Parte con della musica e una scena raccontata: «dovevi solo sederti un minuto, e adesso sei rimasto chiuso dentro il museo»; le luci sono spente, tutto è buio tranne il chiaro di luna. Ci si muove col mouse, c'è una <strong>torcia</strong>, si possono esaminare gli oggetti («fermo alle 10:47, il minuto in cui sono rimasto chiuso dentro. Il pendolo pende immobile»). «Le grafiche non sono affatto male, specialmente se consideri quanto ha girato — si vede il <strong>riverbero</strong>.» Il bug: il mouse <strong>non è agganciato</strong> alla finestra, quindi bisogna tenere premuto per guardarsi intorno e il controllo funziona anche quando il puntatore è fuori dall'inquadratura.</p>
+<p><strong>Astra</strong> fa una cosa completamente diversa e la chiama <strong>"The Last Curator"</strong>: «le porte chiudono alle 9. Sei rimasto un po' troppo a lungo. Entriamo.» Non è immersivo, «sembra più un <strong>enigma che guardo</strong> che un posto in cui sono dentro». Si clicca sugli oggetti, c'è un codice da trovare per aprire una vetrina, un orologio a cui manca il meccanismo: «serve la chiave di carica, <strong>l'usignolo d'ottone</strong>. Canto quando il mare, il cielo e le ore sono d'accordo». E un indizio scritto: «se eri ancora qui alle 9, non forzare la porta. <strong>Ripristina il rituale di chiusura.</strong> Comincia dalla vetrina della collezione: i nostri tesori più antichi vengono sempre per primi. Conta i loro marchi d'oro». Otto punti, tre punti, cinque punti: lui prova <strong>853</strong> e sbaglia («il meccanismo torna nel silenzio. I tuoi indizi sono al sicuro nel diario»), poi capisce che vanno messi <strong>in ordine di anzianità</strong> e con <strong>385</strong> la vetrina si apre.</p>
+<p>Il commento che spiega l'intero video: «gli ho dato un prompt <strong>così vago</strong> che Astra ha deciso di farne più un'esperienza e Opus ha deciso di farne un gioco 3D realistico e immersivo. Ed è per questo che dico che è così soggettivo: se gli avessi dato un prompt molto specifico e avessi avuto in testa una visione, sarebbe un altro discorso. In questo caso <strong>non sapevo nemmeno io quale visione volevo</strong>.»</p>
+<p>Opus <strong>1h32m e 31,27 $</strong>, Astra <strong>34m34s e 7,92 $</strong>. Vince <strong>Astra</strong>, e la motivazione è pragmatica: è tornato in fretta, non è costato quasi niente, si entra e si gioca subito senza sentirsi sopraffatti, e «mi lascia <strong>iterare sopra</strong> e capire cosa voglio davvero». <strong>4-1.</strong></p>
+<h2>6 — Il mondo 3D per imparare dai suoi cento video</h2>
+<p>Compito: andare a prendere <strong>cento dei suoi video YouTube recenti</strong>, ricavarne dei concetti, e costruire un <strong>mondo 3D esplorabile</strong> per impararli.</p>
+<p><strong>Astra</strong> fa un mondo in <strong>prima persona</strong> con stanze tematiche — tools, context, prompts, useful projects, trust and safety. Nella stanza "models" si può premere F per far partire un esperimento, e alla fine arriva «esperimento completato, verifica la tua comprensione per guadagnare un <strong>timbro</strong>»: è <strong>gamificato</strong>, con quiz e una collezione di timbri. Ma nella stanza delle skill si perde: «<strong>tocca un'idea, guarda cosa succede</strong> — okay, e come faccio a toccare un'idea?»; ci sono le voci <em>experiment, discover, sources, check</em>, poi un "build check" con «crea una ricetta riusabile che pianifica, costruisce e verifica», poi un minigioco in cui bisogna aiutare <strong>Pip</strong> ad attraversare un ponte rotto (ispeziona — «uno di sei problemi trovati» — ripara, testa). Il verdetto è una critica di <strong>design, non di contenuto</strong>: «l'esperienza è un po' travolgente. Pensavo che sarebbe stato più facile da capire. Volevo poterci buttare dentro un bambino e dirgli di andare a giocare e imparare questi concetti, ma <strong>questo è un po' confuso</strong>».</p>
+<p><strong>Opus</strong> fa la <strong>AI Explorer Academy</strong>, un robottino in <strong>terza persona</strong>, anche qui con stanze. «È più semplice.» Nella prima, i <strong>token blocks</strong> spiegano come l'AI legge i token: c'è una macchina in cui si lasciano cadere delle palline scegliendo la <strong>temperatura</strong>, e si vede su quale parola successiva finiscono — «il gatto si è seduto sul tappeto / sul pavimento / sul tetto». Bug noto: ogni tanto le palline <strong>si incastrano</strong>, «ma considerato che non era il gioco principale di questo mondo, non è male». Nella <strong>agent arena</strong> («AI che lavora in loop») si sceglie la modalità dalla console: <em>one shot senza loop</em> oppure <em>agent loop</em>. Col loop si vede l'agente <strong>pensare, controllare, pensare, controllare</strong> finché non arriva alla bandiera — sette giri. Senza loop «pensa e agisce e va dritto verso l'obiettivo, ma <strong>sbatte contro le scatole</strong> tutte le volte». Giudizio: «è onestamente una <strong>visualizzazione piuttosto buona</strong>». Un'altra stanza è un negozio di assistenti con concetti di business: arrivano i clienti, «affare fatto. Solo 200 dollari — wow, è super economico per quello che mi fa risparmiare».</p>
+<p>Opus <strong>1h44m e 60,53 $</strong>, Astra <strong>45m e 12,43 $</strong>. Herk assegna il punto a Opus, perché la qualità gli piace di più ed era <strong>un solo prompt <code>/goal</code></strong> — ma subito dopo smonta il proprio verdetto con il ragionamento più utile del video: «Astra qui ti è costato solo 12 dollari. <strong>E se iterassi con Astra, gli sparassi un altro prompt con del feedback e lo lasciassi correre finché non arriva a 60 dollari? L'output di Astra per 60 dollari sarebbe stato migliore di quello di Opus per 60 dollari? Direi di sì.</strong>» Con la precisazione onesta che quel ragionamento vale solo perché <strong>si fornisce davvero il feedback</strong>, quindi l'output si tara meglio su quel che si vuole. <strong>5-1.</strong></p>
+<h2>7 — L'itinerario di viaggio in 3D</h2>
+<p>Un viaggio dal primo al 30 ottobre, con una serie di desiderata, reso come <strong>itinerario 3D immersivo</strong> — un mondo da attraversare per vedere visivamente dove si va — e con <strong>tutti i link</strong> necessari per muoversi.</p>
+<p><strong>Astra</strong> lo chiama <strong>Atlas</strong>. Si parte da <strong>Chicago</strong>, si clicca sui giorni successivi e il mondo 3D mostra dove si va: <strong>Islanda</strong>, poi <strong>Amsterdam</strong> per il <strong>World Summit AI</strong>, poi <strong>San Francisco</strong> per la Tech Week e circa una settimana, altri posti in California, <strong>Yosemite</strong>, poi lo <strong>Utah</strong> per <strong>Zion</strong> (aveva chiesto i parchi nazionali) e <strong>Bryce Canyon</strong>, poi <strong>Las Vegas</strong>, poi di nuovo a casa a Chicago. Ogni tappa ha il suo corredo: orari delle navette, condizioni meteo o del parco, il percorso in auto che si apre su <strong>Google Maps</strong>, i voli su <strong>Kayak</strong>. «Questo ci renderebbe decisamente la vita più facile se volessimo pianificare questo viaggio.»</p>
+<p><strong>Opus</strong> fa la stessa struttura ma aggiunge un <strong>play</strong>: si schiaccia e l'itinerario <strong>scorre da solo</strong> fra i giorni con un'animazione che lo porta nelle varie zone. Anche qui i link ci sono tutti — un tour in barca con i biglietti, la <strong>Sky Lagoon</strong>, i voli, il World Summit, <strong>GitHub Universe</strong>, un volo Southwest via <strong>Google Flights</strong>. Il contenuto dei due itinerari è quasi identico (stessi eventi AI, stessi parchi californiani e dello Utah). «La mappa 3D immersiva è più bella, ma <strong>si carica piuttosto lentamente</strong> — c'è dell'ottimizzazione da fare.»</p>
+<p>Opus <strong>29m11s e 14,47 $</strong>, Astra <strong>32m07s e 10,99 $</strong>. Vince <strong>Astra</strong>: «sono entrambe molto buone, ma quella di Astra è <strong>più pulita</strong>, con tutti i link lì a portata». <strong>5-2.</strong></p>
+<h2>8 — La sfida sulla codebase: l'unico giudizio non soggettivo</h2>
+<p>L'unico esperimento in cui Herk esce dal proprio gusto. Fa <strong>progettare la sfida a Grok</strong>, poi la fa rivedere a Grok <strong>insieme a Fable 5.1 e GPT-6 Soul</strong> — «così ho avuto un <strong>misto di esperti</strong>» — e solo allora la passa a Opus e ad Astra. Alla fine fa <strong>rivedere i risultati da più agenti</strong>, che concordano.</p>
+<p>Il verdetto a schermo è un pareggio pieno. Su tutte le categorie — <em>correttezza della schedulazione e casi limite</em> 70/70, <em>validazione degli input</em> 20/20, <em>problemi di schedulazione più grandi</em> 10/10 — entrambi gli agenti fanno <strong>100/100</strong>. Il testo del giudice: «entrambi hanno superato <strong>tutti i 50 test indipendenti e predeterminati</strong>, senza regressioni nei test esistenti che ho rieseguito. <strong>Agente A</strong>: ha fornito evidenze di stress test più ampie e log dell'intera suite. <strong>Agente B</strong>: ha consegnato un'implementazione più piccola e test più integrati, con <strong>735 test passati contro i 464 di A</strong>. <strong>Nessuno dei due ha dimostrato una correttezza migliore</strong> in questo esperimento. Più test o codice più corto, da soli, non stabiliscono un vincitore.» L'unica nota discorde: <strong>Fable</strong> avrebbe tolto due punti all'agente B su una delle prove, portandolo a 98/100 — ma Herk fa notare lui stesso che «non ha perfettamente senso» se si guardano i punteggi di dettaglio.</p>
+<p>A qualità pari, decide l'efficienza, e non è vicina: Opus <strong>2h29m e 17,48 $</strong>, Astra <strong>35m13s e 9,14 $</strong> — «<strong>un quinto del tempo e metà del costo</strong>». Vince Astra, con l'avvertenza pratica che «mi sentirei comunque più tranquillo a far passare <strong>entrambi</strong> gli agenti ad aiutarmi a riparare e a trovare i bug».</p>
+<p>Ed è qui che enuncia la tesi di routing per la prima volta: «questo si allinea con come mi sento in generale su <strong>OpenAI contro Anthropic</strong>. Anthropic sembra molto più creativa, di solito ha più gusto. OpenAI è super pragmatica, super logica, super ragionevole — e <strong>se le dai qualcosa di molto specifico, te lo esegue praticamente come lo vuoi</strong>.» <strong>5-3.</strong></p>
+<h2>9 — Il reel animato sulla sua storia</h2>
+<p>Trenta secondi animati che raccontino chi è: pensa a cosa sai di me, fai ricerca, genera quello che ti pare.</p>
+<p><strong>Opus</strong> lo scrive in <strong>prima persona</strong>: «due anni fa costruivo dashboard alla <strong>Goldman Sachs</strong> senza nessuna base di programmazione. Le mie automazioni seguivano regole, ma non sapevano pensare. Così mi sono insegnato da solo gli agenti AI e ho pubblicato tutto su YouTube. Due mesi dopo mi sono licenziato. Un piccolo gruppo gratuito è diventato <strong>AI Automation Society</strong>, ora <strong>450.000 builder</strong>. Il canale ha superato <strong>un milione di iscritti</strong>. Il mio libro è arrivato numero uno. E abbiamo lanciato una certificazione. Ho <strong>24 anni</strong> e sto appena cominciando.» Lo rende in <strong>stile Pixar</strong>, con la maglietta che lui indossa nella maggior parte delle sue miniature, e usa il suo <strong>clone vocale di ElevenLabs</strong>. Sopra c'è una <strong>barra di avanzamento</strong> da settembre 2024 a oggi che mostra dove sei nel percorso.</p>
+<p><strong>Astra</strong> lo scrive come <strong>biografia in terza persona</strong>, in stile <strong>claymation</strong>: «prima del milione di iscritti, Nate Herk aveva una webcam e un asciugamano sotto la tastiera. Appena uscito dal college si è trasferito dall'<strong>Illinois a Salt Lake City</strong>. Ha iniziato a imparare l'AI, a costruire cose e a condividere quello che funzionava. I video erano grezzi. Ha continuato a presentarsi. Quei tutorial sono diventati la AI Automation Society, una comunità che impara insieme a lui. E dopo tutto questo, sta ancora imparando, sta ancora costruendo, sta ancora <strong>premendo rec</strong>.» Astra <strong>non</strong> usa il clone vocale; entrambi partono dalla stessa immagine di riferimento, la foto con la maglietta azzurra.</p>
+<p>«È difficile scegliere un vincitore qui, hanno fatto entrambi qualcosa di interessante.» Alla fine vince Opus per la barra di avanzamento: nella versione di Astra «erano solo capitoli diversi ed era <strong>un po' difficile capire come si collegassero</strong>».</p>
+<p>Opus <strong>48m23s e 7,76 $</strong>, Astra <strong>19m38s e 11,14 $</strong>. Unico caso in cui Astra è <strong>più veloce ma più caro</strong>: «in uno scenario in cui non mi importa della velocità e mi importa più del costo e della qualità...». <strong>6-3.</strong></p>
+<h2>10 — Disegnare in Canva con browser use</h2>
+<p>«Uno dei miei nuovi benchmark preferiti.» Dà un'immagine — una foto sua con <strong>Adam Sandler</strong> — e il prompt: «apri Canva, usa <strong>browser use</strong> per disegnare questa immagine nel modo più accurato possibile <strong>con gli strumenti di pittura, non generando un'immagine</strong>».</p>
+<p>Il risultato di <strong>Astra</strong> è il più duro di tutto il video: «questo è orribile. Terrificante. Questo è <strong>materiale da incubi al 100%</strong>». Si vede che ci ha provato — ha messo una texture a nido d'ape sulla maglietta, ha aggiunto le zip sulla maglia di Adam Sandler, ha ombreggiato il braccio — «ma <strong>massacra completamente gli elementi del viso</strong>». Ed è il terzo punto in cui torna il sospetto di regressione, stavolta con le prove: tira fuori <strong>gli output che Astra gli aveva dato quando era appena uscito</strong>, visibilmente migliori, e dice che ai tempi su X e LinkedIn tutti facevano questa prova con ottimi risultati. «È qui che dico che mi sembra che Astra sia <strong>degradato</strong>. Non so esattamente perché.»</p>
+<p>Quello di <strong>Opus</strong> «è davvero buono. È più simile a quello che mi dava Astra quando tutta questa storia è cominciata». Confrontato con l'immagine di riferimento, «<strong>Opus 5.5 vince, e non è nemmeno vicino</strong>»; quello di Astra «sembra uno che si è dimenticato di mettersi gli occhiali la mattina, è solo un po' sfocato». Dalle immagini si vede anche un inciampo tecnico del lato Opus, che vale come avvertenza pratica su browser use: il disegno si è <strong>messo in pausa a circa 2.300 tratti su 2.703</strong> perché la finestra dell'app Claude era stata <strong>minimizzata</strong>, cosa che congela il pannello del browser.</p>
+<p>Opus <strong>41m24s e 8,65 $</strong>, Astra <strong>26m51s e 9,96 $</strong>. Opus è <strong>più economico e molto migliore</strong>: «è una scelta ovvia». E qui mette la frase che giustifica tutto il video: «so che molte di queste sono valutazioni soggettive, non è esattamente un benchmark, ma <strong>il punto di testare i modelli è testarli sui tuoi casi d'uso</strong>, sul tuo lavoro di conoscenza, sul modo in cui <strong>tu</strong> usi l'AI. E io uso molto l'AI per lavoro creativo». <strong>7-3.</strong></p>
+<h2>11 — Il carosello Instagram</h2>
+<p>Stessa <strong>skill</strong> per entrambi, stesso input: un tweet di <strong>Polymarket</strong> su un sondaggio riguardo alla paura dell'AI, da trasformare in un carosello Instagram.</p>
+<p>Il carosello di <strong>Opus</strong> apre con «quasi nove americani su dieci definiscono l'AI una minaccia. La loro paura numero uno è <strong>perdere il controllo</strong>», con quella che sembra un'immagine del Terminator; poi una statistica diversa per slide con immagini in alto, una citazione reale dal sondaggio, altre statistiche. La formattazione è quella imposta dalla skill. Le critiche sono tutte di impaginazione: le immagini «potevano essere <strong>posizionate e centrate</strong> un po' meglio», e «si poteva fare una <strong>verifica migliore</strong>».</p>
+<p>Quello di <strong>Astra</strong> gli piace di più <strong>subito</strong>, e per ragioni di giudizio editoriale, non di grafica: ha messo il <strong>logo di Polymarket</strong>, cioè ha citato la fonte del tweet originale; ha scelto come apertura «quasi 8 americani su 10 sono preoccupati che l'AI sfugga al controllo umano», che secondo lui «è anche una didascalia d'apertura migliore»; e ha <strong>incluso il tweet vero</strong> dentro il carosello, cosa che apprezza. Poi il 79% dei preoccupati, un'altra statistica, un altro sondaggio, un invito all'azione («tieni attiva l'approvazione prima che l'AI invii») e un'immagine finale. Unico neo: riusa due volte la stessa immagine del robot astronauta.</p>
+<p>Verdetto: «mi piace <strong>il gusto</strong> che ha usato Astra qui. Anche se hanno ricevuto la stessa identica cosa e stavano usando la stessa skill, penso che Astra vinca per il suo <strong>gusto e il suo giudizio</strong> su cosa ha effettivamente trasformato in carosello». Opus <strong>23m37s e 10,42 $</strong>, Astra <strong>12m48s e 6,82 $</strong> — circa metà tempo e due terzi del costo. <strong>7-4.</strong> È l'unico esperimento in cui Astra vince esplicitamente sul terreno che Herk assegna a Claude — il gusto — e lui non ci torna sopra.</p>
+<h2>12 — Il sito del libro rifatto</h2>
+<p>Dà ai due il sito del suo libro, <strong>Becoming AI Native</strong>, avvertendo che non è aggiornato: vuole vedere cosa ne tirano fuori, «e se siano stati abbastanza <strong>pragmatici</strong> da pensare ad aggiornare quei numeri <strong>ormai vecchi</strong>».</p>
+<p><strong>Astra</strong> restituisce un sito che detesta: «odio quel logo in alto a sinistra. Lo odio». «Rendi l'AI parte di come lavori», esplora il libro o compra su Amazon (il link funziona davvero), un'immagine dinamica del libro, i tre M, «numero uno bestseller Amazon», <strong>850K</strong>, <strong>425</strong>. E qui il punto che gli interessava: «ha praticamente trattato <strong>il sito come fonte di verità</strong> e non ha pensato di <strong>verificare</strong> nulla di tutto questo. Quindi non mi piace». Il resto è «un sito molto, molto noioso, che dà anche l'impressione di essere <strong>costruito a basso costo</strong>. Non mi piace per niente».</p>
+<p><strong>Opus</strong> parte male e finisce bene. «Non mi piace a prima vista. È troppo... non so, è <strong>da fine del mondo</strong>. Non è il clima che volevo. Probabilmente ha guardato la copertina e ha pensato: ah, forse è una cosa dark mode.» Però: l'intestazione «sembra un po' più <strong>brandizzata</strong> che avere solo AI», e scorrendo c'è molto di più — numero uno bestseller Amazon, <strong>4,4 stelle su 5</strong>, il prezzo, <strong>35 recensioni</strong>, il pulsante per comprare su Amazon, la possibilità di <strong>leggere la prima pagina</strong> («questo è carino, ti mette qui la prima pagina»), i tre M con immagini vere (il metodo, la macchina), <strong>i capitoli veri</strong>, alcuni dei framework, le recensioni. «Nel complesso <strong>racconta una storia migliore</strong>. Questo è decisamente il sito migliore: ha bisogno di lavoro sul design, ma è <strong>al 100% un'esperienza migliore</strong> dell'altro, che sembra un prompt one-shot dato a un modello AI di due anni fa su <strong>Lovable</strong> o qualcosa del genere.»</p>
+<p>Opus <strong>14m55s e 6,64 $</strong>, Astra <strong>14m11s e 5,32 $</strong> — praticamente lo stesso tempo, Opus poco più di un dollaro in più. <strong>8-4 Opus</strong>, chiuso con «in generale sono molto, molto colpito da questo modello. È un modello molto, molto buono».</p>
+<h2>Il quadro completo, in numeri</h2>
+<div class="tw"><table><thead><tr><th>#</th><th>Prova</th><th>Opus 5.5</th><th>GPT-6 Astra</th><th>Vince</th></tr></thead><tbody><tr><td>1</td><td>Sito prodotto (Perkform)</td><td>40m21s · 18,32 $</td><td>32m23s · 11,33 $</td><td>Opus</td></tr><tr><td>2</td><td>Sizzle reel da 105 GB</td><td>31m32s · 10,36 $</td><td>39m27s · 21,85 $</td><td>Opus</td></tr><tr><td>3</td><td>Reel Instagram (Karpathy)</td><td>40m14s · 11,14 $</td><td>22m38s · 8,91 $</td><td>Opus</td></tr><tr><td>4</td><td>Deliverable aziendali (BrightPath)</td><td>39m20s · 17,50 $</td><td>46m15s · 16,61 $</td><td>Opus</td></tr><tr><td>5</td><td>Gioco: fuga dal museo</td><td>1h32m · 31,27 $</td><td>34m34s · 7,92 $</td><td><strong>Astra</strong></td></tr><tr><td>6</td><td>Mondo 3D dai 100 video</td><td>1h44m · 60,53 $</td><td>45m00s · 12,43 $</td><td>Opus</td></tr><tr><td>7</td><td>Itinerario di viaggio 3D</td><td>29m11s · 14,47 $</td><td>32m07s · 10,99 $</td><td><strong>Astra</strong></td></tr><tr><td>8</td><td>Sfida sulla codebase</td><td>2h29m · 17,48 $</td><td>35m13s · 9,14 $</td><td><strong>Astra</strong></td></tr><tr><td>9</td><td>Reel animato personale</td><td>48m23s · 7,76 $</td><td>19m38s · 11,14 $</td><td>Opus</td></tr><tr><td>10</td><td>Disegno in Canva (browser use)</td><td>41m24s · 8,65 $</td><td>26m51s · 9,96 $</td><td>Opus</td></tr><tr><td>11</td><td>Carosello Instagram</td><td>23m37s · 10,42 $</td><td>12m48s · 6,82 $</td><td><strong>Astra</strong></td></tr><tr><td>12</td><td>Sito del libro rifatto</td><td>14m55s · 6,64 $</td><td>14m11s · 5,32 $</td><td>Opus</td></tr><tr><td></td><td><strong>Totale</strong></td><td><strong>10h53m57s · 214,54 $</strong></td><td><strong>6h01m05s · 132,43 $</strong></td><td><strong>8-4 Opus</strong></td></tr></tbody></table></div>
+<p>Il risparmio di Astra, come lo mette a schermo lui: <strong>4h52m52s (44,8% di tempo in meno)</strong> e <strong>82,11 $ (38,3% più economico)</strong>. Astra è stato più veloce in <strong>nove casi su dodici</strong> e più economico in <strong>otto su dodici</strong>, pur costando due volte e mezzo tanto al token.</p>
+<h2>Il gufo saggio e il lavoratore obbediente</h2>
+<p>«Quello che questo mi dice è che <strong>Astra è un modello molto, molto efficiente</strong>, ma a volte — almeno in questi esperimenti — <strong>Opus capiva un po' meglio cosa volevo</strong>, mi dava più creatività, e i suoi output erano semplicemente più allineati con quello che voglio.»</p>
+<p>La metafora, che è il pezzo da portare via: «sento da un po' che i modelli <strong>Opus e Claude</strong> sembrano un <strong>gufo saggio</strong>. Sembra che abbiano <strong>buon giudizio, creatività e gusto</strong>. E i modelli <strong>GPT</strong> sembrano un <strong>bravo lavoratore obbediente</strong>: il lavoro lo portano a casa, ma vogliono che tu gli dia una <strong>spec molto specifica</strong>, vogliono che tu gli dica esattamente cosa vuoi, e loro capiranno come arrivarci. Sono molto <strong>orientati all'obiettivo</strong>. Ma quando dai ai modelli GPT <strong>obiettivi vaghi</strong>, potresti restare frustrato da quello che ti riportano, perché sembra che <strong>non siano stati pensati per gli obiettivi vaghi</strong> quanto lo sono questi modelli Claude.»</p>
+<p>E la chiusura, che ridimensiona di proposito il proprio punteggio: «entrambi questi modelli sono bravissimi se guardi il <strong>compito medio</strong> che fai girare — lavoro di conoscenza, merge semplici, costruire piccole app o dashboard. Tutti e due ti daranno quella funzionalità benissimo. Il punto vero è <strong>il modo in cui ci parli</strong> e <strong>il contesto che aggiungi sopra</strong> per allinearlo a quello che vuoi — perché io voglio le cose diverse da come le vuoi tu, e tu le vuoi diverse da come le vuole il tuo amico. Quindi: il <strong>70% è l'impianto idraulico</strong> che tutti devono montare allo stesso modo. Sopra a quello, <strong>qual è il 30%</strong> che ti porta a dire <em>cavolo, questo output mi piace davvero</em>?»</p>
+<h2>Cosa si porta via, e cosa il test non dimostra</h2>
+<p>Il contributo utile di questo video non è il punteggio, è la <strong>variabile che predice il vincitore</strong>. Non è "creativo contro tecnico": nell'esperimento 11 Astra vince proprio sul gusto, e nell'esperimento 8 i due pareggiano su un compito di pura ingegneria. La variabile è <strong>quanto è chiusa la specifica che gli dai</strong>. Dove esiste un criterio esterno di correttezza (i 50 test del codice), i due modelli sono indistinguibili e vince chi costa meno. Dove il criterio è «mi deve piacere» e il modello deve <strong>indovinare</strong> il gusto di chi ha scritto il prompt, Opus arriva più vicino a quel gusto — che poi è <strong>il gusto di Nate Herk</strong>, non un gusto universale.</p>
+<p>Il secondo contributo è il <strong>ragionamento sul budget</strong>, che lui stesso solleva e non testa: a parità di <strong>numero di prompt</strong> Opus vince; a parità di <strong>dollari spesi</strong> la domanda è aperta, e la sua risposta a intuito è che Astra recupererebbe. Finché questo confronto non viene fatto davvero, il metodo one-shot resta strutturalmente favorevole al modello che costa di più per giro.</p>
+<p>E il terzo, laterale: il <strong>work tree separato</strong> come requisito igienico quando si fanno correre due agenti sullo stesso materiale, e il fatto che la differenza più visibile di comportamento — chi si ferma a fare domande — non venga dal modello ma dall'<strong>harness</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=GmLcJVzkxPA (Nate Herk | AI Automation, 42:54, pubblicato il 23 settembre 2026, ~135.000 visualizzazioni e 1.320 like al momento della visione; visto il 04/10/2026)</li>
+<li>report grezzo con trascrizione completa e i fotogrammi di tutte e dodici le tabelle di costo</li>
+<li>Concetti collegati: model-routing (è la fonte principale di questa pagina: la regola di routing per tipo di istruzione, il prezzo di listino contro il costo per compito, il contro-argomento del budget), harness (Codex fa domande, Claude Code no), loop-engineering (l'unica prova con un verificatore esterno, e il loop genera-controlla visualizzato dentro la agent arena), spec-driven-prompting (la tesi del video è esattamente che i modelli GPT rendono quanto è precisa la spec), claude-code-video-editing (esperimenti 2, 3 e 9, tutti con Hyperframes), claude-skills (la skill per i caroselli e quella per i reel, date identiche a entrambi i modelli)</li>
+<li>Entità: nate-herk, andrej-karpathy (solo come contenuto del reel di prova), claude-code</li>
+<li>Video imparentati già nel vault: <a href="opus-5-5-just-changed-video-editing-forever-2026-09-27.html">opus-5-5-just-changed-video-editing-forever-2026-09-27</a> (stesso autore, stessa pipeline Hyperframes, stessa tesi sul gusto di Opus — qui però messa alla prova contro un concorrente), <a href="i-had-opus-5-5-build-me-the-same-app-at-every-effort-level-2026-10-04.html">i-had-opus-5-5-build-me-the-same-app-at-every-effort-level-2026-10-04</a> (la leva <em>effort</em> misurata su Opus 5.5; qui entrambi i modelli girano a High fisso), <a href="how-to-actually-choose-the-right-ai-agent-2026-09-23.html">how-to-actually-choose-the-right-ai-agent-2026-09-23</a> (Kashef: Claude «artista», Codex «chirurgo» — è la stessa divisione dei ruoli, osservata dall'esterno)</li>
+<li><strong>Omesso:</strong> la skill gratuita <em>Scrollcraft</em> per i siti web, promossa a [04:20] e in descrizione; il corso gratuito "AI OS" sulla sua community Skool; i codici sconto per Glaido e per la VPS Hostinger; l'indirizzo per le sponsorizzazioni e i link ai suoi social; la CTA finale («mettete un like»). Nessuna di queste cose incide sui risultati, ma vale sapere che il canale vive anche di questo.</li>
+<li><strong>Non verificato / da sapere:</strong></li>
+</ul>
+<ol>
+<li><strong>Non è un benchmark e lui lo dice tre volte.</strong> Un solo run per modello per compito, nessuna ripetizione, nessuna metrica: i verdetti sono <strong>a impressione</strong>, dichiaratamente sul suo gusto («so che molto di questo è soggettivo, ma è così che do il mio ranking <strong>in base ai miei casi d'uso e al mio gusto</strong>»). L'unica cosa <strong>misurata</strong> sono i tempi e i costi, che però sono una <strong>stima</strong>: ha lavorato dentro gli abbonamenti e ha riconvertito la spesa a tariffa API — la formula di conversione non viene mostrata.</li>
+<li><strong>I numeri però tornano.</strong> Tempi e costi delle dodici tabelle sommati a mano danno 10h53,9m / 214,54 $ per Opus e 6h01,1m / 132,42 $ per Astra, cioè esattamente i totali a schermo. Almeno l'aritmetica è coerente.</li>
+<li><strong>L'esperimento 8 ha un'incongruenza che lui stesso nota.</strong> La tabella dei giudici a schermo mostra 70/70, 20/20, 10/10 e <strong>100/100 pari</strong>, ma a voce cita un commento di Fable con punteggi diversi («61 su 62» e «10 su 12») che porterebbero l'agente B a 98/100. I due set di numeri non si conciliano e lui lo dice: «non ha perfettamente senso».</li>
+<li><strong>Chi è «agente A» e chi «agente B» non viene mai detto</strong>, quindi non si sa quale dei due abbia prodotto 735 test e quale 464.</li>
+<li><strong>La prova del fact-checking nell'esperimento 12 resta a metà.</strong> Imposta il test («vediamo se sono abbastanza pragmatici da aggiornare quei numeri»), accusa Astra di aver copiato il sito senza verificare, e poi <strong>non dà mai un verdetto su Opus</strong> — che però mostra numeri diversi (4,4 stelle, 35 recensioni contro 850K e 425). Non è dimostrato che li abbia presi da Amazon: resta un'ipotesi.</li>
+<li><strong>La «degradazione di Astra» è un'impressione, non una misura.</strong> La solleva tre volte (reel, montaggio, disegno in Canva) e nel caso di Canva mostra i vecchi output a confronto — ma sono prove diverse in momenti diversi, senza controllo. Potrebbe essere regressione reale, potrebbe essere varianza, potrebbe essere un prompt leggermente diverso.</li>
+<li><strong>Nessuna delle 24 esecuzioni è stata rifatta.</strong> Su compiti così lunghi e aperti (fino a 2h29m) la varianza tra due run dello stesso modello potrebbe tranquillamente coprire le differenze osservate. Il test <strong>non è riproducibile</strong> da terzi: i prompt completi non vengono mai mostrati per intero, i dati di input (105 GB di registrazioni, dati finti di BrightPath, la codebase della sfida) non sono pubblici.</li>
+<li><strong>La metafora gufo/lavoratore è esplicitamente una sensazione</strong> («sento da un po' che...»), accumulata su mesi di uso suo, non una conclusione di questi dodici test.</li>
+<li><strong>I sottotitoli automatici sono pessimi sui nomi propri:</strong> rendono «GPT-6» come <em>GBD6</em> o <em>GBT</em>, «Astra» come <em>Ashra</em>, <em>Asha</em>, <em>Ashstro</em> o <em>Astro</em>, «Claude» come <em>Cloud</em>, «Anthropic» come <em>Enthropic</em>. Qui sono corretti sulla base dei fotogrammi. A [35:49] dice «let's go to <strong>Fable's</strong> output» mostrando quello di <strong>Opus</strong>: è un lapsus, lo chiarisce due frasi dopo.</li>
+<li><strong>Il video del giorno prima</strong> (Opus 5.5 contro GPT-6 Soul), a cui rimanda più volte e da cui ricicla alcuni run di Opus, <strong>non è nel vault</strong> — quindi la base di confronto di quei run non è verificabile da qui.</li>
+</ol>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

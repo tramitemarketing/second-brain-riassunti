@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Had Opus 5.5 Build me the Same App at Every Effort Level</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Had Opus 5.5 Build me the Same App at Every Effort Level" src="https://i.ytimg.com/vi/QCkHIyEPIYo/hqdefault.jpg"><p class="muted">📖 13 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk prende <strong>un solo prompt</strong> — "trasforma 105,69 GB di registrazioni della mia conferenza virtuale in un mondo 3D esplorabile in terza persona" — e lo lancia <strong>sei volte</strong> con <strong>Opus 5.5</strong> dentro Claude Code, cambiando solo il <strong>livello di effort</strong>: <em>low, medium, high, extra, max, ultracode</em>. Niente intervento umano durante i run, <code>/goal</code> e via. Misura per ognuno tempo, costo a tariffe API, token, numero di verifiche e domande fatte. Il risultato smentisce la lettura semplice "più effort = meglio": dal più basso al più alto il <strong>costo fa 12,9×</strong> e il tempo <strong>8,9×</strong>, ma la <strong>qualità smette di salire prima della spesa</strong>. Il vincitore è <strong>extra</strong> (25,92 $, 1h31m) che batte <strong>max</strong> (50,38 $, 2h28m, pieno di bug) con metà tempo e metà soldi. La regola che ne ricava è secca: per il grosso del lavoro di conoscenza <strong>medium basta</strong>; si sale a <strong>extra</strong> solo quando il compito richiede davvero di ragionare su una montagna di materiale. In più tre scoperte laterali: <strong>ultracode non ha mai attivato i "workflow dinamici"</strong> che dovrebbero essere la sua ragione d'essere, <strong>nessuno dei sei run ha aperto un sotto-agente</strong>, e solo max ha sfondato la finestra di contesto finendo in auto-compattazione. Spesa totale dell'esperimento: <strong>127,65 $</strong>.</p>
+<h2>L'apertura: la prova prima della tesi</h2>
+<p>Il video non comincia con una faccia ma con quattro post di X messi in fila mentre la voce ripete cinque volte <strong>"Opus 5.5"</strong>: un veliero fotorealistico che naviga all'alba, un modellino tridimensionale che ruota, un pupazzo arancione firmato <strong>@devteamdrew</strong> con didascalia <em>"Made with @claudeai Opus 5.5"</em> e <strong>1,6 milioni di visualizzazioni</strong>, e infine un'isola tropicale esplorabile (610,3 mila visualizzazioni) sormontata dalla frase di chi l'ha pubblicata: <em>"questo esperimento ha ulteriormente cementato la mia convinzione che i creativi tecnici stiano per subire una disruption enorme"</em>. Solo a quel punto compare Herk per dire la cosa ovvia e la cosa interessante insieme: il modello è dappertutto perché è intelligente, economico e ha buon gusto, <strong>ma con ogni modello hai anche una scelta di effort</strong>, e quella scelta quasi nessuno la discute.</p>
+<p>L'esperimento è dichiarato subito e senza giri: stesso identico prompt, <strong>sei livelli di sforzo</strong>, confronto su cinque assi — <strong>qualità dell'output, durata del run, costo calcolato a tariffe API, token totali, numero di verifiche eseguite</strong> e quante domande l'agente ha fatto durante il lavoro. Anticipa che i risultati "non sono affatto quelli che si aspettava".</p>
+<h2>Il compito: una conferenza virtuale da trasformare in un posto</h2>
+<p>Il prompt sta in un file <code>PROMPT.md</code> dentro un worktree chiamato <code>effort-test</code>, e viene mostrato per intero a schermo. Tradotto: <em>"Devi crearmi un mondo 3D che sia una conferenza tech realistica in cui posso camminare in visuale in terza persona. Guarderai questa cartella, che contiene gli asset delle registrazioni del mio evento <strong>AIS Live</strong>."</em> Segue il link a una cartella <strong>Frame.io</strong> — nel video si vede: creata il 22 settembre 2026, <strong>105,69 GB</strong>, due sottocartelle, <em>GA Access</em> e <em>VIP Access</em>. <em>"Questa cartella ha tutte le registrazioni perché l'evento era virtuale. Il tuo obiettivo è prendere questo evento e trasformarlo in un mondo 3D esplorabile che mi faccia sentire come se non fosse stato affatto un evento virtuale, come se fossi lì di persona. Quindi stanze diverse, track diversi, palchi diversi, sulla base di com'è andata realmente AIS Live."</em></p>
+<p>Due concessioni di mezzi: <em>"sentiti libero di usare <strong>Kie.ai</strong> se ti servono immagini o video generati"</em> e <em>"puoi usare qualunque altra cosa a tua disposizione dentro il mio progetto <strong>Herk-2</strong>"</em> — che è il suo sistema operativo personale fatto di agenti e risorse.</p>
+<p>E poi la parte che per chi legge da questo vault è la più importante, perché è la <strong>definizione di "fatto"</strong> scritta dentro il prompt: <em>"Sarai giudicato su <strong>creatività, design, fisica e il feel complessivo</strong> mentre esploro il mondo 3D che costruisci. Quando hai finito, e tutto è stato testato e iterato, e hai un output di cui sei fiero, mettimi il <strong>localhost</strong> su cui posso esplorare questo mondo <strong>più un messaggio conciso di come hai verificato ogni cosa. Voglio conoscere i numeri esatti di questo processo di verifica."</strong></em> È esattamente quella richiesta a produrre i "check" che poi vengono contati: 22 per il run più pigro, 51 per il più zelante.</p>
+<p>AIS Live, l'evento di partenza, era una conferenza interamente online del <strong>11-12 luglio 2026</strong>, <strong>25 relatori su due giorni</strong>, con main stage, tre track di workshop (Foundation, Advanced, Enterprise), expo con stand degli sponsor e una sezione VIP.</p>
+<h2>Low: 16 minuti, 3,91 dollari, un posto che non sembra il tuo</h2>
+<p>Il primo mondo si apre su una schermata di caricamento che <strong>non usa né il logo né i colori di AIS Live</strong>, e questo basta a Herk per storcere il naso prima ancora di entrare. Dentro è <strong>troppo luminoso</strong>, quasi accecante. C'è però una mappa in alto a destra con <strong>lobby, expo hall, VIP lounge e main stage</strong>, e la mappa mostra in tempo reale dove sono tutti gli altri. Sullo sfondo una skyline: è <strong>Chicago</strong>, dove Herk vive — una coincidenza che lo diverte.</p>
+<p>Il modello ha capito la sostanza dell'evento: l'agenda c'è davvero, con <em>registration</em>, <em>day one</em>, <em>hyper agent keynote</em>, <em>live debrief</em> e <em>day two</em>. Ci sono gli stand reali dell'expo virtuale, uno spazio per le foto, e le stanze dei workshop con i nomi giusti sopra — <strong>Tangy Frederick</strong> nella room C, <strong>Liberty White</strong> nella room A con <em>"Your first 30 days in automation"</em>. Ma qui crolla: i relatori sono <strong>immagini ferme, non video</strong>. Le persone <strong>svaniscono</strong> quando ci si avvicina — <em>"devono essere fantasmi"</em> — e sul main stage i volti appaiono e spariscono, lo schermo si comporta più come una presentazione che come un filmato. La VIP lounge esiste ma è vuota.</p>
+<p>I numeri: <strong>16 minuti e 43 secondi</strong>, <strong>3,91 $</strong> a tariffe API, <strong>191,3 mila token</strong>, <strong>22 verifiche</strong>, <strong>zero domande</strong> fatte all'utente.</p>
+<h2>Medium: la soglia in cui l'output diventa presentabile</h2>
+<p>Salto netto. La schermata di caricamento ora è <strong>brandizzata</strong>, con il badge personale di Nate, i colori giusti e la struttura dell'evento — <em>day one: build</em>, <em>day two: earn</em>, VIP. Il modello ha usato le <strong>brand guideline</strong> che trovava nel progetto. La città sullo sfondo stavolta sembra inventata, e la cosa lo diverte.</p>
+<p>Qui compaiono le due cose che mancavano a low. Primo: <strong>i video sono veri</strong>. Nella workshop room C la sessione di Tangy Frederick <strong>sta effettivamente andando</strong>, i presenti sono chini sui portatili, nessuno glitcha. Allo stand <strong>Glaido</strong> dell'expo parte il filmato vero di Herk e Ed che presentano il programma di certificazione; nella community spotlight parla <strong>Aiden</strong> del contratto che ha chiuso, con il pubblico che guarda. C'è un muro con <strong>le slide dei relatori e i materiali distribuiti dopo l'evento</strong>. Secondo: <strong>gli NPC reagiscono</strong>. Un personaggio gli alza il braccio per salutare quando si avvicina, poi lo ignora; Herk si chiede scherzando se stiano usando <strong>Jev</strong> per decidere, "sicuramente no, non gliel'ho detto io… anche se la chiave di Jev è lì dietro".</p>
+<p>Il main stage è la parte migliore: palco grande, quattro persone sedute, tre schermi con <strong>Alex</strong> e Hyper Agent. <strong>Può salire sul palco</strong> e si fa un selfie col pubblico dietro. Non tutte le sedie sono occupate, nota. La VIP lounge "sembra un aeroporto", ma ha le sessioni VIP con il Q&amp;A e un bar.</p>
+<p>Giudizio: <em>"direi che questo è un output piuttosto buono"</em>. I numeri: <strong>1 ora e 13 minuti</strong>, <strong>12,44 $</strong>, <strong>419,2 mila token</strong>, <strong>23 verifiche</strong>, <strong>zero domande</strong>.</p>
+<p>A questo punto Herk cita la posizione ufficiale: nell'articolo di <strong>Anthropic</strong> su come promptare Opus 5.5 si consiglia di <strong>partire da medium</strong> e poi salire o scendere secondo necessità.</p>
+<h2>High: compaiono le regole del gioco</h2>
+<p>Il terzo mondo comincia <strong>fuori dall'edificio</strong>, con le bandiere dei relatori (Wyatt, Casper, Alex, Ed, Aiden, Sabrina, Liberty) e un pannello "il tuo host, Nate Herk" costruito con una sua foto vera. Le <strong>porte a vetri si aprono da sole</strong> quando ti avvicini, dettaglio che lo conquista. In alto a sinistra c'è un <strong>passaporto</strong> che tiene il conto dei posti visitati.</p>
+<p>La differenza vera è che il mondo ha <strong>meccaniche</strong>, non solo arredi. Per entrare nella sezione VIP bisogna <strong>andare a ritirare il braccialetto</strong>: Herk ci prova, viene fermato, fa il check-in, e solo allora le porte si aprono. Dentro ci sono le <strong>breakout room VIP</strong> con i vari membri del team in stanze separate, e un <strong>afterparty con pista da ballo, consolle del DJ e la registrazione vera della festa che gira</strong>. Sul main stage compaiono i <strong>sottotitoli in tempo reale</strong> di quello che Wyatt sta dicendo sul palco. Ci sono le tre track — foundation, advanced, enterprise — con le sessioni giuste dentro.</p>
+<p>Verdetto: <em>"low era okay, medium era meglio, high è ancora meglio"</em>. I numeri: <strong>1 ora e 7 minuti</strong> — cioè <strong>più veloce di medium</strong> —, <strong>16,31 $</strong>, <strong>509,3 mila token</strong>, <strong>22 verifiche</strong> e <strong>una domanda</strong>: è l'unico dei sei run in cui il modello si è fermato a chiedere qualcosa.</p>
+<h2>Extra: quello che vince</h2>
+<p>Loading screen un gradino sotto a quello di high, secondo lui, ma da lì in poi è tutto guadagno. Appena entrato scopre che <strong>può parlare con le persone</strong>: gli dicono cose contestuali e vere — <em>"il tool war panel mi ha chiarito un paio di dubbi"</em>, <em>"Salmon ha costruito un venditore vocale dal vivo"</em>, <em>"la stanza sul pricing era piena"</em>, <em>"hai preso la guida del compagno VIP?"</em>. La mappa è meno esplicativa di altre ma il posto sembra più professionale.</p>
+<p>Il dettaglio che decide la gara è banale e fisico: <strong>ci si può sedere</strong>. Entra nella sessione dell'advanced track, il video parte <strong>quando entra</strong> (non prima), può <strong>prendere posto</strong>, guardare, alzarsi, cambiare fila e mettersi davanti. <em>"Potremmo davvero seguire questo workshop e partecipare."</em> Nota anche che <strong>il suo personaggio gli somiglia</strong>, probabilmente modellato sulle foto delle sue thumbnail. C'è un tappeto rosso per le foto, una libreria delle risorse, e nella VIP lounge le stanze tematiche in cui si entra per davvero: in una può <strong>prendere il foglio di lavoro sul pricing</strong> e provare a capire come prezzare il proprio servizio. Può anche passare dietro il bancone del bar.</p>
+<p>I numeri: <strong>1 ora e 31 minuti</strong>, <strong>25,92 $</strong>, <strong>733,7 mila token</strong>, <strong>34 verifiche</strong> — <em>"di gran lunga il numero più alto finora"</em> — e <strong>zero domande</strong>.</p>
+<h2>Max: più del doppio del prezzo per un risultato peggiore</h2>
+<p>Qui la curva si rompe. La schermata iniziale è noiosa ma in linea col marchio. L'animazione d'ingresso è bella e la città sullo sfondo torna a essere Chicago. Poi comincia a camminare e la prima cosa che dice è: <em>"odio come cammina. Questa camminata è davvero, davvero brutta."</em> Le ombre saltano in modo strano appena entra.</p>
+<p>Alcune cose sono le migliori viste finora: <strong>gli stand dell'expo sono i più belli dell'intera prova</strong>, con i rappresentanti e le slide alle spalle; c'è una scala mobile; i personaggi hanno risposte sensate (<em>"Glenn ha quindici anni di esperienza in agenzia, la sua roba su land and expand era oro"</em>); dal networking si vede in alto a destra <strong>cosa sta andando sul main stage in quel momento</strong> e si può <strong>cambiare la sessione proiettata</strong> sul palco. Anche qui serve il badge per salire al piano VIP.</p>
+<p>Ma il resto non tiene. Il <strong>featured theater non riproduce il video</strong> mentre negli altri mondi partiva sempre. Mancano le foto profilo dei relatori, che pure c'erano negli asset. <strong>Non riesce a sedersi</strong> nelle sessioni di lavoro. L'afterparty è meno bello di quello di high. E alla fine <strong>attraversa un muro e il mondo si spacca</strong> — <em>"guarda qui, vedi tutto, e poi bum"</em>. Rimane bloccato dietro un NPC e deve saltarci sopra. Riepilogo suo: <em>"non mi piace la camminata, non mi piace il feel e ci sono dei bug"</em>.</p>
+<p>I numeri sono i più alti di tutti: <strong>2 ore e 28 minuti</strong>, <strong>50,38 $</strong>, <strong>1,18 milioni di token</strong> — tanti che <strong>la sessione ha sfondato la finestra ed è stata costretta all'auto-compattazione</strong> — e <strong>51 verifiche</strong>. Commento sarcastico: <em>"51 check. Davvero? Perché lì dentro c'erano parecchi bug."</em> Zero domande.</p>
+<h2>Ultracode: l'anomalia</h2>
+<p>L'ultimo giro parte bene: badge "Host, all access", logo curato (manca solo il puntino rosso che fa "live"), mappa etichettata meglio di tutte, e <strong>una camminata che finalmente sembra realistica</strong>. Il mondo <strong>ti dice cosa fare</strong>: in alto a sinistra compare <em>"fai il check-in al gate VIP sulla parete est della lobby"</em>, e lui si orienta ridendo con la filastrocca delle direzioni. Nella sezione VIP i video <strong>partono solo quando entri nella stanza</strong> — scelta che approva esplicitamente. C'è l'afterparty, meno affollato ma con la registrazione del Q&amp;A che gira, e una <strong>libreria dei materiali dei relatori</strong> in cui si possono <strong>aprire davvero i documenti</strong>. Nella zona foto può <strong>scattare un'immagine e scaricarla sul computer</strong> come file vero.</p>
+<p>I difetti: <strong>non può più chattare con le persone</strong> come nelle versioni precedenti, <strong>non può sedersi</strong>, sul main stage <strong>non c'è nessuno sul palco</strong> mentre prima sì, e a un certo punto la camminata si inceppa e glitcha dentro un workshop. C'è anche un canestro da basket con cui gioca male.</p>
+<p>I numeri: <strong>1 ora e 35 minuti</strong>, <strong>18,69 $</strong>, <strong>606,2 mila token</strong>, <strong>42 verifiche</strong>, zero domande. Cioè: <strong>più caro di high, più economico di extra e molto più economico di max</strong>.</p>
+<p>E qui arriva l'osservazione più utile del video per chi deve decidere. <strong>Che cos'è ultracode?</strong> Per definizione è <em>"effort extra più l'uso di workflow dinamici"</em> — la dashboard che mostra dopo lo scrive nero su bianco: <strong>"Ultracode (xhigh più workflow)"</strong>. Ma Herk racconta che ultracode "gli sembra strano da un po' di tempo", al punto che più volte si è chiesto se stesse davvero girando. Ha quindi <strong>scavato nei log di sessione</strong> e ha anche guardato il modello lavorare dal vivo: <strong>non ha avviato nessuno di quei workflow dinamici</strong>. Ha ripetuto la prova più volte. La sua conclusione è onestamente sospesa: <em>"non so se sia un bug attuale dell'<strong>harness</strong> di Claude Code, o se con Opus 5.5 ultracode in questo momento sia semplicemente un po' peggio"</em>.</p>
+<p>Seconda osservazione dello stesso tipo, altrettanto importante: <strong>nessuno dei sei run ha usato un sotto-agente</strong>. Ha controllato tutte le sessioni. <em>"Non hanno voluto delegare niente a nessuno, il che è interessante."</em> Quindi i token contati sono tutti quelli consumati dentro la sessione principale — e solo max, superati i 950 mila circa, ha dovuto compattare. Precisazione sua: normalmente non lascia mai arrivare una sessione così in alto, ma trattandosi di un <code>/goal</code> lanciato e abbandonato, non c'era nessuno a fermarla.</p>
+<h2>I numeri, tutti insieme</h2>
+<div class="tw"><table><thead><tr><th></th><th><strong>Low</strong></th><th><strong>Medium</strong></th><th><strong>High</strong></th><th><strong>Extra</strong></th><th><strong>Max</strong></th><th><strong>Ultracode</strong></th></tr></thead><tbody><tr><td><strong>Durata</strong></td><td>16m 43s</td><td>1h 13m</td><td>1h 7m</td><td>1h 31m</td><td>2h 28m</td><td>1h 35m</td></tr><tr><td><strong>Costo API</strong></td><td>3,91 $</td><td>12,44 $</td><td>16,31 $</td><td>25,92 $</td><td>50,38 $</td><td>18,69 $</td></tr><tr><td><strong>Token</strong></td><td>191,3K</td><td>419,2K</td><td>509,3K</td><td>733,7K</td><td>1,18M</td><td>606,2K</td></tr><tr><td><strong>Verifiche</strong></td><td>22</td><td>23</td><td>22</td><td>34</td><td>51</td><td>42</td></tr><tr><td><strong>Domande fatte</strong></td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<h2>Cosa dicono i grafici</h2>
+<p>Herk si fa costruire da Claude una dashboard, intitolata <strong>"Opus Effort Test"</strong>, con la premessa scritta in cima: <em>"Sei sessioni hanno eseguito lo stesso prompt con impostazioni di effort diverse. Da low a max sono tracciate in ordine; ultracode (xhigh più workflow) sta fuori dalla linea come punto arancione vuoto."</em></p>
+<p>I quattro indicatori in evidenza sono <strong>12,9× il costo di max rispetto a low</strong>, <strong>2,3× le verifiche di max rispetto a low</strong>, <strong>18,69 $ e 42 check per ultracode</strong>, e <strong>127,65 $ di spesa totale sui sei run</strong>.</p>
+<p>Il primo grafico, <em>Speed vs cost</em>, mette il tempo sull'asse orizzontale e il costo su quello verticale, con la dimensione del pallino a indicare le verifiche. Osservazione di Herk: verrebbe da dire che l'ideale sia in basso a sinistra (veloce ed economico), <em>"ma non proprio"</em> — perché lì c'è low, che è il risultato peggiore. Low sta a 16 minuti e meno di 5 dollari; max in alto a destra a 2h30 e 50 dollari; medium, high ed extra formano un gruppetto centrale, e ultracode siede proprio sotto extra, a pari tempo ma a 7 dollari in meno.</p>
+<p>Il secondo, <em>Growth relative to Low</em>, divide ogni statistica per il valore di low e mostra quattro curve: <strong>costo API 12,9×</strong>, <strong>durata 8,9×</strong>, <strong>token 6,2×</strong>, <strong>verifiche 2,3×</strong>. È il grafico che spiega la morale meglio di qualunque frase: tra low e max il <strong>costo</strong> cresce quasi sei volte più in fretta delle <strong>verifiche</strong>. Tutto quel denaro in più non va a comprare più controllo sul risultato: va a comprare più ragionamento, e il ragionamento in eccesso, oltre un certo punto, <strong>non si converte in qualità</strong>.</p>
+<p>Seguono i grafici singoli per durata, costo, token, verifiche e costo per verifica. Commento di Herk su questa parte: <em>"niente qui è troppo scioccante. Quello che mi ha sorpreso di più sono stati i risultati."</em></p>
+<h2>Il verdetto, e la regola operativa</h2>
+<p>Tornato a guardare i due finalisti — <strong>high</strong> ed <strong>extra</strong> — rivede entrambi i mondi per ricordarsi le impressioni. High gli era piaciuto molto come atmosfera, era "il più fluido", con buona fisica e le porte a vetri scorrevoli, e soprattutto <strong>quasi senza bug</strong>. Ma riguardandolo si accorge dei limiti: <strong>non si può parlare con nessuno</strong>, si attraversano le persone, <strong>non ci si può sedere</strong>, e in un punto si passa dritti attraverso un muro.</p>
+<p>Extra invece gli restituisce tutto quello che cercava: si può chiacchierare con la gente, <strong>ci si può sedere ovunque</strong>, si leggono i tre casi di studio, ci sono angoli per fare <strong>finte call di discovery</strong>, e c'è del merchandising con fisica vera. Unico difetto: <strong>non ha un afterparty VIP</strong> degno — quella che sembrava la zona esclusiva è solo una lounge con qualche stanza —, ed è un'esperienza VIP più povera rispetto ad altri run.</p>
+<p>La conclusione è netta: <em>"il mio vincitore è senza dubbio <strong>Extra</strong>. Extra ha fatto un lavoro fenomenale. Era circa <strong>metà del runtime e metà del costo di Max</strong>. Max, credo, era semplicemente troppo per non abbastanza bene. High era discreto: con uno o due prompt in più sarebbe probabilmente arrivato dove volevo. Ma per un <code>/goal</code> secco, extra ha consegnato un risultato straordinario."</em></p>
+<p>E poi la frase che vale da sola la visione, perché è la regola di routing che si porta a casa: <em>"<strong>Non ho amato medium, e per gran parte del mio knowledge work e di quello che faccio, medium va benissimo.</strong> Ma per questo compito specifico mi serviva un sacco di ragionamento: doveva passare in rassegna una montagna di roba, un sacco di video, trovare molte cose dentro i miei progetti, creare un'esperienza e <strong>tirare fuori una storia</strong> da tutto quanto."</em> Se dovesse portare questo lavoro al livello successivo — un'app e un mondo davvero rifiniti — <strong>ripartirebbe dall'output di extra e continuerebbe a iterare con extra</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=QCkHIyEPIYo (Nate Herk, 26:38; visto il 04/10/2026)</li>
+<li>report grezzo con trascrizione completa, i fotogrammi della tabella statistiche (<code>frame_0075.jpg</code>), della dashboard (<code>dashboard_kpi_2250.jpg</code>, <code>dashboard_speed_vs_cost_2320.jpg</code>, <code>dashboard_growth_vs_low_2330.jpg</code>) e del prompt integrale (<code>prompt_md_0055.jpg</code>)</li>
+<li>Concetti collegati: model-routing (la leva effort, i numeri della curva costo/qualità), spec-driven-prompting (criteri di giudizio e definizione di "fatto" scritti nel prompt), loop-engineering (i "check" come segnale di completamento auto-imposto), harness (ultracode che non attiva i workflow dinamici), context-rot (max che sfonda la finestra e auto-compatta), produttivita-claude-code, aios (il progetto Herk-2 come sistema operativo personale)</li>
+<li>Entità: nate-herk, claude-code, kie-ai, jev (citato di sfuggita come possibile cervello degli NPC, ma non è stato usato)</li>
+<li><strong>Contraddizione da segnalare al vault:</strong> model-routing oggi scrive che «alzare troppo l'effort (<strong>xhigh/max</strong>) può peggiorare… consegna peggio di <strong>high</strong>». Questo video conferma la parte su <strong>max</strong> ma smentisce quella su <strong>xhigh</strong>: qui <em>extra</em> (= xhigh) è il <strong>vincitore</strong> e batte high nettamente. La formulazione corretta sembra essere "oltre xhigh si peggiora", non "da xhigh in su".</li>
+<li><strong>Omesso:</strong> il segmento pubblicitario di <strong>Hostinger</strong> tra [07:26] e [08:17] (estensione per l'editor che collega l'account Hostinger a VS Code / Cursor / Claude Code / Codex, deploy e DNS senza uscire dall'editor, codice sconto "Nate Herk" per il 10%, dominio e email gratis per un anno) e la richiesta finale di mettere "mi piace" e i saluti. Omessi anche i commenti minuti per minuto sull'estetica dei singoli stand e alcune battute durante le camminate che non aggiungono informazione.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) <strong>È un test singolo, non ripetuto</strong>: un run per effort, giudicato <strong>a occhio</strong> da una sola persona, su un compito molto particolare (mondo 3D creativo con asset video). Nessuna metrica di qualità, nessuna ripetizione, nessun controllo del caso — la varianza tra due run allo stesso effort potrebbe benissimo essere dell'ordine delle differenze che vediamo qui. Vale come indizio forte, non come benchmark. (2) I <strong>costi sono calcolati</strong>, non pagati: lui gira su abbonamento e converte a tariffe API. (3) Il <strong>conteggio dei "check"</strong> è quello che l'agente dichiara di aver fatto, non una misura esterna: Herk stesso dubita dei 51 di max visti i bug. (4) La <strong>diagnosi su ultracode</strong> ("non attiva i workflow dinamici") viene dalla sua lettura dei log di sessione, non da una conferma di Anthropic; lui stesso non sa se sia un bug dell'harness o del modello. (5) Il numero dei <strong>token di ultracode</strong> nei sottotitoli automatici suona come "66.000": la tabella a schermo dice <strong>606,2K</strong>, ed è quello il valore giusto. Stessa cosa per medium, trascritto "$1244" invece di <strong>12,44 $</strong>, e per extra, "7323,000 token" invece di <strong>733,7K</strong>. A [22:56], ricordando a braccio, dice "3,98 $" per low mentre la tabella riporta <strong>3,91 $</strong>. (6) I sottotitoli automatici storpiano diversi nomi, corretti qui su quanto si legge a schermo: <em>key.ai</em> → <strong>Kie.ai</strong>, <em>frame IO</em> → <strong>Frame.io</strong>, <em>Enthropic</em> → <strong>Anthropic</strong>, <em>cloud code</em> → <strong>Claude Code</strong>, <em>Dave Evelar / Eblar</em> → <strong>Dave Ebbelaar</strong>, <em>Glido</em> → <strong>Glaido</strong>, <em>Herk 2</em> → <strong>Herk-2</strong>, <em>Alisa seat</em> → <em>aisle seat</em> (posto sul corridoio). Il relatore chiamato "Salmon" e alcuni nomi letti di sfuggita nei mondi 3D non sono verificabili con certezza. (7) L'articolo di Anthropic "how to prompt Opus 5.5" è citato a voce ma non mostrato: la raccomandazione "parti da medium" è riportata come la ricorda lui. (8) Il vault non ha ancora una pagina su <strong>Opus 5.5</strong> come modello: qui compare la sua <strong>scala di effort completa</strong> (low, medium, high, extra, max, ultracode), che è un dato nuovo e utile.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

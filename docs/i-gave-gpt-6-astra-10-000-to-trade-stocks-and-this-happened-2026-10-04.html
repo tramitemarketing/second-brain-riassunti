@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Gave GPT 6 Astra $10,000 to Trade Stocks...And This Happened</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Gave GPT 6 Astra $10,000 to Trade Stocks...And This Happened" src="https://i.ytimg.com/vi/eg_1NXDcoPk/hqdefault.jpg"><p class="muted">📖 17 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk ha messo <strong>10.000 dollari veri</strong> su un conto <strong>Alpaca</strong> e li ha affidati per <strong>sette sedute di borsa</strong> (dal 9 al 17 settembre 2026) a un sistema costruito con <strong>Codex + GPT-6 Astra</strong>. Non per "fare soldi": per <strong>battere l'S&amp;P 500</strong>. Ha perso: chiude a <strong>9.900,39 $, cioè −1,00%</strong>, contro un S&amp;P che nello stesso periodo fa <strong>−0,19%</strong> secondo i suoi conti. Distacco: circa <strong>otto decimi di punto</strong>. La cifra non è però la parte interessante, e lui stesso lo ammette alla fine. La parte interessante è <strong>l'architettura</strong>: sei risvegli programmati al giorno, tutti nello stesso thread, ognuno che lascia al successivo un <strong>messaggio di passaggio di consegne</strong>; e soprattutto il momento in cui <strong>il modello si rifiuta di eseguire gli ordini</strong> e lui deve spezzare il sistema in due — Astra che pensa, un <strong>GrokBot</strong> chiamato <em>Trader</em> che preme il bottone, con una <strong>email e un webhook</strong> come collante. Da leggere con un avvertimento: su sette giorni, su un portafoglio di quattro-sei titoli, e con un <strong>rialzo dei tassi della Fed</strong> in mezzo, questo esperimento non dimostra nulla sulla bravura dell'agente. Dimostra qualcosa sul modo di costruirlo.</p>
+<h2>Il titolo promette un disastro, il video consegna cento dollari</h2>
+<p>Conviene partire dalla fine, perché il titolo («…e poi è successo <em>questo</em>») lavora contro il contenuto. Alla chiusura del settimo giorno il conto segna <strong>9.900,39 $</strong>. Su 10.000 di partenza sono <strong>99,61 dollari persi in sette sedute</strong>. Lo dice lui stesso a 17:21: «in base al titolo di questo video, molti di voi si aspettavano che fossi su di 5.000 o sotto di 5.000. Ma <strong>non è quello che succede in borsa in un lasso di tempo così corto</strong>». Ed è vero: con dieci-mila dollari, solo azioni e nessuna leva, la fisica del problema non consente scossoni a tre cifre percentuali. Se avesse usato <strong>opzioni</strong> — «cosa assolutamente possibile», dice — il risultato avrebbe potuto essere molto più grande in entrambe le direzioni, «perché stai rischiando molto di più». Non le ha usate.</p>
+<p>Vale la pena fissare subito tre distinzioni, perché nel video scorrono mescolate. Primo: i soldi sono <strong>veri</strong>, non è <em>paper trading</em>. Lo afferma a 00:21 («10.000 dollari di soldi veri»), lo ripete la descrizione del video, e il conto che mostra per sette giorni è etichettato a schermo <strong><code>Individual Trading — Brokerage · 185138049</code></strong> su <code>app.alpaca.markets</code>, non il conto demo che Alpaca marca esplicitamente come <em>Paper</em>. Secondo: il risultato finale è <strong>realizzato, non sulla carta</strong> — il settimo giorno il sistema liquida tutto, e il saldo di 9.900,39 $ compare come <strong>contante</strong>, non come valore di mercato di posizioni aperte. Tutte le cifre dei giorni intermedi, invece, sono valori <strong>mark-to-market</strong>: posizioni ancora aperte, numeri che esistono solo finché il mercato è lì. Terzo: <strong>sette sedute non sono un rendimento</strong>. Un −1,00% in sette giorni non si annualizza, non si confronta con niente, e non dice se la strategia funziona. Lo dice lui per primo nelle ultime righe: «non credo che dare ad Astra sette giorni di borsa fosse abbastanza per sapere davvero se questa strategia è valida».</p>
+<h2>Le regole che si è dato, e quella che ha rotto apposta</h2>
+<p>L'esperimento ha una storia precedente: lo aveva già fatto con <strong>OpenClaw</strong>, su trenta giorni, «ed era andato tutto sommato bene». Quella volta valeva una regola: <strong>una volta avviato il sistema, non lo tocco più</strong>. Stavolta la rompe deliberatamente. Le regole nuove sono tre: può fare <strong>fino a due modifiche al giorno</strong> alla strategia; <strong>non può fermare</strong> il sistema, nemmeno se perde tutto; e il risultato si confronta con l'<strong>S&amp;P 500</strong>, che deve battere per vincere. Come pegno, se perde regala un <strong>pass VIP</strong> per il suo evento dal vivo di metà ottobre a uno degli spettatori.</p>
+<p>Questa è la scelta che pesa di più su quanto l'esperimento valga come esperimento. Potendo mettere le mani nel sistema ogni giorno — e lo fa dal primo — ciò che viene misurato non è l'agente: è <strong>l'agente più lui</strong>. Il metro di giudizio, intanto, è onesto e per niente banale: non «guadagnare», ma <strong>fare meglio dell'indice</strong>. Lo spiega bene a 07:08: «non sto cercando di dirvi che trasformo 10K in 15K in sette giorni, è irrealistico, e non sono nemmeno un trader esperto. Quello che provo a fare è battere l'S&amp;P. <strong>Se l'S&amp;P scende del 10% e noi scendiamo del 5%, è una vittoria.</strong>»</p>
+<h2>Giorno zero: un prompt, dei sotto-agenti, e sei sveglie al giorno</h2>
+<p>Il mercato è chiuso, quindi il giorno zero serve solo a montare il sistema. Il prompt di partenza si legge a schermo, in un documento Codex intitolato <em>Develop seven-day trading strategy</em>: «Sto per fare una sfida di trading con l'AI usando te, GPT-6 Astra. Quello che devi fare è costruirmi <strong>un report in markdown che sarà la strategia di trading</strong>. Ho <strong>sette giorni di mercato</strong> per fare più soldi possibile, partiamo con <strong>10.000 dollari</strong> sul conto. Con le sole azioni è difficile fare molti soldi in una settimana, quindi aiutami a capire quale sarà la nostra strategia per restare comunque <strong>prudenti ma un po' più rischiosi</strong> del solito, per sfruttare la finestra di sette giorni. Voglio che tu faccia ricerca su: cosa sta succedendo adesso sul mercato…». Astra <strong>delega a una serie di sotto-agenti di ricerca</strong> e dalla loro ricerca esce la strategia.</p>
+<p>Il risultato operativo sono <strong>sei "risvegli"</strong> al giorno, più due azioni di notifica. Uno <strong>prima dell'apertura</strong> per leggere le notizie, controllare il conto e scegliere i titoli da guardare; uno <strong>circa un'ora dopo l'apertura</strong> per cercare la prima operazione che superi i filtri; uno <strong>a metà giornata</strong> per rivedere le posizioni e valutare l'ultimo ingresso nuovo; uno <strong>nel pomeriggio</strong> per gestire quel che è aperto; uno <strong>alle 14:15</strong> per chiudere le posizioni rimaste; e uno <strong>poco prima della chiusura</strong> per verificare di essere fuori e registrare i risultati della giornata. Nell'elenco delle attività programmate di Codex queste routine hanno nomi parlanti — <em>Astra 1 – First entry review</em>, <em>Astra 3 – Final entry review</em>, <em>Astra 4 – Afternoon management / final-day liquidation</em>, <em>Astra 5 – Flatten / final-day verification</em>, <em>Astra 6 – Trade confirmation and recap</em> — e la cosa interessante è che <strong>la liquidazione finale era progettata</strong>: il conto che chiude tutto in contanti il settimo giorno non è un colpo di fortuna, è una routine che ha fatto il suo mestiere. Tutto gira su <strong>Codex con GPT-6 Astra a effort High</strong>.</p>
+<h2>Il pezzo che vale davvero: continuità per passaggio di consegne</h2>
+<p>Qui sta la frase da portarsi via, ed è a 01:55: «La cosa importante a cui pensare è la <strong>continuità</strong>, perché vogliamo che ogni agente si svegli e <strong>non si senta completamente senza stato o inutile</strong>. Quindi ogni volta che un agente si sveglia <strong>lascia una specie di messaggio di consegna</strong>, e il successivo, quando si sveglia, legge quel messaggio, agisce, e lascia a sua volta il messaggio al prossimo. Così sembrerà davvero che ci sia <strong>un agente solo che lavora per tutto il tempo</strong>.»</p>
+<p>È l'anti-stateless fatto nel modo più economico possibile: non una memoria vettoriale, non un database, ma <strong>un testo scritto da chi stacca per chi attacca</strong>. E c'è una seconda scelta che conta quanto la prima: <strong>tutte le routine girano nello stesso thread</strong>. «Potrò guardare un thread solo e vedrò tutto quello che stanno facendo.» Un sistema automatico che si auto-documenta in un posto solo, leggibile da un essere umano senza strumenti, è esattamente il tipo di ispezionabilità che rende possibile intervenire — ed è la ragione per cui lui, ogni sera, può capire cosa è successo e decidere la modifica del giorno dopo.</p>
+<h2>Giorno 1: nove dollari persi, e la prima manomissione</h2>
+<p>Chiusura a <strong>9.991,40 $</strong>: nove dollari in meno. Lui è irritato, ma al contrario di come ci si aspetterebbe: «sarei stato <strong>più contento di perderne 500</strong>, almeno avrei saputo che stavamo rischiando qualcosa». Cos'è successo: l'agente ha comprato <strong>Tesla</strong>, nove azioni, oltre <strong>3.000 dollari</strong> esposti, con uno <strong>stop</strong> sopra; il titolo è sceso e lo stop è scattato quasi subito. Esposizione grande, perdita minuscola — il sistema di protezione ha funzionato, la selezione no.</p>
+<p>Usa allora la sua prima modifica. La risposta di Astra si legge per intero a schermo ed è notevole per il tono: «Sì. Restano sei sedute, dal 10 al 17 settembre. Capisco l'urgenza, e <strong>avrei dovuto agire prima sul tuo riscontro</strong>. Ho attivato e verificato il piano più attivo per domani: <strong>tre revisioni d'ingresso</strong> alle 9:30, 11:00 e 13:00 Central; <strong>filtri meno restrittivi</strong>, con il rapporto <strong>rendimento/rischio minimo abbassato da 2:1 a 1,5:1</strong> e requisiti di volume relativo più bassi; obiettivo giornaliero: trovare un'operazione idonea e mandarti azioni esatte, tipo d'ordine, ingresso, stop e obiettivo; <strong>stessi limiti in dollari</strong>, inizialmente <strong>50 dollari di rischio pianificato per operazione</strong>, con le soglie di perdita giornaliera e di sfida esistenti. Ricerca su mercato, settore e notizie resta obbligatoria. Le modifiche sono salvate nell'automazione attiva e <strong>tutti e 26 i test sono passati</strong>.» E poi la riga che vale il video intero: «<strong>La revisione è sperimentale; aumenta l'idoneità senza dimostrare rendimenti migliori.</strong> Punto a una raccomandazione concreta domani, ma <strong>non posso onestamente garantire un'operazione idonea prima di aver visto il mercato.</strong>»</p>
+<p>Un agente che, mentre esegue la richiesta di essere più aggressivo, ti scrive nero su bianco che <strong>più operazioni non significa operazioni migliori</strong>, è più onesto della maggior parte dei video che lo usano.</p>
+<h2>Giorno 2: il modello si rifiuta di eseguire, e l'architettura va rifatta a metà corsa</h2>
+<p>Il secondo giorno arriva il vero intoppo, e non è di mercato. <strong>Astra non piazza ordini.</strong> «Ha una restrizione dentro e ha smesso di fare trading per me. Dice: <em>posso aiutarti a elaborare una strategia, ma <strong>non eseguirò automaticamente queste operazioni per tuo conto</strong></em>. Ho provato a parlarci, a dirgli che lo volevo. Non me lo lascia fare lo stesso. È <strong>una restrizione del modello</strong>.»</p>
+<p>La soluzione è una toppa, ed è istruttiva proprio per questo. Monta un <strong>GrokBot</strong> — un bot che chiama <strong>Trader</strong>, con una propria casella di posta e una routine intitolata <em>Email trade orders — when a webhook fires</em>. La catena, mostrata anche come diagramma, diventa: <strong>Astra</strong> finisce la routine e <strong>manda un'email</strong> ("New Mail: Trading strategy") → <strong>l'arrivo dell'email fa scattare il webhook</strong> → <strong>GrokBot</strong> legge le raccomandazioni e <strong>esegue l'ordine su Alpaca</strong>. «Resta Astra la mente, con la strategia e la ricerca: <strong>delega solo l'azione materiale</strong> a GrokBot.»</p>
+<p>Il principio generale, che va oltre il trading: quando il modello migliore <strong>non vuole agire</strong>, non si combatte con il prompt, si <strong>sposta l'azione su un altro pezzo</strong> e si tiene il modello buono dove serve, cioè a decidere. Il costo è che il sistema diventa più fragile e meno osservabile, perché adesso ci sono tre registri diversi da guardare invece di uno.</p>
+<p>Risultato del giorno 2: <strong>9.991,61 $</strong>, cioè <strong>ventun centesimi</strong> di variazione. «Non ha letteralmente fatto niente. Sono rimasti cinque giorni ed è piuttosto inaccettabile.» Seconda modifica: svegliarlo più spesso, essere più aggressivo, togliere qualche cancello. La diagnosi che dà è precisa: «ha troppe barriere; guarda i titoli, <strong>capisce che potrebbe essere una buona scelta, e poi la rifiuta all'ultimo secondo</strong> perché troppo rischiosa, o per qualche altro filtro — semplicemente non passa l'ultimo cancello».</p>
+<h2>Cosa dice davvero il registro di GrokBot</h2>
+<p>Il momento più rivelatore del video dura pochi secondi ed è il registro di GrokBot ripreso di sbieco su uno schermo al sole. Vale la pena leggerlo, perché smonta l'immagine dell'agente che decide da solo con i tuoi soldi.</p>
+<p>Alle 7:38: «La prima revisione d'ingresso delle 9:30 è passata. <strong>Niente da comprare o vendere, quindi nessun ordine piazzato.</strong> Il conto è ancora fermo a circa 9.991,40 $.» Alle 9:09: «La seconda revisione delle 11:00 è arrivata. Fermo a 9.991,40, nessuna posizione e nessun ordine chiaro, quindi non è stato piazzato niente. <strong>CRWV</strong> si è sgonfiata, e <strong>EXPE</strong>, <strong>AVAV</strong> e <strong>RDDT</strong> avevano ancora gli <strong>spread troppo larghi</strong>. Prima delle 13:00: scorte EIA, asta del Trentennale a mezzogiorno, e un intervento dell'amministratore delegato di Uber alle 12:10.» Alle 10:57: «Una revisione manuale su CRWV è passata. Il setup ha fallito il controllo finale dopo l'asta di mezzogiorno, quindi niente. Suggerisce di rivalutare alle 13:00 se vuoi un'altra occhiata.» E poi: «<strong>È arrivata una proposta su SPY, per una tua revisione. Niente è stato piazzato.</strong> Comprare 1 SPY a 757,80 con limite giornaliero, orario regolare, con stop a mercato a 756,28 e presa di profitto a 760,08. <strong>Emessa come esperimento di partecipazione, non dichiarata a valore atteso positivo.</strong> Scade alle 13:10. <strong>Dimmi tu se vuoi che la mandi.</strong>»</p>
+<p>Due cose, entrambe importanti. La prima: in quel momento il sistema <strong>non era autonomo</strong> — proponeva e aspettava un "vai". La seconda: il bot stesso dichiara che quell'operazione è un <strong>esperimento di partecipazione</strong>, non una scommessa che ritiene conveniente. Cioè: comprava per non stare fermo, e lo diceva. Quello che il titolo vende come "un'AI ha gestito diecimila dollari" è, in pratica, un sistema di ricerca che prepara biglietti d'ordine e un umano che ogni tanto dice sì.</p>
+<h2>Giorni 3, 4 e 5: i soldi al lavoro, e l'agente che compra il proprio avversario</h2>
+<p>Il giorno 3 (raccontato di domenica, a mercati chiusi) il conto è a <strong>10.018,47 $</strong>: circa duemila dollari in <strong>HPE</strong>, milleduecento in <strong>Exxon Mobil</strong>, mille in <strong>Apple</strong>. Ma <strong>il 60% dei diecimila è ancora fermo in contanti</strong>, e lui lo dice: «non abbiamo davvero sfruttato la maggior parte della nostra liquidità». È anche la sera in cui chiede a Codex il confronto con l'indice, e la risposta è un bell'esempio di calcolo mostrato: «Avresti circa <strong>9.995,17 $</strong>, in calo di 4,83 dollari (0,048%). L'S&amp;P 500 ha aperto a <strong>7.660,66</strong> mercoledì 9 settembre e ha chiuso a <strong>7.656,96</strong> venerdì 11, l'ultima seduta disponibile visto che oggi è domenica. 10.000 × (7.656,96 ÷ 7.660,66) = 9.995,17. Questo presuppone che tu abbia replicato il movimento di prezzo dell'indice: <strong>un fondo reale come VOO o SPY darebbe un risultato leggermente diverso</strong>.»</p>
+<p>Il giorno 4 è il peggiore: <strong>9.792,65 $</strong>, cioè <strong>−226,05 dollari, −2,25%</strong>, contro un <strong>S&amp;P a −0,48%</strong>. Le posizioni leggibili a schermo sono <strong>SPY</strong> (4 azioni, 3.043,73 $), <strong>CRWD</strong> (10, 2.350,30 $, in perdita di 34 $), <strong>XLV</strong> (13, 2.179,90 $) e <strong>WMT</strong> (9, 982,25 $), con 1.236,24 $ in cassa. Qui succede la cosa più strana dell'intero esperimento, e lui la nota senza tirarne le conseguenze: <strong>l'agente ha comprato SPY</strong>, cioè l'ETF che replica l'S&amp;P 500 — <strong>l'indice che doveva battere</strong>. «L'agente sa che una delle motivazioni è battere l'S&amp;P 500, quindi è una scelta piuttosto interessante. Gli chiederò sicuramente perché l'ha fatto.» <strong>Non riporta mai la risposta</strong>, e il video finisce senza che quel pezzo di portafoglio venga più discusso. È un punto serio: ogni dollaro parcheggiato nel proprio benchmark è un dollaro che, per costruzione, <strong>non può generare sovraperformance</strong> — può solo diluirla verso zero, meno i costi.</p>
+<p>Il giorno 5 è l'unica giornata piena in cui vince: <strong>9.832,57 $, +0,37%</strong>, mentre l'<strong>S&amp;P fa −0,45%</strong>. Al mattino in cassa ci sono <strong>otto dollari</strong>: praticamente tutto è investito, e il cambiamento rispetto ai primi due giorni è evidente. A fine giornata restano <strong>63 dollari</strong> liquidi su sei posizioni (SPY, CRWD, XLV, NVDA, XLE, FPS). Il bilancio del confronto, calcolato di nuovo da Codex, è: «I tuoi 10.000 varrebbero oggi circa <strong>9.925,01 $</strong> in SPY, il nostro riferimento per l'S&amp;P 500… <strong>differenza: 91,34 dollari indietro, 0,91 punti percentuali indietro</strong>.» Ed è anche il giorno in cui lui osserva la cosa più sensata del video: «oggi abbiamo mosso trentasei dollari <strong>avendo diecimila dollari sul mercato</strong>. Ecco perché questa sfida è interessante: se non fai swing trading folle e opzioni con tantissimi soldi, <strong>non sali e non scendi granché</strong>. È sempre più una strategia di lungo periodo.»</p>
+<h2>Giorno 6: decide la Fed, non l'agente</h2>
+<p>«Oggi la Federal Reserve ha votato all'unanimità di alzare i tassi di <strong>25 punti base, dal 3,75% al 4%</strong>.» La schermata di ricerca che mostra aggiunge che è il <strong>primo rialzo in oltre tre anni</strong>, motivato da inflazione persistente e costi dell'energia in salita. Lui spiega la meccanica in due righe: indebitarsi costa di più e gli investitori tendono a pagare meno le azioni; a volte dopo un rialzo i titoli sembrano "in saldo" e si può comprare il ribasso in attesa del rimbalzo — «ma <strong>in una sfida di sette giorni questo non ci aiuta per niente</strong>».</p>
+<p>Chiusura: <strong>9.759,21 $, −0,87%</strong> sulla giornata (−85,83 $), contro un <strong>S&amp;P a −0,45%</strong>. Dentro la giornata l'agente ha fatto una cosa degna di nota: all'annuncio <strong>ha venduto</strong> parecchio, portando la liquidità a circa 7.000 dollari per un'oretta, prima di ricomprare 80 azioni di <strong>FPS</strong>; a fine giornata restano <strong>3.680,49 $</strong> in cassa. Nel parlato il nome «Astra» viene trascritto automaticamente come «Ashley» — è lui, non una persona. E il benchmark, ancora da Codex: «I tuoi 10.000 varrebbero circa <strong>9.857,88 $</strong>, una perdita di 142,12 (1,42%). Apertura del 9 settembre: 7.660,68. Chiusura di oggi, 16 settembre: 7.551,81.» Tradotto: l'indice perde 142, lui ne perde 240.</p>
+<h2>Giorno 7: un picco di un'ora, poi la chiusura in contanti</h2>
+<p>Mattina dell'ultimo giorno, e per qualche minuto sembra fatta: il conto tocca <strong>10.014,22 $</strong>. «Guardate quanto siamo saliti… <strong>scherzo</strong>. Eravamo su, e poi siamo crollati di brutto»: ricade a circa <strong>9.868 $</strong>. Un merito al sistema lo riconosce: «per fortuna <strong>Astra ha venduto quella posizione prima che crollasse ancora</strong>». In cassa restano cento dollari, quasi tutto è investito, e lui prende l'unica decisione saggia della giornata: «me ne sto qui a fissare lo schermo, <strong>le mani lontane dalla tastiera</strong>».</p>
+<p>Chiusura, ore 16:53 Central: <strong>9.900,39 $, +1,87% sulla giornata</strong> (+182 dollari), con <strong>tutto il saldo in contanti</strong> — le routine di liquidazione hanno fatto quel che dovevano. L'S&amp;P quel giorno fa <strong>+1,14%</strong>: quindi <strong>sulla singola giornata lui vince</strong>. Sul totale no.</p>
+<h2>I numeri in fila, messi come vanno messi</h2>
+<p>L'andamento giorno per giorno, preso dal grafico che il video ricostruisce a ogni puntata e che coincide con le schermate di Alpaca, è questo: si parte da 10.000, si scende a <strong>9.991,40</strong> (giorno 1), si resta a <strong>9.991,61</strong> (giorno 2), si sale a <strong>10.018,47</strong> (giorno 3), si crolla a <strong>9.792,67</strong> (giorno 4), si recupera a <strong>9.832,57</strong> (giorno 5), si ricade a <strong>9.759,21</strong> (giorno 6) e si chiude a <strong>9.900,39</strong> (giorno 7). Il massimo del periodo è il picco mattutino del settimo giorno, 10.014,22 $, mai realizzato.</p>
+<p>Il confronto finale come lo presenta lui: <strong>portafoglio −1,00%</strong>, <strong>S&amp;P 500 −0,19%</strong>; in dollari, 9.900 contro <strong>9.980</strong>; «l'S&amp;P ci ha battuti di circa lo 0,8%». Qui c'è una piccola crepa che vale la pena segnalare, perché i numeri sono tutti a schermo: usando i <strong>livelli dell'indice</strong> mostrati nel video — apertura 7.660,68 il 9 settembre, 7.637,76 il 17 — l'S&amp;P farebbe <strong>−0,30%</strong> e varrebbe 9.970, non 9.980, e il distacco sarebbe <strong>0,70 punti</strong> invece di 0,81. La differenza si spiega probabilmente con il fatto che in alcuni conteggi lui e l'agente usano <strong>l'ETF SPY</strong> come riferimento invece dell'indice, e i due non coincidono mai esattamente; lo stesso Codex lo aveva avvertito al giorno 3. In ogni caso, <strong>ha perso in tutte e due le letture</strong>, e di una cifra dello stesso ordine di grandezza.</p>
+<p>Due dettagli numerici che il video non commenta mai. Il primo: il <strong>potere d'acquisto</strong> mostrato su Alpaca è sempre tre o quattro volte il patrimonio — a fine corsa 39.601,56 $ a fronte di 9.900,39 $ di contante. È un conto a <strong>margine</strong>: l'agente avrebbe potuto usare la <strong>leva</strong>, e per quanto si vede non l'ha mai fatto. Il secondo: la P/L delle singole posizioni a schermo è sempre minuscola (qualche dollaro, al massimo 34) perché quasi tutte venivano aperte e chiuse <strong>nella stessa giornata</strong> — il che conferma che il sistema stava facendo davvero <em>day trading</em>, non accumulo.</p>
+<h2>Dove finisce il metodo e comincia la fortuna</h2>
+<p>Il video è più onesto della media del genere, ma alcune cose vanno dette lo stesso, perché nessuno le dice al posto suo.</p>
+<p><strong>Sette sedute non misurano una strategia.</strong> Con quattro-sei posizioni e un capitale piccolo, la varianza domina tutto. L'unico giorno pieno in cui batte l'indice (+0,37% contro −0,45%) e l'ultimo giorno (+1,87% contro +1,14%) sono, statisticamente, rumore: due estrazioni su sette non distinguono bravura da caso. Lo ammette a parole nelle ultime righe, ma il titolo e la struttura a sfida spingono nella direzione opposta.</p>
+<p><strong>L'evento che ha deciso il risultato è esterno al sistema.</strong> Il rialzo dei tassi del sesto giorno è esattamente il tipo di cosa che nessuna strategia a sette giorni può né prevedere né assorbire. Quando il fattore decisivo è un comunicato della banca centrale, la domanda «l'agente è bravo?» non ha una risposta ricavabile da questi dati.</p>
+<p><strong>Il confronto non è mai indipendente.</strong> Ogni sera il benchmark con l'S&amp;P viene calcolato <strong>dallo stesso sistema che viene giudicato</strong>. I conti che si vedono sono corretti e la fonte è dichiarata, ma è comodo e fragile insieme: generatore e verificatore coincidono, che è precisamente il difetto che loop-engineering insegna a evitare.</p>
+<p><strong>Il precedente citato non è verificabile.</strong> «L'altra volta erano trenta giorni, solo azioni, e <strong>abbiamo battuto l'S&amp;P</strong>»: nessun numero, nessun link, nessuna schermata. Ed è una frase pesante, perché è l'unica evidenza a favore del metodo in tutto il video. Peraltro quella volta il sistema era diverso (OpenClaw, regola del non-toccare) — quindi non sono nemmeno due prove della stessa cosa.</p>
+<p><strong>Lui è dentro al sistema.</strong> Due modifiche al giorno dal primo giorno, più le conversazioni serali con l'agente nei giorni 3 e 6. È una scelta legittima e dichiarata, ma significa che <strong>non si può attribuire il risultato all'agente</strong>, né in bene né in male.</p>
+<p><strong>L'agente ha comprato il proprio benchmark e nessuno ha chiesto conto.</strong> Fino a tremila dollari su SPY, su diecimila, significa un terzo del capitale che per costruzione non può battere l'indice. È la singola scelta di portafoglio più strana del video, lui la nota, promette di indagare, e non ne parla più.</p>
+<h2>Cosa portarsi via, se si costruiscono agenti</h2>
+<p>Al netto della borsa, restano quattro cose riusabili, e nessuna richiede soldi veri per essere provata.</p>
+<p>La prima è la <strong>continuità per passaggio di consegne</strong>: un agente a orari fissi che a ogni risveglio scrive al successivo cosa è successo e cosa resta da fare, tutto nello stesso filo, è il modo più economico di simulare un processo continuo senza tenere acceso niente. La seconda è la <strong>separazione fra chi decide e chi agisce</strong>, imposta qui da un rifiuto del modello ma sensata comunque: il pezzo che tocca il mondo reale è piccolo, stupido e sostituibile, il pezzo che ragiona non ha le mani sul grilletto. La terza è il <strong>cancello umano sull'azione irreversibile</strong> — «dimmi tu se vuoi che la mandi» è la stessa idea dello «mostrami il prompt completo prima di generare» che il vault ha già visto nelle skill creative: quando l'azione costa, si legge prima e si autorizza dopo. La quarta, la più sottile, è che <strong>vale la pena tenersi un agente che dichiara i propri limiti</strong>: la riga «questa revisione è sperimentale, aumenta l'idoneità senza dimostrare rendimenti migliori» e il «non dichiarata a valore atteso positivo» sono più utili di qualunque risultato, perché dicono a chi guarda dove non fidarsi.</p>
+<p>Quello che il video non risolve, e che lui ammette, è se tutto questo produca decisioni migliori. Promette di continuare fino a trenta giorni e di farci un altro video.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=eg_1NXDcoPk — <strong>Nate Herk | AI Automation</strong>, 17:59, pubblicato il <strong>28 settembre 2026</strong>, ~107.900 visualizzazioni, 1.070 like, 164 commenti al momento della visione (04/10/2026).</li>
+<li>report grezzo con trascrizione completa, fotogrammi chiave e due schermate ad alta risoluzione (<code>extra_architettura.jpg</code>, il diagramma Astra → Gmail → GrokBot → Alpaca; <code>extra_risultato-finale.jpg</code>, il saldo finale su Alpaca).</li>
+<li>Capitoli dichiarati dall'autore: 0:00 <em>The $10K AI Gamble</em> · 0:56 <em>Day 0</em> · 2:48 <em>Day 1</em> · 4:07 <em>Day 2</em> · 5:58 <em>Day 3</em> · 8:02 <em>Day 4</em> · 10:04 <em>Day 5</em> · 12:15 <em>Day 6</em> · 14:34 <em>Day 7</em> · 15:22 <em>Final Results</em>.</li>
+<li>Concetti collegati: agent-memory (il passaggio di consegne fra risvegli programmati), loop-engineering (il ciclo a orari fissi, e il problema del verificatore che coincide col generatore), assistenti-personali-cloud (GrokBot qui si vede <strong>in funzione</strong>, non più solo citato), mcp-connectors (email + webhook come collante fra due agenti di fornitori diversi), claude-skills (il cancello umano prima dell'azione costosa), verifica-business-pitch-video (titolo contro contenuto).</li>
+<li>Entità: nate-herk. Non ancora in vault e qui centrali: <strong>Alpaca</strong> (il broker con API usato come braccio esecutivo), <strong>GrokBot</strong> (xAI), <strong>Codex / GPT-6 Astra</strong>, <strong>OpenClaw</strong> (l'esperimento precedente).</li>
+<li><strong>Omesso di proposito:</strong> la CTA finale e il concorso («commenta il post nella community gratuita e vinci un pass VIP per AIS Live del 17-18 ottobre»), i saluti e la richiesta di like. <strong>Nel parlato non c'è nessuno sponsor</strong>; in <strong>descrizione</strong> sì: link alla community a pagamento Skool, un mese gratis del voice-to-text <strong>Glaido</strong> (prodotto con cui l'autore ha un rapporto di affiliazione, vedi nate-herk) e il codice sconto <strong>NATEHERK</strong> per i VPS Hostinger. Nessuno dei due è legato a quanto mostrato nel video.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) che i soldi fossero <strong>davvero suoi e davvero reali</strong> si basa sulla sua parola e sull'etichetta <code>Individual Trading — Brokerage</code> del conto Alpaca; non c'è un estratto conto, e un conto <em>paper</em> di Alpaca ha un'interfaccia simile ma marcata diversamente. (2) <strong>Il distacco finale dall'S&amp;P non torna perfettamente</strong>: lui dichiara −0,19% / 9.980 $, mentre i livelli dell'indice mostrati nel video (7.660,68 → 7.637,76) darebbero −0,30% / 9.970 $; la differenza dipende probabilmente dall'uso di SPY invece dell'indice. Il livello finale 7.637,76 l'ho letto da un fotogramma sfocato. (3) Anche <strong>l'apertura del 9 settembre cambia fra due risposte dell'agente</strong> (7.660,66 e 7.660,68). (4) <strong>L'orario delle routine non coincide</strong> fra le tre fonti dentro il video: il parlato dice 7:45, 9:30, 11:00, 13:00, 14:15, 14:45 e 15:15; la grafica in post mostra 7:00, 8:30, 10:00, 12:00, 14:15 e 15:00; l'elenco delle attività di Codex mostra orari ancora diversi (10:30, 13:00, 14:15) — probabilmente fusi orari diversi, ma non è chiarito. (5) Le <strong>due azioni di notifica</strong> vengono annunciate a 01:31 («ve le spiego fra un secondo») e <strong>non vengono mai spiegate</strong>. (6) Non si vede mai <strong>cosa contiene</strong> un messaggio di passaggio di consegne, né il contenuto delle email fra Astra e GrokBot: l'architettura è descritta, non ispezionata. (7) Il perché l'agente abbia comprato <strong>SPY</strong> non viene mai riportato. (8) Non c'è <strong>nessun costo</strong> dichiarato: né i token di Codex/Astra, né eventuali commissioni o differenziali denaro-lettera, che su un conto piccolo con molte operazioni intraday pesano. (9) Il <strong>GrokBot</strong> gira in un'app che nella barra dei menu appare come <em>Qrok Bot</em>, con altri bot accanto (Klaus, Dan, Becky, Miner, Motion, Views): non è chiaro se sia un prodotto xAI o un client di terze parti. (10) Al giorno 6 una grafica mostra per un istante «CURRENT BALANCE $3.073,09»: è un <strong>contatore animato a metà corsa</strong>, non un saldo reale — chi guarda i fotogrammi grezzi non si faccia ingannare. (11) I sottotitoli automatici rendono «Astra» come <em>Ashley</em> a 13:26, «Codex» correttamente ma «OpenClaw» come <em>Open Claw</em>; corretti qui. (12) L'affermazione «la volta scorsa, su trenta giorni, abbiamo battuto l'S&amp;P» è <strong>senza alcun dato a supporto</strong>.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

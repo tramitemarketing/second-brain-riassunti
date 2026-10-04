@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Tested Jev on 12 Real Use Cases. My Honest Thoughts.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Tested Jev on 12 Real Use Cases. My Honest Thoughts." src="https://i.ytimg.com/vi/ymgH8jS6Wb8/hqdefault.jpg"><p class="muted">📖 14 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk mette <strong>Jev</strong> — il modello che decide e non scrive — alla prova su <strong>dodici compiti veri</strong>, e il risultato è più netto di quanto promettesse il titolo. Dove il lavoro è «classifica una montagna di roba» Jev stravince in modo imbarazzante: <strong>mille email con sette domande ciascuna in sei secondi per nove centesimi</strong>, contro i cinque minuti e sessantadue centesimi di <strong>GPT-5.6 Luna</strong> — dodici volte il costo e quarantasei volte il tempo. Dove invece servirebbe capire <em>perché</em>, Jev non c'è: una slide del suo stesso sito-spiegazione elenca ciò che il modello <strong>non sa fare</strong> (scrivere, riassumere, trovare temi, spiegare, fare conti e date, vedere immagini) e chiude con la frase più utile dell'intero video: <strong>«"non può allucinare" significa solo che resta dentro la tua lista — può comunque scegliere male»</strong>. La scoperta di metodo è che un modello che non analizza può lo stesso produrre un'analisi, se invece di chiedergli i temi gli fai <strong>sette domande chiuse</strong> e leggi i conteggi: così scopre che di <strong>565 spezzoni</strong> dei suoi video solo <strong>26 sono pubblicabili</strong> e <strong>488 hanno un gancio debole</strong>. Il controesempio è altrettanto onesto: il bot di trading costruito con Jev ha chiuso <strong>46 operazioni, zero vinte, −26 dollari in un'ora e venti</strong>, mangiato dalle commissioni, che costano <strong>duecentocinquanta volte</strong> le decisioni del modello. La raccomandazione finale è di non fidarsi: prima si costruisce un <strong>golden set di cento casi con cento risposte giuste</strong> e si fanno correre Jev, Opus e Sol sullo stesso banco.</p>
+<h2>Che cos'è Jev, detto in modo che si capisca</h2>
+<p>L'apertura è una definizione secca: Jev è <strong>«un'AI che prende decisioni ma non scrive niente»</strong>. Non produce token in uscita, non è una cosa con cui puoi conversare. Prende un input e restituisce <strong>una delle tre forme</strong>, che il video chiama con i nomi della documentazione: <strong>noul</strong> per il sì/no (restituito come probabilità da 0 a 1, con la confidenza), <strong>choice</strong> per la scelta fra opzioni date (fino a <strong>255</strong>), e <strong>score</strong> per il punteggio su una scala che va da <strong>due a dieci livelli</strong>. L'esempio a schermo è un ticket di assistenza — <em>«la mia connessione Stripe non funziona da tre giorni, sto perdendo vendite»</em> — che in <strong>0,28 secondi</strong> diventa tre risposte: <em>è urgente?</em> sì al 99%, <em>quale team?</em> tecnico, <em>quanto è frustrato?</em> uno su due.</p>
+<p>Il punto che Nate ripete e che conviene fissare è che <strong>le opzioni le decidi tu, prima</strong>: «sei completamente in controllo, imposti Jev dicendo come deve decidere e qual è il criterio di classificazione».</p>
+<p>Il contesto è il tweet di lancio di <strong>Diogo Almeida</strong>, che si presenta come chi ha «co-inventato ChatGPT» e che dichiara due anni passati in stealth a costruire un nuovo modo di addestrare i modelli: <strong>RLCD</strong>, <em>Reinforcement Learning for Calibrated Decisions</em>, apprendimento per rinforzo orientato a decisioni calibrate. I numeri dell'annuncio sono i soliti: <strong>20-200 volte più veloce, 40-400 volte più economico, token in uscita gratis</strong>. L'accesso passa dalla lista d'attesa su <strong>TypeSafe AI</strong> — «e poi in qualche ora dovresti riuscire a entrare» — oppure, senza aspettare, dal <strong>gateway di Vercel</strong> e da <strong>OpenRouter</strong>.</p>
+<h2>I numeri che TypeSafe mette sul tavolo, e la riga scritta in piccolo</h2>
+<p>Il video mostra la slide della velocità e la etichetta onestamente come <strong>«test di TypeSafe stessa»</strong>: Jev impiega <strong>0,4 secondi</strong> per compito, <strong>GPT-5.6 Terra</strong> 10,1, <strong>Luna</strong> 12,9, <strong>Sol</strong> 23,3. Sotto il grafico però ci sono due righe che il parlato non legge e che valgono quanto il grafico. La prima: <strong>«Non più intelligente. Stesso test: Jev 67,8%, Luna 66,8%, Terra 67,9%, Sol 74,1%»</strong> — cioè Jev è in mezzo al gruppo, e il modello più grosso resta avanti di sei punti. La seconda: <strong>«relazione esterna: un ingegnere di Vercel ha misurato Jev da 5 a 18 volte più veloce di Luna»</strong>, che è un ordine di grandezza sotto il «20-200x» dell'annuncio.</p>
+<p>Sui costi la slide è <em>«Costo mensile, 10.000 decisioni al giorno»</em>: <strong>Jev 10 dollari, Luna 55, Sol 1.080, Astra 2.700</strong>. Ma il sottotitolo della sezione è la vera lezione — <strong>«i risparmi richiedono volume»</strong> — e la riga sotto il grafico lo dimostra: a cento decisioni al giorno si parla di <strong>dieci centesimi contro cinquantacinque centesimi, undici dollari e ventisette dollari</strong>, cifre su cui nessuno cambia architettura. Nate aggiunge la cautela giusta: «stai pagando molto meno, quindi devi assicurarti che la <strong>qualità sia esattamente la stessa</strong> per giustificarlo».</p>
+<h2>Il perimetro: cosa Jev non sa fare</h2>
+<p>La sezione più preziosa del sito-spiegazione si intitola <strong>«Cosa non può fare»</strong>, sottotitolo <em>«ordina e decide, ma non sa analizzare»</em>, e nomina sei cose: <strong>scrivere o riassumere, trovare temi, spiegare il perché, matematica o date, vedere immagini o video</strong>. Sotto, in grigio, la frase che vale da sola il video: <strong>«"non può allucinare" significa che resta dentro la tua lista. Può comunque scegliere male.»</strong> È la stessa distinzione che il vault aveva già registrato da altre fonti, ma qui è scritta a chiare lettere da chi presenta il prodotto.</p>
+<p>Il secondo limite strutturale è la <strong>finestra di contesto: 64.000 token</strong>, contro il milione a cui si è abituati con Claude e GPT. Non è un dettaglio: significa che Jev lavora per forza <strong>un oggetto alla volta</strong>, mai sul corpus intero.</p>
+<h2>Il pattern che regge tutto: l'imbuto</h2>
+<p>La slide <em>«Davanti a un mucchio grosso»</em> spiega in un disegno il modo principale in cui Jev entra in un flusso di lavoro. Si parte da <strong>5.367 commenti YouTube</strong>; Jev li smista in <strong>tre minuti per circa sedici centesimi</strong>; ne escono tre mucchietti — <strong>852 che chiedono una risposta, 453 di gente bloccata, 42 che vogliono comprare</strong> — e solo a quel punto entra <strong>ChatGPT, che legge soltanto i mucchietti piccoli</strong> e risponde alla domanda vera: <em>«su cosa sono bloccate queste 453 persone?»</em>. La frase di Nate: «così non stai usando un modello più lento e più caro per <strong>categorizzare</strong> tutti quei commenti in partenza».</p>
+<p>La stessa slide chiude con due colonne che sono la regola operativa più chiara del video. <strong>Prendi Jev</strong> quando hai <strong>migliaia di oggetti</strong>, quando <strong>qualcosa aspetta la risposta</strong> (cioè la latenza conta davvero) e quando <strong>una persona ricontrolla i casi incerti</strong>. <strong>Resta su ChatGPT</strong> quando hai <strong>una manciata di oggetti</strong>, quando <strong>ti serve un perché</strong>, e quando <strong>una scelta sbagliata costa cara</strong>.</p>
+<h2>Il banco di prova: mille email, sette domande</h2>
+<p>La parte più solida del video è il benchmark sulle email. La dashboard che Nate si è costruito — si chiama <strong>Uppit AI Sorter</strong> — carica <strong>mille email vere</strong> e vi applica <strong>sette domande</strong> insieme: se è una fattura o ricevuta, se è una proposta di collaborazione, se è una truffa o phishing, di che tipo di email si tratta, se serve una sua risposta, quanto è urgente e quanto è adatta come sponsorizzazione. Tre forme diverse — sì/no, categoria, punteggio — nello stesso giro.</p>
+<p>Con Jev il giro completo prende <strong>settanta secondi e nove centesimi</strong>. Poi Nate rifà lo stesso lavoro con <strong>GPT-5.6 Luna</strong> e commenta a caldo: «sembra che ci abbia messo un'eternità». Risultato: <strong>cinque minuti e sessantadue centesimi</strong>. Qui però arriva il dettaglio tecnico che il video rischia di far passare in sordina e che invece è la vera notizia: Nate <strong>cambia il backend per processare le cose più in parallelo, con payload più grandi</strong>, rilancia, e lo stesso lavoro scende a <strong>sei secondi</strong> allo stesso costo. Il salto da settanta a sei secondi non è merito del modello, è merito di come lo chiami — e lui lo ammette: «sì, puoi fare lo stesso con Luna, ma non arriverà a sei secondi per mille email su sette categorie».</p>
+<p>Vale la pena guardare come si scrive una domanda, perché è tutta la configurazione che esiste. Nella finestra <em>Modifica domanda</em> si sceglie il <strong>tipo di risposta</strong> (sì/no, categoria, punteggio), si dà un <strong>nome</strong>, si scrive la <strong>domanda per esteso</strong> — <em>«questa email è una ricevuta, una fattura, una conferma di pagamento o un avviso di fatturazione?»</em>, con la nota «scrivila per intero: Jev legge questa e l'email, nient'altro» — e poi si definisce <strong>cosa conta come sì</strong> (<em>«documenta un addebito, un pagamento, un versamento, un rinnovo o un pagamento fallito»</em>) e, facoltativamente, cosa conta come no. L'ultimo campo è una soglia: <strong>«chiamalo un sì quando Jev è sicuro almeno al 50%»</strong>, modificabile dopo senza rilanciare tutto. Per i punteggi si scrivono invece i livelli dal più basso al più alto, descritti a parole: per l'idoneità come sponsor vanno da <em>«non è affatto una richiesta di sponsorizzazione»</em> a <em>«ottimo abbinamento: una richiesta da un'azienda AI o di strumenti per sviluppatori molto nota»</em>.</p>
+<p>Il quadro completo dei costi lo dà la finestra <strong>Confronto costi</strong>, che è il dato più riutilizzabile di tutto il video. Sulla stessa corsa, misurata davvero: <strong>Jev 1.000 email in 5,8 secondi per 0,05 dollari</strong>, <strong>Luna 4,5 minuti per 0,62</strong> — cioè <strong>dodici volte il costo e quarantasei volte il tempo</strong>. Sotto, la stima a listino degli <strong>stessi token</strong> passati ad altri modelli: partendo da <strong>Jev a 0,042 dollari per milione in ingresso e zero in uscita</strong>, su tutto il lavoro fatto fino a quel momento (<strong>15.848 chiamate, 25,7 milioni di token</strong>) Jev è costato <strong>1,08 dollari</strong>; Luna sarebbe costata <strong>8,13</strong> (otto volte), <strong>Sol 76,29</strong> (settantuno volte), <strong>Claude Opus 5 190,72</strong> (centosettantasette volte), <strong>Claude Fable 5.1 e GPT-6 Astra 381,44</strong> (trecentocinquantatré volte).</p>
+<p>Il contatore della console TypeSafe conferma gli ordini di grandezza nel mondo reale: in ventiquattro ore Nate ha fatto <strong>19.471 richieste</strong> per <strong>22,7 milioni di token</strong>, spendendo <strong>85 centesimi</strong>.</p>
+<h2>Le altre schede su dati veri</h2>
+<p>I <strong>commenti YouTube</strong> — mille, sette domande — vanno in <strong>cinque secondi per cinque centesimi</strong>. Il verdetto numerico: <strong>317 meritano una risposta</strong>, 141 contengono un'idea per un video, <strong>solo 13 hanno intenzione di comprare</strong>, il sentiment medio è 3,2 su 5, e <strong>799 su mille non contengono nessuna domanda</strong>.</p>
+<p>I <strong>post della community Skool</strong> (mille, dalla sua <em>AI Automation Society Plus</em>) restituiscono un ritratto preciso: <strong>341 sono richieste di aiuto</strong> ma <strong>solo 51 richiedono una risposta del team</strong>, <strong>6 segnalano rischio di abbandono</strong>, 283 contengono un'idea di contenuto, 73 sono autopromozione, e il livello medio di esperienza dei membri è 2,6 su 4.</p>
+<p>Il <strong>feed di X</strong> (duecento post dagli account che segue) viene classificato per argomento, se è notizia dell'ultima ora, se vale una risposta, e con un punteggio di <strong>sostanza</strong>: <strong>27 sono breaking news</strong>, 44 parlano di Claude o di agenti di codice, 96 su 200 meritano una risposta, e la sostanza media è 2,8 su 4 — con <strong>solo 11 post su 200 giudicati «dettagliati e verificabili»</strong>.</p>
+<p>Le <strong>riunioni</strong> sono il caso dove l'idea è più interessante: cento chiamate registrate su <strong>Fireflies</strong>, con trascrizione intera, classificate per tipo, se è stata presa una decisione, quanto sono chiari i prossimi passi, quanta rilevanza hanno per il fatturato, quanto è in attesa di lui, e quanta tensione c'è. Esito: 75 con una decisione presa, chiarezza dei prossimi passi 3,4 su 4, tensione 1,7 su 4 con <strong>zero conflitti aperti</strong>, e 58 che hanno generato un'idea di contenuto. Il ragionamento di Nate: «diciamo che vedi che in molte delle tue chiamate non ci sono prossimi passi discussi o definiti chiaramente, con un responsabile e una scadenza: <strong>puoi usare quel dato per cambiare come conduci le chiamate</strong>».</p>
+<p>La scheda più spietata è quella degli <strong>spezzoni video</strong>: venti video lunghi, tagliati in <strong>565 segmenti</strong> da 35-60 secondi, ognuno un candidato clip. Jev giudica se è pubblicabile da solo, quanto è forte il gancio, di che tipo è, se serve lo schermo, se finisce con un colpo, quanto è largo il pubblico e se contiene una frase citabile. Il risultato è una stroncatura in forma di conteggio: <strong>solo 26 segmenti su 565 sono clippabili</strong>, la forza media del gancio è <strong>1,2 su 4</strong> con <strong>488 segmenti «deboli»</strong> e appena sette «forti», <strong>248 sono walkthrough a schermo</strong>, 292 non si capiscono senza vedere lo schermo, e <strong>solo 84 su 565 finiscono con un payoff</strong>.</p>
+<h2>L'estensione che etichetta X in tempo reale, e l'ammissione</h2>
+<p>Il pezzo che Nate mostra con più entusiasmo è un'<strong>estensione Chrome che si è costruito</strong>: mentre scorre il feed di X, ogni post riceve in tempo reale un'etichetta — <strong>breaking, nugget, slop, meh</strong> — e in basso a sinistra un contatore tiene il conto. Serve, dice, «a tenermi più concentrato mentre scorro X, a evidenziare cosa vale la pena leggere e cosa è meglio ignorare perché è spazzatura generata dall'AI». La reattività è il punto: «guarda quanto velocemente reagisce ai post mentre entrano nello schermo, è praticamente istantaneo».</p>
+<p>Ma la cosa che rende credibile il video è che l'ammissione sta <strong>dentro l'apertura</strong>, non nascosta in fondo: a venti secondi dall'inizio, mostrando l'estensione, dice <strong>«non sta andando molto bene nella prima ora»</strong>. E i contatori che si leggono a schermo gli danno ragione: in un passaggio <em>19 giudicati: 11 breaking, 0 nugget, 1 slop, 7 meh</em> — undici «notizie dell'ultima ora» su diciannove post è palesemente troppo. In un altro momento <em>37 giudicati: 4 breaking, 5 nugget, 6 slop, 22 meh</em>, che suona più sensato. Due misurazioni a un'ora di distanza che non concordano: è esattamente il motivo per cui servono gli evals, e il video arriva a dirlo poco dopo.</p>
+<h2>Da un modello che non analizza, un'analisi</h2>
+<p>Il passaggio concettuale più utile arriva parlando delle riunioni, ed è questo: <strong>«Jev da solo non analizza le cose per te. Ma se sei strategico nel modo in cui imposti le domande, puoi ottenere analisi da lui — puoi far sì che quei dati raccontino una storia.»</strong></p>
+<p>Il confine lo traccia subito dopo, ed è netto: <strong>non puoi</strong> dare a Jev migliaia di trascrizioni e chiedergli <em>«dimmi cosa devo fare meglio in queste riunioni»</em> o <em>«trovami i temi ricorrenti»</em>. Quello che <strong>puoi</strong> fare è dargli categorie e punteggi, e poi <strong>raccontare tu la storia</strong> con quei numeri. È la stessa cosa che succede con gli spezzoni video: nessuno ha chiesto a Jev <em>«perché i miei video non si clippano bene?»</em>, eppure la risposta è lì, in «488 ganci deboli su 565».</p>
+<p>Tradotto in regola: con un sistema 1 <strong>l'intelligenza si sposta a monte</strong>, nella progettazione delle domande. Il modello esegue, la lettura resta umana.</p>
+<h2>Gli altri quattro esempi, su dati inventati</h2>
+<p>Quattro schede della dashboard girano su dati finti, dichiarati come tali, e servono a mostrare il formato più che a provare qualcosa. Il <strong>controllo dei contratti</strong> spezza quattro accordi in <strong>47 clausole</strong> e le giudica per rischio (media 2,7 su 4, con <strong>15 clausole da «deal breaker»</strong>), tipo di clausola, se c'è rinnovo automatico o vincolo, se la controparte può cambiare l'accordo unilateralmente, se prende i tuoi diritti o i tuoi dati, se c'è esposizione illimitata (dieci casi) e se vincola <strong>una parte sola</strong> — venticinque su quarantasette.</p>
+<p>Il <strong>filtro per lavori e contatti</strong> passa <strong>38 lead</strong> a un punteggio di qualità (media 3,1 su 5) e a un prossimo passo suggerito: <strong>quattordici «chiama oggi»</strong>, sette «rifiuta», sei «fai domande», sei «passa ad altri». Dieci hanno bandiere rosse e solo diciassette su trentotto parlano con chi decide davvero.</p>
+<p>Lo <strong>smistatore di appunti vocali</strong> prende <strong>51 pensieri</strong> estratti da quattro memo e li manda al posto giusto: 17 diventano compiti, 8 idee, 7 pagine di diario, 5 riferimenti, 4 voci di calendario; diciassette hanno una scadenza, trenta sono «compiti da due minuti», e ciascuno finisce in un'area della vita (lavoro 19, contenuti 15, casa 6, salute 4, famiglia 3).</p>
+<p>L'<strong>assistenza clienti</strong> è quella che Nate indica come il caso migliore in assoluto: 42 ticket di una finta app di prenotazioni, smistati per reparto, con urgenza, frustrazione, se il cliente <strong>sta per andarsene</strong> (otto), se basta un articolo della guida (nove), se vuole il rimborso (sette), se somiglia a un incidente (sei). Il ragionamento: «ci sono così tante decisioni diverse da prendere, e Jev è davvero bravo, veloce ed economico a prenderle».</p>
+<h2>La regola prima di metterlo in produzione</h2>
+<p>Il punto in cui il video smette di vendere è questo: <strong>«non attaccare e basta Jev e fidarti in automatico di quello che dice»</strong>. Quello che serve sono gli <strong>evals</strong>, descritti in concreto: un <strong>golden set di cento casi con cento risposte giuste</strong>, e poi si fanno correre sullo stesso banco <strong>Jev, Opus e Sol</strong> per vedere <strong>quale modello dà il miglior equilibrio fra accuratezza e costo</strong> — e, se nel caso specifico la latenza conta, anche velocità. È la stessa disciplina che il vault chiama verificare il verificatore, applicata alla scelta del modello invece che al suo output.</p>
+<h2>Il caso in cui Jev non conviene: il bot di trading</h2>
+<p>L'esperimento che chiude il video è anche il più istruttivo, e Nate lo presenta per quello che è: <em>«questo è trading simulato, non è molto verificato, c'è parecchio che non va»</em>. <strong>Jev Trader</strong> parte da mille dollari su un conto demo <strong>Alpaca</strong>, compra Bitcoin a lotti da cento dollari, e ogni secondo fa a Jev una sola domanda: <strong>«dove è diretto il prezzo nel prossimo minuto?»</strong> — su, giù, o non è chiaro. Le regole sono rigide: vende a <strong>−0,4% di perdita, +0,6% di guadagno o dopo cinque minuti</strong>; il segnale deve <strong>ripetersi per tre secondi di fila</strong> prima che parta un ordine; <strong>un solo trade aperto alla volta</strong>; non scommette mai al ribasso.</p>
+<p>Il cruscotto dà il risultato senza pietà. Dopo <strong>un'ora e diciotto minuti</strong>: <strong>46 operazioni chiuse, zero vinte, quarantasei perse</strong>, totale <strong>−26,00 dollari</strong>, cioè −2,6% del capitale. La scomposizione è la parte che insegna qualcosa: i movimenti di prezzo hanno tolto <strong>3,24 dollari</strong>, le <strong>commissioni 22,76</strong>. Nel frattempo Jev rispondeva in <strong>121-596 millisecondi</strong> e le <strong>4.038 decisioni</strong> erano costate <strong>nove centesimi</strong>; le stesse chiamate su Sol sarebbero costate 7,47 dollari, su Opus 5 <strong>18,66</strong>, su Fable 5.1 e Astra <strong>37,33</strong>.</p>
+<p>Nate lo dice a parole sue: «le commissioni sono molto più care di Jev che prende le decisioni per noi, quindi c'è il problema di quanto dovremmo riuscire a guadagnare perché valga la pena». Letta come principio, è la cosa più trasferibile del video: <strong>rendere la decisione quasi gratuita non serve a niente se il costo di eseguirla resta alto</strong>. Il risparmio sul modello conta solo quando il modello è il collo di bottiglia.</p>
+<p>Da notare anche cosa mostra il pannello delle risposte: alla domanda «dove va il prezzo?» Jev in quel momento rispondeva <strong>su al 3%, incerto al 97%, giù allo 0%</strong> — cioè il modello stava dichiarando di non saperlo, e il sistema comprava lo stesso quando il segnale si ripeteva.</p>
+<h2>Dove finisce Jev e comincia un altro modello</h2>
+<p>L'ultimo limite è quello operativo. Nate ha visto gente su X far giocare Jev ai videogiochi o pilotare il browser, e lo trova divertente, ma avverte: <strong>«devi pensare a dov'è il passaggio di consegne»</strong>. Con il controllo del browser, Jev <strong>non riusciva a scrivere nei campi</strong>: prendeva la decisione e poi doveva <strong>passare la mano a un modello capace di agire davvero</strong>. Il perimetro, di nuovo: Jev sceglie, qualcun altro esegue.</p>
+<h2>Cosa portarsi via</h2>
+<p>La chiusura è una raccomandazione pratica con dentro un'autocritica. La raccomandazione: il posto giusto dove cominciare non sono i giocattoli, sono <strong>cruscotti e automazioni sulle cose che ti interessano davvero</strong> — ogni volta che arriva un post, un commento, una voce nel CRM o un modulo compilato sul sito, Jev classifica e il database si aggiorna. «Anche se la velocità magari non conta tantissimo nelle automazioni in produzione, quello che si accumula in fretta è il <strong>costo</strong>».</p>
+<p>L'autocritica, invece, è una riga che vale come avvertimento per chi legge: <strong>«spero che vedere questi esempi aiuti — anche se erano tutti molto simili, nel regno della classificazione»</strong>. Dodici casi, un solo tipo di lavoro. Il video non dimostra che Jev serve in dodici posti diversi: dimostra che <strong>esiste un unico mestiere che Jev fa benissimo</strong>, e che quel mestiere si presenta in dodici travestimenti.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=ymgH8jS6Wb8 — <em>I Tested Jev on 12 Real Use Cases. My Honest Thoughts.</em>, <strong>Nate Herk | AI Automation</strong>, 16:08, pubblicato il 19 settembre 2026 (~356.000 visualizzazioni, 3.728 like al momento della visione). Visto il 04/10/2026.</li>
+<li>report grezzo con trascrizione completa, i numeri di ciascuno dei dodici casi e sette fotogrammi chiave (grafici di velocità e costo, slide «cosa non può fare», tabella del confronto costi, cruscotto del bot di trading).</li>
+<li>Concetti collegati: modelli-sistema-1 (la pagina da aggiornare: qui arrivano i primi numeri misurati fuori da TypeSafe e il perimetro negativo dichiarato), loop-engineering (gli evals come verifica del verificatore), model-routing (stessa logica, applicata alla scelta del modello invece che al routing dentro una sessione), context-rot (la finestra da 64k costringe a lavorare un oggetto alla volta).</li>
+<li>Entità: jev, nate-herk.</li>
+<li>Video imparentati già nel vault: <a href="jev-ha-potenziato-claude-code-2026-09-23.html">jev-ha-potenziato-claude-code-2026-09-23</a> (Dario Fontanel) e <a href="jev-10x-claude-code-robonuggets-2026-09-23.html">jev-10x-claude-code-robonuggets-2026-09-23</a> (RoboNuggets) — entrambi usano Jev <strong>dentro</strong> Claude Code; questo è l'unico dei tre che lo prova <strong>fuori</strong>, su volumi di dati aziendali, e l'unico che mostra un caso in cui <strong>non conviene</strong>.</li>
+<li><strong>Omesso:</strong> il blocco promozionale fra 4:56 e 5:28 (la «SOP del primo cliente» gratuita in cambio dell'email, con la schermata del modulo e l'elenco dei suoi contenuti), la richiesta di like e i saluti finali. In descrizione ci sono anche un link affiliato a un servizio di dettatura e un codice sconto per un hosting VPS, estranei al tema.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) il confronto fra Jev e Luna <strong>non è a parità di condizioni</strong> — Nate ammette di aver parallelizzato il backend solo per Jev, e dice che «si può fare lo stesso con Luna» senza farlo; i «12x costo, 46x tempo» vanno letti con questa riserva. (2) I numeri di velocità e costo sulle slide sono <strong>test di TypeSafe stessa</strong>, e la riga in piccolo dichiara che sull'accuratezza Jev <strong>non è più bravo</strong> (67,8% contro il 74,1% di Sol); una fonte esterna citata (un ingegnere Vercel) misura 5-18x, non 20-200x. (3) Quattro delle dodici schede (contratti, lead, appunti vocali, assistenza clienti) girano su <strong>dati inventati</strong>, dichiarati come tali: mostrano il formato, non l'accuratezza. (4) <strong>Nessun caso è stato verificato contro una risposta giusta</strong>: Jev classifica e nessuno controlla quante volte sbaglia — il video lo riconosce e per questo raccomanda gli evals, ma non ne esegue nessuno. (5) Il bot di trading è un <strong>prototipo di un'ora e venti su conto demo</strong>: la perdita è un dato solido sulle commissioni, non un giudizio sulla capacità predittiva. (6) L'app usata in tutto il video («Uppit AI Sorter»), l'estensione Chrome e il bot sono costruiti da lui e <strong>non sono pubblici</strong>: non si può replicare niente, si può solo copiare l'idea. (7) I sottotitoli automatici rendono «noul» come <em>null</em> e «Sol» a volte come <em>Soul</em>: corretti qui. (8) Il vault non ha ancora pagine su Fireflies, Alpaca o sul gateway AI di Vercel; qui sono contesto, non tema.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

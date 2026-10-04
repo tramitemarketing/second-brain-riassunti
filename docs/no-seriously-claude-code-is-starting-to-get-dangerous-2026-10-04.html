@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>No, Seriously. Claude Code is Starting To Get Dangerous</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="No, Seriously. Claude Code is Starting To Get Dangerous" src="https://i.ytimg.com/vi/Ktnwygcnd8U/hqdefault.jpg"><p class="muted">📖 18 min di lettura</p><p><strong>In sintesi:</strong> il titolo promette che <strong>Claude Code è diventato pericoloso</strong>; il video non mostra <strong>nemmeno un secondo</strong> di Claude Code. È un video-commento in due pezzi. Il primo pezzo racconta un fatto vero e grosso: il <strong>12 giugno 2026</strong> il governo degli Stati Uniti ha ordinato ad Anthropic di togliere l'accesso a <strong>Fable 5</strong> e <strong>Mythos 5</strong> a qualunque cittadino straniero, e poiché su una chiamata API non si può verificare la nazionalità di chi scrive, Anthropic ha dovuto <strong>spegnere i due modelli per tutti</strong> — per circa diciotto giorni. La capacità che ha spaventato il governo non è di Claude Code ma di <strong>Mythos Preview</strong>, la versione con meno paletti data a pochi «difensori fidati»: ha scansionato più di mille progetti open source e ha trovato migliaia di falle mai viste prima, fra cui un bug di <strong>27 anni in OpenBSD</strong> e uno di <strong>16 anni in FFmpeg</strong> che cinque milioni di test automatici non avevano mai beccato. Il secondo pezzo sono <strong>tre previsioni</strong> (l'alfabetizzazione AI finanziata dallo Stato, la cybersecurity come mestiere che ci guadagna, un controllo degli armamenti AI che non funzionerà) e <strong>tre competenze</strong> per chi costruisce agenti per i clienti: <strong>trovare il dolore vero</strong>, <strong>controllare il sistema</strong>, <strong>prendersi il risultato</strong>. La roba davvero riutilizzabile è la seconda: una checklist concreta su che permessi dare a un agente. Tutto il resto è un notiziario letto ad alta voce con immagini di robot sopra.</p>
+<h2>Il titolo dice una cosa, il video ne fa un'altra</h2>
+<p>Vale la pena dirlo subito e per esteso, perché è il motivo per cui questo riassunto esiste. Il titolo è <strong>«No, Seriously. Claude Code is Starting To Get Dangerous»</strong> — "no, sul serio, Claude Code sta diventando pericoloso". Un titolo così, su un canale di automazione da un milione di iscritti, fa pensare a una capacità nuova e inquietante dello strumento che Divan usa tutti i giorni: un permesso allargato, una modalità autonoma, un caso in cui l'agente ha fatto danni veri.</p>
+<p>Niente di tutto questo. In tredici minuti e quarantadue secondi <strong>non c'è una singola ripresa di schermo operativa</strong>: nessun terminale, nessun prompt, nessuna sessione, nessun file. Le poche finestre di Claude e di Claude Code che compaiono sono <strong>materiale promozionale di Anthropic riciclato come B-roll</strong> — una finestra desktop con sopra scritto «Build the alignment grid demo», un artefatto che si genera, una casella di chat vuota. Servono a riempire il video mentre l'autore parla d'altro.</p>
+<p>Le parole «Claude Code» compaiono nel parlato esattamente <strong>due volte</strong>, e in entrambi i casi come figura retorica, non come oggetto di analisi: a [02:47] «quando dico che Claude Code sta diventando pericoloso, lo intendo letteralmente», e nel riassunto dell'introduzione. Il soggetto reale del video è <strong>Anthropic come azienda sotto pressione politica</strong>, più un segmento di consulenza che sarebbe identico se al posto di Claude ci fosse qualunque altro agente.</p>
+<p>Non vuol dire che il video sia inutile: la parte sui permessi degli agenti è concreta e vale la lettura. Vuol dire che se uno lo apre per sapere cosa fa di nuovo Claude Code, esce a mani vuote.</p>
+<h2>Il gancio: quarantasei secondi di telegiornali altrui</h2>
+<p>Per i primi <strong>quarantasei secondi</strong> l'autore non appare e non parla. Parte un montaggio costruito interamente con materiale di terzi. <strong>Dario Amodei</strong> in uno studio della ABC, sovraimpressione «ANTHROPIC CEO ONE-ON-ONE», il giornalista che dice «il CEO di Anthropic lancia un allarme sui pericoli dell'avanzamento rapido dell'intelligenza artificiale». Poi Amodei stesso: «<strong>l'AI è più autonoma di qualunque altra tecnologia nella storia</strong>». Poi la domanda secca — «lei crede che sarà più intelligente di tutti gli esseri umani» — e la risposta: «credo che raggiungerà quel livello, che sarà più intelligente della maggior parte o di tutti gli umani nella maggior parte o in tutti i modi».</p>
+<p>Sotto scorrono lo schermo di un telefono con la cartella «AI» piena di icone (Claude, ChatGPT, Gemini, Perplexity, Grok, Copilot), un secondo spezzone da <strong>60 Minutes</strong>, due clip di podcast, e — questa è la parte che tradisce il mestiere — <strong>B-roll di robot umanoidi 1X</strong>: una mano robotica che afferra una lampada, due mani che piegano un telo azzurro, un robot bianco in mezzo a una troupe. Nessuno di questi robot ha la minima relazione con un agente che gira in un terminale. Servono solo a far sentire inquieto chi guarda, mentre una voce narrante dice che «per secoli l'idea che la tecnologia sfuggisse al controllo umano è rimasta finzione; non più». Chiude <strong>PBS NewsHour</strong> con il logo Anthropic e la scritta «Future of AI» sulla notizia dello spegnimento forzato.</p>
+<p>A [00:46] entra finalmente l'autore, e fa una mossa interessante: <strong>nomina lui stesso il trucco che sta usando</strong>. «Questo onestamente era allarmismo per fare visualizzazioni, approfittando di una cosa che la maggior parte della società non capisce — <strong>fino a ora</strong>. Perché abbiamo appena superato con Claude una linea da cui non si torna indietro.» È la struttura classica: prendo il genere screditato, lo dichiaro screditato, e dichiaro che stavolta è diverso. Vale la pena tenerla a mente leggendo il resto.</p>
+<h2>Il fatto vero: lo spegnimento di Fable 5 e Mythos 5</h2>
+<p>Qui il video ha qualcosa da dire, e lo dice bene.</p>
+<p>Tre giorni dopo che Anthropic aveva pubblicato il modello più potente mai costruito, il governo degli Stati Uniti ha mandato <strong>una direttiva</strong> e l'intero modello è stato spento. Non era un episodio isolato: la stessa amministrazione aveva già messo l'azienda <strong>in blacklist</strong> mesi prima. A schermo scorrono il titolo del <strong>Guardian</strong> — <em>«Anthropic to disable its most advanced AI models after US order limiting foreign access»</em>, con il sottotitolo che spiega la motivazione: il governo ritiene che le protezioni si possano aggirare e che il prodotto possa essere usato per identificare vulnerabilità software — e un pezzo di <strong>Reuters</strong>, <em>«Blacklisted AI company Anthropic, White House ease tensions ahead of IPO, sources say»</em>.</p>
+<p>Il documento che conta si vede a [01:33] ed è la pagina ufficiale di Anthropic: <strong>«Statement on the US government directive to suspend access to Fable 5 and Mythos 5», datata 12 giugno 2026</strong>. Il testo leggibile a schermo dice che il governo, citando autorità di controllo delle esportazioni e ragioni di sicurezza nazionale, ha ordinato di sospendere ogni accesso ai due modelli <strong>da parte di qualunque cittadino straniero, dentro o fuori gli Stati Uniti, inclusi i dipendenti stranieri di Anthropic stessa</strong>; che l'effetto netto è la disabilitazione immediata per <strong>tutti</strong> i clienti; e che gli altri modelli Anthropic non sono toccati. Anthropic aggiunge di aver ricevuto la lettera alle 17:21 ora della costa Est e che la lettera <strong>non conteneva dettagli specifici</strong> sulla preoccupazione di sicurezza nazionale.</p>
+<p>Il punto tecnico che l'autore spiega bene: quando qualcuno chiama un'API, <strong>Anthropic non ha un modo affidabile di verificarne la nazionalità in tempo reale</strong>. L'ordine era immediatamente esecutivo. L'unico modo di garantire la conformità era spegnere i due modelli <strong>per chiunque</strong>.</p>
+<p>Sul merito c'è una lite. Il governo dice che l'ordine è stato innescato da un <strong>jailbreak</strong> che aveva fatto scansionare a Fable un software in cerca di punti deboli e produrre una dimostrazione di come sfruttarne uno. Anthropic ribatte che quel test specifico aveva trovato <strong>solo poche vulnerabilità minori e già note</strong>, e che poi ha dichiarato che <strong>ogni modello testato</strong> sapeva riprodurre quella dimostrazione, inclusi modelli Claude e GPT più vecchi. La disputa, riassume l'autore, era se quel particolare aggiramento giustificasse il richiamo dell'intero modello. «<strong>Ma la capacità che ci stava sotto era molto più difficile da liquidare.</strong>»</p>
+<h2>Fable e Mythos: lo stesso modello con due pelli</h2>
+<p>Questo è il passaggio tecnicamente più utile del video. <strong>Fable e Mythos sono essenzialmente lo stesso modello sottostante, con strati di sicurezza diversi.</strong> Fable è la versione pubblica; <strong>Mythos ha meno protezioni ed è limitato a una manciata di «difensori fidati»</strong>.</p>
+<p>Prima dello spegnimento, <strong>Mythos Preview</strong> aveva già trovato «migliaia di vulnerabilità prima sconosciute» e sviluppato molti exploit collegati, «<strong>spesso senza guida umana</strong>». L'autore cita a voce due casi: un bug di <strong>27 anni in OpenBSD</strong> e uno di <strong>16 anni in FFmpeg</strong> che una batteria di test automatici aveva colpito <strong>cinque milioni di volte senza accorgersene</strong>.</p>
+<p>La pagina che mette a schermo a [02:38] contiene parecchio di più, e lui <strong>non la legge</strong>. Dice che Anthropic ha usato Mythos Preview per scansionare <strong>più di mille progetti open source</strong> che «collettivamente reggono buona parte di internet», e che ha trovato migliaia di vulnerabilità <strong>zero-day</strong>, molte critiche, in ogni grande sistema operativo e browser, alcune nascoste da decenni. Gli esempi elencati: oltre a OpenBSD (un difetto che permette a chiunque di far crashare un server OpenBSD attraverso la rete) e a FFmpeg, c'è una <strong>falla di esecuzione di codice da remoto vecchia di 17 anni in FreeBSD</strong> (CVE-2026-4747) che dava a un attaccante non autenticato il controllo completo di una macchina che monta NFS; un exploit concatenato di <strong>elevazione di privilegi nel kernel Linux</strong>; e un difetto di falsificazione dei certificati in <strong>wolfSSL</strong> (CVE-2026-5194, CVSS 9.1) — una libreria crittografica che gira su miliardi di dispositivi — che avrebbe permesso a un attaccante di <strong>impersonare qualunque banca o provider di posta</strong> in modo invisibile. Il numero più eloquente è l'ultimo: su <strong>Firefox</strong>, partendo dai soli dati di crash, Mythos ha prodotto <strong>181 proof-of-concept funzionanti contro i 2 di Opus 4.6</strong>, su diverse centinaia di tentativi.</p>
+<p>Il commento dell'autore è la frase migliore del video: «<strong>metti quell'intelligenza dentro un agente che può leggere la tua base di codice, usare i tuoi strumenti, agire — e può trovare punti deboli che esperti umani si sono persi per anni.</strong> E poi, sopra a questo, capire come attaccarne alcuni.»</p>
+<h2>Come è finita, e cosa Anthropic ha concesso</h2>
+<p>Durante i diciotto giorni di stop, Anthropic ha addestrato un <strong>nuovo classificatore di sicurezza</strong> che, dice, blocca la tecnica segnalata in <strong>oltre il 99% dei casi</strong>. Il governo ha testato le protezioni aggiornate, i controlli sono stati tolti e Fable è tornato. La scheda <strong>Tech Insider</strong> mostrata a [03:01] aggiunge una cosa che a voce non viene detta: Fable 5 è rientrato il <strong>1° luglio</strong>, e quando una richiesta fa scattare il nuovo classificatore, il modello <strong>non rifiuta — ridirige automaticamente la richiesta a Claude Opus 4.8</strong>.</p>
+<p>Anthropic ha anche preso due impegni, leggibili nella pagina a [03:13]. Il primo: <strong>accesso e valutazione governativa prima del rilascio</strong> — per i modelli che spingono avanti la frontiera in aree rilevanti per la sicurezza nazionale, partner governativi designati avranno accesso anticipato esteso ai modelli <em>e alle protezioni che li accompagnano</em>, potranno condurre valutazioni indipendenti e testare i guardrail prima della pubblicazione, con personale tecnico Anthropic dedicato a lavorare accanto ai valutatori. Il secondo: <strong>condivisione rapida delle informazioni sulle protezioni</strong> — quando emergono jailbreak o abusi significativi, Anthropic si impegna a indagare, classificare e notificare rapidamente, e a condividere le contromisure perché possano essere testate in modo indipendente.</p>
+<p>L'ultima osservazione del capitolo è onesta e va riportata così com'è: <strong>i laboratori cinesi e le altre aziende americane hanno continuato a muoversi</strong> mentre Fable era spento — a schermo passano Qwen3 di Alibaba che «supera OpenAI e DeepSeek in matematica e programmazione», MiniMax con i ricavi quasi quadruplicati nel primo semestre, <strong>Kimi K2</strong> e <strong>GLM-4.5</strong> di Z.ai. «<strong>Non c'è prova pubblica</strong> che la concorrenza abbia causato il dietrofront del governo», dice, «ma mostra perché una sola azienda, o anche un solo paese, non può rallentare l'intero campo da solo». E da lì la frase che fa da perno all'intero video: «<strong>questa è una corsa, e non c'è un arbitro; c'è solo un traguardo, e gli incentivi sono a vincere</strong>».</p>
+<h2>Previsione 1 — l'alfabetizzazione AI diventa infrastruttura pubblica</h2>
+<p>I governi cominceranno a trattare la capacità di usare l'AI come si tratta una <strong>infrastruttura per la forza lavoro</strong>. Stanno già spendendo in potenza di calcolo nazionale e nelle aziende AI, ma i soldi iniziano ad arrivare anche alle aule e ai lavoratori: la Casa Bianca ha creato una <strong>task force sull'educazione AI</strong>, e il programma <strong>AI-Ready America</strong> della National Science Foundation finanzia alfabetizzazione AI, formazione professionale e adozione nelle piccole imprese. La pagina mostrata a schermo aggiunge che NSF si muove con il Dipartimento dell'Agricoltura, il Dipartimento del Lavoro e la Small Business Administration per istituire <strong>hub di coordinamento in ogni stato e territorio</strong>, e cita il direttore ad interim Brian Stone.</p>
+<p>La previsione vera e propria riguarda i prossimi <strong>cinque-dieci anni</strong>: chi perde il lavoro potrà ricevere una <strong>credenziale AI pagata dal pubblico</strong> tramite un community college o un programma per l'impiego; gli insegnanti riceveranno formazione AI come normale aggiornamento professionale; programmi locali pagheranno per aiutare le piccole imprese ad adottare questi strumenti. Il motivo è geopolitico, non pedagogico: «<strong>nessun paese vuole milioni di lavoratori ad aspettare che l'AI gli succeda addosso mentre un paese rivale insegna a tutti i suoi come usarla</strong>». L'educazione AI smette di sembrare una nicchia tipo bootcamp di programmazione e diventa <strong>alfabetizzazione informatica di base</strong>.</p>
+<h2>Previsione 2 — la cybersecurity è il mestiere che ci guadagna di più</h2>
+<p>Il <strong>Bureau of Labor Statistics</strong> proietta già una crescita del <strong>29% dei posti da analista di sicurezza informatica dal 2024 al 2034</strong>. Gli agenti AI aggiungono altro codice, altri accessi e altre azioni automatiche da mettere in sicurezza. L'AI si prenderà probabilmente una fetta maggiore della <strong>prima scrematura degli alert</strong> e della scansione delle vulnerabilità; il lavoro umano si sposta verso le parti che portano <strong>responsabilità vera</strong>: decidere se l'AI ha ragione, controllare quali agenti hanno accesso a cosa, indagare i casi strani, rispondere quando qualcosa va storto, e <strong>dimostrare</strong> che il sistema è davvero sicuro.</p>
+<p>Poi arriva l'idea più originale del video, e cioè che a rendere tutto questo concreto per le aziende normali sarà la <strong>cyber assicurazione</strong>. Gli assicuratori già oggi chiedono dell'autenticazione a più fattori, degli aggiornamenti software, dei backup, della formazione dei dipendenti, degli accessi dei fornitori e dei piani di risposta agli incidenti — e nel video queste voci scorrono una a una come etichette animate sopra spezzoni di B-roll. Le domande sull'AI, dice, <strong>si aggiungeranno a quella lista invece di sostituirla</strong>, perché controllare i propri agenti non impedisce a qualcun altro di usare l'AI contro di te: un attaccante può usarla per rendere le email di phishing più convincenti, per cercare punti deboli, per muoversi più in fretta una volta dentro.</p>
+<p>Il modulo di rinnovo, prevede, finirà per chiedere: <strong>quali agenti AI possono mandare soldi? Quali possono toccare i dati dei clienti? Qualcuno di loro può fare deploy di codice? Le loro azioni sono registrate? Chi può spegnerli?</strong> E se un'azienda non sa rispondere, la copertura diventa più cara o più difficile da ottenere. Con una precisazione che fa onore all'autore: <strong>una polizza non ferma l'attacco</strong>. Può coprire parte del danno e sostenere la risposta, a seconda del contratto, ma l'azienda deve comunque proteggere le sue persone, i suoi account, il suo software, i suoi fornitori, i suoi dati. «I regolatori possono pubblicare standard, e l'assicurazione può mettere un prezzo sull'ignorarli»: la cyber assicurazione diventa <strong>uno dei cancelli</strong> che costringono le aziende a prendere sul serio il rischio.</p>
+<h2>Previsione 3 — un controllo degli armamenti AI che non reggerà</h2>
+<p>I governi proveranno a costruire una qualche forma di <strong>controllo degli armamenti</strong> per l'AI, ma non ci sarà «una pausa globale pulita in cui tutti sono d'accordo a rallentare»: l'autore dice chiaramente che non lo ritiene realistico. Dei paesi hanno già firmato accordi internazionali — a schermo l'articolo del 17 luglio 2026 sui <strong>29 paesi che a Shanghai hanno firmato per istituire una World AI Cooperation Organization</strong> — e le Nazioni Unite stanno studiando come si potrebbero <strong>verificare</strong> le dichiarazioni sui modelli di frontiera.</p>
+<p>Il ragionamento è asimmetrico ed è il pezzo più lucido delle tre previsioni. <strong>Addestrare</strong> un modello di frontiera da zero richiede cluster enormi di chip specializzati, energia seria, infrastruttura di data center e un sacco di soldi: «una persona in uno scantinato, realisticamente, non credo possa farlo adesso». Ma <strong>quella stessa persona può scaricare un modello open source, rifinirlo e togliergli i paletti</strong>, o usarlo in modi che chi l'ha sviluppato non aveva previsto — e il video lo illustra con B-roll (chiaramente generato con AI) di persone al portatile con sopra le etichette «Fine Tune» e «Remove safeguards». Da cui la frase che vale la pena tenere: «<strong>l'AI è davvero intelligente, ma è un amplificatore delle intenzioni delle persone</strong>, e questa idea a volte fa un po' paura». E il corollario: «<strong>il controllo diventa molto più difficile dopo che le copie hanno iniziato a diffondersi</strong>».</p>
+<p>Quindi il primo sistema di controllo degli armamenti AI sarà, prevede, «<strong>una pila disordinata</strong>» di tracciamento dei chip, log del cloud, valutazioni dei modelli, segnalazioni di incidenti, ispezioni dei data center. Può rendere più visibili gli addestramenti più grossi, ma <strong>non può dimostrare</strong> che ogni laboratorio, ogni paese, ogni attore privato, ogni persona nel suo scantinato si fermerà davvero. «E gli incentivi a barare sono enormi.» Con la contraddizione finale: <strong>gli stessi governi che vorrebbero regole di sicurezza più severe stanno finanziando la propria potenza di calcolo nazionale</strong>, formando i propri lavoratori e cercando di non dipendere dai modelli dei paesi rivali.</p>
+<h2>Il thread che ha fatto esplodere tutto</h2>
+<p>A questo punto l'autore si ferma e dice di non aver «mai visto un thread su Twitter diventare virale così in fretta». <strong>Jacob Coxen</strong> ha scritto il giorno prima: «<strong>Mi sono dimesso da Anthropic oggi. Ho passato gli ultimi tre anni a fare ricerca sul pre-training sia a OpenAI sia ad Anthropic. Nessuna delle due aziende si sta comportando in modo responsabile. Stanno correndo dritte verso una superintelligenza che si auto-migliora e stanno scommettendo con le nostre vite.</strong>» Il thread prosegue, ogni messaggio con milioni di visualizzazioni; l'autore non lo legge tutto ma ne riassume il nocciolo: non sottovalutate la potenza di questa tecnologia, saranno presto sistemi sovrumani capaci di <strong>violare qualunque cosa, rivoluzionare qualunque campo dall'oggi al domani, e acquisire potere e risorse reali</strong>. «Il progresso non sta rallentando.»</p>
+<p>Due risposte contano. <strong>Bernie Sanders</strong>: «Il signor Coxen ha ragione. Le stesse persone che costruiscono questa tecnologia ammettono che potrebbe minacciare il futuro dell'umanità. Per questo presenterò presto una proposta di legge per <strong>vietare la superintelligenza e mettere in pausa lo sviluppo dell'AI</strong>.» L'autore ci mette sopra l'unica domanda che serve: «<strong>ma cosa succede se quella legge entra in vigore solo negli Stati Uniti?</strong>»</p>
+<p>L'altra è più pesante perché viene da dentro. <strong>Evan Hubinger</strong> — e l'autore si prende la briga di aprire il profilo per verificare — è l'<strong>alignment science lead di Anthropic</strong>, prima a OpenAI e Google. Ha scritto: «Jacob ha ragione. Crediamo sinceramente che l'AI possa uccidere tutti gli esseri umani. Personalmente penso che ci sia <strong>più del 10% di probabilità entro il prossimo decennio</strong>. Credo che Anthropic stia facendo del suo meglio, ma <strong>non abbiamo ancora un piano per risolvere l'allineamento della superintelligenza e chiaramente non siamo sulla buona strada</strong> per averlo.»</p>
+<p>Il modo in cui l'autore chiude il capitolo è la cosa più sensata che dice: <strong>ogni laboratorio sa che rallentare da solo significa perdere la corsa</strong>. Lo spegnimento di Fable è stato un piccolo assaggio del problema: «un governo ha potuto spegnere un modello per diciotto giorni, ma <strong>non ha potuto spegnere la capacità, la concorrenza, né la pressione a continuare a muoversi</strong>».</p>
+<h2>Le tre competenze: la parte che serve davvero</h2>
+<p>Il problema che resta in mano alle persone e alle aziende normali è «piuttosto strano»: non possiamo fermare la corsa, e nemmeno evitare l'AI del tutto è realistico, «perché chi la usa bene si muoverà molto più in fretta di chi non la usa». L'obiettivo diventa quindi <strong>usare tutta quella capacità senza consegnare il proprio giudizio, i propri accessi e la propria responsabilità</strong>. Da cui le tre competenze.</p>
+<h3>Primo: trovare il dolore vero</h3>
+<p>Un cliente arriva e dice: «ho visto questo agente AI su LinkedIn, me lo costruisci?». Se apri Claude e costruisci esattamente quello che ha chiesto, <strong>rischi di automatizzare una cosa che non era il problema</strong>. «Più questi modelli diventano potenti, più diventa importante capire <strong>quale problema meriti davvero quella potenza</strong>.»</p>
+<p>L'esempio è una <strong>med spa</strong>. La titolare voleva sistemi AI che portassero più contatti dalla porta, perché il dolore che pensava di avere era: voglio più fatturato. Prima di costruire qualunque cosa, l'autore le ha fatto quella che chiama una delle sue domande preferite — «<strong>se il tuo business crescesse di dieci volte domani, quale processo si romperebbe per primo?</strong>». Guardando davvero i numeri, si è visto che i contatti <strong>non erano il problema</strong>: ne arrivavano in abbondanza, ma <strong>molti non si presentavano agli appuntamenti prenotati</strong>. La med spa perdeva soldi <em>dopo</em> aver generato il contatto. Metterne altri nel tubo avrebbe solo reso <strong>la perdita più costosa</strong>. Il progetto giusto da cui partire era migliorare il <strong>recupero dei mancati appuntamenti</strong>, perché attaccava direttamente il vincolo che già costava soldi.</p>
+<p>La morale, che è la frase da ricordare: «<strong>Claude può eseguire il piano sbagliato a velocità pazzesca.</strong> Devi ancora capire il business abbastanza bene da puntarlo nella direzione giusta. E quel valore comincia <strong>prima ancora che il prompt venga scritto</strong>.»</p>
+<h3>Secondo: controllare il sistema</h3>
+<p>Una volta scelto il lavoro giusto, bisogna decidere <strong>quanta parte dell'azienda l'agente ha il permesso di toccare</strong>. L'analogia: «<strong>non assumeresti qualcuno il lunedì per poi consegnargli subito le credenziali bancarie dell'azienda o un intero database.</strong>» Eppure è la versione digitale di quello che fanno le aziende quando collegano un agente AI a tutto in una volta — posta, CRM, sistema dei pagamenti, base di codice — senza ragionare sui permessi.</p>
+<p>Un agente <strong>ha bisogno</strong> di accessi per fare lavoro utile, ma <strong>l'accesso non è tutto-o-niente, non è binario</strong>. Si può decidere cosa può leggere, cosa può modificare, quali azioni richiedono approvazione, e se si riesce a ricostruire esattamente cosa ha fatto dopo che l'ha fatto. La checklist operativa che dà:</p>
+<p>partire sempre da <strong>accesso in sola lettura</strong> quando è possibile; far produrre all'agente <strong>solo bozze</strong> prima che pubblichi qualcosa in produzione o lo mandi a un cliente; tenere sempre <strong>un passaggio di approvazione umana</strong> su tutto ciò che riguarda <strong>soldi, cancellazioni, pubblicazioni</strong> o qualunque cosa in produzione; <strong>registrare tutte le azioni</strong>; e assicurarsi di poter <strong>spegnere l'intera cosa in fretta</strong> se inizia a comportarsi in modo strano.</p>
+<p>Il collegamento con la previsione sull'assicurazione è esplicito: un assicuratore chiederà prima o poi quali agenti possono toccare i dati dei clienti, chi approva le azioni ad alto rischio, dove sono conservati i log, e cosa succede se uno di questi agenti viene compromesso. «Se sai rispondere a quelle domande, sei molto più preparato ai rischi creati dai tuoi stessi agenti.» La regola in una riga: «<strong>agenti più capaci hanno bisogno di confini più stretti</strong>» — e anche con confini ottimi, un agente «può comunque produrre una risposta rifinita e <strong>completamente sbagliata</strong>».</p>
+<h3>Terzo: prendersi il risultato</h3>
+<p>L'ultima competenza è <strong>possedere qualunque cosa esca</strong> dall'altra parte dell'agente. L'AI può scrivere l'email, scrivere il codice, rispondere a un cliente, fare una raccomandazione — «ma <strong>non può prendersi la responsabilità</strong> quando sbaglia il prezzo in un preventivo o manda la mail alla persona sbagliata».</p>
+<p>Il metodo: <strong>prima</strong> di costruire, si decide <strong>quale numero di business</strong> questo sistema deve cambiare — più clienti, più valore per cliente, meno costi, meno errori costosi — e più si è specifici meglio è. Poi si scrive <strong>il numero di partenza, il numero obiettivo, e quanto tempo si dà al sistema per arrivarci</strong>. A questo elenco, che in questo canale era già stato detto altre volte, l'autore aggiunge <strong>una domanda nuova</strong>: «<strong>cosa può sbagliare questo sistema, e chi è responsabile di controllarlo?</strong>»</p>
+<p>Applicato alla med spa: si sarebbe misurato il tasso di presentazione agli appuntamenti <strong>prima</strong> di toccare qualunque cosa, fissato un obiettivo, e misurato lo stesso numero dopo l'accensione del sistema di recupero. Ma siccome l'AI <strong>parla con clienti veri</strong>, servirebbe anche rivedere cosa dice, <strong>decidere in quale momento un umano prende in mano la conversazione</strong>, e tenere un registro di ogni singolo messaggio e di ogni interazione con un cliente reale.</p>
+<p>Il perché è tutto commerciale, non morale: quando il titolare ti chiede «<strong>ha funzionato?</strong>» puoi mostrargli esattamente quale numero è cambiato; e se ti chiede «<strong>era sotto controllo?</strong>» puoi mostrargli come si è comportato, chi ha approvato cosa, e cosa è successo quando il sistema non era sicuro. «<strong>Quella prova diventa più preziosa man mano che questi sistemi diventano più potenti</strong>, perché le aziende avranno bisogno di persone che sappiano produrre il risultato <strong>e metterci la faccia</strong>.»</p>
+<p>La chiusura mette insieme i tre pezzi: se i tuoi agenti sbagliano, la colpa è tua e te la devi prendere; se fanno cose davvero buone, <strong>il merito è tuo e devi assicurarti che l'azienda lo capisca</strong>. «Man mano che Claude diventa più capace, il tuo ruolo <strong>sale di un livello</strong>: decidi cosa va automatizzato, controlli cosa il sistema può toccare, e ti prendi la responsabilità di quello che esce dall'altra parte.»</p>
+<h2>Cosa tenere, cosa buttare</h2>
+<p><strong>Da tenere:</strong> la checklist dei permessi di un agente (sola lettura come default, bozze, approvazione umana su soldi e cancellazioni e pubblicazioni, log, interruttore) è la prima cosa in questo vault che tratta il tema; la domanda «<strong>se crescesse dieci volte domani, cosa si rompe per primo?</strong>» è uno strumento diagnostico buono e riusabile; il fatto che <strong>Fable e Mythos siano lo stesso modello con strati di sicurezza diversi</strong> dice qualcosa di importante su come funziona davvero la sicurezza dei modelli; e lo schema <strong>numero-baseline-obiettivo-tempo + chi controlla gli errori</strong> è un pezzo mancante che si innesta bene su quanto già scritto sulla definizione di "fatto".</p>
+<p><strong>Da buttare:</strong> il titolo; i quarantasei secondi di telegiornali; i robot 1X; e l'idea implicita che qualcosa sia cambiato <em>in Claude Code</em>. Non è cambiato niente in Claude Code. È cambiato il contesto politico attorno ad Anthropic, e sono emersi dei numeri impressionanti su cosa un modello senza paletti sa fare in materia di sicurezza informatica — che è una cosa diversa, più interessante, e che il titolo non dice.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=Ktnwygcnd8U (Nate Herk | AI Automation, 13:42, pubblicato il <strong>27 settembre 2026</strong>; al momento della visione ~68.700 visualizzazioni, 899 like, 145 commenti; canale 1,05 milioni di iscritti; visto il 04/10/2026)</li>
+<li>report grezzo con trascrizione completa</li>
+<li>Concetti collegati: spec-driven-prompting (il numero-baseline-obiettivo-tempo e la definizione di "fatto" <em>prima</em> di costruire), ai-service-business (il modello del consulente che costruisce agenti per i clienti; «tutto ciò che tocca soldi o dati passa dal fondatore» è la stessa regola dei permessi, detta prima), sei-skill-ai-carriera (stesso autore, framework più ampio delle sei competenze; queste tre sono un sottoinsieme ristretto con l'accento sulla responsabilità), vendere-servizi-ai, mcp-connectors (è collegando un agente a posta, CRM e pagamenti che nasce il problema dei permessi), verifica-business-pitch-video (il caso della med spa è un aneddoto auto-dichiarato senza numeri)</li>
+<li>Entità: nate-herk, claude-code</li>
+<li>Video imparentato già nel vault: <a href="anthropics-ceo-how-to-build-a-1-person-business-with-claude-2026-09-23.html">anthropics-ceo-how-to-build-a-1-person-business-with-claude-2026-09-23</a> — stesso autore, stesso schema «parto da una dichiarazione di Dario Amodei e ne ricavo consigli operativi», con lo stesso punto d'arrivo (ciò che tocca soldi o dati resta in mano all'umano).</li>
+</ul>
+<p><strong>Omesso:</strong> la pubblicità alla community Skool all'inizio e alla fine («ho messo tutto questo in una guida gratuita, link in descrizione»), la richiesta di mettere like e i saluti finali. In <strong>descrizione</strong> ci sono inoltre: il link alla community a pagamento «AI Automation Society Plus» presentata come «come ho costruito un'agenzia AI da 0 a oltre un milione all'anno», un link affiliato a <strong>Glaido</strong> (voice-to-text, mese gratis) e un codice sconto <strong>NATEHERK</strong> per i VPS <strong>Hostinger</strong> — nessuno dei due nominato a voce nel video.</p>
+<p><strong>Non verificato / da sapere:</strong></p>
+<ol>
+<li><strong>Metà del video non ha copertura visiva.</strong> Il campionamento dei fotogrammi si è esaurito a <strong>06:48</strong>: tutto ciò che viene dopo — il thread di Jacob Coxen, le risposte di Sanders e Hubinger, e l'intera sezione sulle tre competenze — è ricostruito <strong>solo dai sottotitoli</strong>. Le citazioni di quei tre tweet sono quindi quelle <em>lette ad alta voce dall'autore</em>, non lette da me sullo schermo.</li>
+<li><strong>Nessun fatto di questo video è stato verificato su fonte primaria.</strong> Lo spegnimento di Fable 5 e Mythos 5, le date (12 giugno – 1 luglio 2026), i diciotto giorni, il 99% del classificatore, i numeri su OpenBSD/FFmpeg/FreeBSD/wolfSSL, il +29% del BLS, i 29 paesi di Shanghai, il programma NSF AI-Ready America: tutto proviene da pagine <strong>mostrate a schermo nel video</strong> e in gran parte <strong>mai lette ad alta voce</strong>. Prima di citare uno di questi numeri altrove, va controllato alla fonte.</li>
+<li><strong>Contraddizione interna sulla durata dello stop:</strong> a [01:10] l'autore dice «<strong>tre settimane</strong> dopo gli Stati Uniti hanno tolto le restrizioni», a [03:01] parla della «<strong>finestra di 18 giorni</strong>» e a [08:53] di «18 giorni». Le date sullo schermo (12 giugno → 1 luglio) danno 19 giorni. Qui ho usato «~18 giorni» perché è il numero che ripete due volte.</li>
+<li><strong>Il numero del BLS è usato male.</strong> Il +29% di crescita per gli analisti di sicurezza informatica 2024-2034 è una proiezione esistente del Bureau of Labor Statistics, ma <strong>non è una proiezione sull'effetto degli agenti AI</strong>: l'autore la presenta come se confermasse la sua previsione, mentre è una stima fatta per altri motivi. Lo stesso vale per la cyber assicurazione: le domande sugli agenti nel modulo di rinnovo sono una <strong>sua previsione</strong>, non un fatto attuale, e lui lo dice (ma di sfuggita).</li>
+<li><strong>Il caso della med spa non ha numeri.</strong> Nessun dato sul tasso di mancata presentazione prima e dopo, nessun risultato. È un aneddoto illustrativo, e dal racconto non è nemmeno chiaro se il sistema sia stato poi costruito («avremmo misurato», al condizionale).</li>
+<li><strong>Le tre previsioni sono dichiaratamente previsioni</strong>, non notizie — l'autore è onesto su questo, ma il montaggio (articoli veri che scorrono mentre parla di cose che immagina) tende a confonderle.</li>
+<li><strong>La persona inquadrata non viene mai nominata nel video</strong> e il set porta un'insegna al neon «AIS»: l'attribuzione a Nate Herk qui viene dai metadati del canale (uploader «Nate Herk | AI Automation»), non da un'autopresentazione nel parlato.</li>
+<li><strong>Errori dei sottotitoli automatici</strong> corretti qui: «Jacob Coxen» è la grafia dei sottotitoli e il cognome non è confermato da un fotogramma; «our AIS certified AI consultant program» a [04:10] è quasi certamente una sigla del canale resa male e qui è stata lasciata fuori; «a rival country's models» è reso come «arrival countries' models».</li>
+<li><strong>Il vault non ha ancora una pagina su Dario Amodei</strong> né sui modelli Fable/Mythos: qui sono contesto, non tema.</li>
+</ol>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

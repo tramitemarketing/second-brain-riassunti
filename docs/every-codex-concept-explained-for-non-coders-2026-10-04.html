@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Every Codex Concept Explained for Non-Coders</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Every Codex Concept Explained for Non-Coders" src="https://i.ytimg.com/vi/DFlELTiSPk8/hqdefault.jpg"><p class="muted">📖 29 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk elenca i <strong>18 concetti che compongono Codex</strong>, divisi in quattro blocchi, mostrandoli tutti dentro l'app desktop sul suo progetto reale. Per chi vive in Claude Code il valore non è imparare Codex: è scoprire che <strong>quasi tutto è lo stesso identico impianto con altri nomi</strong> — <code>AGENTS.md</code> sta a <code>CLAUDE.md</code>, <code>.codex/</code> sta a <code>.claude/</code>, le skill sono letteralmente lo stesso file <code>SKILL.md</code> nella stessa forma, i sub-agent sono gli stessi sub-agent, i permessi sono gli stessi tre livelli. Lo dice lui stesso in un intermezzo dedicato: per passare da uno all'altro basta <strong>duplicare tre cose</strong> (il file di regole, le skill, i settings) e il lavoro lo fa l'agente, perché «hai un mucchio di file e cartelle in locale che puoi usare su <strong>qualunque harness</strong>, ed è questo che vuoi costruire». Restano <strong>quattro cose che in Claude Code non ci sono</strong>: <code>/goal</code> (un obiettivo che l'agente continua a inseguire da solo, visibile con un timer), <strong>Sites</strong> (hosting di quel che ha costruito, in un click, con analytics e database), un <strong>browser dentro l'app con i login già fatti</strong>, e il <strong>voice mode</strong>, che a voce apre thread, delega agent e si crea da solo gli obiettivi. Quelle quattro sono il motivo per cui potrebbe valere la pena affiancarlo. In mezzo c'è anche il listino completo dei quattro modelli, in dollari e in crediti.</p>
+<h2>Il quadro: diciotto concetti in quattro blocchi</h2>
+<p>L'impostazione è dichiarata nei primi quindici secondi, con una slide che resta a mezzo riempita per tutto il video: <strong>Parte 1 Fondamenta, Parte 2 Ambienti, Parte 3 Controllo e personalizzazione, Parte 4 Strumenti e scala</strong>. La promessa è di completezza — «i 18 concetti centrali che ti servono davvero per iniziare a usarlo e tirarci fuori valore» — e la barriera d'ingresso viene disinnescata subito: «non importa se non sei tecnico per niente o se non hai mai usato Codex».</p>
+<p>Il materiale non è una demo costruita per il video: è il suo <strong>vero progetto di lavoro</strong>, che chiama <strong>Herk-2</strong> ed è il suo <em>AI operating system</em>. Ogni concetto viene mostrato lì dentro, coi suoi file veri, le sue chat vere e i suoi task schedulati veri. Vale la pena saperlo perché è anche il limite: è il setup di una persona sola, non una documentazione.</p>
+<p>Una nota di metodo prima di entrare nel merito. <strong>Il confronto con Claude Code, concetto per concetto, in questo video non c'è</strong> — se non per i due casi in cui lo dice lui (il file di regole e le skill). Tutte le righe «in Claude Code» che seguono sono una <strong>glossa aggiunta qui per il vault</strong>, basata su come Claude Code è usato su questa macchina, e vanno trattate come un'ipotesi di lavoro, non come un'affermazione della fonte.</p>
+<h2>Parte 1 — Fondamenta</h2>
+<h3>1. Projects</h3>
+<p>Il problema di partenza è quello che chiunque abbia usato ChatGPT o Claude sul web conosce: <strong>ogni chat nuova riparte da zero</strong> e devi rispiegare chi sei, cosa fai, su cosa stai lavorando questo trimestre. Un <strong>progetto</strong> in Codex risolve questo, e la definizione che ne dà è disarmante: «un progetto è in realtà molto semplice — <strong>è solo una raccolta di cartelle e file</strong>». Nella sidebar ne ha quattro o cinque attivi (Herk-2, Hyperframes, Trading Challenge, AIS Demo); quello che vede Codex quando ne apre uno è esattamente la cartella che vede lui in Esplora File.</p>
+<p>Il risultato lo mostra chiedendo «dammi un riepilogo di cosa abbiamo fatto questo mese». L'agente si orienta nel progetto e <strong>rilegge anche tutte le chat precedenti</strong> che ci ha avuto dentro, poi restituisce sette aree di lavoro: sistema operativo AI, contenuti e strategia YouTube, test di modelli e demo, app ed esperimenti di prodotto, siti, branding, operations. Il commento: «questo non è più un chatbot, questo è un <strong>socio fondatore</strong>, un assistente personale».</p>
+<p><strong>In Claude Code:</strong> il corrispettivo è semplicemente <strong>la cartella da cui lanci <code>claude</code></strong>, e il vault di Divan è già esattamente questo. Non esiste però una barra laterale con i progetti e la loro cronologia sfogliabile: le sessioni sono salvate per cartella e si riaprono con <code>--continue</code> / <code>--resume</code>. La parte che manca davvero è quella in cui l'agente, da solo e senza che glielo chiedi, <strong>va a rileggersi le chat passate di quel progetto</strong> per orientarsi; in Claude Code quella conoscenza va scritta a mano da qualche parte (in questo vault la fa il <code>log.md</code> e l'<code>index.md</code>).</p>
+<h3>2. AGENTS.md</h3>
+<p>«Non lasciarti intimidire da quel MD»: è un file markdown, sono <strong>regole</strong>, e si legge senza essere tecnici. È il file che fissa le regole di base del progetto in cui lavori, e cambia da progetto a progetto. Il suo comincia con «sei il sistema operativo AI di Nate Herk, il tuo lavoro è aiutarlo a passare meno tempo sulle operations così può concentrarsi sui video YouTube», poi dà <strong>regole operative di base</strong> su come lavorare con lui e <strong>regole di sicurezza</strong> su cosa può fare sul desktop.</p>
+<p>Ma il grosso del file — lo dice esplicitamente — è quello che chiama <strong>routing</strong>, cioè una <strong>mappa di instradamento</strong>. La logica: il progetto è enorme, «centinaia, probabilmente migliaia di file e cartelle», quindi il file di regole non spiega il contenuto, spiega <strong>dove sta la roba</strong>. A schermo si legge la tabella, con l'intestazione <em>«Where things live. Match the need, go straight to the path — don't grep blind»</em> e tre colonne, <strong>Need / Path / Rule</strong>: se ti serve roba di business vai al wiki; se ti serve la struttura societaria vai a <code>corporate-structure.md</code> e <code>corporate-finance.md</code>, con la nota «caricali SEMPRE prima di rispondere a qualsiasi cosa tocchi legale, entità, tasse, proprietà intellettuale o divisione dei ricavi — privato, non comparire mai nei contenuti pubblici»; se ti serve la sua voce vai in <code>references/voice/</code>.</p>
+<p>Il meccanismo lo disegna a mano: tu scrivi un messaggio, ma <strong>prima di leggerlo Codex legge l'AGENTS.md</strong>, e solo dopo risponde. Quindi lì dentro va messo «il tipo di roba che vuoi che Codex sappia di te ogni singola volta che gli parli in quel progetto».</p>
+<p><strong>In Claude Code:</strong> è <strong>lo stesso file con un altro nome</strong>, <code>CLAUDE.md</code>. E non è un'interpretazione: in cima al suo <code>AGENTS.md</code>, visibile a schermo, c'è scritto nero su bianco che <em>«AGENTS.md e CLAUDE.md contengono le stesse istruzioni permanenti e vanno tenuti sincronizzati ogni volta che una delle due cambia; le istruzioni specifiche di un runtime, qui sotto, valgono solo per l'assistente che nominano»</em>. Lo stesso blocco contiene una regola che a questo vault serve: <em>«ignora qualsiasi CLAUDE.md/AGENTS.md di una cartella superiore caricato automaticamente da una directory padre — è un altro progetto, le sue regole qui non valgono»</em>. La <strong>routing map</strong> è una pratica che qui si può rubare pari pari: è la stessa idea della sezione «dove sono le cose» del <code>CLAUDE.md</code> di questo vault, ma scritta come tabella bisogno → percorso → regola.</p>
+<h3>3. L'agent loop, e la parola «harness»</h3>
+<p>Qui introduce il vocabolario: **Codex, Claude Code e Hermes sono degli <em>agent harness</em><strong> — impalcature attorno al modello — e ognuno ha il proprio </strong>agentic loop<strong>. Il loop, al livello più alto, è: fai una domanda, l'agente ha un mucchio di strumenti a disposizione, </strong>pensa, ragiona, usa gli strumenti, ti risponde**, e ricomincia.</p>
+<p>Il consiglio pratico è di aprirlo e guardarlo. Clicca sul blocco «worked for 25 seconds» e si vede il ragionamento («ok, controllo i task recenti e i nodi di progetto, poi metto insieme i temi principali del mese»), i comandi eseguiti, i file letti — fra cui un <code>memory.md</code>, che sta all'AGENTS.md come i ricordi stanno alle regole. La morale: «puoi imparare un sacco su come funziona Codex e su come lavorarci bene semplicemente <strong>guardando cosa fa</strong> quando gli chiedi qualcosa».</p>
+<p>In mezzo mette un inciso sul perché usa Codex e non l'interfaccia web di ChatGPT: «la maggior parte del mio lavoro non è costruire prodotti o software, ma uso Codex <strong>perché è semplicemente il più potente</strong>».</p>
+<p><strong>In Claude Code:</strong> identico, è lo stesso concetto con la stessa parola. Il vault lo ha già mappato in harness e loop-engineering, con in più il dato che manca qui: a modello fisso, cambiando solo harness, le prestazioni passano dal 13% al 40%.</p>
+<h3>4. /goal</h3>
+<p>Lo chiama «onestamente una delle mie cose preferite dell'AI in assoluto». Il comando <code>/goal</code> dice «imposta un obiettivo da perseguire», e la logica è che <strong>gli agenti AI sono fortemente orientati all'obiettivo</strong>: dai loro un traguardo e «continuano a lavorare e a lavorare e a lavorare finché non lo centrano»; se metti un ostacolo, riprovano strade diverse invece di fermarsi.</p>
+<p>La regola che ne tira fuori è la parte riusabile: <strong>più l'obiettivo è oggettivo, più il prompt funziona</strong>. «Lavora finché non hai raccolto 257 fonti e poi scrivi il report» è oggettivo e verificabile. Si possono dare anche obiettivi più sfumati — «finché non sei pienamente soddisfatto», «finché non l'hai verificato più volte e ti senti a posto» — e l'agente ci arriva lo stesso decidendo lui quando ha finito, «ma man mano che diventi più oggettivo i prompt di goal sono semplicemente più efficaci».</p>
+<p>L'esempio non è inventato: <strong>tutte le grafiche animate di questo video sono uscite da un <code>/goal</code></strong>. Nel progetto Hyperframes — che fa costruire ai coding agent dell'HTML e poi lo rende come video — ha lanciato un prompt marcato <em>sent as goal</em>: «aiutami a creare delle motion graphics per un video YouTube, sto facendo 18 concetti di Codex, voglio un'intro e delle card di transizione». A fine corsa l'agente ha risposto «ho finito <strong>e ho controllato visivamente</strong>», cioè si è fatto screenshot da solo per verificare prima di dichiararsi a posto. Il risultato a schermo, servito su un <code>localhost</code>, dice: <em>intro di 6 secondi con 18 card che si assemblano in una griglia 3 × 6; 18 transizioni abbinate da 3,5 secondi l'una; 1080p, 60 fps, MP4 silenziosi più i sorgenti modificabili; completato in circa 14 minuti</em>.</p>
+<p>La chiusura è una tesi: «i modelli oggi sono diventati così bravi che <strong>conviene dargli un obiettivo e togliersi di mezzo</strong>. Se provi davvero a microgestirli, in pratica gli stai mettendo la museruola alle capacità».</p>
+<p><strong>In Claude Code: questo non c'è.</strong> Non esiste un <code>/goal</code> nativo che pianti un obiettivo persistente, lo mostri con un timer e lo tenga vivo tra un turno e l'altro. Il surrogato è scrivere il criterio di «fatto» dentro il prompt (ed è esattamente ciò che la skill <code>prompt</code> di questo vault chiede a ogni messaggio), oppure usare un loop esterno — su questa macchina ci sono la skill <code>loop</code> e il plugin <code>ralph-loop</code>, che però sono un ciclo di re-invocazione, non un obiettivo che l'harness custodisce. Da harness arriva una conferma indiretta che la differenza è reale: Codex <strong>tiene vivo il goal</strong> anche se non rispondi a una sua domanda, Claude Code tira dritto. Se c'è un motivo singolo per affiancare Codex, probabilmente è questo.</p>
+<h2>L'intermezzo che conta di più: come si passa da Claude Code a Codex</h2>
+<p>A metà video si ferma apposta: «ma Nate, e se usiamo Claude Code da un sacco di tempo?». La risposta è la parte più azionabile dell'ora.</p>
+<p>«Davvero, la differenza principale è <code>AGENTS.md</code>, <code>.codex</code> e <code>.agents</code> — perché in Claude Code hai il tuo <code>CLAUDE.md</code> e il tuo <code>.claude</code>.» Quando è passato, ha fatto <strong>tre copie</strong>: ha duplicato il <code>CLAUDE.md</code> chiamandolo <code>AGENTS.md</code> («adesso ne ho due, uno <code>AGENTS.md</code> e uno <code>CLAUDE.md</code>, ma sono praticamente lo stesso file»), ha duplicato <strong>tutte le skill di Claude</strong> dentro la cartella <code>.agents</code>, e ha duplicato i <strong>file di impostazioni di Claude</strong> dentro <code>.codex</code>.</p>
+<p>Il punto però è il seguito: <strong>non serve farlo a mano</strong>. Quello che ha detto davvero all'agente è stato: «ehi Codex, guarda questo progetto Herk-2, l'ho costruito con Claude Code negli ultimi mesi, aiutami a renderlo pronto per Codex» — e più in generale «guarda la documentazione, analizza il mio progetto e rendilo accessibile a Codex».</p>
+<p>La conclusione è la frase da incorniciare: «e adesso hai un mucchio di file e cartelle in locale che puoi usare <strong>su qualunque agent harness, quando vuoi</strong>. È molto flessibile, è molto <em>tool agnostic</em>, ed è questo che vuoi costruire, alla fine della fiera».</p>
+<p>C'è anche una prova a schermo che l'interoperabilità non è solo teorica: più avanti, nel registro di esecuzione dei sub-agent, si legge che Codex sta eseguendo <code>Get-Content '.claude/skills/idea-mining/SKILL.md'</code> e <code>Get-Content '.claude/skills/trend-scout/SKILL.md'</code>. Cioè <strong>sta leggendo le skill direttamente dalla cartella di Claude Code</strong>, non da una copia in <code>.agents</code>. Nell'albero dei file del progetto, infatti, <code>.claude</code> e <code>.codex</code> convivono fianco a fianco.</p>
+<h2>Parte 2 — Ambienti</h2>
+<h3>5. Locale, cloud e remoto</h3>
+<p>Prima la definizione da non tecnici: <strong>locale</strong> vuol dire che esiste solo sulla macchina che stai usando. L'esempio è il documento Word che hai dimenticato di salvare prima di mandartelo per email, contro Google Drive che è sempre nel cloud. Ma il concetto va oltre i file: vale anche per <strong>quello che l'agente produce</strong>. Il sito con tutte le animazioni che si è fatto costruire gira su <code>127.0.0.1</code>, porta <code>8008</code>, cioè un <strong>localhost</strong>; sembra un indirizzo web ma se lo mandi a qualcun altro non vede niente, perché su quella macchina a quella porta non c'è nulla. Si ricorda una presa in giro circolata su Twitter: uno che fingeva di essere un principiante entusiasta — «guardate cosa ho costruito in un giorno con Claude Code e Codex» — e allegava una sfilza di indirizzi localhost che ovviamente nessun altro poteva aprire.</p>
+<p>Poi la scelta vera: quando apri una chat nuova puoi farla girare <strong>in locale</strong>, e allora Codex può leggere, creare, modificare, spostare e cancellare i tuoi file, andare nei Download, sul Desktop, «praticamente fare qualsiasi cosa sul mio computer» — oppure <strong>nel cloud</strong>, e lì nell'interfaccia <strong>spariscono il selettore del modello e quello dei permessi</strong>, perché viene montato un sandbox cloud (a schermo: «Setting up environment… waiting for output», e il contesto non è più la cartella locale ma il repository GitHub <code>nateherkai/Herk-2.0</code>).</p>
+<p>Dice di non usare quasi mai il cloud, e spiega perché: lavorando in locale con il PC acceso, <strong>sembra già cloud</strong>. La dimostrazione è la funzione <strong>remote</strong>: specchia il telefono, apre l'app ChatGPT, tocca «remote» e vede tutte le sue chat Codex del desktop; entra in «summarize past month» e trova la stessa identica conversazione, può scrivere lì e il messaggio arriva sul desktop. «Finché la mia macchina è accesa, anche se questo gira in locale e io sono a passeggio, a cena, pure in un altro stato, posso <strong>controllare il mio desktop dal telefono</strong>» — e se ha lasciato un file sul computer, può chiedere di farselo mandare via email.</p>
+<p><strong>In Claude Code:</strong> il locale è l'impostazione normale, ed è il modo in cui Divan lavora. Per il cloud e per il controllo da remoto <strong>esistono corrispettivi</strong> (Claude Code sul web con le sessioni cloud, le routine schedulate in cloud, l'app mobile), ma il video non li nomina e <strong>non li ho verificati in questa sessione</strong>: vanno controllati prima di darli per equivalenti.</p>
+<h3>6. Worktree</h3>
+<p>Premessa onesta sua: «se non stai costruendo software o app in produzione, questo non ti interesserà granché — io i worktree non li uso quasi mai». Ma è utile saperlo perché compaiono nell'interfaccia. Nel menu «Work in» le opzioni sono tre — <strong>Local</strong>, <strong>New local worktree</strong>, <strong>Cloud</strong> — e accanto alla seconda il suggerimento spiega tutto: <em>«crea una copia di Herk-2 per lavorarci in parallelo»</em>.</p>
+<p>A cosa serve: fare qualcosa di rischioso, sperimentare, o cambiare — l'esempio è il flusso di onboarding di un'app — senza disturbare il ramo principale su cui magari stanno lavorando altri. Poi, se funziona, <strong>lo si riunisce nel principale</strong>. Aggiunge che quando costruisce software è spesso <strong>Codex stesso a suggerirlo</strong> («a proposito, questa cosa forse la vuoi fare in un worktree nuovo»), e che nella barra si possono vedere il branch <code>master</code> e altri worktree creati automaticamente. Chiusura: «non è qualcosa a cui penso attivamente, né a cui credo che tu debba pensare attivamente per trarre il massimo da Codex».</p>
+<p><strong>In Claude Code:</strong> sono gli <strong>stessi worktree di git</strong>, stessa identica cosa, perché sono una funzione di git e non dell'harness. Su questa macchina ci sono anche la skill <code>superpowers:using-git-worktrees</code> e la possibilità di lanciare un sotto-agente in un worktree isolato. Nessuna differenza concettuale.</p>
+<h3>7. La cartella <code>.codex</code></h3>
+<p>Qui arriva la slide più utile di tutto il video, intitolata <strong>«Where Codex files live — Two folders. Two scopes»</strong>, e il contenuto merita di essere trascritto perché è la mappa che permette di tradurre un setup nell'altro.</p>
+<p>Nello <strong>scope utente</strong> (<code>C:/Users/&amp;lt;nome&amp;gt;/</code>), valido per tutti i progetti, ci sono due cartelle. <code>.codex/</code> contiene le <strong>impostazioni personali e i dati dell'app</strong>: <code>config.toml</code> sono le tue preferenze predefinite, <code>sessions/</code> è la cronologia dei task, <code>memories/</code> il contesto salvato, <code>automations/</code> i task schedulati, <code>plugins/</code> i plugin installati. <code>.agents/</code> contiene invece <strong>i tuoi flussi di lavoro riutilizzabili</strong>, nella forma <code>skills/&amp;lt;nome-skill&amp;gt;/SKILL.md</code>.</p>
+<p>Nello <strong>scope progetto</strong> (dentro la cartella del progetto) si ripetono le stesse due cartelle con un ruolo diverso: <code>.codex/</code> tiene le <strong>impostazioni e i subagent di quel progetto</strong> — <code>config.toml</code> con le sovrascritture locali e <code>agents/researcher.toml</code> come esempio di <strong>subagent personalizzato</strong> — mentre <code>.agents/skills/&amp;lt;nome&amp;gt;/SKILL.md</code> tiene <strong>i flussi di lavoro di quel progetto</strong>. La legenda riassume: <strong><code>.codex</code> = configurare Codex, <code>.agents/skills</code> = insegnare flussi di lavoro</strong>. In calce, una nota onesta: <em>«contenuti rappresentativi; alcune installazioni caricano le skill anche da <code>.codex/skills/</code>»</em>.</p>
+<p>Aprendo il <code>config.toml</code> vero si vedono blocchi in TOML con la politica sulle variabili d'ambiente della shell e un paio di limiti numerici. Il suo consiglio pratico è di non starci dietro: «non è una cartella a cui penso attivamente o che devo mantenere», però è lì che vivono le cose quando serve un'impostazione precisa — e se sei confuso «chiedi a Codex cosa ha fatto, o se una cosa va spostata in un'altra cartella: <strong>può cercare nella propria documentazione</strong> e capire come si fa correttamente». La distinzione che invece ritiene importante è proprio quella fra <strong>scope progetto e scope utente</strong>.</p>
+<p><strong>In Claude Code:</strong> corrispondenza quasi uno a uno. <code>~/.claude/</code> è lo scope utente e <code>&amp;lt;progetto&amp;gt;/.claude/</code> lo scope progetto; le skill stanno in <code>~/.claude/skills/&amp;lt;nome&amp;gt;/SKILL.md</code> e in <code>.claude/skills/&amp;lt;nome&amp;gt;/SKILL.md</code>; i sub-agent in <code>.claude/agents/&amp;lt;nome&amp;gt;.md</code>. Le due differenze di forma: Claude Code usa <code>settings.json</code> dove Codex usa <code>config.toml</code> (<strong>JSON contro TOML</strong>), e definisce i sub-agent in <strong>markdown con frontmatter</strong> dove Codex usa un <strong>file <code>.toml</code></strong>. Una differenza di sostanza c'è però nella disposizione: Codex tiene le skill in una cartella <code>.agents</code> <strong>separata</strong> dalla configurazione, Claude Code le tiene <strong>dentro</strong> <code>.claude</code>.</p>
+<h2>Parte 3 — Controllo e personalizzazione</h2>
+<h3>8. I modelli, i token e quanto costano davvero</h3>
+<p>Puoi scegliere il modello quando apri una chat <strong>e cambiarlo fra un messaggio e l'altro</strong>. La teoria vale anche quando i nomi saranno cambiati: hai fasce diverse, con prezzi e punti di forza diversi. Oggi la più forte è <strong>GPT-6 Astra</strong>, che però «costa di più e ti mangia più in fretta il limite settimanale» di quanto farebbe <strong>5.6 Sol</strong>, che a sua volta ne mangia più di <strong>5.6 Terra</strong>.</p>
+<p>La slide col listino completo, che lui stesso data «verificato il 7 settembre 2026» citando come fonti le pagine modelli di OpenAI e il pricing di Codex, dà i prezzi <strong>API in dollari per milione di token</strong>, nelle tre colonne input / input in cache / output: <strong>GPT-6 Astra 10,00 / 1,00 / 50,00</strong>; <strong>GPT-5.6 Sol 4,00 / 0,40 / 20,00</strong>; <strong>GPT-5.6 Terra 2,00 / 0,20 / 12,00</strong>; <strong>GPT-5.6 Luna 0,20 / 0,02 / 1,20</strong>. In fondo la sintesi: <strong>Astra = 2,5 × Sol</strong> a parità di mix di token. Le note in piccolo precisano che sono tariffe standard, che <strong>i prompt API oltre 272.000 token di input costano di più</strong>, che <strong>le modalità veloci costano di più</strong>, e che il prezzo promozionale di Sol dura almeno fino al <strong>21 novembre 2026</strong>.</p>
+<p>Accanto c'è la seconda tabella, <strong>crediti Codex per milione di token</strong>: Astra 250 / 25 / 1.250; Sol 100 / 10 / 500; Terra 50 / 5 / 300; Luna 5 / 0,5 / 30, con la nota <strong>Terra = 10 × Luna</strong>.</p>
+<p>La distinzione che tiene a fare è fra i due mondi. Quelli sopra sono <strong>prezzi API</strong>, cioè quanto spenderesti se stessi costruendo un'automazione che chiama i modelli in modo programmatico. <strong>L'uso dentro Codex non è programmatico</strong>: è un limite d'uso legato all'abbonamento, 20, 100 o 200 dollari al mese. E qui fa il conto che è la sua tesi: il suo è il piano da <strong>200 dollari al mese</strong>, e se consumasse tutto il limite settimanale ogni settimana «mi prendo circa <strong>14.000 dollari di inferenza al mese</strong> pagandone 200». Conclusione: gli abbonamenti sono molto più convenienti dei prezzi API. Se sfori il limite settimanale devi comprare <strong>crediti Codex</strong> a parte, in blocchi (2.500, 5.000, 25.000) — «non so esattamente perché lo prezzino così». Nella schermata di fatturazione si vede il piano Pro a 200 $/mese, un saldo crediti di 26,68 $, l'opzione <strong>ricarica automatica</strong> attiva e il limite settimanale al 100%.</p>
+<p>Chiude spiegando i <strong>token</strong> a chi non li ha mai sentiti: circa quattro caratteri, o tre quarti di una parola. Lo mostra incollando un paragrafo nel tokenizer di OpenAI — 274 caratteri, 56 token — e facendo notare che <strong>anche la punteggiatura è un token</strong>: un punto è un token, una virgola è un token. Infine la differenza che conta sul conto: <strong>input</strong> è tutto ciò che entra (i tuoi prompt, un PDF, un documento Word), <strong>output</strong> è tutto ciò che esce, <strong>ragionamento compreso</strong> — «tutto questo thread è token di output, ed è per questo che gli output costano di più».</p>
+<p><strong>In Claude Code:</strong> la struttura è identica — fasce di modello intercambiabili a metà conversazione (<code>/model</code>), prezzi API contro limiti d'abbonamento, token di input e di output. Il vault ha già model-routing con i numeri di Astra contro Opus; da qui si porta via <strong>il listino completo delle quattro fasce con l'input in cache e la tabella in crediti</strong>, che prima non c'era.</p>
+<h3>9. L'effort, e il fast mode</h3>
+<p>Dentro ogni modello scegli anche il <strong>livello di sforzo</strong>: a schermo i gradini sono <strong>low, medium, high, extra high</strong> e <strong>ultra</strong>, quest'ultimo con un avviso — <em>«Vuoi usare Ultra con Full access? Con Ultra e Full access attivi, Codex può usare un ragionamento esteso mentre esegue comandi, usa internet e modifica file ovunque sul tuo computer senza chiedere»</em>. Salendo di effort <strong>sale la qualità e sale il costo</strong>.</p>
+<p>Fa notare che è per questo che nei benchmark dei modelli nuovi trovi la stessa riga più volte — «per esempio Claude Fable 5, questo era su low, questo su medium, questo su high» — perché <strong>lo stesso modello si comporta e costa in modo diverso a seconda dell'effort a cui è stato testato</strong>.</p>
+<p>Il consiglio operativo è contro lo spreco: «a volte Astra High è semplicemente molto più potente di quello che ti serve. Usare GPT-6 Astra High per farti scrivere una mail è <strong>esagerato</strong> e stai pagando molto più del necessario». Per il lavoro di conoscenza la sua regola spiccia è «lo metto su Sol, magari medium, e amen».</p>
+<p>C'è poi il <strong>fast mode</strong>: il modello risponde e lavora più in fretta, è <strong>1,5× la velocità</strong>, ma <strong>consuma di più</strong> e ti erode l'abbonamento più rapidamente.</p>
+<p><strong>In Claude Code:</strong> l'effort esiste, con un'altra etichetta (i livelli di <em>thinking</em>), ed è già misurato nel vault — model-routing riporta sei run di Opus 5.5 su tutti i livelli. Il <strong>fast mode</strong> ha un parente in <strong>Ultrafast</strong>, che il vault registra come disponibile solo con Astra e solo sul piano da 500 $/mese: qui Nate parla di un fast mode senza condizioni e a 1,5×, quindi o sono due cose diverse o il tier è cambiato (vedi la nota in fondo).</p>
+<h3>10. I permessi</h3>
+<p>Il menu si apre dal basso e chiede <em>«come devono essere approvate le azioni?»</em>, con tre voci. <strong>Ask for approval</strong>: «chiede sempre di modificare file esterni e di usare internet». <strong>Approve for me</strong>: «chiede solo per le azioni rilevate come potenzialmente non sicure» — tipo cancellazioni o certe chiamate API. <strong>Full access</strong>: «accesso illimitato a internet e a qualunque file sul tuo computer», che lui chiama senza giri di parole «<strong>la yolo mode di Codex</strong>» e che è quella attiva, in arancione, per tutto il video.</p>
+<p>Il consiglio ai principianti è di partire dal primo livello, non per prudenza astratta ma per imparare: «così capisci — ah, ok, mi sta chiedendo se può eseguire questo comando, mi sta chiedendo se può aprire il browser — e <strong>ti familiarizzi con che aspetto ha Codex che esegue davvero l'agentic loop</strong>». Se poi vuoi vietare azioni specifiche in modo granulare, basta chiederlo: Codex sa scriversi le regole dentro i file di configurazione di cui sopra.</p>
+<p><strong>In Claude Code:</strong> gli stessi tre gradini con altri nomi — il comportamento predefinito che chiede, la modalità che accetta le modifiche senza chiedere, e <code>--dangerously-skip-permissions</code> come equivalente del Full access. La granularità esiste ed è anzi più ricca: le regole <code>allow</code> / <code>ask</code> / <code>deny</code> in <code>settings.json</code>, più gli hook. Nessun vantaggio di Codex qui.</p>
+<h3>11. Le skill</h3>
+<p>«La mia preferita.» Le skill sono <strong>flussi di lavoro riutilizzabili</strong>, «ricette che ti permettono di fare una cosa una volta e poi insegnare a Codex a rifarla allo stesso modo ogni volta». La metafora è letterale: hai fatto dei pancake al cioccolato seguendo una ricetta, il risultato è buono, quindi la prossima volta riusi la ricetta; se li hai bruciati, <strong>modifichi la ricetta</strong> («cuocili 30 secondi in meno per lato»), e alla prossima esecuzione verifichi se sono venuti meglio, finché la skill non è come la vuoi tu.</p>
+<p>L'esempio vero è un ciclo di lavoro completo: dà a Codex il percorso locale di un video YouTube e chiede descrizione, timestamp e post LinkedIn; li ottiene; poi chiede di trasformarlo in un articolo per X e metterlo in bozza — e l'agente lo fa «con una miniatura, con un titolo, e <strong>ci ha pure infilato gli screenshot presi dal mio video</strong> sparsi lungo tutto l'articolo». Quando gli chiede quali skill ha usato, la risposta a schermo è un elenco di <strong>sette</strong> (descrizione YouTube, timestamp di capitolo, post LinkedIn, struttura di un articolo X, articolo X da un video, formattazione nativa per X, controllo del browser nell'app per creare la bozza e verificare che sia rimasta), più la riga «ho usato anche i tuoi riferimenti di voce e le tue regole di comunicazione. <strong>Nessun sub-agent è stato usato</strong>».</p>
+<p>Il ciclo di miglioramento è il cuore: «le lancio e do feedback — questo mi è piaciuto, questo no, <strong>aggiorna la skill</strong>». Si invocano in due modi: <strong>a linguaggio naturale</strong>, perché il modello è abbastanza sveglio da riconoscere quando serve, oppure <strong>con un comando slash</strong>.</p>
+<p><strong>In Claude Code:</strong> è <strong>la stessa cosa, identica anche nel nome del file</strong>. È il concetto che il vault ha già più sviluppato di questa fonte, in claude-skills: il ciclo «usa → correggi la skill → riusa» è lo stesso, e lì ci sono in più le regole su come si scrive bene una skill, il fatto che le skill scadono, e la distinzione fra skill e plugin.</p>
+<h3>12. La cartella <code>.agents</code></h3>
+<p>«<code>.codex</code> e <code>.agents</code> sono praticamente la stessa cosa, tengono solo roba diversa»: <code>.agents</code> tiene <strong>le skill</strong>, e anche queste possono essere <strong>di progetto o globali</strong>. Aprendo <code>.agents/skills/</code> nel suo progetto si vede l'elenco — pulse-check, research, resource-guide, roast, scrollcraft, skill-builder, trend-scout, visualizations, x-article, youtube-description, youtube-script, youtube-timestamps e altre.</p>
+<p>Aprendone una, <code>youtube-description</code>, si vede com'è fatta davvero: in cima un blocco <strong>Metadata</strong> con <code>name</code> e <code>description</code>, dove la descrizione dice <strong>quando</strong> usarla («usa questa quando qualcuno chiede di scrivere una descrizione di un video YouTube…») — «è quello che Codex legge per capire se deve invocare la skill o no» — e sotto, semplicemente, <strong>istruzioni</strong>. Il corpo si legge a schermo: <em>«Scrivi una descrizione YouTube per il canale di Nate. Regole di stile: corta, massimo 2-4 frasi. Forma di paragrafo, niente elenchi puntati né numerati. Niente trattini lunghi. Tono semplice e colloquiale, scrivi come una persona vera, non come un pubblicitario. Concentrati su cosa il lettore imparerà o capirà dopo aver guardato. Non mettere timestamp, link o CTA se Nate non li chiede.»</em> Commento: «è un prompt molto, molto semplice». Altre sono molto più lunghe, con più regole, più criteri, più passi.</p>
+<p>L'ultima cosa che sottolinea è la composizione: <strong>le skill possono richiamare altre skill, altri agent, file Python o file di contesto</strong>. La sua skill per gli articoli X richiama le linee guida di voce, la guida di stile per LinkedIn e quella per gli articoli X.</p>
+<p><strong>In Claude Code:</strong> stessa struttura, stesso <code>SKILL.md</code>, stesso frontmatter con nome e descrizione-quando-usarla, stessa composizione. Cambia solo il percorso: <code>~/.claude/skills/</code> e <code>.claude/skills/</code> al posto di <code>.agents/skills/</code>. Ed è proprio la cartella che, nel log dei sub-agent, si vede Codex leggere direttamente.</p>
+<h2>Parte 4 — Strumenti e scala</h2>
+<h3>13. I plugin</h3>
+<p>«È qui che succede un sacco di magia.» Nell'app desktop c'è una voce <strong>Plugins</strong> e lì si collegano app esterne. Fra quelli che ha installati nomina <strong>Alpaca, Gmail, ClickUp, Clay, Google Drive, GitHub, Canva</strong> «e la lista continua»; a schermo si vedono anche una ventina di icone e una sezione <strong>Imported plugins</strong> con <strong>Higgsfield</strong> («ogni modello di immagine e video») in attesa di configurazione. C'è una barra di ricerca: cercando «linked» escono LinkedIn, LinkedIn Ads, LinkedIn Headline Rewriter, LinkedIn Text Styler e altri. Le categorie dichiarate sono creatività, strumenti per sviluppatori, business e operations, analisi dati, comunicazione, e «la libreria cresce in continuazione».</p>
+<p>Il vantaggio è il login: <strong>ti colleghi una volta sola</strong>. Se un plugin non c'è, si può comunque collegare il servizio <strong>con una chiave API in un file <code>.env</code></strong>, «ma i plugin sono molto più facili».</p>
+<p><strong>In Claude Code: attenzione al falso amico.</strong> Quelli che Codex chiama plugin sono <strong>connettori ad app esterne</strong>, quindi l'equivalente funzionale sono gli <strong>MCP connector</strong> (mcp-connectors) e i connettori di Claude.ai — non i <em>plugin</em> di Claude Code, che sono tutt'altro: un contenitore che impacchetta skill, hook e server MCP insieme (claude-skills). La stessa parola indica due cose diverse nei due mondi, ed è il tipo di confusione che fa perdere mezz'ora.</p>
+<h3>14. Il browser</h3>
+<p>«Sicuramente una delle mie cose preferite di Codex.» Si apre una scheda <strong>browser dentro l'app</strong> e l'agente la guida. La dimostrazione: va su Skool e <strong>risulta già loggato</strong>, perché quando salvi un accesso nel browser di Codex «lui poi se lo tiene». Conseguenza pratica: «se gli dici <em>vai su quell'account e tirami fuori il report</em>, o <em>vai su Skool e scrivi questo post</em>, <strong>lo può fare attraverso il browser</strong>, se non c'è un plugin, o un'API, o un server MCP».</p>
+<p>Aggiunge il giudizio più forte del video su questo punto: «l'uso del browser di Codex, e in particolare con GPT-6 Astra, <strong>è il migliore che abbia mai usato</strong>». A prova, mostra un ritaglio in cui gli ha chiesto di aprire Canva e di dipingerlo partendo da una sua foto: il risultato, affiancato all'originale, è un ritratto a tessere di colore. «Esempio sciocco, ma dimostra bene la visione e la capacità di usare il browser di questo agente.»</p>
+<p><strong>In Claude Code: non c'è un browser integrato.</strong> Esistono strade per guidare un browser — il server MCP di Chrome DevTools, quello di Playwright, l'estensione Claude in Chrome — e su questa macchina sono tutte e tre disponibili. Ma non è la stessa cosa: manca il <strong>browser dentro l'app con i login persistenti</strong> come oggetto di prima classe. Questa è la seconda differenza vera.</p>
+<h3>15. Sites</h3>
+<p>Si va su <strong>Sites</strong> e si trova l'idea opposta al localhost di prima: Codex costruisce una cosa, la serve in locale, e poi gli dici «mettila su un sito» e <strong>la mette online</strong>, perché il tuo team possa entrarci o perché sia pubblica. A schermo c'è l'elenco dei suoi, con indirizzi del tipo <code>nome-del-sito.nateherk.chatgpt.site</code>: alcuni condivisi con <strong>tutti</strong>, altri <strong>solo con lui</strong> — e in quel caso per aprirli bisogna essere loggati col suo account.</p>
+<p>Il resto del pacchetto: si possono aprire le <strong>analytics</strong> del sito, si può <strong>collegare un proprio dominio</strong>, e si può perfino <strong>collegare un database</strong> per tenere sul retro login utenti, permessi, impostazioni o anagrafiche clienti. Il suo commento: «questo in pratica va a sostituire un Vercel, o un Squarespace, o dovunque normalmente ospitassi i tuoi siti». Per usarlo basta chiederlo a parole o scrivere <strong><code>/site</code></strong>.</p>
+<p><strong>In Claude Code: non esiste niente del genere.</strong> Quello che c'è è di natura diversa: puoi farti scrivere il deploy e lanciarlo tu (è letteralmente ciò che fanno i <code>deploy.sh</code> di questo vault verso GitHub Pages), oppure pubblicare una pagina come Artifact su claude.ai — ma senza dominio proprio, senza analytics e senza database integrato. Terza differenza vera, e quella che pesa di più per chi deve consegnare qualcosa a un cliente in giornata.</p>
+<h3>16. I sub-agent</h3>
+<p>Permettono di <strong>delegare lavoro a tanti agent Codex in parallelo</strong>. Il ragionamento economico è esplicito: sta parlando con Astra, che è intelligentissimo ma caro; se deve fare un mucchio di ricerca, <strong>non vuole sprecare il cervello di Astra</strong> su quello.</p>
+<p>Il prompt che lancia è istruttivo perché dice all'agente <em>come</em> delegare: «cerca su X, cerca su YouTube e scava anche nei miei commenti; trova di cosa si parla adesso nel mondo AI, se ci sono notizie grosse o polemiche. <strong>Non voglio che la ricerca la faccia tu</strong>: voglio che deleghi un mucchio di sub-agent, e voglio che tutti i sub-agent usino <strong>5.6 Terra</strong> come modello».</p>
+<p>Quello che si vede dopo: l'agente principale dichiara «manderò agent separati a scandagliare X, YouTube, i tuoi commenti e gli annunci AI importanti, tutti con GPT-5.6 Terra», legge due delle sue skill (<code>idea-mining</code> e <code>trend-scout</code>) e le <strong>distribuisce su cinque agent Terra</strong>: <em>X launches, X drama, YouTube trends, audience comments, official announcements</em>. Nel pannello laterale compaiono con uno stato vivo — «Active · 4», ciascuno con il suo nome, il suo tempo e cosa sta facendo in quel momento — e ognuno si può aprire per guardarlo fare il proprio agentic loop. Alla fine passano in «Done» e <strong>riferiscono all'agente principale</strong>, che sintetizza: temi dominanti Astra e sistemi operativi AI, una polemica su Anthropic e incidenti di sicurezza in fase di valutazione, un nuovo strumento open source per app mobili, e dai commenti del pubblico la richiesta ricorrente di «costi, limiti d'uso e il processo di costruzione completo». Un dettaglio che vale più della demo: <strong>l'agente principale ha scartato da solo un suggerimento sbagliato</strong> di uno dei sub-agent, perché proponeva un confronto Astra contro Fable che Nate aveva già pubblicato.</p>
+<p>Il verdetto: ottimo per raccogliere prospettive diverse o fare ricerca in parallelo, «e questi modelli intelligenti sono davvero bravissimi a delegare».</p>
+<p><strong>In Claude Code:</strong> c'è, ed è lo stesso concetto — il Task/Agent tool, con i sub-agent definiti in <code>.claude/agents/</code>, la possibilità di assegnare a ciascuno un modello diverso e di lanciarne diversi in parallelo. Questo riassunto, per esempio, è stato scritto da un sub-agent. La differenza è di interfaccia: Codex mostra un <strong>pannello laterale con lo stato vivo di ogni agent</strong>, apribile uno per uno; in Claude Code il lavoro dei sotto-agenti è più opaco.</p>
+<h3>17. Gli scheduled task</h3>
+<p>Permettono di far lavorare Codex <strong>in autonomia</strong>. La definizione tecnica che dà è la cosa migliore di questa sezione: «tutto quello che un task fa è <strong>iniettare un prompt in una sessione Codex</strong> come questa. Quindi usa gli stessi file locali, le stesse skill, lo stesso modello, tutto, l'agentic loop — <strong>lo fa solo in automatico</strong>».</p>
+<p>Nella pagina si leggono i suoi task veri: «Astra challenge checks and ClickUp updates — nei giorni feriali alle 7:45, prossima esecuzione fra 6 ore», più una serie di revisioni di curriculum già completate e tre controlli ricorrenti su un'altra attività. Creandone uno nuovo si scelgono: <strong>dove gira</strong> (su questo dispositivo o nel cloud), <strong>in quale progetto</strong>, <strong>in quale chat</strong> (una nuova a ogni esecuzione, una nuova dedicata a quel task, o un thread già esistente), e <strong>quando</strong> (orario, giornaliero, settimanale o del tutto personalizzato). Si può compilare tutto a mano oppure <strong>chiedere a Codex di crearlo lui</strong>.</p>
+<p>L'esempio che porta è il suo esperimento di trading: sette o otto task schedulati che «stanno letteralmente facendo trading con 10.000 dollari dei miei soldi veri», che girano in un progetto dedicato e dentro un unico thread, riconoscibile da una piccola <strong>icona a orologio</strong> accanto al nome. (Su questo, vedi la nota critica in fondo.)</p>
+<p><strong>In Claude Code:</strong> c'è un corrispettivo diretto nella skill <code>schedule</code> (routine in cloud a cron) e uno più grezzo in <code>loop</code>; e c'è sempre la strada del Task Scheduler di Windows che lancia <code>claude -p</code>. Non ho verificato se la versione Anthropic permetta di scegliere il thread esistente in cui iniettare il prompt — quello è il dettaglio più elegante della versione Codex.</p>
+<h3>18. Il voice mode</h3>
+<p>L'ultimo concetto è anche quello che rimette insieme tutti gli altri: <strong>tutto quanto visto finora — skill, sub-agent, progetti, agent — si può pilotare a voce</strong>, in una conversazione vera. «Con la voce puoi gestire thread Codex diversi, delegare agent diversi, lanciare skill, impostare task schedulati, costruire siti, puoi fare qualunque cosa.» Si avvia da «start new voice chat» in basso a sinistra, e funziona anche dal telefono grazie alla modalità remote.</p>
+<p>La demo è l'unico pezzo del video girato in presa diretta. A voce chiede: apri un thread nuovo nel progetto Herk-2 per fare una miniatura per il video sui 18 concetti, con lui seduto a una scrivania che indica verso destra e diciotto piccoli agent AI; e <strong>quando hai finito, mandala al thread che sta già lavorando</strong> sulla ricerca di YouTube e X. L'agente risponde a voce («ok, ho messo in coda il brief per la miniatura, con te e il laptop che punti verso i 18 agent, usando le tue foto esistenti come riferimento; e ho trovato il tuo thread di ricerca, quindi manderò lì la miniatura finita»).</p>
+<p>Quel che succede sullo schermo mentre parla è il vero punto del segmento, e lo nota lui stesso: «vedete come si incastra tutto?». Ha <strong>aperto un worktree chat</strong>; sta girando l'<strong>agentic loop</strong>; e <strong>si è creato da solo un <code>/goal</code></strong> — a schermo si legge <em>«Pursuing goal: track all delegated work until it completes, becomes blocked, or requ… 1m 17s»</em> — «se l'è creato da solo perché sapeva che c'era questo compito». Nel frattempo si può continuare a navigare, andare sul web, cambiare applicazione, e la voce resta viva. A fine corsa la miniatura viene davvero generata e <strong>spedita all'altro thread</strong>, con tanto di messaggio: «ehi, Nate voleva che ti mandassi questa, eccola». La morale: «con la sola voce riesci a coordinare un mucchio di thread Codex diversi, gestirli, fare più cose insieme mentre sei in giro, mentre salti da un'app all'altra».</p>
+<p><strong>In Claude Code: non esiste.</strong> Il parente più vicino è la dettatura — un Wispr Flow o un Glaido che scrivono nel prompt al posto tuo, ed è la pratica che il vault raccomanda già in aios («la tastiera è il collo di bottiglia») — ma è un'altra cosa: qui c'è un <strong>interlocutore vocale bidirezionale che pilota l'harness</strong>, apre thread, delega e si pone obiettivi. Quarta e ultima differenza vera.</p>
+<h2>Quel che resta in mano</h2>
+<p>Se si toglie il contorno, il video dice due cose. La prima è che <strong>Codex e Claude Code sono la stessa architettura</strong>: un file di regole in markdown letto prima di ogni messaggio, una cartella di configurazione in due copie (una globale e una di progetto), skill come cartelle con dentro un <code>SKILL.md</code>, sub-agent delegabili a modelli più economici, tre livelli di permessi, un loop osservabile. Chi ha costruito bene su uno ha già costruito sull'altro, e la migrazione è letteralmente un'operazione di copia che si delega all'agente stesso. L'affermazione da tenere è quella di Nate: quello che stai costruendo non è un setup per Codex o per Claude, è <strong>una cartella di file locali tool-agnostic</strong>.</p>
+<p>La seconda è dove le due cose smettono di coincidere, ed è un elenco corto: <strong><code>/goal</code></strong>, <strong>Sites</strong>, <strong>il browser con i login salvati</strong>, <strong>il voice mode</strong>. Tre su quattro non sono capacità del modello ma <strong>pezzi di prodotto attaccati all'harness</strong> — hosting, browser, voce — e sono esattamente il genere di cosa che il terminale non avrà mai, perché non è il suo mestiere. Il <code>/goal</code> è l'eccezione, perché è una primitiva di comportamento, non un'interfaccia: è un ciclo di verifica reso ufficiale dal prodotto, ed è la cosa più interessante del video per chi legge da questo vault.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=DFlELTiSPk8 — Nate Herk | AI Automation, 34:33, pubblicato il <strong>3 ottobre 2026</strong>, ~33.600 visualizzazioni e 412 like al momento della visione (visto il 04/10/2026).</li>
+<li>report grezzo con trascrizione completa e fotogrammi, più quattro schermate ad alta risoluzione tenute perché il testo a schermo è portante: la slide «Where Codex files live», la slide del listino Astra/Sol/Terra/Luna, il menu dei permessi e il pannello dei sub-agent.</li>
+<li>Concetti collegati: harness (Codex e Claude Code come due harness dello stesso tipo), claude-skills (<code>SKILL.md</code> identico, e la distinzione skill/plugin che qui si scontra col «plugin» di Codex), mcp-connectors (è lì che vanno i plugin di Codex), loop-engineering (<code>/goal</code> come ciclo reso primitiva), model-routing (il listino completo delle quattro fasce, l'effort, il fast mode e la delega dei sub-agent a un modello più economico), agent-memory (<code>memories/</code> e <code>sessions/</code> come cartelle), aios (Herk-2 come <em>AI operating system</em>), produttivita-claude-code (permessi e lavoro in parallelo).</li>
+<li>Entità: nate-herk, OpenAI, higgsfield (compare solo come plugin importato in attesa di configurazione).</li>
+</ul>
+<h3>La glossa Claude Code non viene dal video</h3>
+<p>Tutte le righe <strong>«In Claude Code: …»</strong> di questo riassunto sono <strong>aggiunte qui</strong>, non dette da Nate. Lui fa il confronto solo due volte, ed entrambe le volte è riportato alla lettera: nell'intermezzo sulla migrazione [08:44-09:54] e nell'intestazione del suo <code>AGENTS.md</code>. Le corrispondenze sui percorsi, sui permessi, sui sub-agent e sugli scheduled task sono basate su come Claude Code è configurato su questa macchina e <strong>non sono state riverificate oggi sulla documentazione di Anthropic</strong>: prima di fidarsene per una decisione, vanno controllate. In particolare restano da verificare (a) se Claude Code abbia oggi un equivalente nativo di <code>/goal</code>, (b) che cosa offrano davvero le sessioni cloud e il controllo da telefono, (c) se la schedulazione permetta di scegliere un thread esistente.</p>
+<h3>Cosa è stato omesso</h3>
+<p>La sigla iniziale, i saluti e la CTA finale alla playlist sui video Codex. Dalla descrizione: i link alla community Skool a pagamento e a quella gratuita, l'offerta «un mese gratis» su un servizio di dettatura vocale, il <strong>codice sconto per un VPS</strong> (materiale sponsorizzato o affiliato), l'indirizzo per le richieste di sponsorizzazione e i profili social. Nel parlato non ci sono altre promozioni.</p>
+<h3>Contraddizioni interne e cose da sapere</h3>
+<ol>
+<li><strong>Sei contro sette skill.</strong> A voce elenca sei skill usate in quella sessione; la risposta a schermo ne elenca <strong>sette</strong> e aggiunge «nessun sub-agent è stato usato». Vale la versione a schermo.</li>
+<li><strong>Il trading con soldi veri, forse no.</strong> Dice che i task schedulati «stanno letteralmente facendo trading con 10.000 dollari dei miei soldi veri». Ma il thread che apre subito dopo, a schermo, dice un'altra cosa: <em>«Read-only rehearsal passed. Run rehearsal/2026-09-07/1 committed as <code>completed_no_trade</code>. Account: $10.000 di capitale/liquidità, nessuna posizione e nessun ordine aperto. <strong>Nessun ordine, programmazione o gate di operatività è stato modificato. L'operatività completa resta da attivare.</strong>»</em> Cioè: prova a vuoto, nessun ordine eseguito. Il capitale è reale, l'attività di trading a quella data non lo era ancora.</li>
+<li><strong>Il conto dei 14.000 dollari</strong> di inferenza al mese su un abbonamento da 200 è una <strong>sua stima</strong>, non un dato di OpenAI, e dipende dall'assunzione di consumare tutto il limite ogni settimana.</li>
+<li><strong>Fast mode contro Ultrafast.</strong> Qui il fast mode è descritto come generico, a 1,5× di velocità, che consuma di più. Il vault (model-routing) ha registrato <strong>Ultrafast</strong> come disponibile solo con Astra e solo sul piano da 500 $/mese, con consumi 2,5× e 4,25×. Non è chiaro se siano lo stesso meccanismo a due livelli o due cose diverse: ⚠️ da verificare prima di usare l'uno come conferma dell'altro.</li>
+<li><strong>Il nome è «Sol», non «Soul».</strong> La slide del listino lo scrive chiaramente. Altrove nel vault compare «Soul» (in model-routing, nella scaletta «Astra → Soul → Terra → Luna»): è un artefatto dei sottotitoli automatici di un'altra fonte, qui la grafia corretta è confermata a schermo.</li>
+<li><strong>Il girato è di un mese prima della pubblicazione.</strong> La slide del listino dice «verificato il 7 settembre 2026», le date nelle chat sono del 6-7 settembre, il video esce il 3 ottobre. I prezzi e l'interfaccia mostrati potrebbero essere già cambiati — e il listino stesso avverte che il prezzo di Sol è promozionale fino almeno al 21 novembre 2026.</li>
+<li><strong>La slide dei file lo ammette da sé:</strong> «contenuti rappresentativi; alcune installazioni caricano le skill anche da <code>.codex/skills/</code>». Quindi la mappa a due cartelle non è universale.</li>
+<li><strong>Il giudizio «il browser di Codex è il migliore che abbia mai usato»</strong> è un'impressione personale, dimostrata con un solo esempio (un ritratto in Canva), senza confronto con nessun altro strumento.</li>
+<li><strong>«Ultra richiede full access»</strong>: a voce lo dice così; a schermo l'avviso è un po' diverso — spiega cosa comporta usare Ultra <em>insieme</em> a Full access e offre sia «usa Full access» sia «continua». Il vincolo potrebbe essere meno rigido di come lo racconta.</li>
+<li><strong>I sottotitoli automatici sono pessimi sui nomi propri</strong> e sono stati corretti qui: «Codex» diventa <em>Codeex</em>, <em>CEX</em>, <em>codec</em>; «Claude Code» diventa <em>cloud code</em> e <em>cla code</em>; «agents.md» diventa <em>agents.mmd</em> e <em>aagents</em>; «Vercel» diventa <em>Verscell</em>; «Composio» diventa <em>Composeio</em>; «Skool» diventa <em>school.com</em>; «AI agents» diventa <em>ages</em> e <em>aents</em>; «Herk-2» diventa <em>Herk 2</em> e <em>HERK 2</em>. Dove una grafia era leggibile a schermo si è usata quella.</li>
+</ol>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

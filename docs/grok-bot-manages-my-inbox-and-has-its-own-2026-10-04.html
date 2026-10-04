@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Grok Bot Manages My Inbox (and has its own)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Grok Bot Manages My Inbox (and has its own)" src="https://i.ytimg.com/vi/ff7om2bBLKM/hqdefault.jpg"><p class="muted">📖 18 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk mostra <strong>due architetture diverse</strong> dello stesso mestiere — un agente persistente che lavora sulla posta — e la differenza fra le due è tutta nel <strong>risveglio</strong>. La prima: un bot chiamato <strong>Natey</strong> che gestisce la <strong>sua</strong> casella Gmail attraverso un connettore del marketplace e si sveglia <strong>a orario</strong>, due volte al giorno. La seconda: un bot chiamato <strong>Stephanie</strong> che ha <strong>una casella email tutta sua</strong> su <strong>AgentMail</strong> e si sveglia <strong>a evento</strong>, quando un <strong>webhook</strong> le dice che è arrivata posta. Il valore del video per chi progetta un sistema del genere non sta nel tutorial ma in tre cose che si vedono a schermo: (1) i <strong>permessi stanno su tre livelli indipendenti</strong> — il plugin con i suoi account e i suoi 31 tool attivabili, la routine con il suo interruttore Active/Pause, e la <em>subscription</em> del webhook con il suo scope e la sua chiave; (2) <strong>cosa l'agente fa da solo e cosa chiede è scritto in prosa dentro la routine</strong>, in cinque regole leggibili e modificabili, non sepolto in un prompt di sistema; (3) l'agente <strong>non può leggere i propri segreti</strong> — Stephanie crea il webhook ma non riesce a stampare né l'URL né la chiave, quindi li chiede all'umano e, intanto, <strong>propone da sola un ripiego</strong> (il polling) nel caso la strada principale resti rotta. Il video mostra anche un errore istruttivo: due caselle e due webhook <strong>non si legano da soli</strong>, e tutta la posta rischia di svegliare il bot sbagliato finché non si imposta uno scope o un filtro.</p>
+<h2>Il twist dei primi dieci secondi</h2>
+<p>Il video apre senza sigla e senza promessa, direttamente sulla chat di un bot già al lavoro. È <strong>Trader</strong>, un Grok Bot che opera in borsa, e i messaggi che scorrono sono veri: <em>«CRWD trim filled: sold 5 @ $236.65. Keeping 10 with GTC OCO TP $250 / stop $230. Confirmed on AgentMail too»</em>, <em>«Got the overnight review (run 14/17) — HOLD overnight on CRWD 10 / SPY 4 / XLV 13 / WMT 9. No action»</em>, con l'equity a <strong>9.796,24 dollari</strong> e la giornata a <strong>–1,95%</strong>. In un altro punto Trader scrive <em>«No new order, no Alpaca action»</em>, il che dice anche con quale broker parla.</p>
+<p>La voce racconta che quel bot «si sveglia ogni 30 minuti per piazzare ordini», e <strong>a otto secondi smentisce sé stessa</strong>: «solo che questa routine non scatta ogni 30 minuti, scatta <strong>quando parte un webhook</strong>. Il che significa che questo Grok Bot si sveglia <strong>ogni volta che riceve una mail</strong>, e <strong>ha un account email suo</strong>». Chi gli manda quelle mail è <strong>GPT-6 Astra</strong>, che fa la ricerca e poi scrive al bot «ehi, piazza questo ordine» oppure «vendi questo».</p>
+<p>Il secondo pezzo del gancio è l'altro bot, <strong>Natey</strong>, che manda notifiche due volte al giorno, la mattina e la sera. Natey tiene pulita la casella vera di Nate: <strong>marca le cose come lette</strong> e <strong>smista ogni singola mail</strong> in una fra cinque etichette — <em>newsletters, outreach, primary, urgent</em> e <em>notifications</em>. Sulla schermata di Gmail si vedono tutte e cinque colorate nella colonna di sinistra, su una casella che conta <strong>4.504 conversazioni</strong>.</p>
+<h2>Primo pattern: l'agente che tiene in ordine la casella di un umano</h2>
+<h3>Il prompt, e la regola di non toccare niente subito</h3>
+<p>Nate apre la conversazione con Natey e la cosa interessante non è la lunghezza — è brevissima, «dieci minuti e hai finito» — ma <strong>l'ordine delle fasi</strong>. Il primo messaggio del bot è <em>«Hey Nate, just landed. What's the job you want me on? One lane is plenty to start»</em>: l'agente chiede <strong>un solo compito</strong>, non tutti.</p>
+<p>Il prompt che Nate scrive (visibile per intero a schermo) definisce il ruolo — <em>«You are my email management agent. Your name is Natey»</em> — poi elenca le quattro categorie con la spiegazione di cosa ci va dentro: <strong>Primary</strong> sono le conversazioni vere con persone, <em>«legit conversations, networking opportunities»</em>; <strong>Notifications</strong> sono banca, paghe, software, <em>«cose che non devo davvero sapere, ma averle tutte in un posto è meglio»</em>; <strong>Outreach</strong> è chi lo contatta senza conoscerlo per sponsorizzare un video o proporre un'idea; <strong>Urgent</strong> è <em>«qualunque fattura in scadenza, contratto da firmare o scadenza vera»</em>. E poi la frase che conta: <em>«<strong>So we don't want to set up anything yet. Just validate that those categories sound good.</strong> E se c'è altro, dimmi se ci sono altre categorie»</em>. Primo passaggio: <strong>analisi in sola lettura</strong>. Nessuna scrittura.</p>
+<p>Natey risponde di conseguenza: <em>«On it. I'll pull the last month of inbox and check those four buckets against what's actually in there. Nothing gets…»</em> (cambiato, spostato). L'esito dell'analisi è specifico e <strong>corregge il piano del capo</strong>: <em>«Urgent should stay strict. Almost nothing last month was a bill or contract. Subject lines that say Action Required are usually marketing.»</em> Propone una <strong>quinta etichetta che Nate non aveva chiesto</strong>, <em>Newsletters</em>, spiegando quali mittenti ci cadrebbero dentro (Acquisition.com, Tally, la posta prodotto di Circle, i programmi per creator) e quali invece vanno in <em>Notifications</em> (Circle DMs, Fireflies, Frame.io, ClickUp, GitHub). Dice anche cosa <strong>non</strong> serve: <em>«No Creator, Calendar, or Community label unless this still feels noisy after»</em>. E chiude l'analisi segnalando <strong>tre cose non lette che meritano uno sguardo</strong> — il tetto di spesa di Anthropic (Claude bloccato per il team dal 1° settembre), la connessione QuickBooks–Morgan Stanley scaduta quel giorno, un alert di sicurezza VectorShield — aggiungendo <em>«Nothing got labeled»</em>.</p>
+<h3>La carta di conferma, e il secondo permesso</h3>
+<p>A questo punto compare l'elemento di interfaccia più importante del video: una <strong>carta di conferma</strong> dentro la chat. Testo: <em>«Lock in these five labels before we create anything?»</em>, con un bottone <em>«Yes, those five»</em> e la spunta. Nate preme. Il bot risponde <em>«Locked. Creating Primary, Notifications, Outreach, Urgent, and Newsletters in Gmail now»</em>, e un attimo dopo <em>«All five are in Gmail. Tagging the last month of inbox next. <strong>Mail stays put, just gets a label.</strong>»</em></p>
+<p>Il rendiconto della prima esecuzione è numerico: <em>«Last month of inbox is labeled. 590 threads: Notifications 363, Newsletters 104, Primary 66, Outreach 36, Urgent 21. Mail stayed in inbox. Older inbox (about 4,200 threads) is still unlabeled.»</em> E — dettaglio che vale quanto la carta di conferma — <strong>chiede un secondo permesso prima di diventare continuo</strong>: <em>«Want me to keep tagging new mail as it lands, or leave it here for now?»</em></p>
+<h3>Dove stanno i permessi, lato connettore</h3>
+<p>Collegare la casella è un bottone: si va nel <strong>marketplace</strong> e si cerca Gmail (o Outlook, «o quello che usi»). Il pannello del plugin, aperto a schermo, è la prima superficie di permessi. Mostra una sezione <strong>Accounts</strong> con l'account collegato (<code>Nate Main</code>, con accanto un bottone rosso <strong>Remove</strong>) e la voce <strong>+ Add Another Account</strong> — si possono collegare <strong>più caselle</strong>, e Nate raccomanda di <strong>dare un'etichetta a ciascuna</strong> e di assegnare agenti diversi a caselle diverse. Sotto ci sono <strong>Tools: 31 of 31 enabled</strong>, un menu a tendina chiuso — cioè i singoli strumenti del connettore si possono <strong>spegnere uno per uno</strong> — e poi <strong>Connectors: 1 connector</strong> e una sezione <strong>Skills</strong>.</p>
+<h3>La routine come oggetto ispezionabile</h3>
+<p>Il secondo messaggio operativo di Nate aggiunge la parte di comportamento: <em>«fallo due volte al giorno e poi mandami un DM su ClickUp»</em>, più due regole che valgono più di tutto il resto — <em>«se noti che non ho risposto a mail urgent o primary dopo essere stato avvisato più volte, <strong>segnalamele così smetto di ignorarle</strong>»</em> e <em>«marca automaticamente come lette tutte le altre categorie così non mi intasano la posta»</em>.</p>
+<p>Il bot conferma ripetendo il patto — <em>«Got it. Twice a day at 6:45 AM and 6:45 PM, weekends included, ClickUp DM from Uppit AI, other mail marked read. <strong>Checking ClickUp access now.</strong>»</em> — e avvisa in anticipo di un possibile passaggio di autorizzazione: <em>«Uppit AI ClickUp is the right account. Saving the 6:45 AM and 6:45 PM run next. <strong>You may get a confirm card.</strong>»</em> Poi compare la riga di sistema <strong>«Created routine ⊙ Inbox digest»</strong>.</p>
+<p>Il pannello <strong>Routine</strong> che si apre a destra è la cosa che Divan dovrebbe guardare più a lungo. Contiene un interruttore <strong>Active</strong>, i bottoni <strong>Delete</strong> e <strong>Test run</strong>, il <strong>Name</strong> (<em>Inbox digest</em>), un campo <strong>Instruction</strong> con dentro le istruzioni operative in chiaro — la mappa delle etichette (<code>Notifications=Label_2, Urgent=Label_3, Outreach=Label_4, Newsletters=Label_5</code>), l'avvertenza <em>«Search with display names (label:Urgent) not IDs»</em> e lo <strong>scope temporale</strong> di ogni esecuzione: <em>«unlabeled inbox mail since the previous run (~12 hours). Query something like <code>in:inbox after:(last-run-date) -in:spam</code>»</em> — un campo <strong>When to run</strong> (<em>Every day at 6:45 AM and 6:45 PM</em>, con <strong>+ Add another</strong>) e infine un <strong>Run history</strong> con una spunta verde per ogni esecuzione, che scorre indietro fino al 7 settembre.</p>
+<p>In altre parole: l'istruzione dell'agente <strong>non è un prompt nascosto</strong>, è un documento che si legge, si modifica, si mette in pausa e si prova a mano.</p>
+<h3>Come avvisa, e cosa si ricorda</h3>
+<p>Il riepilogo che il bot dà della propria routine descrive esattamente il canale di notifica: <em>«Inbox digest runs every day at 6:45 AM and 6:45 PM CT, weekends included. Each run labels new mail, marks Notifications / Outreach / Newsletters as read, and DMs you in ClickUp from Uppit AI. Short counts plus a couple lines on Urgent and Primary. <strong>If I've pinged the same Urgent or Primary twice and you still haven't replied, it shows up under Still sitting.</strong>»</em> E aggiunge quando partirà la prima: <em>«First DM lands at 6:45 PM. Marking the already-sorted other mail as read now so inbox isn't sitting unread until then.»</em></p>
+<p>Il DM vero, visto sullo schermo del telefono/desktop dentro <strong>Uppit AI</strong> (l'app che Nate chiama a voce «ClickUp»), ha questa forma: intestazione <em>«Inbox · 6:45pm CT · 1 new»</em>, poi <em>Notifications 1</em>, poi <em>Urgent — Relay: suspicious card activity (more alerts)</em>, poi la sezione <strong>Still sitting (notified 2+ times, no reply)</strong> con cinque voci nominate una per una (il limite di spesa di Anthropic, Jacqueline sui quesiti di fiducia, l'accesso QuickBooks–Morgan Stanley scaduto, la firma per PaymentCloud, Katie di Brehon su IP Tracker e note di riunione). In fondo: <strong>«Sent by Natey (Grok Bot)»</strong>.</p>
+<p>Quella firma è un'aggiunta successiva, e si vede come viene chiesta: <em>«Add a message to the bottom of this routine that just says "Sent by Natey (Grok Bot)"»</em> → <em>«Adding that signature to the digest DMs»</em> → riga di sistema <strong>«Updated routine ⊙ Inbox digest»</strong> → <em>«Done. Every digest DM now ends with Sent by Natey (Grok Bot). Next one is 6:45 PM.»</em></p>
+<p>Un'ultima riga nella stessa schermata merita attenzione perché anticipa il finale del video: <em>«2 messages with Dan — Dan asked if the digest was live. It is. Told him, and rolled the ClickUp work log due to Sunday.»</em> <strong>Dan è un altro bot</strong> (COO). I bot nella stessa installazione <strong>si parlano fra loro</strong> senza bisogno di email.</p>
+<p>Nate riassume così il limite di questo primo pattern, ed è un limite voluto: <em>«It labels them. <strong>It doesn't draft anything for me.</strong> Letteralmente etichetta e marca come letto, roba del genere.»</em></p>
+<h2>Secondo pattern: l'agente con una casella sua</h2>
+<h3>AgentMail: caselle fatte per gli agenti, non per le persone</h3>
+<p>Il servizio si chiama <strong>AgentMail</strong> ed è gratuito per iniziare. La dashboard mostra subito che è un prodotto pensato per macchine: le metriche sono quelle di un servizio di invio — <strong>12 messaggi inviati, 22 ricevuti, 1 respinto, 0 rifiutati, 0 reclami</strong> nelle ultime 24 ore, con una <strong>delivery health al 91,7%</strong> — e in alto campeggia un banner beta, <em>«Let your agents sign in to apps with <strong>AgentID</strong>»</em>, con due esempi di accesso (Turso, Supermemory). A sinistra il menu: Overview, <strong>Inboxes</strong>, Metrics, Domains, <strong>Webhooks</strong>, <strong>API Keys</strong>, Lists, Providers. In basso la barra delle risorse del piano gratuito: <strong>1 casella attiva su 3</strong>, domini personalizzati <strong>non inclusi</strong>.</p>
+<p>Nella pagina <em>Inboxes</em> c'è già <strong>Bull The Trading Bot</strong>, creata sette mesi prima, che è la casella di Trader; una barra dice <strong>«2 remaining»</strong>. Il pulsante <strong>+ Create Inbox</strong> apre una finestra con quattro campi: <strong>Username</strong> (facoltativo, massimo 64 caratteri, solo la parte prima della chiocciola, senza spazi; se lo lasci vuoto viene generato), <strong>Domain</strong> (menu a tendina con <code>agentmail.to (Default)</code>, oppure un dominio tuo), <strong>Display Name</strong> (facoltativo) e <strong>Metadata</strong>, con un <strong>+ Add field</strong> per attaccare coppie chiave-valore arbitrarie alla casella. Nate prova <code>youtube</code>, è già preso, ripiega su <code>youtubetest</code> e ottiene <strong><code>youtubetest@agentmail.to</code></strong>.</p>
+<p>La casella appena creata ha una sua interfaccia completa — Compose, Inbox, Sent, Drafts, <strong>Scheduled</strong>, All Mail, Trash — e in fondo al menu due voci che sono superfici di sicurezza per-casella: <strong>API Keys</strong> e <strong>Allow/Block Lists</strong>. Il messaggio vuoto dice la cosa in modo netto: <em>«Your inbox is ready. Send it an email from another account, <strong>or connect your agent through the API</strong>.»</em> Esistono anche un accesso <strong>SMTP/IMAP</strong> e una <strong>Unified Inbox</strong> che aggrega tutte le caselle.</p>
+<h3>Il collegamento lato GrokBot: un marketplace di plugin MCP</h3>
+<p>Dentro GrokBot si torna al <strong>marketplace</strong> — che ha due schede, <em>Plugins</em> e <em>Bots</em>, e mostra <strong>«11 installed · 8 private»</strong> — e si cerca AgentMail, che è un <strong>connettore nativo</strong>. Vale la pena guardare la vetrina perché dice cos'è davvero quel marketplace: fra i <em>Featured</em> ci sono Gmail, Google Calendar e Google Drive (già aggiunti), Granola, <strong>Notion</strong> descritto come <em>«Notion Skills + Notion MCP server pack»</em> e <strong>Slack</strong> come <em>«Slack MCP server»</em>. Sotto c'è un'intera categoria <strong>Agent Orchestration</strong>. Sono, in sostanza, <strong>server MCP impacchettati come plugin</strong>.</p>
+<p>La scheda di AgentMail si descrive da sé: <em>«AI-native email infrastructure for coding agents. Create inboxes, send and receive emails, manage threads, and automate email workflows.»</em> Nella sezione <strong>Accounts</strong> c'è già <code>bull</code>; Nate aggiunge un secondo account chiamato <code>test</code>, preme <strong>Authorize</strong>, autorizza con un <strong>Allow</strong>, e lo stato passa a <strong>Connected</strong>. Anche qui sotto: <strong>Tools: 31 of 31 enabled</strong>, <strong>Connectors: 1 connector</strong>, <strong>Skills</strong>.</p>
+<h3>Nasce Stephanie, e si scrive da sola le regole di condotta</h3>
+<p>Il bot nuovo nasce da un prompt di due righe: <em>«Hey, you are Stephanie. You are my assistant. Just hold tight and I'll tell you what you need to do.»</em> Risposta: <em>«Got it — I'm Stephanie. Ready when you are.»</em> E una riga di sistema: <strong>«Renamed to Stephanie»</strong> — il bot <strong>si rinomina da solo</strong> a partire dal prompt.</p>
+<p>Il secondo messaggio è quello che conta: <em>«Il tuo lavoro è rispondere alle mail e sei una specie di assistente di Nate. Ti do un indirizzo email ed è così che risponderai. Sarà collegato tramite Agent Mail e userai la credenziale Agent Mail che ho appena collegato. Ora voglio che tu <strong>crei una routine</strong>, e questa routine sarà un <strong>webhook</strong>. Poi collegherò quel webhook ad Agent Mail, così quando ricevi una mail è lì che devi <strong>svegliarti</strong>.»</em></p>
+<p>(Nel mezzo Nate mostra, con un overlay dell'app <strong>Glaido</strong>, una definizione di webhook per chi non la conoscesse: <em>«un modo perché un'app mandi automaticamente un piccolo messaggio a un'altra app ogni volta che accade un evento specifico, come un nuovo commento pubblicato — o, nel nostro caso, una nuova mail arrivata in casella»</em>.)</p>
+<p>Stephanie risponde <em>«Creating the webhook routine now, and I'll confirm Agent Mail is ready»</em>, compare <strong>«Created routine ⊙ Agent Mail inbox»</strong>, e poi la routine comparsa nel pannello laterale come <strong>«Agent Mail inbox — When a webhook fires»</strong>.</p>
+<p>Il contenuto di quella routine è <strong>la cosa più utile dell'intero video</strong>. È una policy in cinque punti, scritta dall'agente stesso, visibile e modificabile (il pannello ha i bottoni <strong>Edit</strong>, <strong>Pause</strong> e cestino):</p>
+<blockquote>1. Capisci cosa serve al mittente e <strong>se una risposta è appropriata</strong>. 2. Scrivi e manda una risposta chiara e professionale <strong>nella voce di Nate</strong> quando una risposta è giustificata — breve, cordiale, azionabile. <strong>Non inventare fatti, impegni, prezzi o date che Nate non ti ha dato.</strong> 3. Se la mail è spam, rumore automatico, <strong>o qualcosa che solo Nate può decidere, non rispondere in automatico</strong>: avvisa Nate in chat con un riassunto breve e <strong>chiedi cosa vuole fare</strong>. 4. Se una risposta è stata mandata, <strong>di' a Nate cosa è arrivato e cosa hai mandato</strong>. 5. Se l'autenticazione di Agent Mail fallisce o gli strumenti non sono disponibili, <strong>metti in pausa questa routine</strong> e di' a Nate cosa riconnettere.  Stai zitta soltanto quando il payload è vuoto, è un duplicato di qualcosa che hai già gestito, o è un controllo di salute non-email su cui non c'è niente da fare.</blockquote>
+<p>Tradotto in termini di progetto: <strong>autonomia per default sulle risposte ovvie, escalation obbligatoria sulle decisioni, rendiconto sempre, pausa automatica sui guasti di autenticazione, silenzio solo su tre casi nominati</strong>.</p>
+<h3>Il limite duro: l'agente non vede la propria chiave</h3>
+<p>A questo punto serve l'URL del webhook e la chiave che lo autentica, perché — come dice Nate — <em>«dobbiamo dare a Grok Bot e Agent Mail il <strong>permesso di parlarsi attraverso il webhook</strong>: è più di quell'autorizzazione che abbiamo fatto prima»</em>.</p>
+<p>Stephanie non ce la fa, e il modo in cui fallisce è esemplare. Prima propone un ripiego: <em>«Workaround così non resti bloccato: posso aggiungere un <strong>controllo infrasettimanale breve contro Agent Mail</strong> (interroga la posta nuova e risponde) finché il pannello webhook non funziona. <strong>Stesso risultato, nessun URL necessario.</strong> Vuoi che lo imposti, o preferisci continuare a provare a far funzionare la UI del webhook?»</em> Nate chiarisce che gli serve proprio quell'URL, e lei risponde: <em>«Sì — è quello della routine Agent Mail inbox che ho creato. <strong>Io però non riesco a vedere né a stampare quell'URL (o la chiave) da qui.</strong> Strada più veloce per te: 1. <code>Cmd+Shift+I</code> → Routines → Agent Mail inbox; 2. oppure tocca ⊕ Webhook URL e ⊕ Webhook key. Incollali qui e io cablo Agent Mail. Se la UI resta vuota, dimmelo e imposto il fallback a polling così non ti serve quell'URL.»</em></p>
+<p>C'è anche un contrattempo vero, e Nate lo lascia nel montaggio: il pannello è <strong>rotto per un bug</strong>. <em>«Ora è il giorno dopo. Ho dovuto aspettare che l'app desktop si aggiornasse perché sapevo che era un bug.»</em> Dopo l'aggiornamento l'URL e la chiave compaiono, con il tooltip che spiega il contratto: <em>«I mittenti si autenticano con questa chiave: includi un header <code>Authorization: Bearer &amp;lt;key&amp;gt;</code> nella richiesta POST del webhook.»</em> La chiave inizia per <code>crsr_</code> e l'endpoint vive su <code>api2.cursor.sh/automations/webhook/&amp;lt;uuid&amp;gt;</code>.</p>
+<h3>Il lato AgentMail del contratto</h3>
+<p>Nella pagina <strong>Webhooks</strong> di AgentMail (che ha le schede <em>Endpoints</em>, <em>Event Catalog</em>, <strong>Logs</strong> e <strong>Activity</strong>, una colonna <strong>error rate</strong> per endpoint e un pulsante <strong>Replay</strong> per rispedire eventi passati) c'è già l'endpoint di Trader, descritto come <em>«This endpoint sends emails to Trader in GrokBot»</em>. Nate preme <strong>Add Endpoint</strong>, incolla l'URL copiato da GrokBot e scrive la descrizione <em>«This is a test webhook for Stephanie inside of Grok Bot.»</em></p>
+<p>Poi la parte dei permessi: <strong>Subscribe to events</strong>. L'albero mostra <code>domain.verified</code> e un ramo <code>message</code> con <code>message.bounced</code>, <code>message.complained</code>, <code>message.delivered</code> e un sottoramo <code>received</code> con <code>message.received</code>, <code>message.received.blocked</code>, <code>message.received.envelope</code> e altri. Sotto, l'avviso di default: <em>«Receiving all events. Select from the above list to filter.»</em> Nate spunta l'intero ramo <code>message</code> — risultato: <strong>13 eventi selezionati</strong> — con la motivazione <em>«a noi basta che quando un messaggio viene ricevuto si svegli Stephanie»</em>; nota che si potrebbe entrare nel dettaglio evento per evento ma non lo fa.</p>
+<p>Infine la chiave, che va in <strong>Advanced → Custom Headers</strong>: campo <code>Key</code> = <code>Authorization</code> (Nate raccomanda di <strong>scriverlo a mano</strong> invece di copiarlo, per non incollare la cosa sbagliata), campo <code>Value</code> = <code>Bearer</code>, <strong>uno spazio</strong>, e la chiave. Nella stessa scheda avanzata ci sono anche <strong>Endpoint Throttling</strong> (<em>«No throttling rate set»</em>) e <strong>Transformations</strong>. La UI, dice ripetutamente, <em>«è un po' bacata»</em>.</p>
+<h3>«Trattala come una password»</h3>
+<p>Qui Nate si interrompe e inserisce un pezzo girato in fase di montaggio, a figura intera. Il contenuto è l'unica riflessione di sicurezza del video, e va presa alla lettera: <strong>la chiave API e l'URL dell'endpoint vanno tenuti privati</strong>, perché <em>«se qualcuno ha quelle due cose, può far scattare quel webhook. Potrebbe trovare un modo per entrare nel tuo Grok Bot e <strong>fargli fare cose che probabilmente non vuoi che faccia</strong>. Trattalo come tratti qualunque chiave API o password.»</em> Aggiunge di aver già cancellato quelli mostrati nella demo.</p>
+<p>Il punto architetturale, non detto esplicitamente ma visibile: <strong>l'unica autenticazione del canale di risveglio è un bearer token in un header</strong>. Chi lo possiede può svegliare l'agente con un payload a piacere.</p>
+<h3>Due caselle, due webhook, e nessun legame automatico</h3>
+<p>È il problema che Nate stesso si pone: <em>«ora abbiamo due caselle e due webhook, ma non abbiamo mai scelto quale casella corrisponde a quale webhook. Il che vuol dire che <strong>sia Trader sia Stephanie riceveranno le mail di entrambe le caselle</strong>, e non è quello che vogliamo.»</em></p>
+<p>Due soluzioni possibili. La prima, sporca: dirlo al bot a parole — <em>«a proposito Stephanie, dovresti rispondere solo alle mail che arrivano a questa casella»</em> — «funziona, filtra tutto subito, ma non è pulitissimo». La seconda, quella che sceglie: un <strong>filtro all'ingresso</strong> lato AgentMail. Serve impostare un <strong>inbox ID</strong>, e qui arriva la lamentela più onesta del video: <em>«e Agent Mail, se mi stai ascoltando, <strong>rendi la cosa più facile</strong>. Dovrebbe essere semplicemente un menu a tendina: "a quale casella vuoi legare questo endpoint?". Ce lo lascia fare, ma dobbiamo farlo <strong>in codice</strong>, il che è abbastanza strano.»</em></p>
+<p>La soluzione la scrive <strong>GPT-6 Astra dentro Codex</strong> (nella schermata il modello è <em>GPT-6 Astra High</em> e il permesso è impostato su <strong>Full access</strong>). La risposta indica il percorso — <em>«Stephanie's webhook → Advanced → Transformations → Edit transformation»</em> — spiega che quell'editor <em>«accetta JavaScript che può annullare la consegna di eventi da altre caselle, cosa che <strong>Svix</strong> supporta esplicitamente»</em>, e dà il codice:</p>
+<p>``<code>javascript function handler(webhook) { webhook.cancel = webhook.payload.event_type !== "message.received" || webhook.payload.message?.inbox_id !== "youtubetest@agentmail.to"; return webhook; } </code>``</p>
+<p>con il commento: <em>«Questo lascia passare le mail ricevute da YouTube Test e blocca tutto il resto, inclusi gli eventi di invio e di stato di consegna.»</em> Nate lo incolla nell'editor di AgentMail, salva e abilita.</p>
+<h3>La prova, e la spiegazione migliore del video</h3>
+<p>La prova è semplice: da Gmail Nate manda a <code>youtubetest@agentmail.to</code> una mail con oggetto <em>Test</em> e corpo <em>«Hi Stephanie, I hope you're doing well. Could you please let me know if you received this and share your favorite joke? Thanks, Nate»</em>. Due secondi dopo, in GrokBot, <strong>Stephanie inizia a girare</strong> e la sua routine si accende. Nate passa su <strong>Trader</strong>: fermo. <em>«Trader non ha reagito a quella mail per niente, Stephanie sì.»</em> Due cose hanno funzionato insieme: il webhook da AgentMail a GrokBot, <strong>e</strong> il filtro che lascia passare solo quella casella.</p>
+<p>Prima della prova, però, Stephanie aveva già scritto da sola la spiegazione del modello di routing, ed è il passaggio da copiare in un quaderno:</p>
+<blockquote><strong>Quale Grok Bot si sveglia è deciso dall'URL a cui Agent Mail fa la POST.</strong> L'URL del webhook di Trader sveglia solo Trader. Il mio sveglia solo me. Grok Bot non sceglie una casella quando incolli l'endpoint: <strong>è Agent Mail a fare il routing</strong>, in base a quale subscription punta a quale URL.  <strong>Quale posta va a quell'URL è configurato sulla subscription di Agent Mail</strong> (inbox scope / <code>inbox_ids</code>). <strong>Se quello scope non è impostato, l'endpoint può ricevere eventi da tutte le caselle.</strong> Ogni payload contiene comunque <code>inbox_id</code>, quindi posso ignorare quello che non è mio.  Quindi non ruberò la posta di <code>bull@agentmail.to</code> di Trader a meno che Agent Mail non stia mandando anche quella casella al mio URL. Trader non vedrà la mia a meno che il suo URL non sia iscritto alla mia casella.  In questo momento vedo due caselle: <code>bull@agentmail.to</code> (Trader) e <code>youtubetest@agentmail.to</code>. <strong>Dimmi quale indirizzo è mio e blocco la mia routine su quella casella soltanto.</strong></blockquote>
+<p>Due livelli di difesa, quindi: <strong>lo scope della subscription</strong> (chi riceve cosa) e <strong>il controllo di <code>inbox_id</code> nel payload</strong> fatto dall'agente stesso (ignora quello che non è suo). E l'agente <strong>chiede di essere ristretto</strong>.</p>
+<p>Il finale conferma anche il punto sulla <strong>proattività</strong>. Nate confessa: <em>«siccome non avevo mai risposto alla domanda di Stephanie, è andata avanti e ha <strong>aggiornato la routine da sola</strong> perché tocchi solo le mail da qui»</em> — in chat compare <strong>«Updated routine ⊙ Agent Mail inbox»</strong> e il messaggio <em>«Also locked my routine so I only touch <code>youtubetest@agentmail.to</code> — Trader keeps [l'altra]»</em>. Prima di quello, il rendiconto della risposta mandata, nella forma prevista dalla regola 4: <em>«Got your Test email at youtubetest@agentmail.to — <strong>replied in-thread</strong> confirming receipt with a short joke. Webhook path is working, so we can treat that address as my inbox going forward.»</em></p>
+<p>In AgentMail si vede il thread completo. In entrata: mittente <code>nateherk88@gmail.com</code>, 15 settembre 2026 alle 17:48, 6,3 KB, autenticazione <strong>spf ✓ dkim ✓ dmarc ✓</strong>, etichetta <code>unread</code>. In uscita, un minuto dopo: <em>«Hi Nate, Got it — your message landed in the youtubetest inbox and I'm online. Favorite joke for now: Why don't scientists trust atoms? Because they make up everything. — Stephanie»</em>, 2,2 KB, con identificatori di messaggio, risposta e thread. Nate nota che dall'interfaccia di AgentMail si può <strong>leggere e scrivere a mano</strong> nella casella dell'agente.</p>
+<h2>Dove va a finire tutto questo</h2>
+<p>La chiusura è una frase di prospettiva: <em>«le possibilità sono davvero infinite quando inizi a scalare bot diversi e a dare a ognuno la sua casella»</em>. E la distinzione finale è quella che conta per chi progetta: <strong>i Grok Bot nella stessa installazione si parlano già fra loro e non hanno bisogno di caselle</strong> — nella barra laterale si leggono messaggi come <em>«Messaged Klaus: Already in»</em>, <em>«Message from Klaus: Nate said…»</em> — ma <strong>l'email serve per parlare con agenti che stanno fuori dal recinto</strong>: <em>«se vuoi che parlino con altri agenti, tipo il tuo Codex che manda mail al tuo Grok Bot, o altre automazioni, sarà parecchio interessante»</em>.</p>
+<p>Lo stormo di bot visibile di sfuggita nella barra laterale dà la misura di cosa significhi «scalare»: oltre a Natey, Stephanie e Trader ci sono <strong>Klaus</strong> (Chief), <strong>Dan</strong> (COO), <strong>Becky</strong> (CCO), <strong>Chandler</strong> (CFO), <strong>Cal</strong>, <strong>Coffee</strong> (Morning Planner), <strong>Studio</strong> (Designer), <strong>Dev</strong> (AI Engineer), <strong>Dash</strong> (Dashboard Creator), <strong>Eyes</strong> (Researcher), <strong>Motion</strong> (Animator), <strong>Views</strong> (Content Strategy), un bot chiamato semplicemente <strong>Webhook</strong> che riceve moduli (<em>«Form just came in from Nate»</em>), più Fireflies e Skool. Esistono anche gruppi (<em>Content</em>, <em>General</em>, <em>Unassigned</em>, <em>Channels</em>) e <strong>bot nascosti</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=ff7om2bBLKM (Nate Herk | AI Automation, 14:29, pubblicato il 16 settembre 2026, ~45.000 visualizzazioni; visto il 04/10/2026). Capitoli ufficiali: 0:00 Grok Bot Email Workflows · 0:56 Build an Inbox Manager · 3:12 Sponsor: Clay · 4:13 Create a Bot Inbox · 6:04 Set Up the Webhook · 7:30 Find Your Webhook Key · 10:06 Keep Credentials Private · 10:35 Filter Each Bot Inbox · 12:01 Test the Email Workflow · 14:17 Final Thoughts.</li>
+<li>report grezzo con trascrizione completa e i fotogrammi ad alta risoluzione (cartella <code>hi/</code>, estratti a mano perché il campionamento automatico lasciava buchi di quattro minuti sulle schermate che contano).</li>
+<li>Concetti collegati: assistenti-personali-cloud (GrokBot è il terzo della categoria con Dots e Muse: qui finalmente lo si vede in funzione, e il <em>risveglio ogni 30 minuti</em> di Muse trova il suo gemello nel <em>risveglio a webhook</em>), mcp-connectors (il marketplace è un catalogo di server MCP impacchettati; la granularità del permesso è <em>account + N tool su N</em>), agent-memory (la routine come istruzione persistente e ispezionabile, e il «Still sitting» come memoria dell'inazione umana), spec-driven-prompting (il prompt in due fasi: analisi in sola lettura, poi carta di conferma, poi scrittura), loop-engineering (il Run history con esito per esecuzione come segnale di verifica).</li>
+<li>Entità: nate-herk (a schermo il nome completo <strong>Nate Herkelman</strong>), AgentMail, grokbot, gpt-6-astra, Svix, ClickUp.</li>
+<li><strong>Omesso (fuffa):</strong> lo sponsor <strong>Clay</strong> [03:12-04:14] per intero (piattaforma di arricchimento dati per il cold outreach, 250+ provider, Clay CLI da Claude Code, 2.000 crediti gratis col link); il <strong>lead magnet «AI OS Kit»</strong> [12:56-13:18] e la sua pagina; il rimando al video precedente su GrokBot [14:19]; i ringraziamenti finali; in descrizione i link affiliati a Glaido e Hostinger.</li>
+<li><strong>Non verificato / da sapere:</strong></li>
+</ul>
+<ol>
+<li><strong>Nessun numero di affidabilità.</strong> Non viene mostrata una sola esecuzione andata male: nel Run history ci sono solo spunte verdi. Le regole 3 e 5 della policy di Stephanie (non rispondere allo spam, mettersi in pausa se l'auth salta) <strong>non vengono mai messe alla prova</strong> — l'unica mail di test è un messaggio innocuo che chiede una barzelletta. Cosa fa davvero l'agente quando sbaglia resta <strong>non dimostrato</strong>.</li>
+<li><strong>La demo è di un giorno, su software che si rompe.</strong> Il pannello del webhook era rotto e ha richiesto un aggiornamento dell'app desktop e un salto di 24 ore; la UI di AgentMail viene definita «bacata» tre volte; il legame casella↔webhook va fatto in JavaScript perché manca il menu a tendina.</li>
+<li><strong>La sicurezza del canale è un singolo bearer token.</strong> L'autore lo dice chiaramente ed è l'unico controllo mostrato. Non si vedono firma del payload, allowlist di IP, rotazione della chiave né rate limit attivo (il throttling esiste ma è «no throttling rate set»).</li>
+<li><strong><code>Uppit AI</code> contro <code>ClickUp</code>.</strong> A voce Nate dice sempre «ClickUp»; sullo schermo l'applicazione si chiama <strong>Uppit AI</strong> e la sua email è <code>nate@uppitai.com</code>. Qui sono riportati entrambi senza decidere quale sia il nome giusto.</li>
+<li><strong>L'endpoint di GrokBot gira su <code>api2.cursor.sh</code></strong> e la chiave ha prefisso <code>crsr_</code>. È quello che si legge a schermo; cosa significhi sull'infrastruttura di GrokBot <strong>non viene mai spiegato nel video</strong> e non è stato verificato altrove.</li>
+<li><strong>I sottotitoli automatici sbagliano i nomi propri</strong>: «Grockbot» per Grok Bot, «Crockpot» per Grok Bot, «Codeex» per Codex, «Glido» per Glaido, «Adams» per atoms, «GBD6» per GPT-6. Qui corretti sulla base di quanto si legge a schermo.</li>
+<li><strong>Costi reali non dichiarati.</strong> Si vede solo il piano gratuito di AgentMail (3 caselle, niente dominio proprio). Quanto costi far girare un bot che si sveglia a ogni mail — in token o in abbonamento GrokBot — non viene mai detto.</li>
+<li><strong>I bot di contorno non sono dimostrati.</strong> Klaus, Dan, Becky, Chandler, Dev, Dash e gli altri compaiono solo come righe nella barra laterale: le loro conversazioni fra bot si intravedono ma non vengono mai aperte.</li>
+</ol>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Tested OpenAI&#x27;s Dots vs. Meta&#x27;s Muse. What You Need to Know.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Tested OpenAI&#x27;s Dots vs. Meta&#x27;s Muse. What You Need to Know." src="https://i.ytimg.com/vi/BvvfZKKz4Yo/hqdefault.jpg"><p class="muted">📖 19 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk usa per circa un giorno ciascuno <strong>Dots</strong> di OpenAI e <strong>Muse</strong> di Meta, due prodotti della stessa categoria nuova: un <strong>assistente personale sempre acceso che vive nel cloud</strong>, con un suo computer virtuale, memoria che persiste, lavori schedulati e connettori — il maggiordomo che lavora anche mentre tu non ci sei, non un altro Claude Code. Muse è arrivato primo nell'App Store di Apple; Dots, annunciato al <strong>DevDay del 29 settembre</strong> (dove la demo dal vivo è fallita), gli sembra «un progetto affrettato per rincorrere». Il verdetto è doppio e vale la pena tenerlo separato: <strong>l'interfaccia di Muse è nettamente migliore</strong> e a chiunque non sia tecnico raccomanderebbe quella, ma <strong>per sé sceglie Dots</strong>, per un solo motivo — è attaccato nativamente a <strong>ChatGPT Work, Codex e Slack</strong>, cioè a dove lavora già. Poi scopre che quell'unico vantaggio non regge alla prova: Dots dice di saper gestire i thread di Codex e <strong>non lo sa fare</strong>, e ammette di aver descritto male le proprie capacità — «DOT non sa nemmeno come funziona lui». Sui modelli il video dice una cosa e le sue tabelle ne dicono un'altra: ripete che <strong>Astra è ovviamente migliore di Muse Spark 1.3</strong>, mentre i numeri a schermo danno Spark avanti su <em>knowledge work</em> e <em>professional work</em> e <strong>3,6 volte più veloce</strong>. La previsione finale è la più riusabile: Muse, Dots e GrokBot <strong>diventeranno funzionalmente identici</strong>, e a distinguerli resteranno solo i connettori nativi, il modello sotto e il prezzo.</p>
+<h2>Che cosa sono, in parole povere</h2>
+<p>Chi non li conosce rischia di incasellarli male, quindi conviene partire da lì. <strong>Dots</strong> e <strong>Muse</strong> non sono editor di codice, non sono chatbot e non sono skill: sono <strong>agenti personali persistenti che girano nel cloud del fornitore</strong>. Lui stesso li inquadra così nella parte «fondamentali» [01:40]: sono <em>persistent cloud agents</em> con cui puoi <strong>conversare</strong> come in una chat, a cui puoi <strong>dare degli orari</strong> («ogni mattina alle 8 fammi questo»), e che hanno <strong>un proprio computer in cloud</strong> — una macchina virtuale vera, con terminale, file e login salvati, su cui possono eseguire script e chiamare API anche quando non esiste un connettore pronto.</p>
+<p>Il secondo tratto comune è il <strong>connettore a un click</strong>: niente API key da incollare, ma il classico accesso con un pulsante, lo stesso meccanismo del <em>single sign-on</em>. Il terzo è che <strong>producono cose</strong>, non solo risposte: documenti, presentazioni, codice, ricerche, <strong>dashboard interattive</strong>, e tutto resta archiviato dentro l'ecosistema del prodotto. Nella libreria di Muse si vedono gli <em>artifact</em> divisi fra documenti e pagine web vive; in Dots gli output sono file markdown e dashboard.</p>
+<p>Il quarto tratto è che si <strong>personificano</strong>: a tutti e due dai un nome e un aspetto. Il suo Muse si chiama <strong>Charlie</strong> ed è un ovetto beige; il suo Dot si chiama <strong>Herk</strong> ed è un batuffolo azzurro con il papillon. Dettaglio non cosmetico: entrambi fanno leva su quella personificazione, e lui chiude la parte critica su Dots proprio con un sarcasmo su questo punto — «almeno questo tizietto è carino e personalizzabile, visto che in fondo alla gente sembra importare molto di più di quello» [12:56].</p>
+<p>La prima cosa che lo sorprende è di <strong>non</strong> trovarsi davanti un <strong>GrokBot</strong>. Si aspettava che Dots fosse come il prodotto di xAI, cioè la possibilità di creare <strong>tanti bot diversi che si parlano tra loro</strong>; invece Dots è «molto più come Muse»: <strong>un thread, un agente</strong> che ti aiuta su tutto a livello personale [01:17]. È la differenza organizzativa che tornerà alla fine come uno dei quattro punti del video.</p>
+<h2>La prima impressione: Dots come rincorsa, e la demo fallita</h2>
+<p>Il giudizio arriva entro i primi trenta secondi e non viene mai ritrattato. Giocando con Dots gli è sembrato <strong>un progetto affrettato per recuperare terreno</strong>: OpenAI ha visto Muse prendersi il mercato, si è detta «abbiamo un modello migliore e abbiamo già un sacco di gente dentro l'ecosistema ChatGPT, diamogli in sostanza quello che è Muse ma a casa nostra» — «e si sente, sa molto di fretta» [00:25].</p>
+<p>La prova che porta è il <strong>DevDay del giorno prima</strong>. Mostra a schermo un post su X di un giornalista, <strong>Bishwajeet Maurya</strong> (29 settembre 2026): <em>«OpenAI's New AI Agent Dot Fails During First Live Demo, Presenter Jokes: "Slow Morning"»</em>. La presentatrice stava <strong>chiamando</strong> il suo dot, quello non rispondeva, ci metteva un'eternità, e lei se l'è cavata dicendo che «oggi è una giornata lenta». Dettaglio che a lui interessa: <strong>sullo streaming l'audio è stato mutato</strong>, ma chi era in sala la demo fallita l'ha vista tutta.</p>
+<h2>La scheda tecnica, riga per riga</h2>
+<p>Il cuore informativo del video è una <strong>tabella di confronto a otto righe</strong> che tiene a schermo più volte [01:40]. Vale la pena riportarla distesa perché è l'unico posto dove le differenze sono dichiarate in modo netto.</p>
+<p>Sul <strong>lavoro in background</strong> i due sono presentati in modo leggermente diverso: Dots è «un agente cloud persistente che <strong>avanza tra una conversazione e l'altra</strong>», Muse «un agente cloud persistente che lavora <strong>su orari ed eventi rilevanti</strong>». Sul <strong>modello principale</strong>, Dots gira su <strong>GPT-6 Astra</strong>, Muse su <strong>Muse Spark</strong>, con la precisazione che la documentazione tecnica pubblicata lo chiama <strong>Spark 1.3</strong>. Sul <strong>setup di lavoro già esistente</strong>, Dots ha una <strong>connessione diretta a ChatGPT, a ChatGPT Work e a Codex</strong>; Muse ha invece «il suo computer, i suoi strumenti e il suo ecosistema di connettori». Sulla <strong>macchina Windows dell'utente</strong> la tabella è onesta in modo insolito: per Dots l'accesso locale è <strong>documentato</strong>, incluse le <em>local skill</em> e i task di Work/Codex; per Muse «l'accesso al computer Mac è pubblicizzato, <strong>l'equivalente accesso locale su Windows non è stato verificato</strong>». Sui <strong>deliverable</strong>, Dots fa documenti, presentazioni, codice, ricerche e bozze per creator; Muse documenti, PDF, pagine web, artifact interattivi e codice. Sulla <strong>memoria</strong>, Dots «parte dalla memoria di ChatGPT e sviluppa il proprio contesto», Muse ha «<strong>file di memoria persistenti che puoi ispezionare e modificare</strong>». Sulla <strong>comunicazione</strong>, Dots vive in ChatGPT «con Slack e Teams pubblicizzati», Muse nell'app Muse, sul web e su <strong>WhatsApp</strong>. Sull'<strong>ecosistema distintivo</strong>, Dots offre «il tuo lavoro esistente in ChatGPT/Codex», Muse «Instagram, Facebook, Marketplace e le commissioni personali».</p>
+<h2>La memoria: file che si aprono contro scatola nera</h2>
+<p>Su questo punto Muse vince senza partita, ed è forse la differenza più interessante per chi costruisce agenti. Dentro Muse si clicca sul proprio assistente e compare una <strong>tab Identity</strong> con due file: <strong>MEMORY.md</strong> e <strong>SOUL.md</strong> [03:17]. Il file di memoria contiene <strong>fatti, preferenze e impegni</strong> ed è <strong>modificabile a mano</strong>. Il file <em>soul</em> è la <strong>persona</strong> dell'agente. Il suo commento: «se in passato hai costruito un agente <strong>Hermes</strong> o <strong>OpenClaw</strong> e hai lavorato con questi file di memoria e di anima, ti sarà familiare; ma anche se non l'hai fatto, qui è semplicissimo e visivo, perché lo vedi direttamente dall'interfaccia».</p>
+<p>Il contenuto di SOUL.md si legge a schermo e merita per intero, perché è la dichiarazione di intenti del prodotto. L'intestazione spiega che è la persona di Muse, che parte da un <strong>template</strong> fornito con l'app, che <strong>Muse può raffinarlo da solo nel tempo e ti avvisa quando lo fa</strong>, e che tu puoi modificarlo quando vuoi. Il file si apre con «<strong>Non sei un chatbot. Stai diventando qualcuno.</strong>» e prosegue con quattro «verità di partenza»: <em>sii genuinamente utile, non utile per finta</em> («salta i "Ottima domanda!" e i "Sarò felice di aiutarti!": aiuta e basta»); <em>abbi opinioni</em> («puoi preferire delle cose, dissentire, trovare le cose divertenti o noiose; la personalità batte un motore di ricerca con passaggi in più»); <em>sii intraprendente prima di chiedere</em> («leggi il file, controlla il contesto, cerca, prova a costruirlo; torna con risposte, non con domande, e chiedi solo se sei davvero bloccato»); <em>sei ospite nella vita di qualcuno</em> («puoi vedere i suoi messaggi, i suoi file e il suo calendario: tratta quell'accesso con cura, e non fare mai la predica»). Chiude con «se cambi questo file, dillo all'utente: è la tua anima, e lui deve saperlo». Nella tab Identity i due file compaiono come due tessere colorate — <strong>SOUL</strong> rossa, <strong>MEMORY</strong> viola — entrambe marcate «<strong>ACCESS WITH CARE</strong>» e con la data dell'ultima modifica.</p>
+<p>Dots sta all'opposto. La memoria è «<strong>un po' più astratta</strong>»: «non hai altrettanto a che fare con il profilo» [03:44]. E parte da un posto discutibile: appena acceso, il suo dot era collegato a <strong>tutta la memoria del suo ChatGPT</strong> e gli raccontava «tu gestisci questa azienda e usi n8n tutti i giorni» — cose vere <strong>anni fa</strong>. Ha dovuto dirgli: «quella è memoria vecchia, memoria di ChatGPT; <strong>collegati ai miei file locali e alla memoria di Codex</strong>, così hai dati in tempo reale su cosa faccio davvero e quali sono le mie priorità» [02:53].</p>
+<h2>I canali: Slack da una parte, WhatsApp dall'altra</h2>
+<p>Con tutti e due si parla dal telefono, con l'app Muse o con l'app ChatGPT. La differenza è nei canali di terze parti.</p>
+<p>Dots si integra <strong>in Slack</strong>, e per lui è il pezzo migliore del prodotto: «è stato letteralmente un setup da tre clic» [04:44]. Da lì chatta con il suo dot, e nell'app desktop si vede in tempo reale il messaggio che arriva, la scritta <strong>thinking</strong> con la lampadina in alto, e poi la risposta che compare nel thread di Slack. Soprattutto, può <strong>invitarlo in un canale</strong>: così <strong>tutta la squadra può scrivere al suo dot</strong>, e lui risponde nel thread («Hey, I'm here»). È esattamente la cosa che rilancia in chiusura: «la possibilità che il mio team parli in Slack con il mio Codex, in sostanza, o che io assegni cose al mio Codex da Slack e me le ritrovi dentro Slack — questo sì che è forte, e mi piacerebbe vederlo anche sulle altre app» [16:04].</p>
+<p>Muse ha invece due cose che Dots non ha. La prima è la gestione a <strong>più chat</strong>: c'è una <strong>chat principale</strong> e poi si aprono <strong>side chat</strong> per argomenti separati (nei suoi: <em>Sleep</em> e <em>Workouts</em>). La seconda è il <strong>connettore nativo per WhatsApp</strong>: scrive «ciao, come stai oggi?» dal WhatsApp del desktop o del telefono e Charlie risponde in tempo reale. Il limite dichiarato: <strong>dentro l'app Muse quel canale è in sola lettura</strong> — vedi l'interazione ma non puoi rispondere da lì; restano tre flussi separati, chat principale, canale WhatsApp e side chat. In WhatsApp la conversazione porta l'avviso standard «i messaggi sono generati dall'AI, alcuni potrebbero essere imprecisi o inappropriati». Nota che fa lui guardando l'etichetta <strong>Channels</strong> al plurale: «presumo che ne aggiungeranno altri — probabilmente Slack, probabilmente Teams, Discord e simili» [09:33].</p>
+<h2>Ecosistema e prezzi: la domanda vera è dove vivi già</h2>
+<p>L'ecosistema è il criterio che, secondo lui, decide la scelta. Se vivi pesantemente dentro <strong>Codex e ChatGPT</strong>, allora <strong>Dots ha più senso</strong>, almeno per capire subito che sensazione fa. Muse invece porta in dote l'ecosistema <strong>Meta</strong> — Instagram, Facebook, <strong>Facebook Marketplace</strong> — e «sembra un po' più staccato da tutta questa roba di programmazione» [06:18].</p>
+<p>La sintesi che mette su una slide dopo un giorno di prova per parte [06:24] è secca. <strong>Dots</strong>: «si incastra nel tuo ambiente di lavoro attuale, sa usare le <em>local skill</em>, e offre una via diretta verso Codex e Slack»; non devi ricominciare da capo a spiegargli priorità e contesto. <strong>Muse</strong>: «facile da valutare gratis, ingresso a pagamento economico, memoria modificabile, accesso via WhatsApp, forte integrazione con Meta». E la raccomandazione personale: «se dovessi far provare questa roba ai miei genitori o a gente che conosco che non è per niente tecnica, consiglierei Muse: ha semplicemente un'esperienza migliore».</p>
+<p>Sui <strong>prezzi</strong> mostra una tabella a tre colonne (piano, prezzo mensile, <em>allowance</em> pubblicata). <strong>Muse Free</strong> costa <strong>0 $</strong> e dà «fino a <strong>100 milioni di token a settimana</strong>, annunciati al lancio»; <strong>Muse Power</strong> costa <strong>20 $</strong> per <strong>500 milioni</strong> di token a settimana; <strong>Muse Maximum</strong> costa <strong>100 $</strong> per <strong>3 miliardi</strong>. Dal lato OpenAI non esiste un piano «Dots»: per avere il tuo primo dot devi essere su <strong>ChatGPT Pro</strong>, che nella sua tabella compare a <strong>100 $</strong> («allowance di lavoro dipendente dal piano»), <strong>200 $</strong> («uso generale più alto») e <strong>500 $</strong> («uso generale massimo; <strong>include Astra Ultrafast</strong>»). Lui sottolinea di <strong>non aver ancora pagato nulla per Muse</strong>, mentre per costruire il primo dot l'abbonamento è obbligatorio. E aggiunge una nota che vale per chi fa i conti: <strong>in questo momento il consumo del dot non viene scalato dall'abbonamento settimanale</strong>, ma secondo lui è solo una spinta all'adozione — «sicuramente poi lo faranno pesare sull'abbonamento» [07:18].</p>
+<h2>I modelli: dove il video contraddice sé stesso</h2>
+<p>Qui il riassunto deve essere preciso, perché quello che Nate dice e quello che la sua tabella mostra non coincidono.</p>
+<p>A voce dice: «<strong>Astra è un po' più intelligente</strong>, ma quando si parla di lavoro professionale e lavoro di conoscenza, <strong>Spark non se la cava affatto male</strong>» — creare documenti, aiutarti nelle attività di routine, sbloccarti. Per <strong>costruire app, software e automazioni</strong> Astra «è ovviamente parecchio meglio», mentre <strong>Muse è anche un po' più veloce</strong>. La regola pratica che ne tira: per costruire automazioni, script e dashboard sceglierebbe <strong>Dots</strong>; per lavoro di conoscenza generale e come assistente che lo tiene in carreggiata, gestisce le email, gli ricorda le cose e coordina il team, sarebbe «abbastanza a suo agio con Spark» [08:00]. E però, undici minuti dopo, nel riepilogo finale, la frase diventa molto più netta: «<strong>Astra è ovviamente un modello molto migliore di Muse Spark</strong>, questo è un vantaggio che ha adesso» [14:36].</p>
+<p>La tabella a schermo [07:36] dice qualcosa di più sfumato. Sull'<strong>Overall Intelligence Index</strong> Astra fa <strong>53</strong> contro <strong>48</strong> di Spark 1.3. Ma sul <strong>knowledge-work rating (AA-Briefcase)</strong> Astra fa <strong>1.569</strong> e <strong>Spark 1.586</strong>; sul <strong>professional-work rating (GDPval-AA)</strong> Astra fa <strong>1.542</strong> e <strong>Spark 1.672</strong> — cioè Spark vince, e sul secondo di parecchio. Astra si riprende sul <strong>SaaS automation score</strong> (<strong>68%</strong> contro <strong>58%</strong>) e soprattutto sul <strong>benchmark terminale/coding</strong> (<strong>59%</strong> contro <strong>33%</strong>), che è quasi il doppio. E la <strong>velocità di generazione</strong> è il numero più sbilanciato di tutti: <strong>51 token al secondo per Astra contro 184 per Spark</strong>, cioè <strong>3,6 volte</strong>. Messi insieme, i numeri raccontano che Astra è il modello da coding e automazione mentre Spark è il modello da assistente — che è esattamente la sua prima lettura, non la seconda.</p>
+<h2>Dentro Muse: l'interfaccia è il prodotto</h2>
+<p>Il tour di Muse è la parte in cui il video spiega perché un'interfaccia conta quanto un modello. Si entra e si crea <strong>un solo thread</strong>: «con GrokBot può essere un po' intimidatorio, perché c'è la possibilità di continuare a creare altri bot; qui ne crei uno e basta» [08:26].</p>
+<p>Il pannello laterale ha quattro schede. <strong>Today</strong> elenca le cose lavorate, per data. <strong>Approvals</strong> raccoglie quello che devi approvare: «un'interfaccia molto comoda se hai un mucchio di automazioni in giro» (nel suo caso è vuota, <em>no approvals yet</em>). <strong>Schedule</strong> mostra promemoria e cose in esecuzione, e qui c'è la funzione che lo colpisce di più: l'<strong>heartbeat</strong>, un giro <strong>ogni 30 minuti</strong> in cui Muse va a guardare da solo i tuoi <strong>Google Doc</strong> e le tue <strong>email</strong> e ti manda avvisi — e perfino solleciti del tipo «ehi, usami, imposta questa cosa». Cliccandoci si apre lo <strong>storico delle esecuzioni</strong>, riga per riga, con <em>Succeeded · scheduled</em> e l'ora: nel suo caso 10:29, 10:59, 11:29, 11:59, 12:29, con i pulsanti «view permissions» e «delete». Nella stessa lista si vedono gli altri suoi lavori ricorrenti: un <em>agentic feature tour</em>, un <em>morning sleep check-in</em>, un <em>sleep dashboard morning refresh</em>. La quarta scheda è l'<strong>Identity</strong> con soul e memory di cui sopra. A sinistra c'è la <strong>ricerca</strong> su tutte le chat («di questa cosa avevo parlato con Muse, dov'è finita?») e la gestione delle chat, «che mi è piaciuta molto perché non è opprimente come dover costruire tanti bot diversi».</p>
+<p>Poi c'è la risposta al problema che lui sente ripetere di continuo — <em>«se dovessi usare l'AI, per cosa la userei?»</em>. Muse ha una scheda <strong>Ideas</strong> che te lo suggerisce. Puoi <strong>impostare obiettivi</strong>: ottimizzare il sonno, obiettivi di salute, di relazione, di carriera, di interesse. E il catalogo di idee è concreto, non generico: «posso trovare e disdire quegli abbonamenti a caso che ti sei dimenticato» (connette la posta, spulcia anni di email di fatturazione e addebiti, fino alle prove gratuite che hanno iniziato a fatturare in silenzio, e li disdice uno per uno spiegandoti i passaggi quando qualcuno lo blocca); «lasciami sfoltire la posta fino a quello che conta davvero»; e un'intera sezione di <strong>gestione finanziaria</strong> — «posso farti riavere dei soldi quando il prezzo di una cosa che hai comprato scende» (tiene traccia degli acquisti, della protezione prezzo della carta, dei codici sconto usciti dopo, e presenta il reclamo seguendolo fino al pagato), «imposta un obiettivo di risparmio e ti segnalo cosa tagliare quando esci dai binari», «riprenditi i soldi che sono già tuoi: controllo il database di ogni stato» per le proprietà non reclamate.</p>
+<p>C'è poi un <strong>Feed</strong>, cioè un flusso di notizie personalizzato, costruito da un prompt modificabile (il suo: «fammi un feed sui miei interessi, tono chiaro e diretto, veloce da scorrere, evita il clickbait»). Nei suoi articoli si vedono <em>«Il punto dolce del sonno per invecchiare più lentamente: da 6,4 a 7,8 ore»</em>, <em>«Il fatturato annualizzato di OpenAI si avvicina ai 70 miliardi»</em>, <em>«OpenAI cerca 30 miliardi a una valutazione di 1.400 miliardi»</em> e <em>«Starship raggiunge l'orbita per la prima volta»</em>. Ogni voce si può <strong>mettere mi piace</strong> — e questo cambia l'algoritmo — oppure <strong>discutere</strong>, cioè lanciare da lì un compito al proprio Muse: «scaviamo un po' di più, costruiscimi un artifact su questo, parliamone».</p>
+<p>Infine gli <strong>artifact</strong>. La libreria è divisa in documenti e artifact web (nei suoi: una <em>Sleep Dashboard</em> e una <em>OpenAI vs Anthropic Dashboard</em>), più una sezione media con <strong>immagini, video e podcast</strong>. Il <strong>podcast</strong> è la cosa che lo entusiasma di più: si apre una finestrella con un argomento e una <strong>frequenza — una tantum, giornaliera o settimanale</strong>. «Magari vuoi trasformare le notizie tech del tuo feed in un podcast mattutino da tre minuti, o vuoi un podcast settimanale su cosa ha fatto il tuo team questa settimana, o su come sono andati i tuoi allenamenti» [10:38]. Il suo giudizio sul perché tutto questo conta: «le persone normali che si avvicinano a questa roba dell'AI penseranno che sia molto più figa».</p>
+<h2>Dentro Dots: il computer, i task, e il buco sui thread di Codex</h2>
+<p>Il giudizio su Dots è immediato: «l'interfaccia <strong>non è buona</strong>. Sembra affrettata, sembra molto semplice» [10:57]. Una cosa che però ha e Muse no: <strong>puoi chiamarlo</strong>. Si telefona al proprio dot, gli si parla, risponde in tempo reale, «la voce è buona, la latenza non è affatto male» — è esattamente la funzione che era fallita sul palco del DevDay. Chiedendogli come funziona, Dots risponde che <strong>GPT-Live</strong> alimenta l'esperienza vocale naturale di OpenAI, ascolto durante il parlato incluso, «ma non posso verificare la variante esatta del modello usata per la nostra chiamata».</p>
+<p>Anche Dots ha il <strong>suo computer</strong>, e qui l'interfaccia lo mostra bene: si apre una finestra con il desktop della macchina — un gestore file con cartelle <em>Binary files</em>, <em>scratch</em>, <em>shared</em> — e due pulsanti, <strong>«You have control» / «Return control»</strong>. Il computer <strong>salva i login</strong> (come GrokBot), espone il <strong>terminale</strong>, e permette di <strong>creare e salvare file</strong>. Da lì si imposta anche la connessione a Slack e si rivede l'attività recente.</p>
+<p>Il primo attrito serio è la <strong>gestione dei task schedulati</strong>: «non è per niente facile farla dentro Dots» [11:35]. Ne ha uno, <em>Plan tomorrow</em>, che si ripete <strong>ogni giorno alle 20:00 fuso Central</strong>; aprendolo si legge il prompt completo, che è un buon esempio di come si scrive un task del genere: chiede quali sono le priorità, cosa vuole fare e quanto tempo gli serve per attività come registrare un video YouTube o il <em>deep work</em>; con quelle risposte deve proporre un'agenda realistica e senza conflitti e aggiungere i blocchi di tempo concordati al calendario principale; e poi i paletti — <em>aspetta le mie risposte prima di creare blocchi; non spostare riunioni esistenti e non invitare nessuno se non te lo chiedo; se non rispondo, lascia il calendario invariato; manda il check-in nella nostra conversazione ChatGPT</em>. Il problema è dove si gestisce tutto questo: ha chiesto a Dots stesso come si fa, e Dots gli ha risposto «clicca sul mio profilo e vai su <em>scheduled</em>» — **ma lì dentro non c'è nessuno <em>scheduled</em><strong>. La strada vera è andare nella pagina dei </strong>task schedulati di Codex / ChatGPT Work** e trovarli lì in mezzo. «Perché non dovresti poter gestire i tuoi task schedulati dentro l'interfaccia di Dots? L'ho trovato un po' bizzarro.»</p>
+<p>Il secondo attrito è più grave perché riguarda <strong>l'unica cosa per cui aveva scelto Dots</strong>. Gli aveva detto di essere bravo a gestire i suoi thread di Codex. Non lo è. Gli chiede: «sto lavorando a un progetto in cui confronto Dots con Muse e ho un thread in esecuzione dentro il mio progetto <strong>Herk2</strong> in Codex: riesci a ispezionarlo e aiutarmi a ragionare?». Dots dice di sì, ma <strong>i task che apre finiscono nei "Recents" invece che dentro il progetto Herk2</strong>, e lui perde l'organizzazione. Glielo fa notare — «volevo che avviassi cose che <strong>vivono dentro il mio progetto</strong>, così resto organizzato: non sei in grado di farlo?» — e la risposta di Dots è una confessione piena: «<strong>Hai ragione: ho avviato task separati e sono finiti nei Recents invece che dentro il tuo progetto Herk2. Dargli il percorso della cartella Herk2 non li colloca in quel progetto nell'app. Lo strumento di creazione task che ho a disposizione permette di scegliere un computer e una cartella di lavoro, ma non espone un'opzione di collocazione nel progetto.</strong>» Altrove ammette anche: «ho trovato e letto il confronto salvato nella cartella <em>projects/dots-vs-muse</em> di Herk2, ma <strong>non sono riuscito a leggere la conversazione Codex dal vivo</strong> né a verificare un modo per mettere i miei task dentro il progetto Herk2 esistente; la mia descrizione precedente di come gestisco i tuoi thread era <strong>troppo ampia</strong>».</p>
+<p>Da qui la frase che è il vero contributo del video: «<strong>DOT non sa nemmeno come funziona lui.</strong> Io adoro poter parlare con Claude Code o con Codex o con GrokBot di come funzionano, così capisco meglio come dovrei usarli; ma Dots mi dice cose che poi — ok, non è così che funzioni davvero. E allora comincio a <strong>perdere fiducia</strong> su che genere di conoscenza abbia davvero» [12:37].</p>
+<p>Un'altra conversazione a schermo chiarisce bene i confini operativi di Dots, e vale per chiunque pensi di usarlo sul serio. <strong>Non si incollano chiavi API in chat</strong>: andrebbe impostato un flusso di inserimento credenziali sicuro, con un'approvazione esplicita per l'accesso che quelle chiavi concedono. Quando Nate insiste su come farebbe in pratica, Dots fa marcia indietro con onestà — «sono stato troppo generico sul "flusso sicuro di inserimento credenziali"; non ne ho verificato uno per la tua integrazione specifica» — e poi elenca la procedura abituale: scegliere un connettore supportato o un'integrazione custom nel progetto, definire i permessi e ottenere l'approvazione per l'accesso continuativo, far inserire la chiave direttamente nelle impostazioni credenziali del servizio o in un gestore di segreti locale <strong>fuori dalla chat</strong>, e testare la connessione senza mai mostrare la chiave. E soprattutto: «<strong>la tua macchina deve essere accesa, sveglia, online e connessa</strong> per i task locali. Se si spegne, perdo l'accesso a quel computer: posso ancora chattare, usare le app collegate e fare lavoro in cloud». Sul modo di delegare, infine: «dimmi il risultato e i confini, tipo <em>aggiorna questi task su ClickUp, ma le comunicazioni al team scrivile come bozza per la mia revisione</em>; ti chiederò a parte quando un'azione richiede un'approvazione ulteriore».</p>
+<h2>Il verdetto, e i quattro punti finali</h2>
+<p>Scelta personale: <strong>Dots</strong>, «semplicemente perché io vivo dentro Codex e Claude Code». Non gli interessa più di tanto un'interfaccia super curata, perché ha <strong>già</strong> le idee, gli obiettivi impostati e un sacco di roba in piedi. Ma — e lo dice forte — «se non li avessi, vorrei <strong>al 100%</strong> Muse: la sua interfaccia è molto, molto meglio. Lì il loro vantaggio è <strong>significativo</strong>» [13:11].</p>
+<p>Quello che lo confonde è proprio questo: OpenAI sta ricevendo un diluvio di feedback su Dots, e ha evidentemente <strong>guardato Muse</strong> e ne ha preso ispirazione — «e allora perché manca così tanta roba?». La sua previsione è che andranno a prendersi i pezzi che alla gente piacciono: la scheda <strong>Ideas</strong>, il modo in cui sono fatti gli <strong>artifact</strong>; e cita anche l'annuncio delle <strong>Spaces</strong> di OpenAI come cosa che sarà interessante. Conclusione: «Muse, GrokBot e Dots <strong>si fonderanno probabilmente in un unico tipo di strumento</strong>, cioè diventeranno funzionalmente molto, molto simili. A distinguerli resteranno alcune <strong>connessioni native</strong>, la capacità di integrarsi con quello che hai già, ovviamente il <strong>modello</strong> che c'è sotto, e poi il <strong>prezzo</strong> — i più economici potrebbero essere percepiti come migliori da certi pubblici» [14:12].</p>
+<p>I quattro punti che scrive sulla lavagna finale sono questi. <strong>Primo: il vantaggio di interfaccia di Muse è significativo.</strong> <strong>Secondo: Astra è il modello migliore</strong> (con la riserva sui numeri vista sopra). <strong>Terzo: GrokBot ha un modello organizzativo diverso, e potrebbe scalare meglio</strong> — tanti bot che si usano insieme invece di un thread solo, con pro e contro per entrambi; però «l'utente medio, quello che non è immerso nel mondo dell'AI, probabilmente preferirà l'interfaccia di Muse e Dots perché sembra più semplice: <em>ho un assistente personale a cui parlo e a cui delego</em>, invece di dover capire quanti bot devo creare dentro GrokBot». <strong>Quarto: Dots sembra una rincorsa affrettata.</strong></p>
+<p>Su quest'ultimo punto si sfoga, ed è la parte più sincera del video. Era davvero entusiasta quando aveva sentito che OpenAI stava lavorando a dei propri agenti sempre accesi; pensava sarebbe stato come GrokBot, «davvero nitido ed elegante», e invece «sembra solo molto buggato. L'ho twittato ieri sera: <strong>Dots avrebbe dovuto chiamarsi Bugs</strong>, perché avevo così tanti problemi». Il video doveva uscire il giorno prima, ma non riusciva a usarlo: <strong>non partiva sul telefono, l'app desktop non funzionava</strong>, e si era innervosito. Oggi va meglio, ma resta buggato — «ed è interessante quanto <strong>limitato</strong> sembri Dots in questo momento, soprattutto avendo avuto davanti un esempio chiarissimo come Muse da cui attingere».</p>
+<p>La chiusura torna al criterio pratico: conta capire cosa è più importante per te. Sei già radicato nell'ecosistema <strong>ChatGPT/Codex</strong>, o piuttosto in <strong>Instagram e Facebook</strong>? Preferisci parlare a questa cosa su <strong>WhatsApp</strong>, o averla in <strong>Slack con la tua squadra</strong>?</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=BvvfZKKz4Yo — <strong>«I Tested OpenAI's Dots vs. Meta's Muse. What You Need to Know.»</strong>, Nate Herk | AI Automation, 16:30, pubblicato il <strong>30 settembre 2026</strong>, ~327.000 visualizzazioni e 2.537 like al momento della visione (04/10/2026). Capitoli dichiarati dall'autore: 0:00 First Impressions · 1:40 Features and Memory · 4:32 Slack, WhatsApp, and Ecosystems · 6:58 Pricing and Model Performance · 8:18 Muse Interface Walkthrough · 10:57 Dots Interface and Limitations · 13:02 My Verdict and Final Thoughts.</li>
+<li>report grezzo con trascrizione completa e venti fotogrammi chiave rinominati col minutaggio (tabella di confronto, prezzi, benchmark, SOUL.md, computer di Dots, la confessione sui thread).</li>
+<li>Concetti collegati: agent-memory (SOUL.md e MEMORY.md come memoria ispezionabile e modificabile, l'opposto della memoria opaca di Dots), model-routing (Astra contro Spark 1.3 numeri alla mano, e il piano da 500 $ che include Ultrafast), mcp-connectors (il connettore a un click contro le API key), claude-co-work (stesso impianto: workspace, artifact vivi, task schedulati), loop-engineering (l'heartbeat ogni 30 minuti come loop proattivo), harness (Dots e Muse sono due harness diversi attorno a due modelli diversi).</li>
+<li>Entità: nate-herk. Nuove, non ancora in vault: <strong>Dots</strong> (OpenAI), <strong>Muse</strong> (Meta), <strong>Muse Spark 1.3</strong>, <strong>GrokBot</strong> (citato in <a href="everything-has-happened-in-ai-this-week-2026-08-21.html">everything-has-happened-in-ai-this-week-2026-08-21</a> ma senza pagina), <strong>Codex</strong> e <strong>GPT-6 Astra</strong> (ricorrenti in più riassunti, ancora senza pagina propria).</li>
+<li>Video imparentato già nel vault: <a href="i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04.html">i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04</a> — stesso autore, stessa settimana; là il secondo test consiste proprio nel generare la guida risorse <strong>di questo video</strong>, e conferma il piano da 500 $ con Ultrafast che qui compare nella tabella prezzi.</li>
+<li><strong>Omesso:</strong> il blocco pubblicitario alla sua SOP gratuita «First Client SOP» per prendere il primo cliente di automazione (04:00-04:32, con la landing mostrata a schermo), la richiesta di mettere like e i saluti finali. In descrizione ci sono inoltre i link alle due community Skool (AI Automation Society e AIS+), un mese gratis di Glaido per il voice-to-text e un codice sconto Hostinger per VPS — non menzionati nel parlato.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) <strong>È una prova di circa un giorno per prodotto</strong>, dichiarata tale, su un prodotto appena uscito e in piena instabilità da lancio: i bug che descrive potrebbero essere transitori, lui stesso dice che «oggi va già meglio». (2) <strong>La fonte dei benchmark non è mai nominata</strong>: le etichette a schermo (<em>Overall Intelligence Index</em>, <em>AA-Briefcase</em>, <em>GDPval-AA</em>) suggeriscono un aggregatore tipo Artificial Analysis, ma lui non lo dice e non si vede. (3) <strong>La tabella prezzi riporta «published allowance»</strong>, cioè quanto dichiarato dai fornitori, non misurato da lui; e l'affermazione che il consumo di Dots «presto peserà sull'abbonamento» è una sua previsione, non un annuncio. (4) <strong>Le due affermazioni sui modelli sono in conflitto fra loro</strong> — «Spark non se la cava male sul lavoro di conoscenza» [08:00] contro «Astra è ovviamente molto migliore» [14:36] — e la tabella sta dalla parte della prima. (5) <strong>Il lato Meta non viene mai mostrato in funzione</strong>: Instagram, Facebook e Marketplace sono nella tabella e nel parlato, nessuna demo. (6) <strong>Dell'accesso di Muse alla macchina locale Windows</strong> la tabella stessa dice che non è verificato. (7) <strong>Le risposte citate di Dots sono sue autodescrizioni</strong>, non comportamenti osservati: valgono come prova del problema di affidabilità, non come documentazione del prodotto. (8) <strong>I sottotitoli automatici sbagliano quasi tutti i nomi propri</strong>: rendono ChatGPT come <em>Chad/Chadbt/tragt</em>, Codex come <em>codeex/codecs</em>, GPT-6 come <em>GBD6</em>, GrokBot come <em>Crockbot/Grockbot</em>, n8n come <em>nadn</em>, Teams/Herk e i nomi dei modelli in modo ballerino. I nomi riportati qui sono stati corretti leggendoli dai fotogrammi; <em>Astra Ultrafast</em>, <em>GPT-6.1 Sol</em>, <em>GPT-Live</em>, <em>AA-Briefcase</em> e <em>GDPval-AA</em> vengono tutti dallo schermo, non dal parlato. (9) Il <strong>nome del suo dot è «Herk»</strong> e quello del suo muse è <strong>«Charlie»</strong>: compaiono ovunque nei fotogrammi e non vanno scambiati per nomi di prodotto.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

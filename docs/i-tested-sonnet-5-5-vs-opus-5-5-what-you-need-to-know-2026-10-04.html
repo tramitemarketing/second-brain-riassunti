@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Tested Sonnet 5.5 vs Opus 5.5. What You Need to Know.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Tested Sonnet 5.5 vs Opus 5.5. What You Need to Know." src="https://i.ytimg.com/vi/7eo-11K2e3c/hqdefault.jpg"><p class="muted">📖 19 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk dà <strong>lo stesso identico prompt</strong> a <strong>Claude Sonnet 5.5</strong> e <strong>Claude Opus 5.5</strong>, entrambi a effort <strong>high</strong>, su <strong>sette lavori veri</strong> (landing page, motion show reel, piano a 90 giorni, Excel + investor deck, explainer HTML, dashboard di news, guida risorse da un video) e mette accanto a ogni risultato <strong>durata, token in entrata e in uscita, e costo in dollari a tariffa API</strong>. Il risultato è <strong>4 a 3 per Sonnet</strong>, ma il punteggio non è il punto: il punto è la <strong>regola di instradamento</strong> che emerge identica in tutti e sette i casi — <strong>se il compito ha una definizione di "fatto" oggettiva e verificabile, basta Sonnet; se devi ancora decidere insieme al modello cosa significhi "fatto", serve Opus</strong>. Sul listino Opus costa esattamente <strong>il doppio</strong> (input $4 contro $2, output $20 contro $10 per milione di token), ma sulle sette sessioni messe insieme è costato <strong>$66,67 contro $40,56</strong>, cioè <strong>+64%, non +100%</strong>. E la leva più economica non è il modello: nelle due prove in cui girava una <strong>skill</strong> già scritta, Sonnet ha prodotto un output indistinguibile da quello di Opus a metà prezzo, perché la skill gli aveva già detto che cosa volesse dire "fatto".</p>
+<h2>La claim di partenza e il perché del test</h2>
+<p>Il video apre con la pagina di annuncio di Anthropic a schermo, evidenziata riga per riga mentre lui la legge: «<strong>Introducing Claude Sonnet 5.5</strong>, the second model in the Claude 5.5 family. It's a clear upgrade over Claude Sonnet 5, <strong>runs 30%+ faster</strong>, and <strong>costs up to 30% less for most work</strong>». Nello stesso blocco di testo ci sono altre due cose che il parlato non commenta ma che restano leggibili: Sonnet 5.5 segna <strong>70,6% su Terminal-Bench 4.0</strong> (una valutazione di coding agentico) e sta <strong>due punti sotto Opus 5.5</strong> su quella stessa prova; ed è annunciato <strong>Claude Haiku 5.5</strong>, in arrivo «nelle prossime settimane», pensato per carichi <strong>ad alto volume e bassa latenza</strong>.</p>
+<p>Herk dichiara di averci passato l'intera giornata sui suoi <strong>flussi di lavoro reali</strong> — costruire siti, trasformare dati sporchi in fogli di calcolo con formule dentro ogni cella, motion design e montaggio video, dashboard interattive con sincronizzazione dei dati in tempo reale, project management — e non su benchmark. La promessa è precisa: «così sai <strong>esattamente quando dovresti usare quale modello</strong>», con velocità, token e dollari dichiarati per ogni prova.</p>
+<h2>Quanto costa davvero la differenza</h2>
+<p>Prima delle prove, la tabella dei prezzi per milione di token. <strong>Sonnet 5.5 costa $2 in entrata e $10 in uscita; Opus 5.5 costa $4 e $20</strong>: esattamente il doppio su entrambe le voci. Lo stesso rapporto 2× vale sulla scrittura di cache (<strong>$2,50 contro $5</strong> per la cache da cinque minuti, <strong>$4 contro $8</strong> per quella da un'ora). L'unica riga in cui i due modelli costano uguale, e che nel parlato non viene nominata, è la <strong>lettura di cache: $0,20 per entrambi</strong> — un dettaglio che conta parecchio nelle sessioni agentiche lunghe, dove lo stesso contesto viene riletto decine di volte.</p>
+<p>Da qui la domanda che fa da filo conduttore: «siamo qui per vedere <strong>se Opus è il doppio migliore</strong> di Sonnet 5.5, e dove usare ciascuno dei due».</p>
+<h2>La guida ufficiale di Anthropic, e la riformulazione che la rende usabile</h2>
+<p>Anthropic ha pubblicato insieme al modello una tabella <strong>«Your workload → Start with»</strong> che Herk legge a schermo. Vanno a <strong>Sonnet 5.5</strong>: il <em>coding quotidiano ben circoscritto</em> (correggere bug, iterare velocemente su funzionalità, verificare rispetto ai requisiti); lo <em>sviluppo quotidiano ad alto volume</em>; i <em>documenti, slide e fogli di calcolo rifiniti</em> — one-pager, diagrammi, slide di sintesi, revisioni di documenti, pulizia di spreadsheet, «dove aiuta avere occhio per il design»; e i <em>task agentici ben definiti che si eseguono ripetutamente</em>, cioè indagine, revisione, stesura. Vanno a <strong>Opus 5.5</strong>: il <em>lavoro complesso che richiede giudizio attento</em>, incluso il coding agentico <strong>a lungo orizzonte</strong> e il knowledge work; e <em>i problemi più difficili, dove serve la massima intelligenza</em>.</p>
+<p>La frase che Herk dice di apprezzare più di tutte è una sola: «<strong>Sonnet 5.5 dà il meglio quando il compito ha una specifica chiara e un modo per controllare il risultato</strong>». E la traduce in una regola che poi usa come giudice per sette round, e che ha anche postato su X: «se hai un compito con una <strong>definizione oggettiva di fatto</strong>, provalo prima con Sonnet 5.5; se ti serve più creatività e stai cercando un <strong>thought partner</strong> che ti aiuti a decidere <em>quale sia</em> la definizione di fatto, ed è una cosa più soggettiva, lì uso <strong>Opus</strong>».</p>
+<p>Il corollario operativo è la parte più riutilizzabile del video, e arriva al minuto due: «<strong>farei girare skill diverse con modelli diversi</strong> e vedrei: ok, per questa skill Sonnet fa meglio, per questa Opus. Così in futuro, quando voglio rifare quella skill, <strong>so già quale modello usare</strong>». Cioè: non una regola universale sul modello, ma <strong>un registro di instradamento costruito skill per skill</strong>, una volta sola, e poi riusato.</p>
+<h2>Come è stato impostato il confronto</h2>
+<p>Stesso prompt identico a tutte le sessioni, <strong>effort "high" su entrambi i modelli</strong>, e sessioni fatte girare <strong>in parallelo</strong>. I costi sono misurati <strong>a tariffa API</strong> e non come percentuale di consumo dell'abbonamento, scelta che lui difende esplicitamente contro le richieste dei commenti: «non so se sei sul piano da <strong>20 dollari al mese</strong> o su quello da <strong>200</strong>», e comunque «questi costi sono <strong>molto correlati</strong> al tuo abbonamento, pensala così»; in più, far girare tutto in parallelo gli evita di stare lì a cronometrare percentuali una sessione per volta. L'interfaccia usata in tutte le prove è l'applicazione desktop di <strong>Claude Code</strong> (si vedono il comando <code>/goal</code>, il selettore «Sonnet 5.5 · High» in basso a destra, i branch <code>claude/...</code> e il pulsante <strong>Create PR</strong>).</p>
+<h2>Round 1 — La landing page di PerkForm</h2>
+<p>Il prompt: «<em>costruiscimi una landing page super coinvolgente e immersiva ma ad alta conversione per <strong>PerkForm</strong>, usando gli asset e le linee guida di brand nella cartella; sentiti libero di generare quello che ti serve con <strong>kie.ai</strong></em>». Nota di colore che dice molto su come lavora: ha dettato il prompt a voce e lo strumento ha scritto «G.AI» invece di «kie.ai», così ha dovuto correggerlo a mano e si è annotato di aggiungere la correzione automatica nel suo strumento di dettatura.</p>
+<p>Il primo output apre con un'animazione di testo e una <strong>lattina interattiva che segue il mouse</strong> e si può trascinare per farla ruotare, con la scritta PerkForm in filigrana sullo sfondo; scendendo si cambiano i gusti direttamente dalla hero, la lattina «vola via», due bevande (caffè e proteine) confluiscono in una sola, compare una scena con borsa da palestra, telefono e chiavi mentre l'orologio avanza — il sito mostra «<strong>7:29 — Coffee is non-negotiable, so that part happens</strong>» — e si chiude con i tre gusti <strong>Bold Mocha, Vanilla Latte e Salted Caramel</strong>. Il problema: quella lattina è <strong>una ricostruzione 3D inventata</strong>, non il prodotto pixel per pixel. «Non mi piace», dice, «ma mi piace l'effetto».</p>
+<p>Il secondo output parte molto più sommesso, «non è un <em>boom</em> in faccia», ha un effetto di parallasse sul mouse e una hero che lui giudica «più economica». Però, scendendo, usa <strong>l'immagine reale generata dentro le brand guidelines</strong> invece di inventarsela, zooma dentro quell'immagine con un'animazione che gli piace, e tutte le immagini sono generate indipendentemente. Verdetto onesto: «<strong>in fondo questo è l'output migliore</strong>, anche se la hero mi piace meno». Il primo era <strong>Sonnet</strong>, il secondo <strong>Opus</strong>.</p>
+<p>I numeri: <strong>Sonnet 28m 1s, 20,4 milioni di token in entrata, 134K in uscita, $6,78</strong>; <strong>Opus 52m 49s, 37 milioni in entrata, 148K in uscita, $13,71</strong>. Cioè Opus ha girato il doppio del tempo ed è costato il doppio, «<strong>coerente con quello che si vede sul listino</strong>». La domanda che si fa: «l'output di Opus è <strong>due volte migliore</strong>? Direi di no». E il ragionamento che vince il round: basterebbe <strong>riprompare Sonnet</strong> una volta («bella, ma non usare l'immagine finta, usa quelle vere») per ottenere lo stesso livello <strong>senza spendere $13,71</strong>. Punto a <strong>Sonnet</strong>, con l'avvertenza esplicita che «questa roba è soggettiva».</p>
+<h2>Round 2 — Il motion show reel di Glaido</h2>
+<p>Prompt: «<em>fammi una <strong>motion show reel</strong> su Glaido; fai tu la ricerca, assicurati che sia tutto coerente per branding e tipografia; <strong>sei tu il motion designer</strong>, stupiscimi</em>». Entrambi gli output sono filmati veri e propri, con <strong>voce narrante generata</strong> (lui ipotizza ElevenLabs) e una cornice grafica da monitor di ripresa («GLAIDO / LAUNCH REEL», 1920×1080, 60P, 120 BPM, con timecode che scorre).</p>
+<p>Il filmato di <strong>Sonnet</strong> lo sorprende in positivo: mostra il prodotto in uso, ha «parecchia creatività», e c'è un momento in cui dei <strong>pixel si compongono a formare la G</strong> del logo per poi diventare un video generato. «Non mi aspettavo onestamente che un modello Sonnet facesse così bene con un motion show reel.»</p>
+<p>Il filmato di <strong>Opus</strong> lo chiude in due secondi: «non credo si possa battere; <strong>Opus 5.5 è semplicemente così bravo nel motion design</strong>». Motivi: sembra «più Glaido» — lo sfondo, le animazioni, perfino <strong>la copy è migliore</strong> — ed è <strong>andato sul sito dell'azienda a pescare una citazione vera di Nate</strong> e l'ha messa nel filmato. Ma il motivo per cui gli dà il punto è un altro, ed è quello interessante: «<strong>il sound design</strong>, che è una cosa difficile da azzeccare anche per un essere umano, e il fatto che Opus lo faccia così costantemente — molto bene».</p>
+<p>I numeri rompono lo schema del round precedente: <strong>Sonnet 53m 34s, 50,4 milioni in entrata, 234K in uscita, $14,37</strong>; <strong>Opus 47m 11s, 57,8 milioni in entrata, 201,7K in uscita, $20,55</strong>. Cioè <strong>Opus è stato più veloce e ha prodotto meno token in uscita, e ciononostante è costato di più</strong>: la tariffa 2× si fa sentire anche quando il modello caro lavora meno. Punto a <strong>Opus</strong>: «anche se facessi riprovare Sonnet fino ad arrivare ai $20,55, penso che l'output di Opus resterebbe migliore».</p>
+<h2>Round 3 — Il piano d'azione a 90 giorni</h2>
+<p>Qui il prompt è <strong>deliberatamente vago</strong>: «<em>creami un piano d'azione a 90 giorni, supportato da ricerca, per portare «How They AI» a mille iscritti</em>». Nient'altro: nessuna indicazione di formato, di vincoli, di cosa voglia dire fatto bene. Entrambi i modelli al primo giro hanno restituito <strong>un file markdown</strong>, e a entrambi ha dato lo stesso secondo prompt: «trasformalo in un documento che si possa guardare, più comodo da leggere». Differenza minima ma indicativa: <strong>Sonnet ha prodotto un file HTML locale, Opus un artifact di Claude</strong>.</p>
+<p>Il documento di <strong>Sonnet</strong> titola «<strong>1.000 subscribers. In 90 days.</strong>», ci mette il logo AIS, la data, una <strong>timeline</strong> con gli episodi in basso, i cancelli di iscritti, le promozioni, le finestre festive, e tre fasi (ottobre-novembre, le due settimane di lancio, il mese successivo, il compounding) più le fonti di traffico — short, LinkedIn, kit per gli ospiti, scorecard. Ha anche animazioni di entrata al passaggio del testo, «un bel tocco». Però sceglie di lanciare il <strong>2 novembre</strong>, cosa che Herk trova strana, e soprattutto: «non direi che <strong>mi è super utile</strong> in questo momento».</p>
+<p>Il documento di <strong>Opus</strong> parte dal <strong>1° ottobre e arriva al 29 dicembre</strong>, cioè uno <strong>sprint di Q4 allineato a quello che sta davvero succedendo nel suo business</strong>, con il sottotitolo «ottobre riempie la cassa, una settimana di lancio porta la salita, dicembre compone». La vista è più leggibile — «da adesso al lancio facciamo i provini, le candidature degli ospiti, gli annunci, le registrazioni» — e le fasi sono una per mese: <strong>build, launch, compound</strong>. Ma il colpo è alla fine: c'è un link «apri il piano completo» che porta a un documento operativo con <strong>le attività vere, spuntabili</strong>, divise in fasi («Phase 2: Launch, 2-29 novembre», «Phase 3: Compound, 30 novembre-29 dicembre») e ognuna con responsabile e data. «È qualcosa che potrei buttare direttamente nel mio sistema di task <strong>adesso</strong>.» Nel pannello della sessione si vede anche che Opus ha letto i documenti di pianificazione interni (ne estrae il budget Q4) e che ha <strong>lanciato tre agenti di ricerca in parallelo</strong> su benchmark di nuovi canali, show comparabili e canali derivati.</p>
+<p>I numeri: <strong>Sonnet 13m 48s, 12,3 milioni in entrata, 69,8K in uscita, $4,77</strong>; <strong>Opus 20m 21s, 20,9 milioni, 101,1K, $9,25</strong>. Punto a <strong>Opus</strong>, e qui Herk esplicita la regola: «se pensate a quel prompt, <strong>non ho dato nessuna linea guida</strong>. Se hai una definizione oggettiva di fatto, usa Sonnet; se cerchi un thought partner, usa Opus. E <strong>questo è esattamente il caso del thought partner</strong>: prendere un obiettivo ambizioso e un po' vago e correrci dietro». Aggiunge la controprova mentale che è il cuore del video: «se avessi dato a tutti e due un prompt <strong>molto specifico</strong> su cosa voglio e come deve essere fatto, penso che <strong>Opus e Sonnet mi avrebbero dato un risultato simile, ma quello di Sonnet sarebbe costato meno</strong>».</p>
+<h2>Round 4 — Il modello Excel e il deck per gli investitori</h2>
+<p>Prova con dati finti di un'azienda inventata, <strong>BrightPath Analytics</strong>: gli dà il pacchetto dati e chiede <strong>un foglio Excel e un investor pitch deck</strong>.</p>
+<p>Il deck di <strong>Opus</strong> ha <strong>18 slide</strong>, immagine di copertina generata, altre immagini generate dentro, e la struttura canonica: problema, prodotto, chi serviamo, trazione con le statistiche ricavate dai dati finti, modello di business, clienti. Una slide mostra la crescita dell'MRR mese per mese da $424K a $535K con «<strong>42%</strong> di crescita annualizzata gennaio-settembre, <strong>79%</strong> di margine lordo in Q3, <strong>96%</strong> di CSAT, sopra l'obiettivo del 94%». Giudizio: «non è affatto male», con l'unica riserva sulla «famigerata <strong>font del design di Claude</strong>, con quelle F e quei numeri — non mi sembra super premium».</p>
+<p>Il foglio Excel di Opus lo convince di più. Ha una copertina con l'indice dei fogli, una <strong>dashboard esecutiva</strong> con le metriche in alto (ARR $6.420.000, MRR $535.000, 412 clienti, margine lordo 79,0%, cassa $2.760.000, pipeline pesata $710.050, LTV/CAC 7,0x, magic number 0,84x, burn multiple 0,42x, Rule of 40 al 41,3%, churn mensile 6,5%) e i grafici sotto, più fogli separati per input, metriche mensili, P&amp;L trimestrale, unit economics, previsioni. Ma la cosa che gli interessa davvero è un'altra: «in moltissime di queste celle <strong>vediamo delle formule</strong>, praticamente ovunque. <strong>Vuol dire che se entro a cambiare i dati, tutto il foglio si aggiorna.</strong> Odio quando un modello AI ti dà un Excel senza formule, tutto scritto a mano, e poi per ogni modifica devi tornare a chiederla all'agente».</p>
+<p>Il deck di <strong>Sonnet</strong> è «molto, molto simile» — stessa struttura, a suo dire perfino la stessa font, e <strong>più slide</strong> dell'altro. Il suo Excel «a prima vista non sembra premium quanto l'altro», ma la dashboard «va benissimo», ha le formule e i lookup ovunque, e <strong>moltissime schede</strong>: pipeline, clienti, marketing, organico, rischi, OKR, perfino un foglio «<strong>Data checks</strong>» che riverifica ogni cifra ricalcolandola (23 PASS, 9 FLAG, 8 NOTE). «Forse questo ce ne ha dati perfino <strong>troppi</strong>. Se fossero dati veri e fosse la mia azienda vera, saprei dirvi meglio quanto serve davvero tutto questo.»</p>
+<p>Non riesce a dire che uno dei due sia significativamente migliore, e quindi applica la regola che si era dato: vince chi è più economico e più veloce. <strong>Sonnet 30m 29s, 26 milioni in entrata, 247K in uscita, $9,27</strong>; <strong>Opus 28m 57s, 14 milioni, 174K, $8,91</strong>. Sorpresa: <strong>Opus è insieme più veloce e più economico</strong>. Punto a <strong>Opus</strong>, «senza discussione». Si lascia aperta una domanda: «e se ci avessi messo attorno <strong>delle skill</strong>? Sarebbe un'altra prova interessante — qui non ne ho usata nessuna, ho solo detto: fammi queste cose».</p>
+<h2>Round 5 — L'explainer HTML, con una skill</h2>
+<p>Qui per la prima volta entra in gioco una skill. Herk ha una skill che si chiama <strong>HTML explainer</strong> e il modello l'ha usata da solo. Il prompt: «<em>fammi un explainer HTML su quali modelli potrei davvero far girare sul mio dispositivo attuale, modelli AI in locale; non ne so niente, quindi fallo super semplice da capire, non troppo prolisso, tante immagini facili da leggere, molto visivo</em>». Nella sessione si legge che il modello ha prima controllato l'hardware: «la tua macchina è una bestia: <strong>RTX 5090 con 32 GB di memoria video, 64 GB di RAM e un Ryzen 9 a 16 core</strong>».</p>
+<p>L'explainer di <strong>Opus</strong> si intitola «What AI can my PC run?», è brandizzato, e parte dalle quattro cose che contano — scheda grafica, memoria, processore, archiviazione — confrontando la memoria della scheda grafica con quella di un PC da gaming e di un chip da data center. Introduce <strong>la regola dei 32 GB</strong>: il modello deve stare dentro la scheda grafica, quindi un modello da 43 GB non gira e uno da 20 GB sì. Poi dà la velocità in token al secondo, e una tabella di raccomandazioni per uso — chat di tutti i giorni, coding, problemi difficili, <strong>Gemma 4 per le risposte veloci</strong> — e una sezione «troppo grosso per un PC solo» e una «comincia stasera» con i passi concreti.</p>
+<p>L'explainer di <strong>Sonnet</strong> si intitola «Local AI models your PC can run» e parte da un punto che l'altro saltava: <strong>cosa voglia dire «locale»</strong>. Ha più grafica: una visualizzazione dei «<strong>tre posti dove tenere un modello</strong>» (la scrivania = scheda grafica, 32 GB, veloce; lo scaffale = RAM, 64 GB, lento; il magazzino = disco, 1 TB libero, solo archiviazione) con la nota «se è troppo grosso, trabocca giù». Poi un grafico a barre «<strong>cosa ci sta</strong>» con il verde per quello che entra, l'ambra per quello che arranca e il rosso per quello che non parte: Gemma 4 12B a 7,6 GB, gpt-oss 20B a 14 GB, Qwen 3.6 27B a 18 GB, Gemma 4 26B a 19 GB, Gemma 4 31B a 20 GB, Qwen 3.6 35B a 23 GB tutti verdi; Llama 3.3 70B a 43 GB e gpt-oss 120B a 65 GB in ambra; Nemotron 3 Super a 87 GB in rosso. Sotto la nota tecnica: «file compressi a 4 bit, circa un quarto della dimensione piena».</p>
+<p>Giudizio diviso: «<strong>visivamente quello di Sonnet è migliore</strong>, ma <strong>non me lo spiega bene come quello di Opus</strong> — non mi dice <em>perché</em>, per via della storia dei gigabyte». Su questo solo asse Opus vince. Ma i numeri: <strong>Sonnet 6m 3s, 3,3 milioni in entrata, 34,8K in uscita, $1,58</strong>; <strong>Opus 7m 38s, 4,5 milioni, 39,6K, $3,16</strong>. Tempo quasi identico, <strong>Sonnet costa esattamente la metà</strong>. «Se riprompassi Sonnet una volta dicendo: sono ancora confuso su questo e quello, puoi aggiungere qualche informazione? — scommetto che l'output di Sonnet sarebbe migliore. E arriveremmo comunque sotto i $3 che è costato Opus.» Punto a <strong>Sonnet</strong>, con la precisazione che quella skill «è una skill molto, molto semplice, per niente raffinata».</p>
+<h2>Round 6 — La dashboard di news sull'AI</h2>
+<p>Prompt: «<em>fai lo scraping di X per tutte le notizie uscite oggi nello spazio AI e dammi una <strong>dashboard interattiva</strong> per vedere e filtrare cosa sta andando adesso e cosa potrebbe uscire questa settimana, una dashboard bella semplice che posso usare per pianificare e prepararmi ai contenuti e alle uscite</em>».</p>
+<p>La dashboard di <strong>Sonnet</strong> gira su localhost e mostra quando è stato fatto l'ultimo scraping, un pulsante per aggiornare, <strong>386 post tracciati su 676 raccolti</strong>, le notizie principali in cima, cosa è di tendenza, filtri «adatto al mio canale / nascondi già coperti / solo i fissati», un <strong>punteggio di calore</strong> (Claude Sonnet 5.5 a 100, la piattaforma enterprise di Meta a 94), la possibilità di aprire il post originale, segnarlo come coperto, aggiungerlo a un piano editoriale, ordinare per data o per affinità col canale, guardare le ultime 48 ore e un calendario di cosa esce questa settimana (il DevDay di OpenAI). «Non è affatto male come vista.»</p>
+<p>La dashboard di <strong>Opus</strong> si chiama «<strong>AI News Radar</strong>» e «già di primo acchito mi sembra un po' meglio». Ha un titolone sintetico scritto dal modello («Anthropic ha rilasciato Claude Sonnet 5.5 il giorno prima del DevDay di OpenAI, mentre NVIDIA ha lanciato una piattaforma aperta per la sicurezza degli agenti…»), il conteggio <strong>606 post tenuti su 703 raccolti, 18 storie, 9 già uscite, 5 con data in arrivo</strong>, una barra di avanzamento che mostra lo scraping in corso, un grafico dei <strong>post per ora</strong> nelle ultime 24 ore con la nota «picco alle 10 del mattino con 35 post; ultime 6 ore 162 post, sopra il ritmo precedente di 107 ogni 6 ore», una classifica di cosa se ne parla di più con l'indicazione se è in salita o in raffreddamento (Anthropic 191 post <em>in salita</em>, OpenAI 179, Opus 5.5 80, NVIDIA 55, Codex 55 <em>in raffreddamento</em>, Google 53, agent safety 50, video gen 47, pesi aperti 44, xAI 38), i <strong>tag per tipo</strong> (rilascio di modello, lancio di prodotto, agenti di coding, open source, sicurezza, business, rumor o leak, confermato), il feed grezzo, il piano editoriale e un pannello laterale che apre la storia con il perché conta e l'angolo di contenuto suggerito.</p>
+<p>Qui Herk dice la frase che chiude il ragionamento del video: «<strong>sto davvero cominciando a capire lo schema</strong>, ed è quello che ho detto all'inizio: se sai esattamente cosa vuoi, Sonnet probabilmente farà un buon lavoro per te; ma se ti serve la creatività e mandi un obiettivo <strong>aperto e molto vago</strong>, Opus lo gestirà meglio, e questo mi è diventato chiarissimo».</p>
+<p>I numeri: <strong>Sonnet 16m 12s, 6,2 milioni in entrata, 54,8K in uscita, $2,32</strong>; <strong>Opus 23m 26s, 20,5 milioni, 94,4K, $8,23</strong> — sette minuti e quasi sei dollari in più. Il punto va a <strong>Sonnet</strong> per la regola del rapporto costo/qualità, ma con un'ammissione che vale più del verdetto: «<strong>su un singolo prompt l'output di Opus era migliore, e non si può negare. Non c'è niente qui dentro che Sonnet non sarebbe stato in grado di scrivere o creare. È solo che Sonnet non ci pensa altrettanto e non esce dagli schemi quanto Opus: ti dà quello che pensa tu voglia, il livello base</strong>».</p>
+<h2>Round 7 — La guida risorse da un video YouTube</h2>
+<p>Ultima prova, anche questa <strong>con una skill</strong>, «quindi è la skill che definisce cosa vuol dire fatto bene». Dà a entrambi il link a un suo video e chiede una <strong>guida risorse</strong>. Il prodotto è un documento Google lungo (sette pagine circa) sulla sfida del trading con $10.000 affidata a un agente: intestazione AIS, link al canale, panoramica della sfida e regole, perché l'S&amp;P 500 è il riferimento, come è stato costruito il sistema, i risultati giorno per giorno dal primo al settimo, i risultati finali, le lezioni imparate e i punti chiave. Nei fotogrammi si leggono anche i riquadri di regola che la skill fa produrre («<strong>condizione di vittoria</strong>: se l'S&amp;P 500 scende del 10% e il portafoglio dell'agente scende del 5%, l'agente vince»; «<strong>regola decisionale</strong>: in un test breve, la liquidità ferma non può battere il riferimento»).</p>
+<p>I due output sono «praticamente della stessa lunghezza» e «molto, molto simili: stesso link, stesso titolo, stessa intestazione, la panoramica, le regole, il benchmark, come è stato costruito il sistema, giorno uno, giorno due, i risultati finali». Quindi vale di nuovo la regola del più economico. <strong>Sonnet 5m 42s, 3,4 milioni in entrata, 34,4K in uscita, $1,47</strong>; <strong>Opus 9m 47s, 5,5 milioni, 34,9K, $2,87</strong>: Sonnet <strong>il doppio più veloce e $1,40 più economico</strong>. Punto a <strong>Sonnet</strong>, e la spiegazione è la tesi del video detta nel modo più chiaro: «in questo caso avevo <strong>una skill che uso molto</strong>. E un modello come Sonnet, che è <strong>meno intelligente di Opus</strong>, è riuscito semplicemente a <strong>seguire le mie istruzioni, perché sapeva più chiaramente cosa volevo</strong>».</p>
+<h2>I totali, e due numeri che non tornano</h2>
+<p>Il punteggio finale è <strong>quattro a tre per Sonnet</strong> (round 1, 5, 6 e 7 a Sonnet; round 2, 3 e 4 a Opus), con il disclaimer immediato: «<strong>non era davvero un testa a testa</strong>, era più un come e quando usare ciascuno dei due modelli».</p>
+<p>La tabella riassuntiva a schermo dice, su <strong>sette sessioni per modello</strong>: <strong>Opus 5.5 — 3 ore e 10 minuti di tempo attivo, 160.719.971 token in entrata, 794.098 in uscita, $66,67 di costo API</strong>; <strong>Sonnet 5.5 — 2 ore e 34 minuti, 122.095.204 in entrata, 809.080 in uscita, $40,56</strong>. Due osservazioni dell'autore: <strong>Opus ha prodotto meno token in uscita di Sonnet</strong> pur avendo consumato quasi 39 milioni di token in entrata in più, cosa che trova interessante; e soprattutto, «quando pensi al fatto che <strong>costa il doppio</strong> di Sonnet, <strong>in questo esperimento non è costato il doppio</strong> — anche questo è interessante».</p>
+<p><strong>Attenzione ai numeri che dice a voce, però: sono sbagliati rispetto alla sua stessa tabella.</strong> Dice che Opus ha girato «<strong>circa 46 minuti in più</strong>», ma 3h10m meno 2h34m fa <strong>36 minuti</strong>. E dice che è costato «<strong>circa $16 in più</strong>», mentre $66,67 meno $40,56 fa <strong>$26,11</strong>. Il rapporto reale è quindi <strong>1,64×</strong>, non il 2× del listino ma nemmeno il ~1,4× che suggerirebbe la sua cifra a voce. Il suo punto qualitativo — <em>il moltiplicatore di prezzo non si traduce nel moltiplicatore di spesa</em> — resta valido, ma il margine è più stretto di quanto lo racconti.</p>
+<p>Chiude senza morale grandiosa: «ho parlato molto di come vedo ciascuno di questi modelli inserirsi nel mio flusso di lavoro adesso… ma alla fine <strong>devi entrarci dentro e testarli sulle tue skill, i tuoi prompt, i tuoi processi</strong>».</p>
+<h2>Cosa portarsi via</h2>
+<p>La cosa riutilizzabile non è il 4 a 3. Sono tre.</p>
+<p>La prima è il <strong>criterio di instradamento</strong>, che regge su tutte e sette le prove e si può applicare senza rifare il test: la domanda da farsi prima di scegliere il modello non è «quanto è difficile?», ma «<strong>chi decide cosa vuol dire finito?</strong>». Se lo decidi tu, e c'è un modo per verificarlo, Sonnet basta. Se lo devi ancora scoprire insieme al modello, paga Opus.</p>
+<p>La seconda è che <strong>la skill è un sostituto economico dell'intelligenza</strong>: nei due round con una skill già scritta il modello da metà prezzo ha pareggiato, perché la specifica era già nel contesto e non doveva essere indovinata. Il costo si sposta una volta sola, dalla bolletta dei token alla scrittura della skill. Il corollario pratico che Herk suggerisce al minuto due è un <strong>registro personale di instradamento</strong>: ogni skill provata una volta con entrambi i modelli, il vincitore annotato, e poi instradata sempre lì.</p>
+<p>La terza, e la più scomoda, è che <strong>la strategia del «riprompto il modello economico con i soldi risparmiati» qui non viene mai verificata</strong>. È il ragionamento con cui assegna almeno tre punti a Sonnet (round 1, 5 e 6) e resta una <strong>scommessa plausibile ma non misurata</strong>: non ha mai fatto il secondo giro per vedere se Sonnet, con un'altra iterazione, arrivasse davvero dove era arrivato Opus al primo colpo. Vale come ipotesi da testare sui propri flussi, non come risultato.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=7eo-11K2e3c — Nate Herk | AI Automation, 25:48, pubblicato il 29 settembre 2026 (~141.000 visualizzazioni, 1.325 like al momento della visione); visto il 04/10/2026.</li>
+<li>report grezzo, con trascrizione completa e i fotogrammi di tutte le tabelle di costo (<code>stat_prezzi-listino.jpg</code>, <code>stat_round1-perkform.jpg</code> … <code>stat_totali-finali.jpg</code>), che sono la parte del video che vale la pena riguardare.</li>
+<li>Concetti collegati: model-routing (è il video che mette numeri sotto la prima leva, «scegliere il modello»), spec-driven-prompting (la «definizione oggettiva di fatto» è esattamente la spec), claude-skills (la skill come specifica incorporata che permette di scendere di modello), produttivita-claude-code (sessioni in parallelo, effort high), context-rot (i 160 milioni di token in entrata di Opus su sette sessioni).</li>
+<li>Entità: nate-herk, claude-code, anthropic.</li>
+<li>Video imparentati già nel vault, tutti dello stesso autore e tutti sulla stessa famiglia di leve: <a href="i-had-opus-5-5-build-me-the-same-app-at-every-effort-level-2026-10-04.html">i-had-opus-5-5-build-me-the-same-app-at-every-effort-level-2026-10-04</a> (la leva <em>effort</em> misurata sui sei livelli di Opus 5.5), <a href="i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04.html">i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04</a> (la leva <em>velocità</em>), <a href="how-to-build-codex-skills-better-than-99-of-people-2026-09-23.html">how-to-build-codex-skills-better-than-99-of-people-2026-09-23</a> (il «walk it down»: scendere di modello e poi di effort finché la qualità regge — è la stessa identica mossa di questo video, fatta su Codex).</li>
+<li><strong>Omesso:</strong> il blocco promozionale al minuto 6:44-7:11 sulla skill gratuita di web design <strong>ScrollCraft</strong> («la uso per ogni sito che costruisco, link in descrizione»); i saluti, la richiesta di like e il ringraziamento finale; i link affiliati in descrizione (Glaido con primo mese gratis, Hostinger con codice sconto, i gruppi Skool a pagamento e gratuito). Nota di trasparenza rilevante: <strong>Glaido, il prodotto del round 2, è uno strumento di cui Herk è affiliato</strong> e che usa quotidianamente — il round 2 è quindi anche una vetrina del suo stesso prodotto consigliato.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) <strong>un solo run per modello per prova</strong>, giudicato a occhio da una persona sola su compiti in gran parte soggettivi (design, motion, «quale piano mi serve di più»): è un indizio, non un benchmark — la varianza fra due run dello stesso modello potrebbe coprire le differenze. (2) Le <strong>cifre dette a voce nel finale sono sbagliate</strong> rispetto alla tabella mostrata (+46 minuti invece di +36, +$16 invece di +$26,11): nel riassunto sono riportate quelle della tabella. (3) Il confronto <strong>non è a parità di contesto</strong>: su ogni round i due modelli hanno consumato quantità di token in entrata molto diverse (round 4: 26M contro 14M), quindi non stavano facendo la stessa quantità di lavoro — il «costo per lo stesso output» non è davvero misurato. (4) L'ipotesi «Sonnet riprompato arriva dove arriva Opus» <strong>non è mai stata testata</strong>, pur essendo il perno di tre verdetti su quattro a favore di Sonnet. (5) Il punteggio su <strong>Terminal-Bench 4.0</strong> si legge a schermo come 70,6% per Sonnet 5.5, ma la cifra di confronto con Sonnet 5 è tagliata sul bordo inferiore del fotogramma e <strong>non è leggibile con sicurezza</strong>: non la riporto. (6) I costi sono a <strong>tariffa API</strong>; chi lavora a abbonamento ha un rapporto di convenienza diverso, e lui stesso ammette di usare l'API solo come proxy. (7) Nei round 1 e 2 non è chiaro <strong>quante iterazioni</strong> ci siano state dentro la singola sessione: i tempi (28 e 53 minuti) suggeriscono molto lavoro autonomo, ma non viene mostrato. (8) I sottotitoli automatici rendono «Claude» come <em>Cloud</em>, «Sonnet» come <em>Sonet</em>/<em>Son of</em>/<em>Sonic</em>, «Glaido» come <em>glido</em>, «kie.ai» come <em>key.ai</em>: corretti qui sulla base di quanto si legge a schermo.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

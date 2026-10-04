@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How to Build GPT-6 Astra Automations (that don&#x27;t eat your usage limit)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How to Build GPT-6 Astra Automations (that don&#x27;t eat your usage limit)" src="https://i.ytimg.com/vi/FqnNL8fnUWo/hqdefault.jpg"><p class="muted">📖 24 min di lettura</p><p><strong>In sintesi:</strong> Le routine programmate dentro <strong>Codex</strong> consumano il monte ore settimanale dell'abbonamento, perché ogni esecuzione è in fondo un messaggio dentro un thread di chat. La ricetta di Nate Herk: <strong>progettare e scrivere l'automazione con Codex, ma farla girare altrove</strong> — su <strong>trigger.dev</strong>, una piattaforma di hosting per job schedulati e webhook, dove l'automazione vive come codice <strong>TypeScript</strong> in un repo <strong>GitHub privato</strong> e si esegue sui server di trigger.dev («il tuo computer può poi essere spento»). Il video costruisce davanti alla telecamera tre casi reali — un briefing mattutino sul calendario, un webhook da form, e la migrazione della sua routine di trading — e misura i costi a schermo: la costruzione e il collaudo del primo caso costano <strong>0,01327 $, cioè 1,33 centesimi</strong>, con un tetto autoimposto di <strong>0,25 $ per esecuzione</strong> sulla sola ricerca. Il punto però è un altro, e il titolo lo nasconde: <strong>il risparmio non esiste, esiste uno spostamento di costo</strong>. Per il terzo caso — l'unico che abbia davvero bisogno di un agente — Herk dice il contrario del titolo: «tienila come scheduled task dentro Codex, così mangia dall'abbonamento», perché «pagare Astra con crediti API è ovviamente <strong>più caro</strong> che pagarlo con l'abbonamento». Il vero regalo del video è il criterio per decidere: <strong>automazione deterministica o no</strong>. E sì, si rifà con Claude Code: trigger.dev ha un bottone che genera un prompt di installazione per Claude Code; l'unico pezzo non trasferibile è il Codex SDK.</p>
+<h2>Il problema in dieci secondi</h2>
+<p>Il video non apre con una promessa ma con un conto da pagare. I primi due secondi sono in primo piano: «Codex ti lascia costruire automazioni al suo interno usando gli <strong>scheduled task</strong>». Poi arriva il <em>ma</em>, e arriva con un taglio preciso sulla parola che fa male: siccome questi scheduled task «mandano semplicemente dei messaggi dentro un thread di chat», <strong>«questo mangia il tuo limite d'uso settimanale»</strong>. In quel momento lo schermo passa all'app Codex desktop, si apre il pannello <em>Scheduled tasks</em> e si leggono routine vere con nomi veri — <em>Stock opportunity check</em>, <em>Astra challenge checks and ClickUp updates</em>, <em>Replace Week 1 Curriculum</em> — con accanto il contatore «runs in 25 minutes». Chiude il gancio aprendo il <em>Challenge Thread</em>, dove una routine ha appena prodotto un ordine di borsa completo (comprare 2 XLE a limite 65,42 $, stop-market a 64,10 $, target 67 $, perdita modellata 3,24 $). Il problema non è ipotetico: è il suo.</p>
+<p>La conclusione che ne trae è netta: «non ha molto senso costruire un mucchio di automazioni personali e aziendali dentro Codex. <strong>Molte delle automazioni più utili possono girare da tutt'altra parte</strong>, ma possiamo usare Codex per aiutarci a costruirle».</p>
+<h2>L'architettura, disegnata a mano</h2>
+<p>Il pezzo di valore arriva subito dopo, su una lavagna <strong>Excalidraw</strong> intitolata «Codex Course». Il disegno è di tre icone e due frecce: l'icona di <strong>Codex</strong> a sinistra, un riquadro in mezzo che dice soltanto <strong><code>code</code></strong>, l'icona di <strong>trigger.dev</strong> in alto a destra, e sotto l'icona di <strong>GitHub</strong> che punta verso l'alto, verso trigger.dev.</p>
+<p>La catena, a parole sue: quando costruisci l'automazione con Codex, «in pratica la trasformi in <strong>codice</strong>. Quindi invece di avere uno scheduled task che esegue una skill a una certa cadenza, trasforma quella skill in codice che può essere <strong>eseguito</strong>; e quel codice passa da Codex a <strong>GitHub</strong>; e poi GitHub dice: ok trigger.dev, devi eseguire questo codice ogni ora, oppure devi eseguirlo ogni volta che qualcuno invia quel form». E se suona complicato, la riduce a una frase: «è l'idea che <strong>stai dando le tue skill a qualcun altro perché le esegua</strong>, così non ti mangiano l'abbonamento di Codex».</p>
+<p>Sotto il diagramma disegna l'unica "prova" che il metodo funzioni: <strong>una barra rossa piena</strong> (il limite consumato) e sotto <strong>una barra verde quasi piena</strong> (quanto te ne resta dopo). Va detto chiaro perché conta: in tutto il video <strong>non compare nessuna misura reale del consumo prima e dopo</strong>. Quelle due barre disegnate a mano sono tutto quello che c'è.</p>
+<p>Il necessario per seguirlo è «un abbonamento Codex, un account trigger.dev e un account GitHub». Trigger.dev, spiega poi, ospita <strong>TypeScript</strong>, «che è semplicemente un linguaggio di programmazione; se usassi qualcosa come <strong>Modal</strong> scriveresti in Python, ma non devi preoccuparti di questa parola». Sulla sua homepage il prodotto si presenta come «la piattaforma <strong>open source</strong> per costruire agenti AI in TypeScript — task di lunga durata con retry, code, osservabilità AI e scaling elastico», con 16.300 stelle su GitHub.</p>
+<h2>Il criterio che vale più della ricetta: deterministico o no</h2>
+<p>Prima di mettere mano a qualunque cosa, Herk si ferma su quello che è l'unico vero contenuto riutilizzabile del video. La domanda da farsi davanti a un'automazione è: <strong>è un processo prevedibile o imprevedibile?</strong></p>
+<p>Prende il caso che sta per costruire — un briefing mattutino — e lo disegna in cinque riquadri numerati: <strong>1. <code>6am</code></strong>, <strong>2. <code>read calendar</code></strong>, <strong>3. <code>research</code></strong>, <strong>4. <code>draft message</code></strong>, <strong>5. <code>send clickup</code></strong>. Poi colora di <strong>verde</strong> soltanto il terzo e il quarto, perché sono gli unici due passi in cui serve davvero un modello: la ricerca «sarà diversa ogni volta in base all'input che entra», e il messaggio «non puoi scriverlo con il codice, a meno di usare segnaposto espliciti, e allora non è flessibile». Tutto il resto è una sequenza fissa: «va uno, due, tre, quattro, cinque, e succede in quell'ordine <strong>ogni singola volta</strong>».</p>
+<p>Da qui la regola: <strong>più l'automazione è deterministica, più è uno spreco farla ospitare da Codex.</strong> «Non c'è ragione di usare il pieno loop agentico di Astra dentro Codex se la tua automazione è fatta così. E <strong>il 90% dei casi d'uso aziendali o di produttività personale sono più come questo</strong>: automazioni deterministiche che ti aiutano e ti fanno davvero risparmiare tempo.»</p>
+<p>C'è un secondo argomento a favore del codice, più sottile e più convincente del risparmio, ed è un suo errore passato. «L'ho già fatto: avevo una routine molto semplice come questa e dopo circa un mese <strong>ha cominciato ad andare fuori strada</strong>. Ha iniziato a mandare i messaggi in canali DM a caso, anche nel canale del team. Il motivo è che dietro c'era un agente, e <strong>l'agente interpretava il messaggio in modo diverso ogni volta</strong> e si comportava in modo diverso.» Scrivere uno script toglie quella libertà: «stiamo letteralmente dicendo: questo è quel che gira, e va così ogni volta». Nel codice l'ID del canale e l'ID del messaggio sono <strong>scritti a mano</strong>, invece di dare all'agente la connessione completa a ClickUp e dirgli «mandalo a Nate».</p>
+<p>I tre tipi di automazione che il video copre sono scritti a schermo e ricorrono fino alla fine: <strong>1. Scheduled, 2. Webhook, 3. Codex SDK.</strong></p>
+<h2>Primo caso: il briefing mattutino</h2>
+<h3>La pianificazione, che è la parte difficile</h3>
+<p>Il prompt di partenza è parlato, non scritto bene, e questo è di per sé un messaggio: «voglio costruire un'automazione e la metterò su trigger.dev, ma devi aiutarmi a pianificarla e poi a costruirla. Il primo passo è solo la pianificazione. Voglio che sia un'automazione di routine mattutina: parte diciamo alle 6:00, guarda il mio calendario del giorno e mi dà un briefing. Quindi dovrà controllare il mio Google Calendar, guardare gli eventi; e se c'è qualche ricerca o altro che possa essere utile, può aiutarmi a prepararmi per la giornata. C'è qualcos'altro di importante a cui non sto pensando? E capisci come andrà costruito?»</p>
+<p>La prima cosa che Astra fa è <strong>andare a leggere il contesto che già esiste nel progetto</strong>: «controllo il tuo flusso di routine mattutina esistente così capisco meglio come lo vuoi». Poi risponde con un piano in cinque passi — trigger alle 6:00 ora di <code>America/Chicago</code>, lettura degli eventi con orari, descrizioni, partecipanti e luoghi, decisione su quali eventi richiedano preparazione, scrittura di un briefing «da due minuti di lettura», invio con retry e protezione anti-duplicati — e con una tabella di casistiche: per una <em>call con qualcuno di nuovo</em> servono chi è, la sua azienda e le notizie recenti; per un <em>podcast o un'intervista</em>, il profilo dell'ospite e domande suggerite; per una <em>riunione ricorrente</em>, l'ordine del giorno e le azioni precedenti; per un <em>blocco di registrazione</em>, le note rilevanti; per un <em>appuntamento personale</em>, solo ora e luogo, di norma nessuna ricerca.</p>
+<p>Quello che Astra non sa, lo chiede: dove consegnare, con che tempistica, su quale calendario, con quali confini di ricerca e con quale budget. Herk risponde punto per punto: in <strong>ClickUp</strong>, come DM a sé stesso, inviato dall'account <strong>Uppit AI</strong>; alle 6:00, nei giorni feriali, «non mi importa davvero quanto ci mette, se mi arriva alle 6:05 o alle 6:10 va bene»; sul calendario di lavoro principale; ricerca sul web pubblico per ora, con la possibilità di aggiungere più avanti note di riunione, ClickUp e Google Drive. E il tetto di spesa: <strong>«non c'è davvero ragione per cui tu debba spendere più di 25 centesimi di ricerca per esecuzione, ma possiamo alzarlo dopo»</strong>.</p>
+<p>Due dettagli da segnarsi, entrambi segnalati da Astra e non da lui. Il primo riguarda <strong>l'autenticazione</strong>: «l'automazione ospitata ha bisogno della propria connessione autorizzata, capace di rinnovare l'accesso mentre sei offline. Useremmo accesso in <strong>sola lettura</strong> al calendario e conserveremmo le credenziali in modo sicuro nell'ambiente di hosting». Il secondo è il caveat di costo nascosto di trigger.dev: <strong>«gli schedule appena creati sul piano gratuito usano una finestra minima di 60 minuti, quindi la precisione dell'orario dipende dal piano di hosting»</strong>. Tradotto nella risposta successiva: «la finestra di scheduling attuale del piano gratuito può ritardare un avvio delle 6:00 <strong>fino a un'ora</strong>. Per puntare a una consegna attorno alle 6:05-6:10 dovremmo usare un piano che supporti lo scheduling preciso».</p>
+<p>Nel piano finale c'è anche la frase che chiude la questione dei costi: «il budget sarà <strong>imposto nel codice</strong>: limitare ricerche e token del modello, contare i retry sulla stessa dotazione giornaliera, e fermare la ricerca prima di superarla. Possiamo includere prudenzialmente i costi AI della scrittura del briefing entro quella dotazione da 0,25 $; <strong>l'hosting di trigger.dev è separato</strong>».</p>
+<h3>I plugin non si spostano: usa il <code>.env</code></h3>
+<p>Alla domanda «servono chiavi API diverse o hai già accesso a tutte?», Astra verifica da solo e restituisce una tabella: <strong>Google Calendar</strong>, accesso agli eventi verificato, con rinnovo automatico del token; <strong>ClickUp</strong>, verificato che la chiave API dedicata appartenga a <em>Uppit AI</em>, il mittente richiesto; <strong>OpenAI</strong>, chiave presente e autenticazione funzionante, generazione a pagamento non ancora testata; <strong>Perplexity</strong> per la ricerca, chiave presente, accesso e fatturazione da testare; <strong>trigger.dev</strong>, nessuna chiave trovata nel <code>.env</code> del progetto. «L'unica cosa che potresti dover fare è loggarti su trigger.dev e selezionare o creare il progetto di hosting. Possiamo gestirlo durante il deployment; <strong>non devi incollare nessuna chiave in questa chat</strong>.»</p>
+<p>Qui Herk infila un consiglio operativo che vale per chiunque cambi runtime: <strong>i plugin collegati dentro Codex non si trasferiscono su trigger.dev.</strong> «È il motivo per cui mi piace usare pochissimo i plugin. Mi piace usare il file <code>.env</code> e metterci tutte le mie chiavi API, così se devo mai spostarle su <strong>Claude Code</strong> o su trigger.dev <strong>le ho già in un posto solo</strong> e posso fare copia-incolla.» E se le chiavi non le hai: «chiedi a Codex di aiutarti a trovarle, ti dirà esattamente dove andare e su cosa cliccare. Ottenere le chiavi API <strong>non è più un lavoro tecnico</strong>; una volta era più intimidatorio, adesso è facilissimo».</p>
+<h3>Costruire con verifica incorporata</h3>
+<p>Il prompt con cui lancia la costruzione contiene la parte di metodo: «costruiscilo, assicurati di sentirti sicuro di come funziona e <strong>di aver validato che funzionerà prima di dirmi che lo spostiamo su trigger.dev</strong>». Lo commenta così: «abbiamo parlato molto di dare agli agenti un modo per verificare il proprio lavoro e di dirgli di verificarlo, <strong>così non ti becchi il loro primo tentativo</strong>».</p>
+<p>A schermo si legge cosa fa Astra con quell'istruzione: «sto usando le skill di <strong>test-driven development</strong> e <strong>code review</strong> per questo build. I controlli si concentreranno sulle parti che contano di più: giorni feriali e fuso orario corretti, dettagli di calendario accurati, <strong>restare sotto i 0,25 $</strong>, ed evitare DM duplicati». E ancora: «userò <strong>una sola richiesta di ricerca limitata</strong> per la giornata, e formatterò la scaletta direttamente da Google Calendar. Questo tiene basso il costo e impedisce all'AI di cambiare orari o link delle riunioni». Durante il lavoro aggiunge da sé una protezione: «se una richiesta di ricerca a pagamento va in timeout, <strong>terrà quel costo come riservato</strong>; se ClickUp potrebbe aver accettato un messaggio, controllerà la conversazione prima di tentare qualunque altra cosa». E un controllo di qualità: «il controllo sulle fonti ha intercettato una descrizione di ruolo non aggiornata nella bozza di ricerca. Ho aggiunto un passaggio di verifica che legge le pagine citate e controlla le citazioni di supporto prima di includere il profilo pubblico nel briefing».</p>
+<p>Dopo <strong>13 minuti e 43 secondi</strong> e 28 file modificati (+1.312 −39), il verdetto: «<strong>Costruito e validato in locale.</strong> Dovresti avere un briefing di prova in ClickUp da Uppit AI. Verificato: letti tutti e sei gli eventi dal calendario di lavoro; generata ricerca pubblica con fonti controllate; consegnato <strong>esattamente un DM</strong>, poi riletto per confermarne il contenuto; <strong>26 test passati</strong>, inclusi limiti di budget, retry, prevenzione duplicati e gestione dei fusi orari. <strong>Costo totale del testing dal vivo: 0,01327 $, circa 1,33 centesimi.</strong> <strong>Niente è ancora ospitato o schedulato.</strong>»</p>
+<p>Il DM in ClickUp che ne esce ha una sezione <em>Useful prep</em> con un profilo dell'azienda e una fonte citata, e una sezione <em>Things to notice</em> con tre osservazioni pratiche: due riunioni back-to-back, una sovrapposizione tra palestra e un altro impegno, e «<strong>la finestra di lavoro più lunga della giornata: dalle 9:30 alle 12:00, 150 minuti</strong>». Ogni evento è un link cliccabile al calendario. Commento di Herk: «dato il cancello dei 25 centesimi per run, l'1,33 sembra abbastanza realistico».</p>
+<h3>Il deployment: cosa gira davvero dove</h3>
+<p>La domanda che si fa a voce è quella giusta: «come faccio esattamente a portare questa automazione dal codice che hai scritto dentro trigger.dev?». La risposta di Astra è la frase più importante del video per chi vuole capire l'architettura: <strong>«Lo deployamo direttamente dal tuo computer usando lo strumento a riga di comando di trigger.dev. Impacchetta il codice, lo carica e lo esegue sui loro server. Il tuo computer può poi essere spento.»</strong></p>
+<p>La procedura ha tre pezzi. Primo, creare un progetto su trigger.dev e recuperarne il <em>project reference</em> (una stringa tipo <code>proj_...</code>). Secondo, collegare il computer all'account via CLI da PowerShell. Terzo, il repo. Herk chiede di passare da GitHub — «così hai il controllo di versione, puoi tornare a una versione precedente, e se più avanti un membro del team vuole prendere in carico l'automazione tutti i dettagli sono lì e può contribuire» — e Astra scopre che non serve neanche un workflow: «GitHub è già collegato come <code>nateherkai</code>. Ho anche scoperto che <strong>trigger.dev ora ha un'integrazione GitHub diretta</strong>, quindi possiamo usare il setup push-to-deploy che hai descritto senza workflow di deployment».</p>
+<p>Il repo che ne esce, <strong><code>nateherkai/morning-brief</code></strong>, è privato, <strong>TypeScript al 100%</strong>, con cartelle <code>.github/workflows</code>, <code>src/</code>, <code>test/</code>, <code>trigger/</code> e i file <code>.env.example</code>, <code>.gitignore</code>, <code>DEPLOYMENT.md</code>, <code>README.md</code>, <code>VERIFICATION.md</code>, <code>trigger.config.ts</code>. «Le chiavi API, gli snapshot del calendario e qualunque cosa sensibile sono <strong>escluse da Git</strong>» anche se il repo è privato, «ed è tutto il senso del <code>.env</code>». Conseguenza pratica: le chiavi vanno <strong>spostate a mano</strong> dentro trigger.dev — cosa che Codex poi fa da solo via CLI, caricando undici variabili d'ambiente (<code>CLICKUP_RECIPIENT_ID</code>, <code>CLICKUP_SENDER_ID</code>, <code>CLICKUP_UPPIT_AI_API_KEY</code>, <code>CLICKUP_WORKSPACE_ID</code>, <code>GOOGLE_CALENDAR_ID</code>, <code>GOOGLE_CLIENT_ID</code>, <code>GOOGLE_CLIENT_SECRET</code>, <code>GOOGLE_REFRESH_TOKEN</code>, <code>MORNING_BRIEF_ENABLED</code>, <code>OPENAI_API_KEY</code>, <code>PERPLEXITY_API_KEY</code>), metà delle quali marcate come <em>Secret</em>.</p>
+<p>Una scena che vale la pena registrare: Astra <strong>apre il browser da solo</strong> e naviga nell'interfaccia di trigger.dev per verificare la connessione. «Vedi il mouse che si muove: non sono io, è Codex che usa il suo browser per controllare tutto questo per noi.» Quando si incarta, chiede: a un certo punto compare in chat una domanda a scelta multipla — «La validazione GitHub è passata, ma trigger.dev mostra solo il mio deployment manuale. La pagina mostra <code>nateherkai/morning-brief</code> come repository connesso e <code>main</code> come branch di produzione? Installare la GitHub app e selezionare il repository sono due passaggi separati» — con le opzioni «Sì, entrambi sono mostrati / Ho installato solo la GitHub app / Vedo un errore». Alla fine: «<strong>Connesso e verificato.</strong> Repo GitHub privato: i push su <code>main</code> ora deployano automaticamente. Produzione trigger.dev: deployment e controllo di avvio ospitato superati».</p>
+<h3>Due task, e due falsi allarmi</h3>
+<p>Nella dashboard di trigger.dev l'automazione compare come <strong>due task</strong>, non uno: <code>morning-brief-weekdays</code> di tipo <em>Scheduled</em> (quello che parte alle 6:00 dal lunedì al venerdì) che chiama <code>morning-brief-run</code> di tipo <em>Standard</em>, entrambi dallo stesso file <code>trigger/morning-brief.ts</code>. «È carino perché man mano che crei flussi più lunghi e complessi, questi chiamano singoli task e pezzi che Codex costruisce per te, e aiuta la visibilità.» Le impostazioni del task dicono il resto: macchina <strong>Small 1x</strong>, <strong>durata massima 600 secondi</strong>, <strong>2 tentativi di retry</strong>, coda seriale a concorrenza 1.</p>
+<p>Il primo test in produzione dura 14,2 secondi, completa, e restituisce <code>{"status": "disabled"}</code>. Nessun DM. La diagnosi: «ho lasciato <code>MORNING_BRIEF_ENABLED=false</code> durante il setup. Questo fa uscire il task prima di leggere il calendario, fare ricerca o mandare un messaggio su ClickUp. <strong>Niente è andato in crash.</strong>» Si cambia la variabile a <code>true</code>, si rilancia, e di nuovo nessun DM — ma stavolta l'output dice <code>delivered</code>. Seconda diagnosi, più interessante: «l'esecuzione ha trovato il messaggio di test di oggi e <strong>ha saltato l'invio di un duplicato</strong>. Il messaggio esistente era stato mandato alle 12:01, quello nuovo alle 12:33, quindi non è stato inviato. La parte confusa è l'output: dice <code>delivered</code> anche quando riusa un messaggio esistente. Lo renderò esplicito». Aggiunge uno stato <code>already_delivered</code> e lo commenta: «<strong>quando fai costruire automazioni e codice all'AI non devi sapere cosa fa ogni singola riga, ma devi testare le cose</strong> per capire come funzionano e perché fanno quello che fanno».</p>
+<p>Con un override esplicito il DM arriva («esecuzione di prova ospitata chiaramente etichettata, che può mandare un nuovo DM, mantenendo la protezione duplicati per le esecuzioni normali»), ma la tabella di riepilogo è onesta e va riportata per intero perché è la cosa che il montaggio non nasconde: <strong>«Consegna ClickUp: nuovo messaggio inviato e contenuto verificato. Ricerca: corrispondenza eventi fallita; preparazione non verificata omessa. L'override è chiuso e l'automazione resta in pausa. La consegna funziona; la ricerca va ancora sistemata prima di fidarci della routine completa.»</strong> Più tardi, al minuto 30, si vede infatti nella schermata iniziale di Codex il suggerimento «<em>Unblock the weekday morning brief by fixing its research-event validation</em>»: a fine video <strong>la prima automazione del tutorial non è ancora pienamente funzionante</strong>.</p>
+<h2>Secondo caso: il webhook</h2>
+<p>Il secondo tipo è «un'automazione innescata da qualcosa», tipicamente un webhook. L'esempio scelto è il più commerciale: una <strong>pagina con un form</strong> che, alla pressione di <em>Invia</em>, fa partire un task su trigger.dev che manda un DM su ClickUp con i dati della richiesta e una <strong>bozza di risposta</strong>.</p>
+<p>Sulla lavagna il flusso diventa di quattro riquadri invece di cinque — il trigger non è più l'orario ma l'azione — e di nuovo <strong>un solo riquadro è verde</strong>: la stesura del messaggio. Herk fa notare il punto che molti saltano: «potresti farlo anche <strong>senza AI</strong>. Se volessi solo ricevere la notifica, potresti usare dei segnaposto, risparmieresti soldi e tempo, non ci sarebbe nessuno step AI e sarebbe <strong>deterministico al 100%</strong>». Dove l'AI serve davvero è nel contatto consigliato e nella bozza di email.</p>
+<p>Il prompt lo manda in modalità <strong><code>/goal</code></strong> di Codex e chiede le due metà insieme: un <em>localhost</em> con una pagina e un form che raccoglie nome, email, dimensione del team e cosa cerca il visitatore; e il back-end su trigger.dev che manda il DM. Astra risponde: «costruirò un form locale che invia a un endpoint server, fa partire un task ospitato su trigger.dev, e ti manda un DM su ClickUp con la richiesta e una bozza di contatto suggerita. Userò il workflow <em>Sites</em> per la pagina locale e <strong>il deployment trigger.dev esistente</strong> per il back-end. La pagina resterà locale».</p>
+<p>Qui Herk lancia un'idea che non esegue ma che vale per tutti: pensare agli edge case — come impedire che il form venga spammato mille volte al secondo, come garantire che nel campo email arrivino davvero email — e poi <strong>delegarne la caccia</strong>: «dopo averlo costruito potresti dire: ok, tira su <strong>50 sotto-agenti</strong>, falli testare tutti, prova a romperlo e dimmi cosa trovi. Puoi davvero stressare e fare QA delle tue automazioni <strong>prima</strong> che un umano o un cliente trovi questi bug».</p>
+<p>Dopo <strong>19 minuti e 5 secondi</strong>: «<strong>costruito e verificato end-to-end</strong>. Il test finale è stato completato e ho verificato in modo indipendente il messaggio consegnato. <strong>Tutti e 35 i test passano</strong>, inclusa la prevenzione duplicati». Herk compila il form a mano su <code>localhost:4788</code> con un caso finto — <em>Alex Morgan</em>, <code>alex@company.com</code>, team 201+, «spendiamo tantissimo tempo a fare hamburger ed è diventato un vero collo di bottiglia, quindi voglio vedere se possiamo automatizzarlo» — e in trigger.dev compare il run: 15,6 secondi, task <code>form-submission</code> (file <code>trigger/form-submission.ts</code>, durata massima 180 secondi, 2 retry). Il DM che arriva su ClickUp riporta i quattro campi e sotto «Email draft for Nate to review» con oggetto e corpo pronti, e la riga <strong>«Draft only. No email has been sent to the submitter.»</strong></p>
+<p>Un dettaglio che toglie lavoro: «ai vecchi tempi avremmo dovuto impostare l'URL, sincronizzarli, costruire il payload. <strong>Non dobbiamo fare niente di tutto questo.</strong>» E un ampliamento ovvio: il trigger «non deve essere per forza un form: può essere un nuovo record nel CRM, una nuova email in arrivo, ci sono tantissimi trigger basati su eventi».</p>
+<h2>Terzo caso: il Codex SDK, e il momento in cui il titolo si contraddice</h2>
+<p>Il terzo tipo è «quello speciale, quando vuoi il <strong>pieno loop agentico</strong> a cui sei abituato dentro Codex, ma ottenuto <strong>in modo programmatico</strong>: e quello si fa con il <strong>Codex SDK</strong>».</p>
+<p>Ed è qui che arriva la frase che smonta il titolo del video, detta senza giri di parole: <strong>«la maggior parte delle volte, se stai facendo girare un'automazione in uno scheduled task dentro Codex, ti consiglio di tenerla lì, perché così mangia dal tuo abbonamento. Ma se devi farlo su scala e non puoi usare l'abbonamento in modo programmatico, allora probabilmente vuoi costruire l'automazione con il Codex SDK e ospitarla su qualcosa come trigger.dev.»</strong> L'abbonamento, cioè, non è il nemico: è l'opzione economica. Si esce dall'abbonamento <strong>quando serve l'accesso programmatico</strong>, non per risparmiare.</p>
+<h3>Perché questo caso è diverso</h3>
+<p>Il caso scelto è la sua routine di trading, quella già vista all'inizio nel <em>Challenge Thread</em> (ed è il sistema del suo video precedente: 10.000 dollari veri su un conto <strong>Alpaca</strong> per sette sedute, vedi <a href="i-gave-gpt-6-astra-10-000-to-trade-stocks-and-this-happened-2026-10-04.html">i-gave-gpt-6-astra-10-000-to-trade-stocks-and-this-happened-2026-10-04</a>). Sulla lavagna lo disegna come <strong><code>30m → agent → email</code></strong>, con l'agente collegato a tre "strumenti" ovali: <strong><code>alpaca</code></strong> (il conto), <strong><code>research</code></strong> e <strong><code>past logs</code></strong>. I log sono la memoria: «si lascia i log da solo ogni volta, così la prossima volta che l'agente si sveglia <strong>non è completamente stateless</strong> e non è che non sa cosa fare».</p>
+<p>La ragione per cui serve un SDK e non uno script la spiega bene: «<strong>non sappiamo quante volte potrebbe aver bisogno</strong> di guardare i log, leggere cose, guardare la ricerca, o ricontrollare su Alpaca. Se sta facendo ricerca da dieci minuti e si dice <em>aspetta, fammi ricontrollare le posizioni attuali una volta ancora perché le cose potrebbero essere cambiate</em>, ha la possibilità di andare avanti e indietro. È un agente, e ha quel lusso». Per contrasto disegna la versione deterministica: <code>30m</code> che si dirama su <strong>due ricerche fisse</strong> in parallelo («magari questa è Firecrawl e questa Perplexity»), poi un agente che guarda la ricerca e scrive l'email. «Ma se guarda e dice <em>aspetta, voglio fare altra ricerca</em>? Dovremmo in qualche modo costruirci la possibilità per l'agente di <strong>tornare indietro</strong> e cercare ancora. Ed è esattamente perché usiamo l'SDK: per darci quel tipo di autonomia.»</p>
+<p>Prima di costruire, la regola di igiene, che è il consiglio migliore del video: «specialmente più i tuoi sistemi diventano autonomi, più c'è spazio per l'errore: <strong>aumenti il rischio, aumenti il costo, aumenti la complessità, aumenti la manutenzione</strong>. Quindi <strong>costruisci la soluzione più semplice possibile</strong> e sali la piramide dei sistemi AI, come la chiamo io, solo quando ti serve davvero quella funzionalità».</p>
+<p>C'è anche un dettaglio di policy che spiega l'architettura in due pezzi: l'agente manda un'<strong>email</strong> con la raccomandazione a un <strong>Grokbot</strong>, «e il Grokbot piazza effettivamente l'operazione, perché i modelli OpenAI e i modelli Claude <strong>non ti lasciano più fare trading</strong>. Semplicemente non lo fanno. Credo sia per via di tutta questa roba di sicurezza. Ma <strong>Grok lo fa ancora</strong>. Quindi il mio Grokbot è quello che piazza le operazioni, e Astra fa tutto il lavoro pesante di ricerca».</p>
+<h3>Cosa produce la migrazione</h3>
+<p>Il prompt: «voglio trasportare la sfida di trading Astra, quel thread, su trigger.dev. In pratica ci svegliamo ogni 30 minuti durante gli orari di mercato, un controllo prima e uno dopo, e facciamo questo loop di ricerca. Controlliamo Alpaca, controlliamo i log. Familiarizza con quel processo, poi trasformalo in un'automazione Codex SDK e ospitalo su trigger.dev». Precisa a voce, prima di partire, che non vuole davvero spostarla — «ovviamente voglio tenerla sull'abbonamento, ma per il bene della demo».</p>
+<p>Il run dura <strong>poco più di 15 minuti</strong>, fa <strong>44 test</strong>, e produce quattro task su trigger.dev — <code>astra-check</code>, <code>astra-install-plan</code>, <code>astra-preflight</code>, <code>astra-proof</code> — tutti dal file <code>trigger/astra.ts</code>. Il riepilogo: «<strong>pronto per la tua revisione</strong>: Astra su trigger.dev. Ricerca, email, consegna ClickUp e prevenzione duplicati verificate. <strong>Tutti i 18 check del 17 settembre in coda</strong>, a partire dalle 7:45 Central. Vecchia routine desktop in pausa. 44 test passati. <strong>Alpaca resta in sola lettura: le operazioni le piazzi tu.</strong> Lo schedule finisce con la scheda punteggio finale del 17 settembre». Herk nota, con una punta di fastidio, che «ha messo in pausa la vecchia routine desktop, cosa che non volevo: era solo una demo. Ma è stato piuttosto proattivo».</p>
+<p>Non capisce cosa siano i quattro task e lo chiede. La risposta è la parte più istruttiva del capitolo: <strong>«solo <code>astra-check</code> è il worker ricorrente. Gli altri tre aiutano a verificare e installare l'automazione.»</strong> Il <strong>Preflight</strong> controlla il runtime di Codex, la connessione Alpaca, i dati di mercato SIP, i file di policy e lo storage dei checkpoint, e può fare una piccola chiamata di test al modello: gira solo durante il setup o in caso di problemi. Il <strong>Proof</strong> esegue il flusso completo di ricerca e reportistica, inclusa l'email etichettata come test e la consegna su ClickUp, impedendo la creazione di ticket di trading veri durante la prova: gira prima di abilitare la routine. L'<strong>Install plan</strong> richiede un proof riuscito, poi mette in coda i check datati con protezione duplicati. Il <strong>Check</strong> è quello vero: «esegue il loop di ricerca, valuta il conto, consegna il report e <strong>salva il contesto per il check successivo</strong>». Alla domanda diretta «quindi gireremo davvero solo Astra Check?», la risposta è secca: «Sì. <code>astra-check</code> è l'unico task schedulato per girare di routine. Preflight, Proof e Install Plan restano disponibili per troubleshooting o setup futuri, ma <strong>non girano durante il funzionamento normale</strong>».</p>
+<h3>Cosa significa davvero "loop agentico"</h3>
+<p>Vale la pena riportare la meccanica del singolo Check perché ridimensiona la parola <em>agentico</em> in modo utile. La sequenza, in sei passi: <strong>carica il contesto e osserva il conto</strong> (legge la policy della sfida, il benchmark, l'handoff di ricerca precedente e i saldi, posizioni, ordini, notizie e dati di mercato freschi di Alpaca); <strong>chiede a Codex cosa va investigato</strong> — «il <strong>primo turno del Codex SDK</strong> valuta quel contesto, può cercare sul web, e sceglie i simboli e un piano di ricerca»; <strong>recupera le prove richieste</strong>, e lo fa il codice attorno, non il modello; <strong>fa valutare le prove a Codex</strong> — «<strong>un secondo turno nella stessa conversazione SDK</strong> riceve quei dati più profondi. Astra può cercare e aprire fonti, valutare le posizioni esistenti, investigare catalizzatori e prove contrarie, e produrre una decisione strutturata e un report»; <strong>valida e consegna</strong> (il codice controlla i ticket proposti contro dati di broker freschi, freschezza delle quotazioni, cassa, tempi e regole di rischio, poi manda i report e verifica la consegna); <strong>salva l'handoff</strong>, così il check successivo riparte da lì.</p>
+<p>Herk lo riassume con precisione: «<strong>la parte agentica è Astra che sceglie cosa ricercare usando strumenti web, approfondisce le prove, e aggiusta le proprie conclusioni in base al risultato</strong>». Da notare, perché il video non lo sottolinea: il "pieno loop agentico" sono <strong>due turni di modello dentro la stessa conversazione SDK</strong>, incastonati in un guscio di codice deterministico che fa il recupero dati e la validazione. Non è un ciclo illimitato.</p>
+<h3>La prova, fallimento incluso</h3>
+<p>Lancia un test manuale di <code>astra-check</code>: dura 10,5 secondi, payload <code>{"key": "2026-09-17/13"}</code>, output <code>{"status": "early"}</code>. Non fa niente, e per un buon motivo: «è stato configurato da Astra in modo da fare il check durante le ore di mercato, e adesso il mercato ha già chiuso. Il prossimo run schedulato non è fino a domani mattina prima dell'apertura. Quindi è partito e si è detto: oh, questo non è giusto, non dovrei ancora girare, quindi do in output la parola <em>early</em>».</p>
+<p>La prova che funziona davvero la va a prendere nel canale ClickUp <em>Internal Automations</em>, dove si leggono tre report di migrazione delle 15:41, 15:47 e 15:52. E qui c'è il dato che un montaggio meno onesto avrebbe tagliato: <strong>il primo dei tre è un fallimento</strong>. Testo a schermo: «<em>HOSTED MIGRATION TEST. Research check TEST-MIGRATION-20260916-B <strong>failed</strong> at 2026-09-16T20:40:55.591Z: <strong>Codex SDK turn failed: The operation was aborted</strong>. No new ticket is valid for this run. Review current holdings and linked protection directly in Alpaca.</em>» Il secondo, quello riuscito, è un report completo: raccomandazione <em>HOLD</em>, ricostruzione del conto («equity dopo orario 9.755,39 $», «157,58 $ contro 219,24 $ sopra il pavimento dei 9.500»), un riepilogo di ricerca su rialzo dei tassi della Fed, NVIDIA, XLV e CIEN, e in fondo l'elenco delle <strong>fonti con i link</strong> (comunicato della Federal Reserve, risultati trimestrali di un emittente). Ogni messaggio è intestato «For Nate's review. Grok Bot: notify Nate of this report; Nate decides and submits any trades. Do not execute trades from this email.»</p>
+<p>Conclusione: «tutto si è trasferito al punto che sta ricevendo questi report di migrazione di test, perché quello che succede è che <strong>un'automazione trigger.dev con il Codex SDK</strong> controlla, fa ricerca, guarda le prove, poi fa la raccomandazione e la manda a ClickUp, ma anche come email al mio Grokbot. Abbiamo <strong>imitato una routine Codex</strong> con Astra sul back-end e il pieno loop agentico, ma adesso possiamo innescarla <strong>programmaticamente</strong>, via webhook e su schedule diversi».</p>
+<p>E poi, subito, il ripensamento che chiude il cerchio: <strong>«e come ho detto, lo faresti davvero solo quando ti serve essere veramente programmatico e su scala, perché altrimenti vuoi buttarlo sull'abbonamento: pagare Astra con crediti API è ovviamente più caro che pagarlo con l'abbonamento.»</strong></p>
+<h2>Cosa tenere, e la parte che il titolo nasconde</h2>
+<p>Il titolo promette automazioni «che non ti mangiano il limite d'uso». Quello che il video consegna è più onesto e più utile: <strong>un criterio per decidere dove far girare ogni cosa</strong>, con il costo spostato, non eliminato.</p>
+<p>Il conto, messo in fila: le automazioni <strong>deterministiche</strong> — che per sua stima sono il 90% — non hanno motivo di girare dentro Codex, perché non usano quasi nulla di ciò che un harness agentico offre; spostarle su trigger.dev come codice costa poche frazioni di centesimo a esecuzione in token (0,25 $ è il tetto che si è dato, 1,33 centesimi il costo misurato di costruirla e collaudarla), più l'hosting, che sul piano gratuito è zero ma ti costa fino a un'ora di imprecisione sull'orario. Le automazioni <strong>non-deterministiche</strong>, invece, consumano gli stessi token che consumerebbero dentro l'abbonamento, ma li paghi <strong>a consumo invece che a forfait</strong> — e lui stesso dice che costa di più. In altre parole: si esce dall'abbonamento per avere <strong>controllo programmatico, versionamento, visibilità sui run e condivisione con il team</strong>, non per risparmiare.</p>
+<p>Sulla domanda «si rifà con Claude Code»: la risposta è sì per i primi due terzi, e il video lo tradisce senza volerlo in due punti. Il primo è la schermata di setup di trigger.dev, dove c'è un bottone <strong>«Copy AI agent prompt — copia un prompt pronto all'uso per Claude Code, Cursor o qualunque agente di coding, con dentro il riferimento del tuo progetto»</strong>: trigger.dev non è legato a Codex in nessun modo, è semplicemente un posto dove si deploya del TypeScript. Il secondo è la raccomandazione sul <code>.env</code>, che Herk giustifica proprio con la possibilità di «spostarle su Claude Code». Il pezzo che <strong>non</strong> si trasferisce è il terzo: il <strong>Codex SDK</strong> è OpenAI, e l'equivalente Anthropic — l'Agent SDK — nel video non viene mai nominato. Chi volesse rifare il terzo caso con Claude dovrebbe sostituire quel componente, tenendo la stessa forma: un guscio di codice deterministico che prepara il contesto, due (o più) turni di modello dentro la stessa conversazione, e un handoff persistito tra un'esecuzione e la successiva.</p>
+<p>L'ultima cosa da portarsi via non riguarda i costi ma la fiducia: <strong>nessuna delle tre automazioni del video è in produzione alla fine del video</strong>. La prima è in pausa con la ricerca rotta; la seconda gira su un form in locale; la terza è stata costruita «per il bene della demo» e la versione vera resta sull'abbonamento. Il valore è nel metodo mostrato — far verificare all'agente, testare in produzione prima di accendere lo schedule, leggere gli output invece di fidarsi del <code>delivered</code> — non nel risultato.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=FqnNL8fnUWo — «How to Build GPT-6 Astra Automations (that don't eat your usage limit)», Nate Herk, 35:25. Registrato il 15-16 settembre 2026 (le date compaiono nei timestamp di trigger.dev e GitHub); visto il 04/10/2026.</li>
+<li>report grezzo con trascrizione completa, microscopio del gancio e i fotogrammi chiave (schermate dei costi, dei diagrammi e delle dashboard).</li>
+<li>Concetti collegati: loop-engineering (qui il loop di verifica è <em>prima</em> del deploy, con skill TDD e code-review dichiarate a schermo), agent-memory (l'handoff salvato tra un'esecuzione e la successiva, «così l'agente non è completamente stateless»), harness (la distinzione tra il modello e il guscio che lo esegue: qui il guscio cambia da Codex a trigger.dev), claude-skills (la skill che diventa codice eseguibile), model-routing (il processo conta più del modello), assistenti-personali-cloud e aios (automazioni personali che girano senza di te).</li>
+<li>Entità: nate-herk. Nuove, non ancora in <code>wiki/entities/</code>: <strong>trigger.dev</strong> (piattaforma open source di hosting per task schedulati e webhook in TypeScript, 16.300 stelle GitHub, piano gratuito con finestra di scheduling di 60 minuti), <strong>Codex / GPT-6 Astra</strong> e il <strong>Codex SDK</strong>, <strong>Uppit AI</strong> (la sua azienda), <strong>Hyperagent</strong> (sponsor), <strong>Alpaca</strong> (broker).</li>
+<li><strong>Video imparentato, da leggere insieme a questo:</strong> <a href="i-gave-gpt-6-astra-10-000-to-trade-stocks-and-this-happened-2026-10-04.html">i-gave-gpt-6-astra-10-000-to-trade-stocks-and-this-happened-2026-10-04</a> — è la sfida di trading di cui qui si migra la routine. Lì la routine girava come <strong>scheduled task dentro Codex con sei risvegli al giorno</strong> e continuità per handoff; qui diventa <code>astra-check</code> su trigger.dev con il Codex SDK. Le due pagine si confermano a vicenda su Alpaca in sola lettura, sul GrokBot che esegue gli ordini perché i modelli OpenAI e Anthropic si rifiutano, e sulla data di chiusura (17 settembre). Utile anche <a href="how-to-build-codex-skills-better-than-99-of-people-2026-09-23.html">how-to-build-codex-skills-better-than-99-of-people-2026-09-23</a>, dello stesso autore, per il pezzo «la skill diventa codice».</li>
+<li><strong>Omesso (fuffa):</strong> lo sponsor <strong>Hyperagent</strong> a 06:50-07:50 (skill e memorie per agenzie AI, command center con rubriche di valutazione e A/B test, crediti gratis dal link in descrizione) con la sua dashboard di costi; la promozione a 25:23-25:55 di una <strong>SOP gratuita</strong> «per prendere il tuo primo cliente di automazione AI» (lead magnet via email della community AI Automation Society); la CTA finale a like, playlist su Codex e saluti. Nessuno dei tre tocca il contenuto tecnico.</li>
+<li><strong>Non verificato / da sapere.</strong> (1) <strong>Il risparmio non è mai misurato</strong>: le due barre rossa e verde a 01:21 sono un disegno, non un dato. Non c'è nessun confronto del monte ore consumato prima e dopo. (2) <strong>I costi mostrati sono solo quelli di costruzione</strong>, non di esercizio: 0,01327 $ è il testing dal vivo mentre Astra costruiva, non il costo mensile di una routine che gira cinque volte a settimana — che resta ignoto, così come la bolletta di trigger.dev oltre il piano gratuito (il prezzo dei piani a pagamento non viene mai mostrato). (3) <strong>La prima automazione non funziona del tutto</strong> a fine video («research still needs fixing») e la terza mostra un run fallito. (4) La terza automazione <strong>non è stata realmente adottata</strong>: resta sull'abbonamento, la migrazione era «per il bene della demo». (5) <strong>Niente Claude Code in azione</strong>: il percorso Anthropic è deducibile (il bottone di trigger.dev, il consiglio sul <code>.env</code>) ma non è mai mostrato, e il Codex SDK non ha equivalente nominato nel video. (6) I sottotitoli automatici rendono «Codex» come <em>codeex/codecs</em>, «Grok» come <em>Grock</em>, «Uppit AI» come <em>Upit/Up it AI</em>, e in un punto Astra stesso annota «sto interpretando <em>sugar.dev</em> come Trigger.dev in base alle tue parole precedenti»: qui i nomi sono normalizzati su quanto leggibile a schermo. (7) Il riquadro della lavagna per il secondo flusso dice ancora «read calendar» dove a voce lui dice «leggi il form»: è un riquadro copiato e non rinominato. (8) Il banner «almeno uno dei tuoi progetti usa Node 21: i deployment falliranno dal 5 ottobre» compare nella dashboard dalla metà del video in poi e non viene mai commentato — è un promemoria che l'hosting ha una sua manutenzione. (9) Nessun accenno a quanto costi <em>davvero</em> un turno del Codex SDK: la voce «crediti API» resta senza cifre.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

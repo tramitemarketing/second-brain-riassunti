@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Tested Opus 5.5 vs. GPT-6 Sol on 10 Real Use Cases</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Tested Opus 5.5 vs. GPT-6 Sol on 10 Real Use Cases" src="https://i.ytimg.com/vi/eF3yeJuifoQ/hqdefault.jpg"><p class="muted">📖 15 min di lettura</p><p><strong>In sintesi:</strong> Nate Herk lancia lo <strong>stesso prompt</strong> a <strong>Opus 5.5</strong> (dentro Claude Code / Claude Desktop) e a <strong>GPT-6 Sol</strong> (dentro Codex) su <strong>dieci lavori veri</strong>, e tiene il conto di tempo e dollari spesi da ognuno. Finisce <strong>7 a 1 per Opus</strong>, con due esperimenti annullati perché i due agenti si sono messi a lavorare sulla stessa cartella sovrascrivendosi i file. Il taglio delle vittorie è netto e interessa direttamente il model-routing: <strong>Opus vince tutto ciò che richiede un giudizio di gusto</strong> — design di un sito, montaggio di un reel, mondi 3D, perfino i due casi di <strong>uso del browser</strong>, che storicamente erano territorio di Codex. <strong>Sol vince l'unico caso puramente ingegneristico</strong>, riparare una codebase gigantesca: <strong>100/100 contro 96,7/100</strong> di Opus, in metà tempo e con <strong>1,04 $ contro 19,82 $</strong>, cioè un diciannovesimo. Il paradosso dei costi è che Opus costa <strong>il doppio a token</strong> ($4/$20 per milione contro $2/$10) ma è costato <strong>circa il triplo a lavoro finito</strong> (213,03 $ contro 74,46 $ in totale), perché gira più a lungo e consuma di più. La regola che Herk tira fuori a fine video è la cosa più riusabile: <strong>Claude Opus quando serve creatività e giudizio, un modello OpenAI economico quando sai già esattamente cosa vuoi e ti serve solo che esegua passo uno, passo due, passo tre</strong> — con lo schema suggerito di <strong>Opus 5.5 orchestratore e tanti piccoli GPT-6 Sol come manovali</strong>. Tutti i verdetti sono però <strong>a impressione personale</strong>, un solo run per caso, nessun test ripetuto.</p>
+<h2>Il metro: non il prezzo a token, ma cosa ti porti a casa con cento dollari</h2>
+<p>Prima di qualsiasi test, Herk mette a schermo i due listini: <strong>Opus 5.5 costa 4 $ per milione di token in ingresso e 20 $ in uscita; GPT-6 Sol costa 2 $ e 10 $</strong>. Esattamente il doppio. La sua reazione istintiva — ammette — è quella di tutti: se costa di più probabilmente è meglio. Ma il metro che propone è un altro, e vale la pena rubarlo: «<strong>se avessi cento dollari e ne dessi cento a Opus e cento a Sol, quale dei due mi restituirebbe un output migliore per quei cento dollari?</strong>». È la domanda giusta, perché sposta il confronto dal prezzo unitario alla <strong>resa per euro speso</strong> — che è l'unica cosa che conta quando decidi a quale modello dare un lavoro.</p>
+<h2>La prova di riscaldamento, fuori classifica</h2>
+<p>Prima dei dieci casi veri, un test di riscaldamento per «sentire come pensano»: a entrambi va lo stesso prompt doppio — <strong>tirare dentro le ultime due chiamate di Fireflies per la pianificazione del Q4 e ingerirne le trascrizioni in una wiki</strong>, e in parallelo <strong>trovare l'ultima sessione di Q&amp;A in cui aveva nominato una certa persona</strong>. Non è banale: le due chiamate messe insieme fanno <strong>quattro ore di trascrizione</strong>, e vanno create collegamenti e indici.</p>
+<p>Succedono due cose interessanti. La prima è che <strong>Sol parte molto più velocemente</strong> e parallelizza bene i due compiti. La seconda è che <strong>sbaglia la risposta</strong>: dice 17 agosto, mentre la data giusta — quella che trova Opus — è il <strong>14 settembre</strong>. Herk è severo con se stesso e con il modello: «non è così difficile per un modello scorrere un mucchio di trascrizioni e trovare la più recente»; probabilmente il nome era trascritto male nei sottotitoli automatici, ma proprio per questo era un problema che Sol avrebbe dovuto accorgersi di avere. Ci mettono più o meno lo stesso tempo, e <strong>la risposta di Opus è quella corretta</strong>.</p>
+<p>C'è anche un dettaglio che tornerà due volte più avanti: a metà lavoro <strong>Claude si accorge che qualcun altro sta toccando gli stessi file</strong> e si ferma a chiedere cosa fare. Era Codex.</p>
+<h2>Caso 1 — Il sito di prodotto: due estetiche diverse, non due qualità diverse</h2>
+<p>Il primo lavoro è un <strong>sito per una bevanda chiamata «Perkform»</strong> («la tua mattina non dovrebbe richiedere due bevande»: caffè e proteine in una lattina sola). Herk mostra i due output senza dire subito chi è chi, e la differenza si vede. Il primo ha <strong>profondità a strati</strong>: muovendo il mouse, le lattine, i tasti e lo sfondo stanno su piani diversi; scorrendo partono animazioni di testo, una rotazione pulita sul «<strong>Pick your first can</strong>», una sezione FAQ. Il secondo ha la stessa narrazione e lo stesso branding — stesso titolo, stesse animazioni di testo — ma <strong>un'immagine di apertura molto più debole</strong> e, soprattutto, usa <strong>rendering di packaging invece di foto realistiche del prodotto</strong>, scelta che Herk boccia. Complessivamente «molto più semplice, non premium come il primo».</p>
+<p>Il primo era <strong>Opus 5.5</strong>, il secondo <strong>GPT-6 Sol</strong>. Sul tabellone: Opus <strong>40m 21s e 18,32 $</strong>, Sol <strong>34m 42s e 5,89 $</strong>. Tre volte più caro, e comunque <strong>vince Opus</strong>, «senza dubbio».</p>
+<h2>Caso 2 — Il sizzle reel da cento gigabyte</h2>
+<p>Il secondo è il test che Herk dice di voler tenere come <strong>benchmark fisso per tutti i nuovi modelli</strong>: dà ai due un link <strong>Frame.io</strong> con <strong>cento gigabyte di girato</strong> dell'evento AIS Live appena passato, e chiede un <strong>sizzle reel di trenta secondi</strong> ad alta energia per promuovere l'edizione successiva. Devono guardare tutto, cavarne una storia e montarla.</p>
+<p>Il reel di Opus lo colpisce: «quasi più impressionante di quando <strong>Astra</strong> lo fece al primo colpo». Elogia <strong>la stratificazione, la musica, gli effetti sonori, il ritmo, il modo in cui le cose entrano ed escono</strong>; concede che qualche parte sia un po' statica. Quello di Sol, dice, «è comunque impressionante, ma <strong>non mi dà la stessa energia</strong>», non ha lo stesso passo rapido e non lo fa venire voglia di andare all'evento. Tempi e costi: Opus <strong>31m 32s e 10,36 $</strong>, Sol <strong>36m 40s e 5,07 $</strong>. Qui Opus è <strong>anche più veloce</strong>, e vince.</p>
+<p>È in questo punto che Herk fa il suo commento più personale sulla generazione: <strong>Opus 5 era «davvero pessimo»</strong>, tanto che era tornato a usare 4.8, ed era lentissimo. Opus 5.5 gli sta facendo tornare voglia di sfruttare l'abbonamento Claude.</p>
+<h2>Caso 3 — Il reel Instagram con Hyperframes</h2>
+<p>Terzo caso: un <strong>reel per Instagram</strong> montato con <strong>Hyperframes</strong>, stesso girato e stesso prompt per entrambi. Il contenuto del reel è, per inciso, un riassunto del metodo di <strong>Andrej Karpathy</strong> a tre livelli (spec, verificatore, e un terzo livello che non si vede), cioè materia di spec-driven-prompting e loop-engineering.</p>
+<p>Il montaggio di Sol lo lascia freddo: «<strong>per niente impressionato</strong>». Nessuna musica, <strong>un ronzio strano di sottofondo</strong>, quasi nessuna animazione che tenga attaccato lo spettatore; «Astra fa un lavoro molto migliore sui reel». Quello di Opus, a parità di testo e di voce, ha <strong>animazioni di testo che si scrive da solo ed effetti sonori</strong>, ed è «senza ombra di dubbio significativamente meglio». Nemmeno questo lo pubblicherebbe davvero senza iterare, ma il divario è netto.</p>
+<p>Qui però Herk pone <strong>la domanda più onesta del video</strong>, e andrebbe incorniciata: Opus ha speso <strong>11,14 $</strong> e Sol <strong>2,70 $</strong> (40m 14s contro 19m 43s). «<strong>Se iterassimo con Sol più e più volte fino ad arrivare a undici dollari di spesa, saremmo dove è Opus, o meglio?</strong>» Non lo prova — e nessuno dei confronti del video lo prova — ma è il buco che resta aperto in tutti i test one-shot: si confronta <strong>un colpo solo contro un colpo solo</strong>, non <strong>lo stesso budget contro lo stesso budget</strong>.</p>
+<h2>Caso 4 — I quattro deliverable da una montagna di dati (esperimento rovinato)</h2>
+<p>Quarto caso: una <strong>mole enorme di dati</strong> di un'azienda finta chiamata <strong>BrightPath</strong>, con la richiesta di costruire <strong>un foglio Google di analytics e una dashboard</strong>. Ne escono in realtà quattro consegne a testa: foglio di calcolo, <strong>pitch deck</strong>, dashboard e <strong>landing page</strong>.</p>
+<p>Il foglio di Opus è «pulito», con riquadri per ARR, MRR, clienti e margine lordo, schede per il <strong>conto economico</strong>, le <strong>metriche SaaS</strong>, cassa e runway, unit economics, prezzi, organico, go-to-market, pipeline; e un tema cromatico coerente blu notte e arancione. Il deck (sedici slide) è «semplice ma pulito, non troppo prolisso ma neanche premium». La dashboard «si vede che è vibe-coded» ma funziona. La landing page ha animazioni allo scroll e strati ben fatti.</p>
+<p>Poi apre le consegne di Sol e si blocca: «aspetta, <strong>è lo stesso identico deck?</strong>». Lo è. <strong>I due agenti hanno lavorato nella stessa cartella di progetto</strong> e si sono editati i file a vicenda. Herk lo ammette senza giri di parole: <strong>l'errore è suo</strong>, nel prompt non ha scritto «assicurati di non sovrascrivere il lavoro di altri agenti», cosa che di solito fa. Non assegna il punto.</p>
+<p>Fa però una cosa utile: <strong>si fa ricostruire l'accaduto da entrambi i modelli leggendo i log</strong>, e le due versioni coincidono. Claude ha ricevuto la richiesta e ha cominciato a creare file; Codex ha ricevuto la stessa richiesta nello stesso repo ma <strong>è fallito al primo colpo</strong> (GPT-6 Sol era ancora in fase di rilascio: a schermo si legge <em>«The 'gpt-6-sol' model is not supported when using Codex with a ChatGPT account»</em>); sedici minuti dopo Herk lo rilancia, e a quel punto <strong>Claude era già molto avanti</strong>, così Codex ha preso i file di Claude e ha cominciato a modificarli sopra mentre Claude lavorava ancora. Sospetto di Herk: alcune delle parti che sembrano «troppo AI» potrebbero essere proprio le modifiche di Sol.</p>
+<p>In più, a montaggio già fatto, si accorge che <strong>i numeri che aveva mostrato erano sbagliati</strong> e li corregge in sovrimpressione: Sol non ha speso 22,74 $ in 34m 25s, ma <strong>3,60 $ in 9m 25s</strong>. Opus resta a <strong>19,03 $ in 26m 20s</strong>. La correzione va <strong>sottratta dal totale finale</strong>: «a fine video, quando guardiamo il costo totale, togliete circa diciannove dollari dal totale di GPT-6 Sol».</p>
+<h2>Caso 5 — Il videogioco (altro esperimento rovinato)</h2>
+<p>Quinto caso: <strong>un gioco</strong>. Sol consegna <strong>«Small Hours»</strong>, un'esplorazione in prima persona con WASD e mouse, ambientata nel «Ren Museum of Miniatures» che chiude per sempre alle sei di sera, con tutto ciò che la nonna del protagonista ha costruito destinato all'asta. Carica lentissimo e fa partire le ventole del computer. Herk apprezza l'atmosfera — «mi sta davvero raccontando una storia», effetti sonori, movimento fluido — ma c'è un difetto che lo blocca: <strong>il puntatore del mouse non è agganciato alla finestra</strong>, quindi appena esce dallo schermo la visuale si pianta e non si può fare un giro di 360 gradi. «Onestamente <strong>ingiocabile</strong>», e smette.</p>
+<p>E anche qui, <strong>è successa la stessa cosa del caso precedente</strong>: i due agenti hanno lavorato sui file l'uno dell'altro. Niente vincitore. Resta un dato che Herk trova comunque significativo: <strong>Opus ha girato per quasi due ore e mezza (2h 23m, 40,83 $) contro l'ora e nove minuti di Sol (10,44 $)</strong>, quattro volte il costo. La domanda che si porta dietro è proprio quella del vault: «dove sarebbe il punto di <strong>passaggio di consegne</strong> tra questi due tipi di modelli?».</p>
+<h2>Caso 6 — Il mondo 3D costruito sui suoi cento video</h2>
+<p>Sesto caso, e finalmente i due agenti non si pestano i piedi: <strong>leggere i suoi ultimi cento video YouTube e costruirci un mondo 3D esplorabile</strong> che ne spieghi i concetti.</p>
+<p>Opus costruisce un <strong>campus cartoon</strong> con nove stanze, in cui si cammina, si corre con la barra spaziatrice, si parla con una guida di nome <strong>Nova</strong> e si possono perfino <strong>lanciare palline</strong>. Ogni stanza è un concetto — <strong>token</strong> («l'AI legge pezzi di parole»), <strong>harness del modello</strong>, <strong>context window</strong>, agent arena, prompt power, team di aiutanti, laboratorio delle skill, memoria, automazione, garage dei modelli — e ognuna ha <strong>un mini-gioco oltre alla spiegazione</strong>: la <strong>macchina del prossimo token</strong> in cui si lasciano cadere palline per vedere come viene scelta la parola successiva («il gatto si è seduto sul…»), la finestra di contesto che si riempie aggiungendo blocchi. Herk trova i difetti: <strong>le palline si incastrano</strong> se ne lasci cadere troppe insieme, e nel laboratorio delle skill il gioco del robot-ricettario va avanti da solo senza che tu controlli niente, quindi annoia. Ma il giudizio è buono: «<strong>ci sarei rimasto dentro un quarto d'ora prima di annoiarmi</strong>».</p>
+<p>Sol consegna <strong>«Idea Atlas»</strong>, con lo stesso impianto — piazza centrale, cento video, nove stanze — ma «<strong>un'aria diversa</strong>»: molto meno realistico, si cammina dentro la fontana, <strong>un pannello di benvenuto che non si riesce a chiudere</strong>, un'interfaccia «troppo affollata», e un'interazione goffa (bisogna premere E dove verrebbe naturale cliccare). «Qui sono già stufo dopo poco.» Herk nota che è proprio qui che si vede <strong>la differenza su design e realismo</strong>, e retroattivamente conclude che nel gioco del caso 5 il peso del design lo stava portando Opus.</p>
+<p>Il prezzo di questa vittoria è il più salato del video: <strong>Opus 1h 44m e 60,53 $</strong>, <strong>Sol 49m 5s e 8,55 $</strong> — <strong>sette volte tanto</strong>. Herk assegna comunque il punto a Opus.</p>
+<h2>Caso 7 — Il viaggio di un mese dentro un globo 3D</h2>
+<p>Settimo caso, da un'idea volutamente vaga: un viaggio <strong>dall'1 al 30 ottobre</strong>, partendo da <strong>Chicago</strong>, per andare a «<strong>eventi AI fighi</strong>», vedere «<strong>natura figa</strong>» e uscire dal paese, il tutto trasformato in <strong>un mondo 3D esplorabile</strong> con tutti i link per prenotare.</p>
+<p>Prima di partire, <strong>Sol si ferma e fa una domanda</strong>. Herk coglie l'occasione per una nota di comportamento che vale oltre questo test: <strong>Sol interrompe per chiedere chiarimenti molto più spesso di Opus 5.5</strong>. Lui lo considera un pregio — vuol dire che sta cercando di capire cosa vuoi — ma riconosce il rovescio: in un flusso autonomo lungo potresti volere che vada avanti e basta. Aggiunge un dettaglio pratico su Codex: quando si ferma a fare una domanda <strong>in realtà non si ferma</strong>, inietta la domanda in chat e <strong>continua comunque</strong> se non rispondi.</p>
+<p>L'output di Sol è «<strong>30 giorni, un'orbita</strong>»: un globo, un itinerario che parte da Chicago verso San Francisco con <strong>link veri a kayak.com</strong> per i voli e all'Hyatt Regency per l'albergo, e tutte le tappe — Yosemite, Amsterdam, Islanda, costa sud, Toronto, Algonquin, Niagara, Las Vegas, Zion, Bryce Canyon, Grand Canyon, Red Rock Canyon — cliccabili per aprire il programma del giorno. «Non male per un itinerario semplice», ma «<strong>l'esperienza 3D non è quella che speravo</strong>».</p>
+<p>Quello di Opus è simile nell'impianto ma <strong>la mappa è migliore e numerata</strong>, e cliccando si entra davvero dentro le tappe: «questo è decisamente più quello che intendevo quando ho chiesto un globo interattivo». Soprattutto, c'è una differenza che non è di estetica ma <strong>di ricerca</strong>: Opus ha inserito la <strong>San Francisco Tech Week</strong> — proprio il tipo di evento che aveva chiesto — e altri eventi AI a <strong>San Jose</strong>; Sol ha messo San Francisco all'inizio del mese senza alcun evento, «ci andava e basta». «<strong>Questo ha fatto una ricerca di cui mi sarei fidato di più.</strong>» Tempi quasi identici (<strong>29m 11s contro 29m 38s</strong>), costo <strong>14,47 $ contro 4,61 $</strong>. Punto a Opus.</p>
+<h2>Caso 8 — La codebase: l'unico caso con un giudice terzo, e l'unica vittoria di Sol</h2>
+<p>L'ottavo è il caso metodologicamente più serio del video, ed è anche l'unico che Sol vince. Herk <strong>non lo progetta né lo valuta lui</strong>: fa <strong>disegnare l'esperimento a GPT-6 Astra</strong>, tenendo tutto neutrale, «così non sapeva di stare giudicando un modello OpenAI contro un modello Claude». Il compito è <strong>una codebase enorme da analizzare, riparare e sistemare</strong>, con una serie di controlli indipendenti.</p>
+<p>Il risultato, a schermo: <strong>GPT-6 Sol 100/100 con 30 controlli su 30 superati; Opus 5.5 96,7/100 con 29 su 30</strong>. E il contorno economico è brutale: Opus <strong>40 minuti e 19,82 $</strong>, Sol <strong>22m 4s e 1,04 $</strong> — circa <strong>un ventesimo del costo</strong> e metà del tempo. «Per un ventesimo del costo e con un output migliore, non è male.»</p>
+<p>Dentro questo caso c'è anche un dettaglio che vale la pena ricordare: <strong>Sol si è fermato a metà per una qualche protezione di sicurezza informatica</strong> e non voleva proseguire, così Herk ha dovuto mettere in pausa entrambi, riferire l'accaduto ad Astra e farsi riformulare il prompt per tutti e due. <strong>Opus non si è fermato.</strong></p>
+<p>Herk ne cava la lettura giusta: «è davvero interessante vedere quanto sono diversi questi modelli e <strong>dove eccellono</strong>»; sui compiti rapidi e soprattutto su <strong>revisione, esecuzione e riparazione di codice</strong>, Sol è molto forte. Con il contrappeso onesto: lo stesso modello, a inizio video, aveva sbagliato a trovare la trascrizione giusta. «Un test come questo non è definitivo.»</p>
+<h2>Caso 9 — Browser use: costruire un corso dentro Skool</h2>
+<p>Nono e decimo caso sono entrambi di <strong>uso del browser</strong>, e Herk premette che per lui storicamente «<strong>Codex con qualunque modello ha quasi sempre battuto Claude Code</strong>» su questo terreno.</p>
+<p>Il compito: data una struttura di corso con video, descrizioni e tutto il resto, <strong>crearlo davvero dentro la sua comunità Skool gratuita</strong>, quindici video con descrizione, punti chiave, citazioni e risorse. I due risultati sono <strong>sostanzialmente identici</strong> e corretti: tutti i video caricati, tutto nominato, tutti i collegamenti al posto giusto. Le uniche due differenze sono piccole e vanno in direzioni opposte: Opus <strong>non ha marcato come bozza ogni singola pagina</strong> ma solo il corso nel suo insieme, cosa che Herk giudica «un po' più intelligente»; in compenso Opus <strong>ha messo lo stesso collegamento due volte</strong>, duplicando lavoro inutilmente.</p>
+<p>A decidere è il tabellone, e qui succede la cosa che Herk non si aspettava: <strong>Opus 24m 14s e 9,88 $; Sol 42 minuti e 11,08 $</strong>. Opus è <strong>più veloce e più economico</strong>. «Claude Code ha vinto un caso di browser use, cosa che <strong>non gli vedevo fare da parecchio</strong>.»</p>
+<h2>Caso 10 — Ridisegnare un'immagine dentro Canva</h2>
+<p>L'ultimo è un test che Herk dice stia diventando uno dei suoi preferiti per ogni modello nuovo: dà <strong>un'immagine di riferimento</strong> — una foto generata con AI di lui insieme ad <strong>Adam Sandler</strong> — e chiede di <strong>aprire Canva e ricostruirla usando gli strumenti di disegno e pittura</strong>. Niente generazione: disegno.</p>
+<p>Opus restituisce qualcosa che lo sorprende: «<strong>un output davvero, davvero buono</strong>, non mi aspettavo fosse così buono», perché in passato con altri modelli — <strong>Fable compreso</strong> — era tornato indietro «qualcosa di orribile»; ed è <strong>migliore di quello che gli aveva dato Astra qualche settimana prima</strong>.</p>
+<p>Sol fa due volte la cosa sbagliata. Al primo tentativo <strong>genera semplicemente un'immagine</strong>: «ok, questo è barare, non è quello che ti ho chiesto». Herk lo rilancia con un prompt diverso, e il risultato è pessimo; apre allora <strong>una sessione nuova</strong> e glielo fa rifare da capo, e torna <strong>la stessa qualità, «comicamente brutta»</strong>. «Non so bene cosa sia successo nel <strong>peggioramento da GPT-6 Astra a GPT-6 Sol</strong> sul browser use e su questo test Canva, ma questo è orribile.» Punto a Opus senza discussione, nonostante trenta minuti in più e circa quattro volte il costo: <strong>41m 24s e 8,65 $ contro 13m 44s e 2,34 $</strong>.</p>
+<h2>Il tabellone, in una tabella</h2>
+<div class="tw"><table><thead><tr><th>#</th><th>Caso</th><th>Opus 5.5</th><th>GPT-6 Sol</th><th>Vince</th></tr></thead><tbody><tr><td>1</td><td>Sito Perkform</td><td>40m 21s · 18,32 $</td><td>34m 42s · 5,89 $</td><td><strong>Opus</strong></td></tr><tr><td>2</td><td>Sizzle reel AIS Live</td><td>31m 32s · 10,36 $</td><td>36m 40s · 5,07 $</td><td><strong>Opus</strong></td></tr><tr><td>3</td><td>Reel Instagram (Hyperframes)</td><td>40m 14s · 11,14 $</td><td>19m 43s · 2,70 $</td><td><strong>Opus</strong></td></tr><tr><td>4</td><td>BrightPath (4 deliverable)</td><td>26m 20s · 19,03 $</td><td>9m 25s · 3,60 $</td><td>— (contaminato)</td></tr><tr><td>5</td><td>Videogioco</td><td>2h 23m · 40,83 $</td><td>1h 9m · 10,44 $</td><td>— (contaminato)</td></tr><tr><td>6</td><td>Mondo 3D da 100 video</td><td>1h 44m · 60,53 $</td><td>49m 5s · 8,55 $</td><td><strong>Opus</strong></td></tr><tr><td>7</td><td>Itinerario / globo 3D</td><td>29m 11s · 14,47 $</td><td>29m 38s · 4,61 $</td><td><strong>Opus</strong></td></tr><tr><td>8</td><td>Codebase (96,7 vs 100/100)</td><td>40m · 19,82 $</td><td>22m 4s · <strong>1,04 $</strong></td><td><strong>Sol</strong></td></tr><tr><td>9</td><td>Browser use: corso Skool</td><td>24m 14s · <strong>9,88 $</strong></td><td>42m · 11,08 $</td><td><strong>Opus</strong></td></tr><tr><td>10</td><td>Browser use: Canva</td><td>41m 24s · 8,65 $</td><td>13m 44s · 2,34 $</td><td><strong>Opus</strong></td></tr><tr><td></td><td><strong>Totale</strong></td><td><strong>8h 40m 16s · 213,03 $</strong></td><td><strong>5h 51m 1s · 74,46 $</strong></td><td><strong>7-1</strong></td></tr></tbody></table></div>
+<p>Il totale di Sol va letto con la correzione del caso 4: tolti i diciannove dollari di troppo, scende a circa <strong>55 $</strong>, cioè <strong>meno di un quarto</strong> di quanto è costato Opus.</p>
+<h2>Cosa portarsi via: la regola di routing</h2>
+<p>La conclusione di Herk in una frase sola: «<strong>Opus 5.5 è un grosso passo avanti rispetto a Opus 5; GPT-6 Sol è un passo indietro rispetto al 5.6 Sol.</strong>» Sol gli «sembra più un GPT-6 Luna o Terra», cioè un modello di fascia inferiore a quello che si aspettava, e la sua lettura del prezzo basso cambia di segno: all'inizio era entusiasmante, «ma <strong>ora sappiamo perché costa così poco</strong>».</p>
+<p>La parte operativa, quella che alimenta il model-routing, è questa: <strong>«mi fiderei di più di Claude Opus per la creatività e per certe decisioni di giudizio, e invece passerei un po' di lavoro a GPT-6 Astra se so molto, molto precisamente quello che voglio e mi serve solo che esegua: passo uno, passo due, passo tre, passo quattro»</strong>. E lo schema concreto che ne deriva: <strong>Opus 5.5 come orchestratore che avvia e spedisce istruzioni molto specifiche a un mucchio di piccoli worker GPT-6 Sol</strong>. È, con nomi e prezzi aggiornati, la stessa leva «separare chi pensa da chi esegue» già nella pagina-concetto.</p>
+<p>Una nota finale positiva per entrambi, che spesso si perde nel tifo: <strong>Opus 5.5 e GPT-6 Sol sono tutti e due più economici dei loro predecessori</strong> (Opus 5 e GPT-5.6). E un'ammissione che fa onore alla trasparenza del test: «è tardi, sono sveglio da tutto il giorno e ho 5.5, 6, 5.6, tutti questi numerini in testa, perdonatemi».</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=eF3yeJuifoQ (Nate Herk, 34:21; visto il 04/10/2026)</li>
+<li>report grezzo con trascrizione completa e i fotogrammi dei punteggi a schermo (<code>score_01-perkform.jpg</code> … <code>score_totali.jpg</code>, uno per esperimento: sono la fonte diretta di ogni cifra riportata qui)</li>
+<li>Concetti collegati: model-routing (la regola creatività-contro-esecuzione e lo schema orchestratore/worker), loop-engineering (il caso 8 è l'unico con un verificatore indipendente; il problema dei due agenti sulla stessa cartella), harness (Claude Code/Claude Desktop contro Codex: i modelli non girano nudi), claude-code-video-editing (casi 2 e 3, montaggio con Hyperframes), spec-driven-prompting (la riga di prompt mancante che ha rovinato due esperimenti)</li>
+<li>Entità: nate-herk, claude-code, andrej-karpathy (solo come contenuto del reel montato nel caso 3)</li>
+<li>Video imparentati già nel vault: <a href="i-had-opus-5-5-build-me-the-same-app-at-every-effort-level-2026-10-04.html">i-had-opus-5-5-build-me-the-same-app-at-every-effort-level-2026-10-04</a> (stesso autore, stesso giorno, altra leva: l'effort invece del modello), <a href="i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04.html">i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04</a> (la leva velocità), <a href="how-to-build-codex-skills-better-than-99-of-people-2026-09-23.html">how-to-build-codex-skills-better-than-99-of-people-2026-09-23</a> («walk it down», scendere di modello finché la qualità regge), <a href="opus-5-5-just-changed-video-editing-forever-2026-09-27.html">opus-5-5-just-changed-video-editing-forever-2026-09-27</a></li>
+<li><strong>Omesso:</strong> la promozione della skill gratuita per i siti scroll-driven [04:28], l'invito all'evento AIS Live del 17-18 ottobre, la richiesta di like e i saluti finali. Omessi anche i minuti di gioco e di esplorazione mostrati in presa diretta senza commento (parte del caso 5 e del caso 6), di cui qui restano il giudizio e i difetti rilevati.</li>
+<li><strong>Non verificato / da sapere, in ordine di importanza:</strong></li>
+</ul>
+<ol>
+<li><strong>Nove verdetti su dieci sono a impressione</strong>, non misurati: Herk guarda l'output e decide chi gli piace di più. L'unica eccezione è il <strong>caso 8</strong>, dove l'esperimento è stato disegnato e valutato da <strong>GPT-6 Astra in cieco</strong> con un punteggio e trenta controlli — ed è l'unico che Opus perde. Vale la pena notare la correlazione, non necessariamente il nesso: dove c'è una metrica, il verdetto si ribalta.</li>
+<li><strong>Un solo run per caso</strong>, nessuna ripetizione, nessuna varianza misurata. Non è riproducibile da fuori: i prompt completi non vengono mostrati quasi mai, i dati di partenza (i cento giga di girato, i cento video, la codebase) sono suoi.</li>
+<li><strong>Due esperimenti su dieci sono inquinati</strong>: i due agenti hanno lavorato sugli stessi file. Herk lo dichiara, non assegna il punto e se ne prende la colpa, ma resta che il campione utile è di otto casi, non dieci.</li>
+<li><strong>I confronti sono one-shot contro one-shot, non budget contro budget.</strong> Herk stesso solleva l'obiezione [09:56] e non la risolve: iterando con il modello economico fino a pareggiare la spesa del modello caro, l'esito potrebbe cambiare. Tutte le conclusioni del video valgono per «chi vuole azzeccarla al primo colpo».</li>
+<li><strong>I costi mostrati sono stati sbagliati almeno una volta</strong> (caso 4, corretto in sovrimpressione dopo il montaggio: da 22,74 $ a 3,60 $). Il totale di 74,46 $ a schermo <strong>include ancora l'errore</strong>; Herk dice a voce di sottrarre ~19 $.</li>
+<li><strong>Confronto modello contro modello o harness contro harness?</strong> Opus gira in Claude Code/Claude Desktop e Sol in Codex: una parte delle differenze potrebbe venire dallo strumento, non dal modello (vedi harness). Il video non prova a separare le due cose.</li>
+<li>Nei sottotitoli automatici «GPT-6 Sol» diventa sistematicamente <strong>«GBD6 Soul»</strong>, «Claude Code» diventa «Cloud Code» e «Opus» a volte «OBS»/«Obus»: corretti qui. Il nome della persona cercata nelle trascrizioni Fireflies (reso come «NAND», «Nitn», «Niden», «Nadnen») <strong>non è ricostruibile</strong> e qui è stato lasciato generico.</li>
+<li>La frase sul futuro — «sono curioso di vedere cosa arriverà da Anthropic, magari il prossimo modello Fable» — è una sua <strong>speculazione</strong>, non un annuncio.</li>
+</ol>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

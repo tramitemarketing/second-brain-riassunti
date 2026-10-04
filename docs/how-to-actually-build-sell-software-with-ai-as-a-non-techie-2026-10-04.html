@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How to Actually Build &amp; Sell Software with AI as a Non-Techie</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How to Actually Build &amp; Sell Software with AI as a Non-Techie" src="https://i.ytimg.com/vi/l8ywUsEJ2XQ/hqdefault.jpg"><p class="muted">📖 26 min di lettura</p><p><strong>In sintesi:</strong> un'ora di intervista di <strong>Nate Herk</strong> a <strong>Dave Ebbelaar</strong> — sviluppatore Python dal 2013, fondatore di <strong>Glaido</strong> (app di dettatura vocale) e di <strong>Datalumina</strong> — che apre dicendo «<strong>non scrivo più una singola riga di codice</strong>: passa tutto da Codex o da Claude Code». Il contributo riusabile è una <strong>scala a quattro pioli</strong> per capire <em>cosa</em> stai costruendo prima di costruirlo (tool per te → per il tuo team → venduto ad aziende → prodotto a abbonamento), con la regola che non si saltano i pioli. Poi una tesi che <strong>contraddice il vault</strong>: lo <strong>spec-driven development è superato</strong>, i modelli di oggi lo hanno assorbito, si va dritti a costruire. Il pezzo tecnico migliore è il metodo per giudicare la qualità <strong>soggettiva</strong>: cento esempi giudicati a mano, misuri la percentuale di accordo con un <strong>giudice LLM</strong>, poi ottimizzi in loop il system prompt del giudice da 50% fino a 95-99%. Infine due errori nominati per nome (lo stack scelto per abitudine, lo spaghetti code da vibe coding) e il minimo sindacale di sicurezza. **Ma attenzione: il titolo promette "Build &amp; <em>Sell</em>" e la parte "sell" nel video non esiste.<strong> Zero prezzi, zero clienti, zero fatturati, zero metodo di vendita: le uniche cifre in euro o dollari dette in un'ora sono i </strong>20, 100 e 200 dollari al mese** degli abbonamenti agli agenti di codice, e l'unico momento in cui si parla di vendere è lo spot di quaranta secondi per il PDF gratuito di Nate. Chi cerca il "come lo vendo e a quanto" non lo trova qui.</p>
+<h2>Chi parla, e con quale conflitto d'interessi</h2>
+<p>L'ospite è <strong>Dave Ebbelaar</strong>, sviluppatore Python da oltre dieci anni — ha iniziato nel <strong>2013</strong> — oggi fondatore di <strong>Glaido</strong>, un'applicazione di dettatura vocale, e di una società di consulenza AI. Nate lo presenta dicendo che il suo team ha «consegnato oltre <strong>cinquanta soluzioni AI</strong>» (il numero è nei sottotitoli automatici e il nome dell'azienda a cui si riferisce non è trascritto in modo affidabile — vedi le note in fondo). Nate Herk conduce dal suo studio con l'insegna al neon <strong>AIS</strong> (<em>AI Automation Society</em>), la sua community.</p>
+<p>Va detto subito perché cambia come si legge il resto: nella descrizione del video Nate ha un link <strong>"FREE MONTH voice to text"</strong> verso <code>get.glaido.com/nate</code>, cioè un accordo commerciale con il prodotto dell'ospite, e un codice sconto affiliato <strong>NATEHERK</strong> per i server Hostinger. Il video è inoltre sponsorizzato da <strong>CodeRabbit</strong>. Niente di scandaloso, ma quando Dave parla di Glaido come caso di studio non lo sta facendo in una stanza neutra.</p>
+<h2>«Non scrivo più una riga di codice»: quanto è cambiato davvero</h2>
+<p>La dichiarazione d'apertura, montata in cold open prima del titolo, è netta: «<strong>non scrivo più una singola riga di codice. Non una. Passa tutto da Codex o da Claude Code</strong>» — e, aggiunge più avanti, a volte da <strong>Grok</strong>, «a seconda di chi ha i modelli migliori in quel momento».</p>
+<p>Quando Nate gli chiede di mettere un numero sull'accelerazione, Dave dà <strong>due cifre e smonta subito la prima</strong>. Rispetto a quando aveva appena cominciato, «probabilmente <strong>100x</strong> — ma non è un confronto onesto, ero un completo principiante». La cifra che difende è l'altra: prendendo come riferimento il <strong>2022</strong>, quando già lavorava da due o tre anni come data scientist e data analyst freelance scrivendo Python professionalmente quasi ogni giorno, oggi si dà «un <strong>10x solido</strong>» su codice da produzione, pronto da spedire. E su alcuni progetti molto di più, perché adesso può lavorare su cose che prima gli erano precluse: veniva da un mondo di back-end Python e sistemi di dati, e di <strong>JavaScript</strong> dice di non averne «mai scritta una riga in vita sua» finché non sono arrivati gli agenti di codice, momento in cui ha semplicemente provato.</p>
+<p>Il confronto storico che fa è con la fatica di prima: nel 2013 imparare a programmare era «<strong>maledettamente difficile</strong>», si passavano ore su un programmino cercando risposte su <strong>Stack Overflow</strong> per far funzionare qualcosa; oggi «<strong>con un prompt costruisci roba utile</strong>», e questo significa soprattutto che si può <strong>pensare più in grande</strong> — automazioni per sé, per la propria produttività, dentro l'azienda, per i clienti, «e perfino interi prodotti software che puoi vendere anche con un background tecnico limitato».</p>
+<h2>Generalista invece che specialista: il motivo non è l'ambizione, è il collo di bottiglia</h2>
+<p>Prima dell'AI, dice Dave, gli ingegneri si specializzavano — back-end, front-end, sicurezza, infrastruttura — con uno o due linguaggi in cui erano a proprio agio; esistevano i full-stack, ma anche loro concentrati su linguaggi specifici, e le leggende dei «<strong>10x engineer</strong>» che facevano tutto. Oggi questo è «<strong>completamente ribaltato</strong>».</p>
+<p>Il suo argomento non è motivazionale ma meccanico. Se ti specializzi, ti occupi di un pezzo del progetto, quindi <strong>per consegnare qualcosa da cima a fondo ti servono altre persone</strong> — e «<strong>i tuoi agenti si muovono molto più in fretta di quanto tu riesca a comunicare e a stare dietro ai colleghi</strong>». Se non sai lavorare su tutto lo stack, sbatti rapidamente contro un collo di bottiglia: il tuo agente è già pronto a passare al pezzo dopo, ma manca l'integrazione col front-end perché tu fai solo back-end, oppure non sai adattare il back-end al database. La dipendenza crea il problema.</p>
+<p>Precisa l'eccezione, e la precisa bene: nelle grandi aziende — «se lavori per <strong>Meta</strong> o <strong>Google</strong> in una squadra iper-specializzata» — serve ancora essere nell'<strong>1% più bravo</strong> in quella cosa. Ma «siamo onesti, la maggior parte delle persone non lavora nell'1% di Meta o Google». Per tutti gli altri conviene fare i generalisti. In <strong>Glaido</strong> mantengono ruoli e responsabilità separate, ma danno alle persone «la <strong>proprietà completa</strong> di un aspetto del prodotto», in modo che possano portarlo dall'inizio alla fine da sole, al massimo con una revisione di qualcun altro, mai con pezzi di lavoro che devono aspettare un collega. La conclusione pratica: si investe su <strong>principi di ingegneria</strong>, perché «a quale linguaggio o framework li applichi conta sempre meno».</p>
+<h2>Sul vibe coding: a favore, con una sola riga rossa</h2>
+<p>Nate gli chiede se da ingegnere non gli siano suonati tutti gli allarmi quando è esplosa la moda del <em>vibe coding</em>. La risposta è che non solo non si è allarmato, ma era lui stesso dentro quel fenomeno: ha costruito applicazioni front-end e siti interamente su misura <strong>senza leggere il codice</strong>, «e non me ne importava niente» — il che, ammette, lo mette a tutti gli effetti nella categoria. Essere ingegnere aiuta — sai impostare un'architettura, sai mettere in sicurezza — ma lui si dichiara «<strong>molto, molto pro vibe coding</strong>».</p>
+<p>La condizione è una sola, ed è il <strong>rapporto rischio-rendimento</strong>. Se stai costruendo il tuo sito personale, «vai di vibe, rischio zero». Il discorso cambia <strong>quando altre persone usano il tuo software e soprattutto quando ci sono dentro dati personali</strong>: lì serve chiedersi quanto lontano si può spingere senza capire davvero cosa succede, perché non stai più giocando coi tuoi dati ma con quelli degli altri.</p>
+<p>E qui cade la frase che è il vero contrappeso di tutto il video: <strong>un'architettura brutta la noti e la aggiusti; una fuga di dati no</strong>. Se l'architettura è scritta male, «al massimo diventa un po' più lenta o si rompe, ma te ne accorgi — la gente si lamenta e tu metti mano». Una <strong>violazione di sicurezza invece non la riprendi indietro</strong>: «non puoi dire <em>scusate, lo sistemiamo nella prossima versione</em>. Una volta che quelle email e quei dati personali sono usciti, non si torna indietro».</p>
+<h2>La scala a quattro pioli: decidere cosa stai costruendo prima di costruirlo</h2>
+<p>È il framework centrale, e per chi valuta un micro-SaaS è la parte che vale il tempo. Prima di cominciare, dice Dave, devi farti un'idea di <strong>quanto è grande la cosa</strong> che vuoi costruire, perché «ci sono livelli diversi», e lui li descrive come i pioli di una scala.</p>
+<p>Il <strong>primo piolo</strong> è il software <strong>solo per te</strong>: o uno strumento che sostituisce un abbonamento che stai pagando e non vuoi più pagare, o qualcosa che semplicemente non esiste, o la fusione di più strumenti in uno. Il rischio è bassissimo: «apri Claude Code e vai».</p>
+<p>Il <strong>secondo piolo</strong> è lo strumento <strong>per il tuo team o la tua azienda</strong>. È ancora interno, ma già qui conviene chiedersi chi lo userà e che tipo di dati ci finiranno dentro.</p>
+<p>Il <strong>terzo piolo</strong> è <strong>venderlo ad altre aziende o ad altre persone</strong> — «una offerta da agenzia AI», dice. Ha due componenti che convivono: una parte <strong>prodotto</strong> (costruisci, impacchetti, vendi) e una parte <strong>servizio</strong> (aiuti a implementarlo dentro le aziende), perché «<strong>nessuna automazione è mai identica a un'altra al cento per cento</strong>», quindi c'è sempre una componente di personalizzazione. A questo piolo si aggiunge un livello <strong>legale</strong>: contratti, condizioni di servizio, e obblighi veri su privacy e protezione dei dati.</p>
+<p>Il <strong>quarto piolo</strong> è il <strong>prodotto software completo</strong>, quello che si scarica o si usa da sito: ti registri, apri un account, ti abboni, lo usi. È quello che fanno con Glaido. Qui entrano in gioco la privacy dei dati dei consumatori, i diritti sui dati personali, e un numero di utenti più grande — quindi un rischio più grande.</p>
+<p>Il punto dell'immagine della scala è che <strong>salendo crescono insieme complessità, obblighi e posta in gioco</strong>, e che la progressione è naturale. Nate gli chiede conferma del corollario più utile — cioè che partire dal primo piolo non ti incastra — e Dave conferma: puoi sempre alzare l'ambizione, se tra sei mesi vuoi scalare il back-end perché ora lo usa il team, non sei bloccato.</p>
+<h2>L'errore: saltare i pioli</h2>
+<p>Il contrario, invece, è l'errore che nomina esplicitamente: «<strong>saltare dei livelli</strong>». Il caso tipico è «qualcuno senza alcun background tecnico che salta dritto a costruire software su misura, lo vende, e lascia che le aziende ci facciano affidamento sopra». Il problema non è l'ambizione: è che <strong>hai saltato i compiti a casa</strong> — non hai mai dovuto chiederti com'è fatta la cosa, cosa significa, quali dati ci passano dentro. Nate rilancia con l'immagine: non puoi passare da terra al quarto piolo, «cadi e devi ricominciare dal basso».</p>
+<h2>Gli spec sono (quasi) morti: l'intent-driven engineering</h2>
+<p>Questa è la parte che <strong>contraddice apertamente</strong> quanto il vault ha scritto in spec-driven-prompting, e va registrata come tale.</p>
+<p>Dave ricostruisce il quadro: «circa un anno fa tutti spingevano sullo <strong>spec-driven development</strong>, sull'importanza dei piani». Spiega cosa fossero gli <em>spec</em> per chi non lo sa — usare l'AI non per produrre codice ma per produrre <strong>specifiche</strong>, cioè descrivere in linguaggio naturale come il prodotto deve funzionare: dici «voglio costruire questa cosa», l'AI redige un documento con tutto quello che il prodotto deve fare, tu lo <strong>leggi e lo approvi</strong>, e solo a quel punto passi in modalità sviluppo e chiedi agli agenti di scrivere il codice. «Era il meta quando sono arrivati i grandi salti con Claude Code.»</p>
+<p>La sua posizione oggi: «<strong>man mano che i modelli diventano migliori, la fase di pianificazione e di generazione degli spec diventa meno importante</strong>». Lui, nella maggior parte dei casi, <strong>va dritto a costruire</strong> e lascia che sia il modello a decidere come strutturare le cose, limitandosi a indirizzarlo verso certi standard dove ha esperienza personale (per esempio in Python). Non dice che il processo sia sbagliato — «c'è ancora valore, non è sbagliato passarci, aiuta a pensare a cosa vuoi» — dice che ha smesso di essere necessario.</p>
+<p>Il consiglio operativo che dà a chi parte da zero è, letteralmente, questo: <strong>vai su Codex o Claude Code, usa GPT-6 Astra o Opus 5.5</strong> — «i due migliori modelli di frontiera al momento», con Opus 5.5 definito «davvero buono finora» — e <strong>digli cosa vuoi costruire</strong>. Poi guardi cosa esce, e gli dici cosa ti piace e cosa no. «E per chi comincia, non c'è molto altro.»</p>
+<p>Il <strong>perché</strong> è la parte interessante, ed è un argomento sul feedback, non sui modelli: «anche se hai un'idea di massima di dove deve andare la cosa, <strong>finché non ce l'hai davanti e non la usi non riesci a dare il feedback migliore</strong>». È per questo che si è allontanato dai piani grossi: meglio «costruimi questo», poi lo guardo, lo provo, e dico «questa cosa mi suona strana», «si può fare più veloce», «qui l'output è sbagliato, lo sistemiamo?».</p>
+<p>Nate porta il termine che ha sentito da alcuni <strong>ingegneri di Google</strong>: <strong>intent-driven engineering</strong> (o <em>intent-driven automation</em>). L'idea è che «<strong>l'idraulica</strong>» — la roba noiosa del back-end che prima gli umani dovevano montare <em>prima</em> di poter essere creativi e pensare alla visione — ora è data per fatta: tu spieghi cosa vuoi e gli agenti sanno montare tutto il resto. Dave adotta il termine volentieri.</p>
+<p>Sul <strong>plan mode</strong> la posizione è ancora più esplicita: Nate racconta che lo usava come modalità predefinita per qualsiasi cosa, anche solo per ragionare; Dave risponde che è «la combinazione» di modelli migliori e harness migliori, e dice di aver visto su <strong>X</strong> anche <strong>ingegneri che lavorano su Claude Code</strong> affermare che il plan mode non serve più davvero. Il ragionamento: cos'è un piano, in fondo? È il modello che, prima di buttarsi a generare codice, fa un passo indietro, ragiona sull'insieme, controlla che tutto torni, e poi esegue. Rendendo migliori i modelli e gli harness, quel comportamento è stato <strong>fuso dentro</strong> come tratto nativo della coppia modello-harness, senza bisogno di accendere una modalità. (Per il vault: è esattamente il tipo di affermazione che tocca harness e spec-driven-prompting.)</p>
+<p>Come funziona in casa loro: usano <strong>Glaido per costruire Glaido</strong>, parlandoci. E Dave spesso lavora <strong>direttamente sulla codebase di produzione</strong> — su un ramo separato, quindi non va subito in distribuzione, ma senza nemmeno un ambiente di prova: crea un ramo nuovo, dice «costruiscilo», e vede com'è dentro al prodotto vero.</p>
+<h2>Come si verifica che la cosa funzioni: prima «cosa vuol dire buono»</h2>
+<p>Nate chiede l'equivalente, lato software, di quello che nelle automazioni sono le <em>eval</em>. La risposta di Dave parte da una domanda che vale per qualsiasi progetto: «<strong>cosa vuol dire buono?</strong>» — una definizione sempre legata all'applicazione specifica.</p>
+<p>L'esempio è la definizione operativa di Glaido, ed è utile proprio perché è misurabile: <em>premi un tasto, la gente parla, quello che dice viene elaborato in <strong>meno di 500 millisecondi</strong>, e il testo viene reincollato dentro l'applicazione esattamente come lo volevi, pronto da usare — con gli errori corretti ma lasciando intatto il grosso del parlato</em>. «È questo che la gente vuole da un'app di dettatura.»</p>
+<p>La seconda domanda è: <strong>possiamo trovare esempi</strong> di quando è andata bene? Qui Dave aggiunge un dettaglio di metodo che è anche una scelta di prodotto: Glaido <strong>non usa i dati degli utenti</strong>, perché l'applicazione è stata progettata «<strong>privata per costruzione</strong>». Usano invece i dati dei propri <strong>account interni</strong>, cioè degli sviluppatori che ci lavorano — un insieme di dati che cresce man mano che il gruppo cresce. In quei dati mettono le coppie «quando entra questo, ci aspettiamo che esca quello»: ed è esattamente questo che diventa una <em>eval</em> da far girare e contro cui controllare.</p>
+<p>Aggiunge due cose pratiche. La prima: se i dati non li hai, puoi <strong>chiedere al modello di generartene di realistici</strong> per il tuo caso d'uso. La seconda è il loop, e lo formula come un singolo prompt deliberatamente sgrammaticato: dai al modello un obiettivo — «voglio che sia più veloce, che somigli di più a questo, che faccia meno errori» — e poi gli dici «<strong>usa i dati, generane altri se servono, fai ricerca, usa sotto-agenti, e gira in loop finché non migliora</strong>». «È un prompt molto sporco», ammette, «ma anche solo darlo a un modello come Opus 5.5 fa partire un esperimento di ricerca in cui va a cercare modi per migliorare».</p>
+<p>Da qui trae un principio generale che è la tesi di fondo del video: «<strong>più i modelli e gli harness migliorano, più diventano facili tutte le cose che noi sviluppatori dobbiamo fare</strong>» — pianificazione, spec, controllo qualità, debugging, sicurezza, valutazioni. Con il corollario però che devi <strong>sapere di doverlo chiedere</strong>.</p>
+<p>Nate rilancia con un'osservazione che vale da sola: definire cosa è buono è la stessa cosa che faresti con una persona. Se non ti allinei con un umano su cosa stai cercando, quando ti torna indietro qualcosa fuori bersaglio «magari non ha fallito lui — magari non sei stato abbastanza chiaro tu». Il riferimento che gli viene in mente per il loop è l'<strong>auto research</strong> di <strong>Karpathy</strong>, il momento in cui gli agenti hanno cominciato a «vedere il proprio obiettivo, dimostrarlo, e continuare a riprovare finché non lo centrano».</p>
+<h2>Il pezzo migliore: il giudice LLM allineato a un umano</h2>
+<p>Nate pone la domanda giusta: il loop funziona benissimo quando c'è un traguardo <strong>oggettivo</strong>, ma come si fa quando la qualità è <strong>soggettiva</strong>, cioè questione di gusto? Porta il suo caso: nel montaggio video lui dice «rendilo professionale, rendilo coinvolgente» — e come fa l'agente a sapere cosa vuol dire?</p>
+<p>Dave conferma che i casi migliori sono quelli binari con un insieme di esempi, o quelli di velocità — «ecco la latenza attuale, la puoi misurare lanciando un test, ora rendila più veloce»: a ogni giro il modello vede se sta sopra o sotto, se va nella direzione giusta. Per i casi soggettivi usa come esempio il <strong>servizio clienti</strong>: quando un cliente fa una domanda e l'agente risponde, ci sono «centinaia, migliaia, probabilmente milioni di modi diversi» di rispondere, e possono essere tutti corretti o tutti sbagliati, perché l'obiettivo finale è che il cliente sia contento. Cambiare una parola non è misurabile.</p>
+<p>La tecnica è l'<strong>LLM-as-a-judge</strong>, e la cosa che rende utile questo passaggio è che Dave spiega come <strong>si valida il giudice</strong>, non solo come si costruisce — che è il punto dove la maggior parte dei contenuti su questo tema si ferma.</p>
+<p>Il metodo migliore in assoluto, dice, è anche il più costoso e il meno scalabile: l'AI fa il lavoro, <strong>un umano lo rivede</strong> e dice buono/non buono. Ma così «che senso ha automatizzare? Nel servizio clienti, se un umano deve rivedere ogni ticket, tanto vale che risponda lui» — perché è probabilmente più facile rispondere che rivedere e commentare bene. Non scala.</p>
+<p>Però se lo fai <strong>per un po'</strong>, costruisci un piccolo insieme di dati: il cliente ha chiesto questo, l'AI ha risposto quello, l'umano ha detto se andava bene. A quel punto introduci il giudice: <strong>un'altra chiamata a un modello, indipendente</strong> (o più d'una, come preferisci), che guarda la risposta e dice «è buona, sì o no, e perché».</p>
+<p>Qui arriva l'obiezione ovvia, e lui se la pone da solo: il giudice può dire che va bene o che non va bene, <strong>ma come fai a sapere che ha ragione</strong>? «Hai solo spostato il problema da un LLM da controllare a un altro.» La soluzione è quella che chiama <strong>creare allineamento tra il revisore umano e l'LLM</strong>, e funziona così.</p>
+<p>Prendi <strong>cento esempi</strong> e <strong>li fai giudicare a mano a un umano</strong>, elencando tutto — «un foglio Excel, quello che vuoi». Dave è onesto su cosa sia: «<strong>è lavoro manuale. Nessuno ha voglia di farlo. Non è scalabile. Ma lo devi fare, perché è qui che catturi il gusto</strong>». L'umano dice «questo mi piace, questo no, questo andrebbe fatto meglio». Poi <strong>fai girare l'LLM sugli stessi cento esempi</strong> e guardi <strong>dove i due sono d'accordo</strong>: ne esce una percentuale. Magari l'allineamento è all'<strong>80%</strong>, magari solo al <strong>50%</strong> — cioè metà delle volte il giudice la pensa come l'umano. <strong>Quella è la linea di partenza.</strong></p>
+<p>E adesso il passaggio che chiude il cerchio: una volta che hai quel dato, <strong>usi di nuovo l'AI per migliorare il giudice</strong>. Gli dai i giudizi umani e i giudizi dell'LLM e gli dici «<strong>ottimizza il system prompt perché ci sia più accordo</strong>». Perché, osserva, un giudice LLM in fondo è solo due cose: <strong>un system prompt e un modello</strong>. Il modello guarda i disaccordi — «vedo che su questo l'LLM la pensa diversamente, io pensavo fosse buono ma in realtà l'umano l'ha bocciato, quindi cambio questo nel system prompt» — rifai girare, e l'allineamento sale: <strong>75%, poi 80, poi 90, poi 95, poi 99</strong>. Con un campione abbastanza grande, e <strong>rifacendo l'operazione ogni tanto per evitare la deriva del modello</strong> (<em>model drift</em>), ti ritrovi un LLM che con ragionevole certezza giudica come giudicherebbe un umano. «<strong>È così che si fa generalmente nei progetti del mondo reale.</strong>»</p>
+<p>Sul caso del montaggio video Dave dice che il processo sarebbe lo stesso, ma è più difficile, e individua il perché: non è la soggettività in sé — alcune cose sono palesemente errori — è la <strong>capacità limitata dell'LLM di ispezionare il visivo</strong>. Man mano che migliorano le capacità multimodali, lo stesso identico processo si potrà applicare anche ad allenare agenti di montaggio.</p>
+<p>Nate aggiunge due osservazioni che vale la pena tenere. La prima è un avvertimento pratico: se hai affinato il giudice e poi <strong>cambi modello</strong>, può non essere più altrettanto buono, perché il nuovo lo interpreta diversamente. La seconda è l'analogia che usa per spiegare tutto il meccanismo, ed è efficace: le squadre sportive mandano in giro gli <strong>osservatori</strong> a vedere partite di liceo e università; esistono statistiche oggettive — altezza, peso, quante volte sollevi 102 chili in panca — e poi c'è il giudizio dello scout, «questo ha potenziale, è esplosivo, ha senso del gioco», che sulla carta non si legge. La domanda è come dare al tuo LLM il gusto e il giudizio di quello scout.</p>
+<h2>Scalare: architettura di sistema e architettura di progetto</h2>
+<p>Arrivati alla scalabilità, Dave riconosce lui stesso che fino a quel punto i consigli erano quasi banali — «<strong>usa Claude Code, chiedi al modello, fratello</strong>» — «ed è vero, è quello che dovresti fare». Ma se vuoi portare le cose al livello successivo, vale la pena <strong>formarsi davvero</strong> su come funziona il software, e lo riassume in una parola: <strong>architettura</strong>, su due piani distinti.</p>
+<p>L'<strong>architettura a livello di sistema</strong> è come <strong>back-end, front-end, database</strong> ed eventuali altri servizi <strong>si parlano tra loro</strong> — perché quasi tutti i prodotti software sono una combinazione di quelle parti, e serve capire il ruolo di ciascuna, le caratteristiche proprie di ognuna e le cose a cui fare attenzione in ciascuna. Dipende molto da cosa stai costruendo: un'applicazione web, una desktop, una mobile, o un misto. E dipende dal linguaggio: ci sono stack con una separazione netta — back-end in <strong>Python</strong>, <strong>Rust</strong> o <strong>C</strong>, front-end in <strong>JavaScript</strong> con <strong>Next.js</strong>, quindi codebase completamente diverse — e stack in cui fai tutto in uno, per esempio <strong>TypeScript</strong> sia dietro che davanti.</p>
+<p>Da qui la domanda che dice di fare all'agente, e sottolinea la parola chiave: «sto costruendo questa cosa — <strong>qual è lo stack migliore</strong> per costruirla? <em>Stack</em> è la parola importante. Mi serve un back-end separato dal front-end? Che tipo di database dovrei usare? Posso mettere tutto insieme?». E poi insistere: cosa significa questa cosa, qual è la soluzione più semplice, cosa si adatta meglio a quel che sto costruendo.</p>
+<p>L'<strong>architettura a livello di progetto</strong> è invece quello che succede <strong>dentro</strong> il tuo repository: come organizzi file e cartelle, e come strutturi il codice in funzioni, classi e moduli. «È meno importante dell'architettura di sistema, ma conta comunque.»</p>
+<h2>Le due landmine, dette per nome</h2>
+<p>La prima è <strong>sua</strong>, e la racconta come tale. In <strong>Glaido</strong> hanno <strong>cominciato su uno stack diverso da quello che usano adesso</strong>, e hanno dovuto cambiare in corsa. Il motivo: «<strong>all'inizio non abbiamo fatto la ricerca per bene</strong>», e in parte è stata una questione di come era composta la squadra — uno lavorava su una cosa, uno su un'altra, si è presa una direzione, e più tardi si è capito che andava fatta diversamente. Cambiare linguaggio a un progetto, anche se con gli agenti diventa ogni giorno più facile, «<strong>non è uno scambio che vuoi fare</strong>». La diagnosi dell'errore è precisa: hanno scelto «le cose con cui eravamo a nostro agio invece dello stack davvero più adatto a quello che volevamo costruire alla fine».</p>
+<p>E ne trae una regola che ribalta l'istinto di chiunque abbia esperienza: in passato, se padroneggiavi uno stack da dieci anni, lo usavi e basta. Adesso puoi dire «sono a mio agio con quello stack, <strong>ma ci sono prove che quest'altro è molto meglio per quello che stiamo cercando di fare — andiamo con quello</strong>».</p>
+<p>La seconda landmine è lo <strong>spaghetti code da vibe coding</strong>, e la descrive come una dinamica, non come una sciatteria. Costruisci una cosa, poi un'altra, poi un'altra; vai di idea in idea e sperimenti molto, che è il nuovo modo di lavorare. Chiedi una cosa, il modello la costruisce, adesso hai quell'artefatto lì dentro; decidi «lasciamolo lì, non mi piace granché, ci torno dopo»; costruisci altro; <strong>te ne dimentichi</strong>. Ora hai un pasticcio, ciarpame che resta nel progetto — e dentro quel ciarpame c'è magari <strong>un pezzo di logica che usi ancora davvero</strong>, circondato da tutto il gonfiore di una funzione di prova. Poi ci costruisci sopra le funzioni nuove, che funzionano benissimo, ma dipendono da quel pezzetto incasinato sepolto in profondità.</p>
+<p>La conseguenza è un modo di rompersi <strong>ritardato</strong>, ed è la parte che vale la pena ricordare: col tempo diventa sempre più difficile per gli agenti orientarsi e trovare le cose, e <strong>i bug arrivano su scala</strong>. «<strong>Ha funzionato benissimo per tre mesi e poi all'improvviso le cose smettono di funzionare</strong>» — perché hai rimosso una funzione che non serviva più, e dentro conteneva un pezzetto che invece serviva ancora.</p>
+<p>Il rimedio concreto che indica è una <strong>skill</strong>: quella di <strong>Matt Pocock</strong> — nome che compare a schermo in sovrimpressione a 50:00 come <em>«MATT POCOCK — TypeScript educator, creator of Total TypeScript»</em>, utile perché i sottotitoli automatici lo storpiano in «Matt BCO». La skill «si chiamava <em>improve codebase architecture</em>, ma credo l'abbia rifatta e ora si chiami <strong>codebase design</strong> o qualcosa del genere», e parla di come <strong>migliorare l'architettura, creare moduli profondi, lavorare sulla località e sulle cuciture</strong> (<em>deep modules, locality, seams</em>). Dave dice di usarla «molto spesso» per far rivedere le proprie codebase, e riporta che Pocock stesso l'ha creata <strong>per combattere la brodaglia prodotta dall'AI</strong> e per rendere le codebase più facili da navigare <em>per l'AI</em>. Il commento di Dave: dei due pezzi di architettura ad alta leva, per quello a livello di codebase «<strong>esiste letteralmente una skill</strong>: la leggi, la usi nei tuoi agenti di codice, e diventi più bravo». Per quello a livello di sistema, invece, «passaci una giornata a fare ricerca — anche in pausa pranzo, esci a fare due passi e comincia a capire cosa significano quelle parti e come si parlano».</p>
+<h2>Sicurezza: le poche cose che bastano</h2>
+<p>Dave premette che non si considera un esperto di sicurezza — ha in squadra qualcuno che ne sa molto di più e da cui ha imparato negli anni — ma che «<strong>con pochissime cose di base si va molto lontano</strong>: se ne fai una manciata, è già quasi impossibile che ti buchino». Spiega anche la differenza rispetto all'architettura: l'<strong>infrastruttura</strong> è «dove vivono tutti quei servizi, dove sono distribuiti, come si parlano, e che firewall hanno attorno».</p>
+<p>Sul <strong>database</strong> è categorico: usa <strong>Supabase</strong>. «Se non hai un motivo molto forte per <em>non</em> usare Supabase, usa Supabase» — cioè, se sei non tecnico o stai cominciando, usalo e basta. È abbastanza flessibile da fare qualsiasi cosa, e dice esplicitamente di <strong>non farsi condizionare</strong> da chi sostiene che per quel caso d'uso serva un database non strutturato o un database vettoriale dedicato: «Supabase può fare tutto questo». E chiude con un filtro elegante: «se hai un argomento molto forte per non usarlo, allora sei abbastanza tecnico da decidere da solo». Si può <strong>auto-ospitare</strong>, ma per la maggior parte delle persone consiglia il cloud: vai su <code>supabase.com</code>, crei un account, crei un database, scegli un piano.</p>
+<p>Da lì, qualche ora di studio sulle pratiche di sicurezza. La cosa principale è la <strong>row level security</strong> (sicurezza a livello di riga) — «metto lì il termine non per spiegarlo ma perché la gente ci faccia ricerca». Poi cose di buon senso che però sono quelle che fermano i tentativi automatici: <strong>password forte sul database</strong>, <strong>password forte più autenticazione a due fattori</strong> sull'account Supabase con cui ti colleghi, «perché così eviti che persone e bot a caso indovinino una password». E tutte le credenziali con cui i servizi si connettono vanno tenute in <strong>variabili d'ambiente</strong>, mai scritte dentro al codice. «Con il database in cloud, la row level security accesa e password forti, sei già in una buona posizione.»</p>
+<p>Sul <strong>back-end</strong> la questione è doppia: quale linguaggio usi, e soprattutto <strong>dove lo distribuisci</strong>. Mentre costruisci gira in locale; quando lo pubblichi finisce nel cloud, «ed è lì che la gente può arrivarci». Fra i servizi nomina <strong>Railway</strong> e <strong>Render</strong> per il deploy in un clic, l'affitto di un <strong>server privato virtuale</strong>, oppure <strong>Azure</strong>, <strong>AWS</strong>, <strong>GCP</strong>.</p>
+<p>La cosa più importante al momento del deploy è impostare delle <strong>regole di firewall</strong> che limitino il traffico. Il principio lo spiega bene: una parte della tua applicazione è <strong>rivolta all'utente</strong> — tipicamente il front-end, quello che la gente vede nel browser o nell'app desktop — mentre <strong>back-end e database non dovrebbe poterli toccare nessuno</strong>; solo la tua applicazione utente dovrebbe poterne tirare fuori informazioni. Il front-end, distribuito su un servizio qualunque — «magari usi <strong>Vercel</strong>» — ha un <strong>indirizzo IP</strong> specifico da cui parte verso il database o il back-end. Un firewall, in sostanza, è la regola che dice: <em>apri la porta solo se la richiesta arriva dall'indirizzo IP che ho messo nella lista bianca</em>, cioè il mio front-end conosciuto.</p>
+<p>Il riassunto che fa lui: <strong>proteggi i segreti e le credenziali</strong> (API key comprese, in modo che non si possano leggere nel codice dell'applicazione né ispezionando la pagina nel browser), <strong>tieni accesa la row level security</strong>, e <strong>metti i firewall giusti su database e back-end con la lista bianca del tuo front-end</strong>. «<strong>Questa è la sicurezza in poche parole.</strong>» E aggiunge il consiglio pratico di prendere quel pezzo di video, riassumerlo, buttarlo in una chat e ragionare su cosa significhi per la propria applicazione specifica.</p>
+<h2>La tesi di fondo: non ti serve la competenza, ti serve l'awareness</h2>
+<p>Nate tira la conclusione del filo: tutto quello che è stato detto suggerisce che la cosa decisiva sia la <strong>consapevolezza</strong> — se riesci a tirare fuori l'argomento con il tuo agente, è lui a fare il ragionamento e l'implementazione, «ma sei tu quello che ha dovuto dire <em>ehi, pensa a questo</em>».</p>
+<p>Dave conferma e lo formula nel modo più netto del video: sono gli «<strong>sconosciuti sconosciuti</strong>» di cui chi comincia deve diventare consapevole, per poter fare le domande giuste. «<strong>Non è questione di competenze, e neanche di intelligenza o di anni di addestramento. È solo consapevolezza</strong>» — più la capacità, con una comprensione di base, di ragionare un minimo sulle risposte: dire «questa cosa è importante» oppure «questa lasciamola stare, va molto più in profondità di quello che serve alla mia applicazione adesso».</p>
+<h2>Se ripartisse da zero oggi</h2>
+<p>Alla domanda finale — completa la frase «se partissi oggi senza esperienza tecnica, la cosa che mi entusiasmerebbe di più sarebbe...» — Dave risponde: <strong>le opportunità</strong>. Racconta il proprio percorso: uscito dall'università è capitato «abbastanza per caso» su un incarico da freelance, da lì è rimasto lavoratore autonomo praticamente sempre, e ci ha costruito sopra delle aziende; questo gli ha dato «quantità folli di libertà» e il modo di lavorare su cose che gli interessano. La sua tesi è che adesso sia alla portata di molte più persone.</p>
+<p>L'obiezione se la fa da solo, ed è quella giusta: <em>se gli strumenti diventano facili, non lo fanno tutti?</em> Risposta: «vero, <strong>ma servono ancora gli implementatori, servono ancora i costruttori</strong>. Il fatto che sia possibile non vuol dire che tutti e tutte le aziende prenderanno davvero l'iniziativa di farlo». Da cui le opportunità che elenca: costruire cose per conto proprio, venderle, fare contenuti, aiutare attività locali o anche aziende grandi a entusiasmarsi per la tecnologia e la trasformazione, migliorare nel mestiere strada facendo e monetizzarlo.</p>
+<p>Il consiglio pratico con cui chiude è sul come inserirlo in una vita già piena: se hai già un lavoro, trova il modo di farlo <strong>di fianco</strong>. Dice di avere «un'intera community di sviluppatori freelance e professionisti dei dati» con cui condivide queste cose. L'immagine concreta: puoi prendere un progetto e, mentre fai il tuo lavoro d'ufficio, <strong>lanciare un altro agente e lasciarlo lavorare</strong>; «puoi perfino usare il telefono per parlare con Claude in pausa pranzo, dargli un prompt principale, e quando torni a casa ha costruito l'automazione per il tuo cliente».</p>
+<p>Chiude citando <strong>DHH</strong> (David Heinemeier Hansson) sentito in un podcast di <strong>Lex Fridman</strong>: noi sviluppatori adesso abbiamo «<strong>un genio nella lampada</strong>». Nate aggiunge la battuta che completa l'immagine: «e non sei nemmeno limitato a tre desideri — sei solo limitato ai tuoi token», «al tuo budget settimanale di token».</p>
+<p>Sul ritmo del progresso: una volta i salti si misuravano su base <strong>annuale</strong> — guardavi indietro di un anno e i modelli erano molto meglio — adesso succede «già su base <strong>trimestrale</strong>», e Dave non vede un mondo in cui questo si fermi. Nate aggiunge l'unico freno che intravede: se la discussione in corso sul «<strong>pacing the frontier</strong>» producesse uno standard vero di regolamentazione con coordinamento nazionale e globale.</p>
+<p>Per chi volesse seguirlo: il suo canale YouTube è a suo nome, con video per un pubblico più tecnico. Un dettaglio di metodo che però interessa anche i non tecnici: non pubblica più solo tutorial, ora affianca a ogni tutorial una <strong>guida-manuale completa generata con l'AI</strong>, «una pagina di documentazione intera, così la gente la può seguire passo passo» — e dice che anche chi non è tecnico può puntare il proprio agente al repository GitHub e al manuale e farselo costruire. L'ultimo esempio che cita è un video su come costruire <strong>un'intera base di conoscenza aziendale</strong>, «fatta per bene, non un progetto giocattolo ma una cosa che potresti offrire a un'azienda».</p>
+<h2>Il buco grosso: dove sarebbe la parte «Sell» del titolo</h2>
+<p>Questa sezione è una valutazione nostra, non una cosa detta nel video, ed è il motivo per cui questo riassunto esiste in questa forma.</p>
+<p>Il titolo è <em>How to Actually Build &amp; <strong>Sell</strong> Software with AI as a Non-Techie</em>. Il <strong>"build"</strong> è coperto, e bene. Il <strong>"sell"</strong> semplicemente <strong>non c'è</strong>. In sessantanove minuti non compare: nessun <strong>prezzo</strong> di un prodotto o di un servizio, nessun <strong>margine</strong>, nessun <strong>cliente reale</strong> nominato con quello che ha pagato, nessun <strong>fatturato</strong>, nessuna <strong>struttura di offerta</strong>, nessun canale di acquisizione, nessuno script di vendita, nessun esempio di trattativa. Nemmeno per Glaido, che pure è un prodotto a abbonamento vero e sarebbe stato l'occasione ovvia: non viene detto quanto costa, quanti utenti ha, quanto incassa.</p>
+<p>Le uniche cifre monetarie pronunciate in tutta l'ora sono <strong>i 20, i 100 e i 200 dollari al mese</strong> degli abbonamenti agli agenti di codice — cioè il costo di uno strumento, non il ricavo di un business. L'unico numero di performance verificabile è i <strong>500 millisecondi</strong> di Glaido, che è una specifica tecnica. Il «<strong>cinquanta soluzioni AI consegnate</strong>» è detto da Nate in presentazione e non viene mai ripreso né dettagliato.</p>
+<p>E l'unico momento del video in cui si parla davvero di prendere un cliente è <strong>la pubblicità</strong>, a 27:04: quaranta secondi in cui Nate promuove il proprio <strong>First Client SOP</strong> gratuito, elencandone il contenuto — «il pitch di servizio in una frase», «perché il tuo primo cliente dovrebbe costarti dei soldi», «il video di cinque minuti che risponde alla domanda <em>questa persona sa davvero consegnare?</em> prima ancora che tu abbia incassato», «cosa fare quando non hai nessun caso di studio» — e dicendo che «centinaia» di membri di AIS Plus lo hanno usato per prendere i primi lavori pagati. Quei titoli suonano interessanti, ma nel video <strong>non vengono spiegati</strong>: sono l'esca per l'iscrizione alla lista. La pagina di opt-in si vede a schermo: <em>«Yours Free: An SOP for Getting Your First AI Automation Client»</em>, formato PDF, prezzo 0 $, consegna immediata via email.</p>
+<p>Tradotto per chi sta valutando un micro-SaaS: <strong>questo video serve a capire cosa stai costruendo e con che rischi, non a capire se e a quanto si vende</strong>. Per il lato offerta, prezzo e racconto commerciale restano valide le pagine vendere-servizi-ai e ai-service-business, che almeno un metodo di differenziazione e di acquisizione lo descrivono.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=l8ywUsEJ2XQ — <em>How to Actually Build &amp; Sell Software with AI as a Non-Techie</em>, canale <strong>Nate Herk | AI Automation</strong>, ospite <strong>Dave Ebbelaar</strong>. Durata 1h 09m 33s, pubblicato il <strong>2 ottobre 2026</strong>, circa <strong>47.600 visualizzazioni</strong> e 559 "mi piace" al momento della visione (4 ottobre 2026).</li>
+<li>report grezzo con la trascrizione completa.</li>
+<li>Capitoli ufficiali del video: 0:00 Intro · 1:28 A solid 10X · 8:19 Sponsor: CodeRabbit · 12:42 The four-rung ladder · 21:05 Building with agents · 27:04 First Client SOP · 42:44 Shipping it safely.</li>
+<li>Concetti collegati: ai-service-business e vendere-servizi-ai (il lato offerta e vendita, che qui manca), metodo-clear-side-hustle (la scala a quattro pioli è un modo diverso di fare la stessa scelta), spec-driven-prompting (<strong>contraddetto</strong>, vedi sotto), harness (il plan mode assorbito dalla coppia modello-harness), loop-engineering (il loop di miglioramento e il giudice LLM), pubblicare-app-claude-code (Supabase, RLS, Vercel, Railway: largamente sovrapposto), mestiere-programmatore-con-ai (il non leggere più il codice, da un'altra angolazione), claude-skills (la skill di Matt Pocock), verifica-business-pitch-video.</li>
+<li>Entità: nate-herk, matt-pocock, andrej-karpathy, claude-code. <strong>Dave Ebbelaar</strong> non ha ancora una pagina nel vault.</li>
+</ul>
+<h3>Contraddizione da segnalare</h3>
+<blockquote>⚠️ WARN: spec-driven-prompting sostiene che prima di far costruire qualcosa si debba costruire uno <strong>spec dettagliato</strong>, e che il plan mode sia solo un punto di partenza troppo superficiale. Qui Dave Ebbelaar sostiene l'opposto: con i modelli di oggi la fase di spec «conta sempre meno», lui va dritto a costruire, e riferisce che ingegneri di Anthropic avrebbero scritto su X che il <strong>plan mode non serve più</strong> perché il comportamento è stato assorbito dentro modello e harness. Le due posizioni non sono del tutto inconciliabili — Dave parla di <strong>prodotti software</strong> che può vedere e provare subito, lo spec-driven nasce su task dove il risultato non è ispezionabile a occhio — ma la tensione è reale e va verificata prima di cambiare metodo.</blockquote>
+<h3>Cosa è stato omesso</h3>
+<p>Lo <strong>spot di CodeRabbit</strong> (8:19-9:20: Chainstack come interfaccia di revisione delle pull request, raggruppamento per lavoro correlato e ordinamento per dipendenze, pagina di panoramica con i blocchi al merge, cronologia delle decisioni, vista a diff semantico che distingue il codice spostato da quello cambiato davvero, prova gratuita di 14 giorni senza carta di credito). Lo <strong>spot del First Client SOP</strong> è invece riportato di proposito nella sezione sul buco del titolo, perché è l'unico contenuto sulla vendita presente nel video. Omessi anche i convenevoli di apertura e chiusura, le risate, i rimandi al canale dell'ospite in chiave promozionale, e i link in descrizione (mese gratuito di Glaido tramite il link di Nate, codice sconto affiliato Hostinger, contatti social) — citati sopra solo per dichiarare il conflitto d'interessi.</p>
+<h3>Cosa non è stato verificato</h3>
+<ol>
+<li><strong>Tutte le cifre personali sono auto-dichiarate</strong>: il «10x», il «100x», le «oltre 50 soluzioni AI consegnate», i «500 millisecondi» di Glaido, il numero di persone nelle community. Nessuna è stata controllata. Vedi verifica-business-pitch-video.</li>
+<li><strong>Conflitto d'interessi dichiarato sopra</strong>: Nate ha un link commerciale verso il prodotto dell'ospite e un codice affiliato per i server; il video è sponsorizzato.</li>
+<li><strong>Il nome dell'azienda delle «50 soluzioni»</strong> non è trascritto in modo affidabile: i sottotitoli automatici dicono «Glido», che è però il prodotto di dettatura, non la società di consulenza. Qui si è preferito non attribuire il numero a un'azienda specifica.</li>
+<li><strong>L'affermazione sugli ingegneri Anthropic</strong> che avrebbero detto su X che il plan mode non serve più è riportata a memoria da Dave («credo di averlo visto anche su X»), senza riferimento. Non verificata.</li>
+<li><strong>Il nome esatto della skill di Matt Pocock</strong> è incerto per ammissione dello stesso Dave: «si chiamava <em>improve codebase architecture</em>, credo ora sia <em>codebase design</em> o qualcosa del genere». Il cognome è stato corretto grazie alla sovrimpressione a schermo (i sottotitoli automatici scrivevano «Matt BCO» e «Matt PCO»).</li>
+<li><strong>I nomi dei modelli</strong> (GPT-6 Astra, Opus 5.5) sono quelli detti nel video; i sottotitoli automatici rendono costantemente «Codex» come <em>codecs</em> e «Claude Code» come <em>cloud code</em>, corretti qui.</li>
+<li><strong>Nessuna delle raccomandazioni di sicurezza è stata verificata tecnicamente</strong> in questo passaggio: sono riportate come le ha dette lui. In particolare la frase «è già quasi impossibile che ti buchino» facendo quelle poche cose è un'affermazione forte di una persona che si dichiara lei stessa non esperta di sicurezza.</li>
+<li><strong>Il video non mostra nulla</strong>: è un'ora di split-screen a due senza una sola condivisione di schermo, demo o diagramma. Ogni dettaglio qui sopra viene dal parlato, non da qualcosa visto a schermo — con l'unica eccezione della sovrimpressione su Matt Pocock e della pagina di opt-in del lead magnet.</li>
+</ol>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
