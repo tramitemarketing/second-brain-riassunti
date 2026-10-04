@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>I Claude Mods Cambiano TUTTO. Implementa Questi 3 nei tuoi Progetti.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="I Claude Mods Cambiano TUTTO. Implementa Questi 3 nei tuoi Progetti." src="https://i.ytimg.com/vi/XA_uYH67L1U/hqdefault.jpg"><p class="muted">📖 15 min di lettura</p><p><strong>In sintesi:</strong> secondo sguardo sui <strong>mod di Claude Code</strong> annunciati l'1 ottobre 2026, e serve a riempire i due buchi lasciati dal video di Nate Herk (<a href="claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04.html">claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04</a>). Il primo buco è storico: <strong>i mod non nascono adesso</strong>, sono i <strong>function hook</strong> sperimentali — quelli che fino a poche settimane prima si accendevano con la variabile <code>CLAUDE_CODE_ENABLE_FUNCTION_HOOKS</code> — promossi a funzione di produzione; da <strong>Claude Code v2.1.287</strong> quella variabile è semplicemente <strong>ignorata</strong> e i mod sono attivi di default. Il secondo buco è tecnico: Fontanel <strong>apre i file</strong>. Mostra due lavagne con l'intera superficie dell'API — l'oggetto <code>$</code> con <strong>15 nouns e 47 metodi</strong>, e la griglia degli eventi su cui si aggancia <code>on(event, matcher?, hook)</code> — e poi il codice vero di un suo mod, un <code>hooks.json</code> da <strong>85 byte</strong> e un <code>register.js</code> da <strong>3 KB</strong>. I tre mod che presenta sono <strong>quick-buttons</strong> (una barra laterale di tasti che lanciano i comandi che usi sempre), <strong>cache-meter</strong> (quanti minuti mancano alla scadenza della cache) e <strong>next-steps</strong> (a fine turno Claude propone le prossime mosse, decise a runtime). Di questi solo il primo è davvero inedito rispetto ai cinque di Herk. Il momento migliore del video è involontario: il mod next-steps, lanciato su un documento appena estratto dalla documentazione ufficiale, <strong>corregge l'autore in diretta</strong> su tre punti, variabile obsoleta compresa.</p>
+<h2>L'annuncio, e tre esempi per far capire lo spazio di possibilità</h2>
+<p>Il video si apre senza preamboli sul <strong>post ufficiale di @ClaudeDevs</strong> del 1° ottobre 2026 (8:08 PM; a schermo si leggono <strong>3,2 milioni di visualizzazioni</strong>, 551 risposte, 1.600 retweet, 18.000 like e 11.000 segnalibri): <em>«You can now mod Claude Code: Change how it behaves / Customize the UI / Swap in your own features. Write one with a few lines of TypeScript, or have Claude build it for you. Mods ship inside plugins, so you install them with /plugin in the CLI or desktop app.»</em> Sotto il testo scorre l'esempio animato di <strong>Blast Radius</strong>: il comando <code>rm -rf build</code>, l'avviso <em>«Would delete 9 files (498 KB)»</em> con l'elenco puntuale dei file (<code>build/assets/app.4f9c2e.js.map</code>, <code>build/assets/styles.c07b1d.css</code>, <code>build/index.html</code>, <code>build/manifest.json</code>…), i due bottoni <code>1 Proceed</code> e <code>2 Cancel</code> e la didascalia <em>«Choose Cancel, and nothing is deleted»</em>.</p>
+<p>La voce intanto dice che l'aggiornamento <em>«introduce a tutti gli effetti una rivoluzione nel modo con cui utilizziamo Claude Code»</em>, perché adesso si può <strong>programmare ogni singola azione che avviene dentro Claude</strong> e personalizzarla. Per mostrare quanto è largo lo spazio, sfila tre mod fatti dalla community nelle prime ore, in ordine decrescente di serietà. Il primo è la <strong>barra di avanzamento live</strong> di <strong>Кирилл Сердитов</strong> (@kirillvserditov), che traccia in tempo reale i piani in corso dentro una sola sessione: nel video della demo si vedono due righe affiancate, <code>Start at zero, tick marks — Tasks 3/5 — 40%</code> e <code>Release pipeline — Prepare 1/2 → Deploy 1/2 — 56%</code>, con la barra incollata sopra la casella del prompt; il post ringrazia <strong>@trq212</strong>, cioè thariq-shihipar, l'ingegnere di Claude Code. Il secondo è il monitoraggio in tempo reale del <strong>deployment su Vercel</strong> di <strong>Daniel San</strong> (@dani_avila7, head of AI a hedgineer.ai e autore del progetto open source aitmpl.com): un pannello <strong>Vercel Sandbox</strong> che avvia una microVM (<code>harlequin-working-sparrow-L8NdGX · iad1 · 2 vCPU</code>), impacchetta 62 file per 0,1 MB, li carica e li scompatta in sandbox, con la spiegazione <em>«Jev checks each command Claude runs. Tests, someone else's repo, an unknown installer, a bulk change or a clean build: it asks you first, and they run here, not on your machine»</em>; si installa con <code>npx claude-code-templates@latest --mod security/jev-vercel-sandbox</code>. Il terzo è dichiaratamente <em>«un uso un po' meno utile»</em>: <strong>Adam Holter</strong> che si è messo <strong>Subway Surfers</strong> dentro Claude Code, con il commento <em>«You can mod Claude Code now, so I did the obvious»</em>.</p>
+<h2>La notizia vera: i mod sono i function hook usciti dalla sperimentazione</h2>
+<p>Qui arriva la frase che distingue questo video da tutti gli altri sull'annuncio: <strong>«i mod sono la versione ufficiale di quello che fino a qualche settimana fa abbiamo sempre chiamato function hook»</strong>. Era una funzione <strong>sperimentale</strong> che andava abilitata a mano con una variabile d'ambiente; adesso è passata da sperimentale a produzione, <em>«quindi non abbiamo più bisogno di questo giro che dovevamo fare nel codice»</em>. Fontanel ci aveva già fatto sopra un video dedicato, che linka a schermo per chi vuole la struttura sotto il cofano; qui dichiara di dare <em>«un'infarinatura generale»</em>.</p>
+<p>A supporto mostra due fonti che nel video di Herk non compaiono. La prima è la <strong>pagina ufficiale della documentazione</strong>, <em>«Getting started with Claude Code mods»</em>, firmata <strong>Addy Osmani</strong>, pubblicata il <strong>1° ottobre 2026</strong>, 11 minuti di lettura, che dice la stessa cosa in inglese: <em>«Claude Code already lets you change a lot about how it behaves: settings, permission rules, slash commands, skills and a status line. Mods go further. Mods can rewrite or replace what Claude Code does, and can even draw custom UI. Under the hood, mods are hooks, and they ship inside plugins. Each one is a small JavaScript or TypeScript module that runs inside your session and sees every event as it happens.»</em> La seconda è la <strong>issue GitHub #91870</strong>, <em>«Mods — make Claude 10x more extensible»</em>, ancora aperta, con etichette <code>area:hooks</code>, <code>area:plugins</code>, <code>enhancement</code>, oltre 137 partecipanti, un <em>Community Update</em> del 9 settembre e un <em>micro-update</em> del 1° ottobre: è il thread da cui la funzione è nata, e i commenti discutono ancora proprio di quella variabile (<em>«when a plugin ships modules and function hooks are off, say so»</em>).</p>
+<p>La definizione operativa che dà è secca e vale la pena tenerla: <strong>un mod è un hook che puoi programmare</strong>. Al verificarsi di un certo evento — il <strong>trigger</strong> — scrivi in TypeScript una sequenza di passi che Claude Code esegue <strong>prima</strong> del task che gli hai affidato, o anche <strong>durante</strong>. Finita l'automazione, Claude riprende e porta a termine il lavoro. Sulla lavagna il disegno è un diagramma a cinque caselle: <code>Trigger → Automazione → Continua</code>, con tre rami che scendono dall'automazione — <strong>chiedi all'utente</strong>, <strong>esegui un altro task</strong> (anche delegandolo a un altro agente, e solo in base a quel risultato Claude prosegue) e <strong>aggiorna un sistema</strong> o dei documenti.</p>
+<h2>Le due lavagne: cosa fa scattare un mod e cosa può fare una volta scattato</h2>
+<p>Questa è la parte più densa del video e l'unica fonte nel vault che documenta l'API per intero.</p>
+<p>La prima lavagna si intitola <strong>«$ — cosa hai a disposizione dentro un hook»</strong> e dichiara <strong>15 nouns · 47 metodi</strong>, divisi per colore in quattro famiglie. Il <strong>display</strong> comprende <code>ui</code> (<code>ask</code>, <code>toast</code>, <code>status</code>, <code>log</code>, <code>notice</code>, <code>invalidate</code>, <code>resolve</code>) e <code>audio</code> (<code>play</code>, <code>speak</code>) — cioè il mod può fare domande, mostrare avvisi, scrivere nella barra di stato, generare suoni e <em>«in un certo senso parlarci»</em>. Il blocco <strong>modello e tool</strong> comprende <code>model</code> (<code>complete</code>, <code>fork</code>, <code>classify</code>), <code>prompt</code> (<code>submit</code>), <code>tool</code> (<code>list</code>, <code>call</code>, <code>register</code>), <code>agent</code> (<code>spawn</code>, <code>list</code>) e <code>mcp</code> (<code>call</code>): gestione completa del modello, dei prompt, degli strumenti chiamati, dei sotto-agenti e degli server MCP. Il blocco <strong>sessione</strong> comprende <code>plugin</code> (<code>name</code>, <code>root</code>), <code>session</code> (<code>messages</code>, <code>cwd</code>, <code>model</code>, <code>turnCount</code>, <code>id</code>, <code>repo</code>, <code>surface</code>) e <code>turn</code> (<code>abort</code>). L'ultimo blocco è <strong>la tua macchina</strong>: <code>fs</code> (<code>readFile</code>, <code>writeFile</code>, <code>listDir</code>, <code>exists</code>, <code>stat</code>, <code>ancestors</code>), <code>store</code> (<code>get</code>, <code>set</code>, <code>delete</code>, <code>keys</code>), <code>clock</code> (<code>now</code>, <code>sleep</code>, <code>after</code>, <code>every</code>), <code>http</code> (<code>fetch</code>) e <code>process</code> (<code>run</code>). La conclusione dell'autore è letterale: <em>«capiamo bene che praticamente possiamo programmare qualsiasi cosa in qualsiasi punto all'interno del flusso di Claude Code»</em>.</p>
+<p>La seconda lavagna si intitola <strong>«Eventi — dove intervenire con <code>on(event, matcher?, hook)</code>»</strong> ed è la mappa degli agganci, in cinque colonne. <strong>Tool</strong>: <code>tool.call</code> (si può <em>deny</em>, cambiare il <em>result</em>, riscrivere l'input) e <code>tool.describe</code> (riscrivere la descrizione dello strumento). <strong>Prompt</strong>: <code>prompt.submit</code> (riscrivere il testo o scartarlo), <code>prompt.context</code> (i blocchi del primo messaggio), <code>prompt.section</code> (le sezioni del system prompt), <code>skill.prompt</code> (il testo di una <code>/skill</code>) e <code>attribution.text</code> (i commit e le PR). <strong>Ciclo di vita</strong>: <code>engine.create</code> (mentre <code>$</code> viene costruito), <code>session.start</code> (timer, <code>tool.register</code>), <code>turn.start</code>, <code>turn.step</code> e <code>turn.complete</code> (la risposta finale) — i tre <code>turn.*</code> segnati come «osserva», cioè non modificano. <strong>Subagent</strong>: <code>agent.offer</code> (si può mettere <code>offered: false</code>) e <code>agent.spawn</code> (si può cambiare il modello assegnato). <strong>UI</strong>: <code>ui.render</code> (l'albero JSX), <code>ui.resolve</code> (gli elementi della <em>surface</em>) e <code>ui.press/input/select</code> (gli handler dei comandi dell'utente).</p>
+<p>In fondo alla lavagna c'è una nota a piè di pagina che è forse la cosa più importante di tutto il disegno, perché descrive un sistema <strong>ricorsivo</strong>: <em>«ogni chiamata su <code>$</code> (<code>model.*</code>, <code>mcp.call</code>, <code>fs.*</code>, <code>process.run</code>, <code>http.fetch</code>, <code>store.*</code>) è a sua volta un evento per gli altri plugin»</em>. Cioè quello che un mod fa diventa materiale su cui un altro mod può agganciarsi.</p>
+<h2>Come si creano davvero: il comando <code>/plugin-authoring</code></h2>
+<p>Sul «come si fa» il video corregge l'impressione lasciata dall'annuncio. Non basta parlare: c'è un comando dedicato, <strong><code>/plugin-authoring</code></strong>, e si usa sia da <strong>terminale</strong> sia dall'<strong>applicazione desktop</strong>. La ragione è che <em>«i mod sono considerati un plugin speciale, diciamo così, all'interno della struttura di Claude Code»</em> — lo stesso rapporto skill/plugin già descritto in claude-skills, con i mod come terzo abitante della valigia.</p>
+<p>Due avvertenze pratiche. Se il comando non si trova, <strong>bisogna aggiornare Claude Code</strong>; e se dopo l'aggiornamento ancora non c'è, <em>«devi solo aspettare, perché stanno rilasciando questa funzionalità un po' gradualmente»</em> — il rollout è scaglionato. Una volta abilitato, si dà a Claude il prompt di quello che si ha in mente e il mod viene costruito.</p>
+<h2><code>quick-buttons</code>: i comandi che usi sempre diventano tasti</h2>
+<p>Il primo dei tre mod è una <strong>barra stretta sul lato destro del terminale</strong>, intitolata semplicemente <strong>«Azioni»</strong>, con tre voci: <code>c: Commit</code>, <code>h: Handoff</code>, <code>w: Wayfinder</code>. Sono <em>«dei comandi che io ho predefinito e che posso andare a cliccare ogni volta che mi serve, per evitare di spendere tempo nel richiamare queste skill»</em>.</p>
+<p>Il caso d'uso è banale e per questo credibile: finito un task, invece di scrivere a mano il comando, preme <strong>Commit</strong> e parte la skill che fa commit e push su GitHub (nella demo si vede <code>/commit</code> → <em>«Running 1 shell command…»</em> → <em>«Ran 3 shell commands»</em>, che lui poi interrompe per non sforare). <strong>Handoff</strong> genera il documento di passaggio di consegne da dare a una sessione nuova — lo stesso rimedio al context-rot che il vault ha già schedato in <a href="15-plugins-massimo-claude-code-2026-08-21.html">15-plugins-massimo-claude-code-2026-08-21</a>. <strong>Wayfinder</strong> è una sua skill <em>«dedicata allo sviluppo strutturato di software e automazioni»</em>, che <strong>richiama sempre se stessa</strong> per avanzare su una mappa di lavoro: ogni volta che vuole passare allo step successivo gli basta ripremere il pulsante. Sotto la barra compare l'esito dell'ultimo click, nel video <code>/commit lanciato</code>.</p>
+<h2><code>cache-meter</code>: l'ora che scade, con il listino ufficiale a fianco</h2>
+<p>Il secondo mod è una <strong>barra in fondo alla chat</strong> che dice <code>cache ▓▓▓▓▓▓░ 55 min rimasti · 5 min dall'ultima richiesta</code>. Per spiegare perché serve, Fontanel fa la cosa che Herk non fa: <strong>apre la pagina dei prezzi di Anthropic</strong> e la mostra.</p>
+<p>La spiegazione parte dai numeri. Ogni modello ha un costo base di input e output, ma la tabella ha anche delle colonne per la <strong>cache</strong>, ed è lì che il conto cambia: per <strong>Claude Fable 5.1</strong> si passa da <strong>10 USD per milione di token in input</strong> a <strong>0,25 USD per milione</strong> quando si colpisce la cache (per Opus 5.5 da 4 a 0,20; per Sonnet 5.5 da 2 a 0,20; per Haiku 4.5 da 1 a 0,10). <em>«Il risparmio è tantissimo ed è sempre bene utilizzare la cache quanto più possibile.»</em></p>
+<p>Il meccanismo, a parole sue: la cache è <em>«una memoria veloce, piccola, in cui salviamo tutti i messaggi che mandiamo a Claude Code e tutte le risposte che ci dà»</em>. Quando invii un nuovo messaggio, i messaggi precedenti — che vanno comunque rispediti all'API — <strong>non</strong> vengono processati al prezzo pieno dell'input, ma al prezzo di cache; solo il messaggio nuovo paga l'input pieno, e una volta processato entra a sua volta in cache per il giro dopo. Il punto che conta: <strong>la cache ha una validità di un'ora</strong>. Finché i messaggi restano entro l'ora l'uno dall'altro, tutto passa per la cache; appena l'ora scade, al messaggio successivo <strong>tutta la storia passata viene riprocessata al prezzo pieno di input</strong>, e <em>«consumerà molto di più i miei limiti di utilizzo»</em>.</p>
+<p>Da qui l'utilità del mod, e i due scenari che porta sono concreti. Il primo è il lavoro in parallelo: <em>«quando abbiamo diversi task in parallelo e non ci accorgiamo quando ne ha finito uno perché stiamo lavorando a un altro; se poi torniamo sul primo, in questo modo vediamo se la cache è ancora disponibile o se dobbiamo fare una nuova sessione»</em>. Il secondo è ancora più prosaico: <em>«avviamo un task, poi ci assentiamo, usciamo, cambiamo stanza, e una volta che torniamo al PC non sappiamo più se è passata un'ora o meno»</em>. Nel video la barra si vede ripartire da sola: mandato un messaggio, risale a <code>60 min rimasti · 0 min dall'ultima richiesta</code>.</p>
+<h2><code>next-steps</code>: le prossime mosse decise a runtime — e tre correzioni in faccia all'autore</h2>
+<p>Per mostrare il terzo mod serve un lavoro vero, quindi ne lancia uno: <strong>«vai online, cerca la documentazione dei mod di Claude Code, il nuovo rilascio, e creami un documento in MD con gli estratti salienti»</strong>. Claude scarica <code>code.claude.com/docs/llms.txt</code> (51,6 KB), legge <strong>10 file</strong>, e scrive <strong>627 righe</strong> in <code>workspace/content/youtube/mods/docs-claude-code-mods.md</code>, impiegando 2 minuti e 34 secondi di ragionamento; la status line segna <code>ctx: 22%</code>, <code>[Opus 5.5 · high]</code>, <code>$2.09</code>, <code>12m 42s</code>.</p>
+<p>Il documento prodotto dichiara in testa la propria provenienza — dieci pagine ufficiali <code>code.claude.com/docs/en/plugins/mods/*</code> scaricate il 2026-10-02, versione di riferimento <strong>Claude Code v2.1.287</strong>, citazioni in inglese testuali e il resto in sintesi — e copre <em>«cos'è una mod e il confronto con hook/skill/MCP, requisiti e dove gira, sicurezza, anatomia a tre file con il tutorial completo, eventi, disegno nell'interfaccia, mods API, limiti, test, troubleshooting, variabili e comandi, mod built-in e sample Anthropic, gestione per organizzazioni»</em>.</p>
+<p>Poi, sotto la voce <em>«Tre cose che ti toccano direttamente»</em>, Claude <strong>corregge il suo autore</strong>, ed è il passaggio più prezioso del video perché nessuno lo ha scritto a copione. Primo: <strong><code>CLAUDE_CODE_ENABLE_FUNCTION_HOOKS</code> è ignorata dalla v2.1.287</strong>, che è la versione installata su quel Mac — i mod sono attivi di default, e la variabile si può togliere subito da <code>~/.claude/settings.json</code>; <code>CLAUDE_CODE_PLUGIN_DIRS</code> invece è ancora valida e documentata. Secondo: <strong><code>replay-theater</code> è uno dei tre sample ufficiali di Anthropic</strong>, insieme a <strong><code>token-weather</code></strong> e <strong><code>blast-radius</code></strong>, nel repo <code>claude-code-playground</code>. Terzo, e questo è il tipo di onestà che vale doppio: <strong>«la data di rilascio (1 ottobre 2026) non viene dalla doc ufficiale, ma da un archivio terzo della documentazione»</strong> (un rilascio di <code>llms-txt-archive/anthropic-claude-code</code>), e nel file è segnalata come tale. In più annota che il <code>/commit</code> interrotto prima <em>«è rimasto fermo all'analisi delle modifiche: niente è stato messo in stage né committato»</em>.</p>
+<p>Il mod vero e proprio è la riga di bottoni che compare <strong>sopra la casella del prompt</strong> quando il turno finisce: nel video <code>1: Togli la variabile obsoleta</code>, <code>2: Valida le mie mod</code>, <code>3: Replay</code>. I primi due non sono scritti da lui: <em>«le altre due le ho lasciate a Claude Code, che decide di volta in volta qual è secondo lui la prossima azione che ha senso fare sulla base della storia passata»</em>. Il primo nasce esattamente dalla correzione appena vista — quando aveva abilitato i function hook con quella variabile non l'aveva più tolta, e adesso che i mod sono ufficiali <em>«è diventata datata, non ha più senso averla»</em>. Il secondo serve a validare i suoi mod contro la documentazione appena estratta. Il commento dell'autore inquadra bene perché i mod non sono solo decorazione: <em>«è estremamente interessante perché è una <strong>decisione dinamica che prende Claude Code a runtime</strong> sulla base di quello che stiamo facendo; ci può dare ogni volta le operazioni che secondo lui ha senso fare, e noi possiamo procedere nel flusso di sviluppo semplicemente premendo sui vari prompt che lui ci propone»</em>.</p>
+<p>Premuto il tasto <code>2</code>, nel terminale compare l'etichetta <strong>«Prompt from the next-steps plugin»</strong> seguita dal prompt che Claude si è scritto da solo: <em>«Esegui <code>claude plugin validate</code> e <code>claude plugin test</code> sulle quattro mod in <code>workspace/content/youtube/mods/</code> e dimmi cosa non rispetta la documentazione che hai appena estratto.»</em> E parte la nuova sessione.</p>
+<h2><code>replay-theater</code>: vedere cosa è stato toccato davvero</h2>
+<p>Il terzo bottone della riga è fisso ed è <strong>Replay</strong>: <em>«ci dice esattamente tutte le azioni che sono state fatte da Claude Code, in modo da poter monitorare, ad esempio, se è stato modificato un file che non volevamo che venisse modificato»</em>. Digitando <code>/replay</code> si apre un pannello laterale intitolato <strong>Replay Theater</strong> che riporta <code>step 1 of 1</code> e il diff del file creato — <code>…rkspace/content/youtube/mods/docs-claude-code-mods.md</code>, <code>Write · new file +627 -0</code> — con le prime righe verdi leggibili e <code>… 615 more lines</code>, più i controlli <code>[ ◄ Prev ] [ Next ► ] [ Close ]</code>. Nel caso della demo <em>«c'è stato un solo passaggio e di fatto una sola azione, cioè la creazione di questo documento»</em>.</p>
+<h2>L'anatomia di un mod, file per file</h2>
+<p>L'ultimo minuto e mezzo è la ragione per cui questo video vale più del suo gemello americano: <strong>apre la cartella e mostra il codice</strong>.</p>
+<p>Quando si usa <code>/plugin-authoring</code>, Claude Code crea una cartella <strong><code>mods/</code></strong> con dentro una sottocartella per ogni mod. Nel Finder dell'autore ci sono quattro cartelle — <code>cache-meter</code>, <code>next-steps</code>, <code>quick-buttons</code>, <code>replay-theater</code> — più il documento <code>docs-claude-code-mods.md</code> da 31 KB appena generato. Aprendo <strong><code>quick-buttons</code></strong> si trova: una cartella nascosta <code>.claude-plugin</code>, una cartella <strong><code>hooks</code></strong>, una cartella <code>tests</code> e un <code>tsconfig.json</code> da 56 byte. <em>«Abbiamo una cartella <code>hooks</code> perché di fatto i mod sono degli hook, dei function hook.»</em></p>
+<p>Dentro <code>hooks</code> ci sono due soli file. Il primo è il classico <strong><code>hooks.json</code></strong>, <strong>85 byte</strong>, che dichiara cos'è il mod e dove sta il codice: <code>{ "description": "Modulo hooks di quick-buttons", "modules": ["./register.js"] }</code>. Il secondo è <strong><code>register.js</code></strong>, <strong>3 KB</strong>, 79 righe, <em>«il codice in TypeScript»</em> — ed è il mod vero.</p>
+<p>Il file, letto a schermo, è leggibile riga per riga anche da chi non programma, perché l'autore (o meglio, Claude) lo ha commentato in italiano. In testa ci sono tre costanti: l'id del pannello (<code>const PANE = 'quick-buttons'</code>), la sua forma (<code>const OPEN = { id: PANE, title: 'Azioni', columns: 18, rows: 6 }</code>, con il commento <em>«il pannello è una barra stretta a lato: quanto basta per il bottone più lungo»</em>) e l'elenco dei bottoni, che è letteralmente una lista di tre oggetti — <code>{ command: 'commit', label: 'Commit', hotkey: 'c' }</code>, <code>{ command: 'handoff', label: 'Handoff', hotkey: 'h' }</code>, <code>{ command: 'wayfinder', label: 'Wayfinder', hotkey: 'w' }</code>. Aggiungere un bottone significa aggiungere una riga.</p>
+<p>Seguono due variabili di stato (<code>available</code>, i comandi che la sessione ha davvero; <code>status</code>, l'esito dell'ultimo click) e due funzioni. <code>loadCommands($)</code> rilegge la lista dei comandi via <code>$.command.list()</code>, con il commento che spiega perché serve: <em>«una skill o una mod può essere arrivata dopo»</em>. <code>press($, action)</code> è il click: scrive <code>status = '/commit in coda'</code>, chiama <strong><code>$.ui.invalidate('ui.render')</code></strong> per ridisegnare il pannello, poi esegue <strong><code>await $.command.run({ command: action.command, args: '' })</code></strong> — con il commento <em>«come se fosse stato digitato: parte appena la sessione è libera»</em> — e infine aggiorna <code>status</code> a <em>lanciato</em> o a <em>non partito</em> con il messaggio d'errore, ridisegnando di nuovo.</p>
+<p>In fondo c'è la funzione esportata <strong><code>register(on)</code></strong>, che è il punto in cui il mod si attacca agli eventi della lavagna vista prima. Sul primo aggancio, <code>on('session.start', …)</code>, carica i comandi, registra un comando slash proprio — <code>await $.command.register({ name: 'azioni', description: 'Apri la barra laterale dei bottoni rapidi', immediate: true })</code>, dove il flag <code>immediate</code> serve perché <em>«il pannello si apre anche mentre Claude lavora»</em> — apre il pannello con <code>$.ui.open(OPEN)</code> e passa la palla con <code>return next(e)</code>. Il secondo aggancio è <code>on('ui.render', { component: 'Pane' }, …)</code>, cioè il disegno vero e proprio del riquadro, e occupa le ultime venti righe. Un commento onesto lasciato nel codice spiega anche un limite: <em>«da sola la barra si siede solo su un terminale largo; altrimenti <code>/azioni</code>»</em>.</p>
+<p>Tutto qui: <strong>due file, meno di cento righe</strong>, per un pezzo di interfaccia permanente dentro Claude Code.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=XA_uYH67L1U (Dario Fontanel, 11:54; visto il 04/10/2026)</li>
+<li>report grezzo con trascrizione completa e otto fotogrammi scelti a mano (l'annuncio con Blast Radius, le due lavagne dell'API, il pannello quick-buttons, i bottoni next-steps con le tre correzioni, Replay Theater, <code>hooks.json</code> nel Finder e il codice di <code>register.js</code>)</li>
+<li>Concetti collegati: claude-skills (i mod come terzo mattone accanto a skill e plugin — questa fonte aggiunge l'API e il codice), harness (l'interfaccia dell'agente che diventa programmabile, qui con la mappa completa degli agganci), produttivita-claude-code (il confine hook/mod), context-rot (l'handoff come bottone), loop-engineering (il mod che <em>propone</em> a runtime invece di bloccare), mcp-connectors (<code>mcp.call</code> è una delle 15 superfici), aios (il video è girato dentro il suo workspace <code>~/Work/AIOS</code>)</li>
+<li>Entità: dario-fontanel, claude-code (v2.1.287), anthropic, thariq-shihipar (@trq212, ringraziato nel post della progress bar); <strong>nuove, non ancora nel vault</strong>: Addy Osmani (autore del tutorial ufficiale sui mod, 1/10/2026), Daniel San (@dani_avila7, autore di <code>claude-code-templates</code> / aitmpl.com), Кирилл Сердитов (@kirillvserditov), Adam Holter</li>
+<li>Video imparentato già nel vault: <a href="claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04.html">claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04</a> (Nate Herk, stesso annuncio). <strong>Dove si completano:</strong> Herk porta cinque mod funzionanti e il prompt per scoprire quali servono a te (far leggere a Claude i propri log di sessione); Fontanel porta la genealogia dei function hook, l'API completa e il codice. <strong>Dove si sovrappongono:</strong> il <code>cache-meter</code> di Fontanel e il <code>cache-keeper</code> di Herk sono la stessa idea (Herk aggiunge la stima in dollari della riscrittura e la notifica a 5 minuti dalla scadenza, Fontanel aggiunge il listino ufficiale che giustifica il numero); e il <code>next-steps</code> di Fontanel porta lo stesso nome del mod di Thariq che Herk installa dal marketplace <code>anthropics/claude-plugins-community</code>. <strong>Dove si contraddicono:</strong> su niente di sostanziale. I due concordano sulla finestra di cache di <strong>60 minuti</strong> e sul fatto che i mod stiano dentro i plugin; divergono solo nell'inquadramento, perché Herk li presenta come una novità assoluta mentre Fontanel li presenta come una promozione di qualcosa che c'era già — e qui ha ragione lui, con la issue GitHub e la variabile d'ambiente a dimostrarlo. Resta una differenza di versione da tenere d'occhio: Herk mostra la <strong>app desktop su Windows</strong>, Fontanel il <strong>terminale su macOS</strong>, stessa funzione.</li>
+<li><strong>Omesso:</strong> la presentazione di sé a inizio video (ingegnere informatico, dottorato in AI, esperienza in big tech e PMI italiane — il profilo sta già in dario-fontanel); i tre rimandi ad altri suoi video (function hook, cache, Wayfinder), mostrati come card a schermo; i saluti iniziali e finali; l'invito finale alla sua community Skool <strong>AIA — AI Academy</strong> (gratuita, 5,2K membri, mostrata a schermo) dove dice di lasciare i tre mod da scaricare, insieme ai link in descrizione.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) i <strong>sottotitoli automatici italiani</strong> rendono «Claude Code» come <em>Clock Code</em>, <em>Cloco</em>, <em>Clockcode</em> e <em>clock</em>, «cache» come <em>cash</em>, «TypeScript» come <em>TScript</em> e «hooks.json» come <em>hooks.jason</em>: tutto corretto qui leggendo lo schermo, ma vuol dire che la trascrizione nel report grezzo va letta con quella chiave. (2) I <strong>tre mod non sono su un repo pubblico</strong>: passano dalla sua community Skool (iscrizione gratuita ma con email), quindi non c'è un link diretto verificabile — esattamente come per i cinque di Nate Herk. (3) Il video <strong>non dice</strong> se <code>next-steps</code> sia scritto da lui o sia il mod omonimo di Thariq installato dal marketplace ufficiale: la cartella sta nel suo workspace, ma questo non lo prova. (4) Nel <code>register.js</code> compaiono <code>$.command.list()</code>, <code>$.command.run()</code> e <code>$.command.register()</code>, ma <strong><code>command</code> non è fra i 15 nouns</strong> della sua stessa lavagna: o la lavagna è incompleta, o quei metodi stanno sotto un'altra voce. Da verificare sulla doc. (5) Le <strong>date e i numeri della documentazione</strong> (1 ottobre 2026, dieci pagine, v2.1.287) vengono dal documento che Claude ha generato in diretta, non da una lettura indipendente; Claude stesso segnala che la data di rilascio viene da un <strong>archivio terzo</strong>, non dalla doc ufficiale. (6) La <strong>validità di un'ora della cache</strong> è asserita da lui e corroborata dal video di Herk, ma non verificata sulla documentazione: la tabella prezzi mostrata ha due colonne distinte, <em>«Scritture 5 min»</em> e <em>«Scritture cache 1 h»</em>, quindi esistono almeno due TTL e quale usi Claude Code non viene detto. (7) Il <strong>«Jev»</strong> del mod <code>security/jev-vercel-sandbox</code> di Daniel San è quasi certamente lo stesso jev già nel vault (il modello verificatore di Typesafe, che risponde vero/falso con una confidenza — compito perfetto per decidere quali comandi mandare in sandbox), ma il video non lo dice e non l'ho verificato. (8) Il titolo: Divan ha messo in coda questo video come <em>«Anthropic Rilascia FINALMENTE Claude Mods. Implementa Questi 3 nei tuoi Progetti.»</em>, ma al momento dell'ingest YouTube serve il titolo <em>«I Claude Mods Cambiano TUTTO…»</em> — con ogni probabilità un test A/B del titolo, non un video diverso (l'id è lo stesso).</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Questo Tool VERIFICA la Correttezza dei Risultati in Claude Code</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Questo Tool VERIFICA la Correttezza dei Risultati in Claude Code" src="https://i.ytimg.com/vi/DNt4KbHRfng/hqdefault.jpg"><p class="muted">📖 13 min di lettura</p><p><strong>In sintesi:</strong> Fontanel presenta <strong>Open Code Review</strong> (comando <code>ocr</code>), la CLI open source con cui <strong>Alibaba</strong> ha fatto le code review interne dei propri prodotti negli ultimi <strong>due anni</strong> prima di pubblicarla con licenza Apache-2.0. Serve a far <strong>revisionare da una macchina il codice che ti ha scritto un'altra macchina</strong>, e lo fa su <strong>due assi</strong>: uno <strong>deterministico</strong> — quali file guardare, come raggrupparli, quali regole applicare, deciso da logica di programma e non dal modello — e uno <strong>agentico</strong>, con prompt costruiti apposta per la code review. Il pezzo che interessa a questo vault è la <strong>questione dell'imparzialità, e il video la affronta di petto</strong>: in <em>modalità standard</em> configuri la chiave API di un <strong>provider diverso</strong> da quello che ha scritto il codice, e allora il giudice è davvero un altro; in <em>delegation mode</em> riusi l'abbonamento del coding agent che hai già, e allora — parole sue — «la revisione <strong>non è al 100% imparziale</strong>». Il giudizio di questo verificatore è per di più <strong>misurato</strong>, non affidato a un'impressione: esiste un benchmark pubblico, <strong>AACR-Bench</strong>, con <strong>1.505 difetti annotati</strong> su 200 pull request reali, validati da <strong>oltre 80 ingegneri senior</strong>. E i numeri dicono anche quanto sbaglia: nella configurazione migliore trova <strong>un difetto reale su cinque</strong>, e <strong>due segnalazioni su tre sono false</strong>. Nella demo dal vivo, su 30 file il tool produce <strong>37 commenti</strong> e <strong>11 vengono buttati</strong> perché falsi positivi o pedanterie — a buttarli, però, è Claude Code, cioè l'imputato.</p>
+<h2>Il problema di partenza: il codice che non sai leggere</h2>
+<p>L'attacco non è sul tool ma sul buco che lo rende necessario. «Nonostante le capacità elevatissime dei modelli attuali come <strong>Fable 5</strong> o <strong>GPT-6 Astra</strong>», dice Fontanel, quando si scrive codice o flussi di lavoro «è sempre molto importante andare poi a revisionare il codice fatto, <strong>specialmente quando non siamo tecnici</strong> e non siamo in grado di capire se il lavoro prodotto dal modello è corretto e sicuro». È la stessa frontiera descritta in loop-engineering alla voce «quando il verificatore non può più essere l'occhio umano», vista però dal lato opposto: non il programmatore esperto che non ce la fa più a leggere tutto, ma il non tecnico che non ce la faceva fin dall'inizio.</p>
+<p>Open Code Review viene presentato come la risposta a quel buco: revisiona «qualsiasi codice, script, automatismo creato dai nostri coding agent», da dentro <strong>Claude Code</strong>, <strong>Codex</strong> o qualunque altro.</p>
+<h2>Da dove viene, e quanto è stato usato</h2>
+<p>Non è un progetto nato per il video. È stato il <strong>tool interno ufficiale di Alibaba</strong> per le code review dei loro prodotti negli ultimi due anni; dopo quella validazione «per tanto tempo e su tanti progetti» l'hanno reso open source. Il banner in cima al README dichiara <strong>20.000+ utenti interni</strong>, <strong>3 milioni+ di task di review eseguiti</strong>, <strong>329.000+ download npm negli ultimi 30 giorni</strong>, <strong>un nono del costo in token</strong> rispetto a Claude Code su un campione di 1.000 pull request, e <strong>25,10%</strong> come punteggio F1 su AACR-Bench. La repository è <code>github.com/alibaba/open-code-review</code>, licenza <strong>Apache-2.0</strong>, badge <code>npm v1.12.4</code>, e sul profilo GitHub campeggiano i riconoscimenti di <em>repository del giorno, della settimana e del mese</em>.</p>
+<h2>I due assi: dove comanda il programma e dove comanda il modello</h2>
+<p>Il README chiama questa architettura <strong>«Deterministic Engineering × Agent Hybrid»</strong>, e la motiva elencando i difetti dei coding agent generalisti usati come revisori: <strong>copertura incompleta</strong> (su insiemi di modifiche grandi gli agenti «tagliano gli angoli» e guardano solo alcuni file), <strong>deriva di posizione</strong> (i problemi segnalati non corrispondono al punto reale del codice, numeri di riga e riferimenti scivolano), <strong>qualità instabile</strong> (le skill guidate solo dal linguaggio naturale sono difficili da debuggare e la qualità oscilla molto con piccole variazioni del prompt). La causa dichiarata: «un'architettura puramente linguistica non ha vincoli duri sul processo di revisione».</p>
+<p>Il primo asse mette quindi i vincoli duri. «Per i passi di revisione che <strong>non devono andare storti</strong>, è la logica ingegneristica — non il modello linguistico — a garantire la correttezza.» In concreto significa quattro cose: una <strong>selezione precisa dei file</strong>, che decide esattamente cosa va rivisto e cosa va filtrato «in modo che nessuna modifica importante venga persa» — e qui entra il punto che fa risparmiare davvero, cioè rivedere <strong>solo i file aggiunti o modificati dopo la review precedente</strong>, «analizzando ogni volta i nuovi blocchi, senza dover rianalizzare ogni volta l'intero sistema»; un <strong>raggruppamento intelligente</strong> dei file correlati in un'unica unità di revisione, dove <strong>ogni gruppo gira come sub-agent con contesto isolato</strong> (una strategia divide-et-impera che «resta stabile su insiemi di modifiche molto grandi e supporta naturalmente la revisione concorrente»); un <strong>abbinamento fine delle regole</strong> al singolo file tramite motore di template, più stabile e prevedibile di una guida espressa a parole; e dei <strong>moduli esterni di posizionamento e di riflessione sui commenti</strong>, che migliorano in modo sistematico sia dove il commento viene attaccato sia cosa dice.</p>
+<p>Il secondo asse è il modello, e sta dove serve davvero giudizio: <strong>prompt tarati sullo scenario</strong> («template di prompt ottimizzati a fondo per la code review, che migliorano l'efficacia riducendo il consumo di token») e un <strong>set di strumenti tarato sullo scenario</strong>, distillato analizzando le tracce di chiamata degli strumenti su dati di produzione — frequenze, ripetizioni per strumento, impatto di nuovi strumenti sull'intera catena — per arrivare a una cassetta degli attrezzi «più stabile e prevedibile, per la code review, di un toolkit agentico generico».</p>
+<p>Vale la pena fermarsi un attimo su questo, perché è la stessa tesi che in loop-engineering arriva dal lato opposto: <strong>la parte deterministica non aggiunge intelligenza, toglie varianza</strong>. Qui è messa in pratica dentro il verificatore invece che dentro l'automazione.</p>
+<h2>Chi giudica chi: la domanda che il video non evita</h2>
+<p>È il punto centrale per questo vault, e Fontanel lo tratta esplicitamente invece di nasconderlo sotto il tappeto.</p>
+<p>La <strong>modalità standard</strong> si configura con <code>ocr config provider</code>, che apre un elenco di provider lungo una schermata intera — <strong>Anthropic Claude API</strong>, <strong>OpenAI API</strong>, <strong>Google Gemini API</strong>, <strong>DeepSeek API</strong>, <strong>AWS Bedrock</strong>, <strong>Ollama Cloud</strong>, <strong>Mistral</strong>, <strong>xAI Grok</strong>, <strong>Z.AI</strong>, le varie <strong>Alibaba DashScope</strong>, <strong>Tencent</strong>, <strong>Kimi Moonshot</strong>, <strong>MiniMax</strong>, <strong>SiliconFlow</strong>, <strong>LiteLLM</strong> come gateway, e altri — poi <code>ocr config model</code> per scegliere il modello e infine la chiave API. Lo scopo dichiarato è netto: «settare una chiave API per un altro provider <strong>in modo che la revisione venga fatta da un modello diverso rispetto a quello che ha scritto il codice</strong>». Questo è un verificatore indipendente nel senso forte di loop-engineering: famiglia diversa, contesto separato, nessuna memoria di come il codice è nato.</p>
+<p>La <strong>delegation mode</strong> è l'alternativa comoda: niente chiave API, si riusa l'abbonamento di Claude Code, Codex o Cursor che si ha già. La documentazione la descrive così: «OCR gestisce l'ingegneria deterministica — selezione dei file, risoluzione delle regole — mentre l'agente ospite esegue la revisione vera usando le proprie capacità di modello. Nessun endpoint LLM è richiesto dal lato OCR». Ed è qui che arriva l'ammissione, al minuto 5: «ovviamente la revisione <strong>non è al 100% imparziale</strong>, perché andiamo a utilizzare potenzialmente <strong>lo stesso modello con cui abbiamo creato il codice</strong>. Se abbiamo creato il codice con Fable e gli facciamo fare la review in modalità delegata con Fable, ecco che a quel punto la revisione non è più interamente imparziale».</p>
+<p>Tradotto nel linguaggio di questo vault: <strong>la stessa CLI offre sia il giudice terzo sia l'autovalutazione, e dichiara quale delle due è quale</strong>. Chi sceglie la delegation mode per non spendere una seconda volta sta comprando lo scaffolding deterministico (filtro dei file, regole, posizionamento) ma non l'indipendenza del giudizio.</p>
+<h2>Il giudizio è misurato, non a impressione</h2>
+<p>Qui sta il contributo più raro del video, perché risponde alla regola «<strong>anche il verificatore va verificato</strong>» con un dato invece che con una rassicurazione.</p>
+<p>Il metro è <strong>AACR-Bench</strong>, un benchmark di code review costruito su <strong>50 repository open source popolari</strong>, <strong>200 pull request reali</strong> e <strong>10 linguaggi di programmazione</strong>, con <strong>1.505 problemi annotati come verità di riferimento</strong>, «validati in modo incrociato da oltre 80 ingegneri senior»; il dataset è pubblicato su Hugging Face. Le metriche sono quelle della classificazione, e Fontanel le spiega a voce: la <strong>precision</strong> dice «tra tutte le segnalazioni che ha fatto il modello, quante erano difetti reali»; la <strong>recall</strong> dice «di tutti i difetti reali presenti nel codice, quanti sono stati identificati»; la <strong>F1</strong> è la media armonica delle due. Il README aggiunge perché contano in pratica: precisione alta significa meno falsi allarmi da smistare, recall alta significa meno problemi che passano, il tempo medio conta per la latenza della pipeline di integrazione continua e i token medi impattano direttamente sul costo delle API.</p>
+<p>La classifica mostrata a schermo permette il confronto che conta davvero, cioè <strong>stesso modello, due vie diverse</strong>. Con <strong>Claude-4.6-Opus</strong>: passando per Open Code Review la F1 è <strong>25,10%</strong>, la precisione <strong>33,90%</strong> (301 segnalazioni giuste su 889), il recall <strong>20,00%</strong> (301 difetti trovati su 1.505), il tempo medio <strong>1m23s</strong> e i token medi <strong>385K</strong>; lo stesso modello dentro <strong>Claude Code</strong> dà F1 <strong>11,57%</strong>, precisione <strong>7,23%</strong> (435 su 5.980), recall <strong>28,90%</strong>, tempo <strong>13m6s</strong> e <strong>5.664K</strong> token. Stessa storia con Claude-4.8-Opus (17,90% contro 14,13% di F1) e, in fondo alla classifica, GPT-5.5 dentro <strong>Codex</strong> si ferma a <strong>8,36%</strong> di F1 con un recall del 4,92%.</p>
+<p>Da leggere con attenzione, perché il quadro è <strong>meno trionfale di come viene raccontato</strong>. Il tool fa quasi <strong>cinque volte meglio in precisione</strong> e consuma <strong>un quindicesimo dei token</strong> — ma <strong>trova meno difetti</strong>: 20,00% contro 28,90% di recall. Il README lo dichiara apertamente: «si noti che il suo recall è più basso di quello degli agenti generalisti — un <strong>compromesso deliberato</strong> a favore della precisione contro il rumore». Claude Code da solo pesca più difetti veri, ma li seppellisce dentro 5.980 segnalazioni invece di 889. Qui va registrata una <strong>discrepanza tra il parlato e lo schermo</strong>: al minuto 2:14 Fontanel dice che con Open Code Review i risultati sono migliori «sia in termini di F1, precision <strong>e recall</strong>», mentre la tabella che sta mostrando in quel momento dice il contrario sul recall.</p>
+<p>E resta il numero assoluto, che nessuna delle due parti nasconde: anche il migliore della classifica <strong>trova un difetto reale su cinque</strong> e sbaglia <strong>due segnalazioni su tre</strong>. Un verificatore di questo tipo alza il pavimento, non chiude la questione.</p>
+<h2>La prova pratica: Claude Code scrive, GPT Sol giudica</h2>
+<p>La parte dimostrativa è costruita esattamente nella forma che questo vault considera corretta: <strong>generatore e verificatore separati</strong>. Fontanel aveva già costruito con Claude Code un <strong>clone di Loom</strong> (registrazione di schermo e camera) nella cartella <code>~/Work/loom-clone</code>; la sessione di Claude Code gira su <strong>Fable 5.1</strong> con <em>high effort</em>, mentre la revisione viene affidata ai modelli <strong>OpenAI</strong>, nello specifico <strong>GPT-5.6 Sol</strong> — come conferma la colonna <em>model</em> della WebUI delle sessioni, dove tutte le righe riportano <code>gpt-5.6-sol</code>.</p>
+<p>L'installazione è una riga, <code>npm install -g @alibaba-group/open-code-review</code>, dopo la quale il comando <code>ocr</code> è disponibile globalmente (prerequisito dichiarato: <strong>Git &gt;= 2.41</strong>, perché il tool si appoggia a git per generare i diff, cercare nel codice e operare sul repository). I comandi principali sono pochi: <code>ocr review</code> per la revisione, <code>ocr rules</code> per ispezionare e fare debug delle regole, <code>ocr config</code> per la configurazione, <code>ocr llm</code> per le utilità sui modelli, <code>ocr viewer</code> per aprire la WebUI delle sessioni, <code>ocr session</code> per elencarle e ispezionarle.</p>
+<p>Il passaggio più furbo del video è però un altro, ed è una regola di metodo generale: <strong>non impararsi i comandi a memoria</strong>. «Chi meglio di noi sa usare questi tool? Claude Code, Codex e i coding agent stessi.» Si installa quindi il plugin ufficiale — da dentro Claude Code, <code>/plugin marketplace add alibaba/open-code-review</code> e poi <code>/plugin install open-code-review@open-code-review</code> — e si ottengono due comandi slash: <strong><code>/open-code-review:review</code></strong>, che esegue OCR con il modello configurato nel file di configurazione, e <strong><code>/open-code-review:delegate-review</code></strong>, che lo esegue in modalità delegata. A quel punto si parla in italiano («revisiona gli ultimi file modificati») e Claude Code traduce la richiesta nel comando giusto.</p>
+<p>A schermo compare anche il repertorio completo che Claude si è preparato per la demo, e vale più di molte pagine di documentazione: <code>ocr review --preview</code> mostra quali file verrebbero inclusi o esclusi <strong>senza fare nessuna chiamata al modello</strong>; <code>ocr rules check src/App.tsx</code> dice quale regola si applica a quel file; <code>ocr review --commit HEAD</code> rivede l'ultimo commit; <code>ocr review --from main --to feature</code> un intero ramo; <code>ocr review -b "form contatti: salva su DB, deve validare email"</code> aggiunge il <strong>contesto di business</strong> alla revisione (e la variante <code>-B ./docs/requirements.md</code> passa un file di requisiti); <code>ocr review --effort high</code> fa <strong>più giri e alza il recall</strong>; <code>ocr review --format json --output review.json</code> produce un artefatto da dare in pasto a Claude o alla pipeline di integrazione continua; <code>ocr session compare &amp;lt;prima&amp;gt; &amp;lt;dopo&amp;gt;</code> confronta due revisioni separando i problemi <strong>nuovi, persistenti e risolti</strong>; <code>ocr viewer</code> apre l'interfaccia locale su <code>localhost:5483</code>; <code>ocr scan</code> fa l'audit di codice che non hai scritto tu, anche su tutto il repository a lotti per linguaggio. Le regole proprie si mettono in un file <code>.opencodereview/rule.json</code> dentro il repository. E tra i flag segnalati come «da tenere a portata» c'è <strong><code>--max-tokens-budget 300000</code></strong>, cioè un <strong>tetto di spesa</strong> — un controllo che fallisce in modo visibile invece di un'opinione — insieme a <code>--exclude '**/generated/*'</code>.</p>
+<h2>Cosa è uscito dalla prima review, numeri alla mano</h2>
+<p>La revisione completa della cartella richiede un trucco che Claude dichiara da solo a schermo, ed è un dettaglio che spiega la natura del tool: «<strong>OCR revisiona solo diff</strong>, quindi per coprire tutta la cartella ho creato un <strong>commit snapshot temporaneo</strong> (dangling, nessun branch toccato) e l'ho passato a <code>ocr review -c</code>». Esito: <strong>30 file analizzati, 37 commenti prodotti in circa 12 minuti</strong>. E subito dopo la riga che conta: «<strong>Ne ho scartati 11</strong> tra falsi positivi e nitpick».</p>
+<p>I problemi rimasti vengono divisi per gravità. Tra gli <strong>High</strong> — tutti corretti — il player che si bloccava o andava in loop a fine clip perché il tempo globale seguiva la traccia partita per prima (<code>useDualPlayer.ts</code>), la chiamata a <code>getDisplayMedia</code> fatta <strong>dopo il conto alla rovescia</strong>, quando «il browser la accetta solo entro pochi secondi dal click» (<code>RecordingScreen.tsx</code>, <code>recorder.ts</code>), la home montata su browser non supportato che chiedeva camera e microfono prima del fallback (<code>App.tsx</code>), e l'ultimo blocco di registrazione perso quando si fermava dal banner di Chrome (<code>recorder.ts</code>). Tra i <strong>Medium</strong>, anch'essi corretti, cose come l'export muto per un errore di decodifica audio, risorse non rilasciate in ogni percorso di errore, la bolla fuori quadro al cambio di dimensione del pannello, il layout non accreditato, il pannello «camera disabilitata» non raggiungibile da tastiera, lo slider senza nome accessibile, i listener di trascinamento orfani. Due segnalazioni sono state lasciate correre perché <strong>«scelte consapevoli della demo»</strong>: i circa 120 MB al minuto di memoria in modalità schermo+camera, e i Google Fonts con <code>prefers-reduced-motion</code>. A fine giro la sessione di Claude Code segnava <strong>20m39s</strong> di lavoro e <strong>$6,21</strong> di costo, con type-check e build che passano.</p>
+<p>Il secondo giro è il caso d'uso vero del tool. Fontanel chiede una nuova funzionalità — un divisore trascinabile a metà pagina che ingrandisce un pannello e rimpicciolisce l'altro — Claude la implementa, e poi parte <code>/open-code-review:review</code> <strong>solo sulle modifiche</strong>: «lancio la review OCR sulle modifiche del workspace, <strong>i tre file toccati</strong>, in background per non incappare nel timeout». Risultato: <strong>5 finding, tutti dentro <code>src/components/SplitPane.tsx</code></strong>, e stavolta «sono tutti fondati e le correzioni sono di poche righe, quindi li applico tutti». Erano la pulizia del <code>body</code> a fine trascinamento, la larghezza della maniglia scritta a mano invece che misurata, le frecce senza <code>preventDefault</code> (da tastiera il browser scrollava in orizzontale mentre si ridimensionava), una prop iniziale non vincolata che accettava valori fuori scala, e il tasto destro e centrale del mouse che avviavano il trascinamento. <strong>Nessun finding scartato</strong>, build e lint che passano, sessione da 11m15s e <strong>$2,76</strong>.</p>
+<h2>Il registro: <code>ocr viewer</code></h2>
+<p>L'ultima parte mostra la WebUI locale, ed è la componente che in loop-engineering viene chiamata <em>registro</em> e che quasi sempre manca. L'elenco delle sessioni del progetto riporta per ciascuna l'<strong>ID</strong>, il ramo, la <strong>modalità</strong> (<em>workspace</em> oppure <em>commit</em>), il <strong>modello</strong> usato, il numero di <strong>file</strong>, lo <strong>stato</strong>, il numero di <strong>commenti</strong>, la <strong>durata</strong> e l'orario d'inizio. Si leggono così, in fila, la review grande (<code>commit</code>, 30 file, 37 commenti, 11m24s) e quella piccola (<code>workspace</code>, 3 file, 5 commenti, 2m58s), ma anche — ed è un dato che Fontanel non commenta — <strong>diverse sessioni <code>aborted</code> con zero file e durata 0,0s</strong>: il verificatore qualche volta non parte proprio.</p>
+<p>Entrando in una sessione si trovano la <strong>copertura</strong> (quante unità selezionate, completate, riusate, fallite, esentate) e il <strong>consumo</strong>: nella review piccola, 190,01K token di prompt, 11,43K di completamento, <strong>201,44K totali</strong>, <strong>23 richieste al modello</strong> e 110,72K letti dalla cache. I commenti sono classificati per <strong>gravità</strong> (3 Medium e 2 Low) e per <strong>categoria</strong> (5 su 5 come <em>Bug</em>). Il pulsante <strong>Compare</strong> affianca due revisioni e mostra cosa è cambiato, quali problemi erano stati identificati, con che gravità, e il suggerimento effettivamente applicato.</p>
+<h2>Cosa succede quando il verificatore sbaglia</h2>
+<p>Il video risponde a questa domanda due volte, in modo involontariamente coerente.</p>
+<p>Nel <strong>benchmark</strong>, lo sbaglio è quantificato e accettato per progetto: due terzi delle segnalazioni sono rumore e quattro difetti reali su cinque restano dentro. Il rimedio offerto è una manopola, <code>--effort high</code>, che fa più giri e alza il recall pagando in tempo e token.</p>
+<p>Nella <strong>pratica</strong>, invece, lo sbaglio lo intercetta un essere — anzi, un modello — che non dovrebbe essere quello: <strong>gli 11 commenti scartati sul primo giro li ha scartati Claude Code</strong>, cioè l'agente che quel codice lo aveva scritto. Il filtro è utile (senza, il non tecnico si troverebbe 37 voci indistinte e nessun criterio), ma sposta il problema di un passo: <strong>l'indipendenza c'è nella produzione del giudizio e si perde nel suo smistamento</strong>. È la stessa struttura della skill <code>/verify</code> dello stesso autore (<a href="claude-code-non-e-piu-abbastanza-e-perche-dovresti-aggiunger-2026-09-23.html">claude-code-non-e-piu-abbastanza-e-perche-dovresti-aggiunger-2026-09-23</a>), dove il revisore è di un'altra famiglia e <strong>Claude fa l'arbitro</strong> — con la differenza che lì l'arbitraggio è una regola dichiarata, con l'obbligo di verificare o confutare ogni rilievo con una prova, mentre qui nessuno mostra con che criterio quegli 11 siano stati classificati come falsi positivi. Nella demo nessuno rimette in discussione quella scelta, e il video non dice se tra gli scartati ci fosse qualcosa di vero.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: <a href="https://www.youtube.com/watch?v=DNt4KbHRfng" target="_blank" rel="noopener">Questo Tool VERIFICA la Correttezza dei Risultati in Claude Code</a> — Dario Fontanel, 10:01, visto il 04/10/2026.</li>
+<li>report grezzo (con trascrizione completa, i fotogrammi chiave e gli ingrandimenti su classifica, comandi ed esito della review).</li>
+<li>Repository del tool: <code>github.com/alibaba/open-code-review</code> · pacchetto <code>@alibaba-group/open-code-review</code> · benchmark <strong>AACR-Bench</strong> su Hugging Face.</li>
+<li>Concetti collegati: loop-engineering, spec-driven-prompting, claude-skills, produttivita-claude-code, agent-memory, mestiere-programmatore-con-ai.</li>
+<li>Video dello stesso autore sullo stesso tema: <a href="claude-code-non-e-piu-abbastanza-e-perche-dovresti-aggiunger-2026-09-23.html">claude-code-non-e-piu-abbastanza-e-perche-dovresti-aggiunger-2026-09-23</a> (la skill <code>/verify</code>), <a href="jev-ha-potenziato-claude-code-2026-09-23.html">jev-ha-potenziato-claude-code-2026-09-23</a> (il verificatore economico).</li>
+</ul>
+<p><strong>Cosa ho omesso:</strong> il saluto iniziale e finale, il rimando alla community <em>AI Academy</em> su Skool mostrato negli ultimi secondi, e l'elenco completo dei singoli bug Medium della prima review (ne ho tenuti i rappresentativi; gli altri sono leggibili nel fotogramma <code>frame_0061</code> e nello zoom <code>zoom-esito-review-30-file.png</code> dentro il report grezzo).</p>
+<p><strong>Cosa NON ho verificato:</strong> (a) i numeri del benchmark e del banner — 20K utenti, 3M task, 1/9 dei token, le righe della classifica — sono <strong>dichiarazioni del README di Alibaba lette a schermo</strong>, non verificate su AACR-Bench né su una fonte terza; il benchmark è dello stesso soggetto che vende il tool, e questo va pesato. (b) I nomi di modello della classifica (<strong>Claude-4.6-Opus</strong>, <strong>Claude-4.8-Opus</strong>, versioni di Claude Code <code>v2.1.169</code> e Codex <code>v0.140.0</code>) sono riportati <strong>esattamente come appaiono</strong>, ma la numerazione non coincide con quella corrente: non ho controllato a quali versioni reali corrispondano né quanto sia vecchia quella tabella. (c) L'etichetta sotto il 25,10% nel banner non è pienamente leggibile nei fotogrammi (sembra «SEM F1 benchmark score»). (d) Non ho provato il tool: tempi, costi e qualità dei finding vengono tutti dalla sessione registrata da Fontanel, su <strong>un solo progetto</strong> (un clone di Loom scritto dallo stesso Claude Code), senza gruppo di controllo. (e) Il repertorio dettagliato di comandi e flag al minuto 5:45 è <strong>output generato da Claude Code</strong> nella sessione di Fontanel, non la documentazione ufficiale: <code>--max-tokens-budget</code>, <code>ocr scan</code>, <code>ocr session compare</code> e <code>localhost:5483</code> andrebbero riscontrati sul <code>ocr --help</code> reale prima di darli per buoni. (f) La trascrizione è stata fatta <strong>in locale con Parakeet TDT 0.6b v3</strong>, perché YouTube ha bloccato sia lo scaricamento sia i sottotitoli automatici: i nomi propri sono ricostruiti da me (il modello scriveva «clock code», «Ribaba», «Dipsyc»), quindi le citazioni sono fedeli nel contenuto ma non necessariamente alla virgola.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
