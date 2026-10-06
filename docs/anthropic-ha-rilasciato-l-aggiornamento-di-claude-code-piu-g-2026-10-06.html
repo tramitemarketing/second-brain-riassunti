@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Anthropic Ha Rilasciato l&#x27;Aggiornamento Di Claude Code Più GRANDE di Sempre</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Anthropic Ha Rilasciato l&#x27;Aggiornamento Di Claude Code Più GRANDE di Sempre" src="https://i.ytimg.com/vi/hphGodvZ33w/hqdefault.jpg"><p class="muted">📖 16 min di lettura</p><p><strong>In sintesi:</strong> il titolo non lo dice, ma questo video è <strong>interamente sui function hook</strong>, ed è <strong>l'antenato diretto dei mod</strong> già schedati nel vault. Lo prova la fonte primaria con cui si apre: la issue GitHub <strong>#91870, «Function Hooks — make plugins 10x more powerful»</strong>, dove si legge che quella funzionalità verrà chiamata «Claude Mods» e che <strong>«un mod è solo un plugin che usa i function hook, non cambia niente»</strong>. Le due lavagne che documentano l'intera API — gli eventi agganciabili con <code>on(event, matcher?, hook)</code> e l'oggetto <code>$</code> con i suoi <strong>15 nouns e 47 metodi</strong> — sono <em>le stesse</em> che Fontanel rimostrerà tre settimane dopo nel video sui mod: la loro fonte è questa. La tesi è identica a quella del video sul <code>CLAUDE.md</code>: una regola scritta in prosa <strong>non è deterministica e il modello può ignorarla</strong>, specialmente a contesto degradato; un hook la rende meccanica. Il dato di costo è il più forte: un hook su <code>prompt.submit</code> che intercetta «aggiungi ai todo» esegue l'operazione <strong>prima ancora che il modello venga chiamato</strong> — <code>0 chiamate, 0 token, 0% di contesto, 0,00 $</code>, contro due chiamate al modello più una chiamata a strumento del percorso normale. E a differenza di tutti gli altri video sul tema, <strong>apre il file e mostra il codice vero dell'hook</strong>. Costruisce tre hook e rilascia <strong>una skill sua, <code>hooks-audit</code></strong>, che scansiona il <code>CLAUDE.md</code> e dice quali regole possono diventare hook — e, cosa più rara, <strong>quali no</strong>.</p>
+<h2>La fonte primaria, letta per prima</h2>
+<p>Il video si apre su <strong>X</strong>, su un post di <strong>@ClaudeDevs</strong> — l'account ufficiale «per gli sviluppatori che costruiscono con Claude», che lui già segue — con l'anteprima della issue: <em>«anthropics/claude-code · #91870 · Function Hooks – make plugins 10x more powerful»</em>, 157 commenti, aperta da <code>poteat</code> il <strong>3 settembre 2026</strong>. Il post è delle 20:01 del 3 settembre e segna <strong>88,3 mila visualizzazioni</strong>. Da lì passa su GitHub, dove la issue è aperta e porta tre etichette: <code>area:hooks</code>, <code>area:plugins</code>, <code>enhancement</code>.</p>
+<p>Dentro c'è un <strong>Community Update datato 9 settembre 2026</strong>, firmato da chi ha aperto la issue (badge <code>Contributor</code>), ed è la <strong>genealogia ufficiale</strong> di una cosa che nel vault era arrivata solo come annuncio di prodotto:</p>
+<blockquote><em>«Ci siamo ora impegnati a rilasciare i function hook, nell'ordine di settimane invece che di giorni o mesi. Dal punto di vista del prodotto, chiameremo questa funzionalità "Claude Mods". Il termine tecnico "function hook" continuerà a esistere come la primitiva di implementazione documentata su cui i Mod sono costruiti. <strong>Un mod è solo un plugin che usa i function hook, non sta cambiando niente.</strong> Si spera che l'ontologia non sia troppo confusa.»</em></blockquote>
+<p>Lo stesso aggiornamento aggiunge due cose pratiche: che Anthropic ha reso <strong>pubblico il codice sorgente dei suoi primi tre mod incorporati</strong>, con l'intenzione di <em>«prendere altre funzionalità così come esistono oggi in Claude Code e migrarle in forma di mod»</em>; e che <strong>chi vuole provarli può usare <code>CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude</code></strong>. Sotto il testo si vede la <strong>cheat sheet «Claude Mods — the <code>$</code> cheat sheet»</strong>, una tavola a tre colonne di codice fitto.</p>
+<p>Questo risolve un nodo di vocabolario che il vault si portava dietro: <strong>hook, function hook, mod e plugin non sono quattro cose, sono due</strong>. L'hook standard è il meccanismo vecchio; il function hook è il meccanismo nuovo e «mod» ne è il nome commerciale; il <strong>plugin resta il contenitore</strong>.</p>
+<h2>Hook standard contro function hook: cosa cambia davvero</h2>
+<p>Fontanel parte da sotto, e per farlo apre <strong>la documentazione ufficiale di Claude Code</strong> — un minuto buono di scorrimento sulla pagina «Hooks reference» e su «Hook lifecycle», dove gli eventi sono divisi in <strong>tre cadenze</strong>: <em>per sessione</em> (<code>SessionStart</code>, <code>SessionEnd</code>), <em>per turno</em> (<code>UserPromptSubmit</code>, <code>Stop</code>, <code>StopFailure</code>) e <em>a ogni chiamata di strumento dentro il ciclo agentico</em> (<code>PreToolUse</code>, <code>PostToolUse</code>). C'è anche il diagramma dell'<strong>Agentic Loop</strong> con tutti gli agganci, compresi <code>PermissionRequest</code>, <code>SubagentStart</code>/<code>SubagentStop</code>, <code>TeammateIdle</code> e <code>PreCompact</code>.</p>
+<p>Un hook normale si crea col comando <code>/hook</code> ed è <em>«un'azione che corrisponde a un trigger durante l'esecuzione di Claude stesso»</em>. L'esempio che porta è volutamente banale ma onesto: <em>«un suono che viene attivato ogni volta che un task è completato, così quando lavoriamo su più sessioni contemporaneamente ci rendiamo conto che ha finito»</em>. Lo schema sulla lavagna è a tre caselle: <strong>Trigger → Automazione → Continua</strong>.</p>
+<p>Col function hook la casella di mezzo si allarga, e la differenza è che <strong>lì dentro gira codice</strong>. Codice che, parole sue, <em>«può permettergli di relazionarsi con se stesso e con l'utente»</em>: l'automazione può <strong>fermarsi e chiederci un'informazione</strong>, può <strong>lanciare un altro task con un altro prompt</strong> e proseguire solo in base all'esito, può <strong>aggiornare file o un sistema</strong>. In più i trigger disponibili sono molti di più.</p>
+<h2>L'esempio che collega tutto: le bozze che non devono partire</h2>
+<p>Il caso con cui spiega il concetto è lo stesso che, tre settimane dopo, comparirà in cima al referto del suo <code>CLAUDE.md</code>: <strong>voglio che il mio flusso di posta crei bozze e non invii mai</strong>.</p>
+<p>Senza function hook quella regola finisce <em>«da qualche parte, ad esempio nel CLAUDE.md o in qualche file che tenga traccia delle regole che il modello deve seguire»</em>. E qui arriva la frase che è il cuore di entrambi i video: <em>«Queste regole, non essendo scritte nel codice e quindi non essendo deterministiche, sono sempre soggette a possibili sviste del modello, specialmente quando il contesto del modello è già utilizzato parecchio e quindi l'attenzione è degradata.»</em> Il collegamento con il context-rot è esplicito: <strong>più la sessione è lunga, meno la regola scritta tiene</strong>.</p>
+<p>La lavagna mette i due percorsi a confronto, intitolata <em>«Flusso di gestione email (crea bozze, non inviare)»</em>. A sinistra, <strong>senza</strong> hook: «Crea email per Luca» → <strong>chiamata al modello 1</strong> (legge il prompt e tutto il contesto) → chiamata allo strumento: <code>GMAIL draft + send</code> → <strong>chiamata al modello 2</strong> («ok email inviata») → <strong>PROBLEMA!</strong>. A destra, <strong>con</strong> hook: «Crea email per Luca» → <code>hook tool.call(send)</code> → <code>send denied -&amp;gt; $ui.ask</code> → la domanda <em>«Vuoi inviare anche l'email»</em> → <code>{ send: false }</code>, l'email non parte → <strong>PROBLEMA RISOLTO!</strong>.</p>
+<p>Il punto da portarsi via non è il blocco in sé: è che <strong>il codice sa cosa non si può fare in quel flusso e lo ferma prima</strong>, poi usa l'interfaccia per chiedere all'umano. Non si fida del modello, ma non decide neanche al posto suo.</p>
+<h2>Le due lavagne dell'API — che il vault attribuiva al video sbagliato</h2>
+<p>Qui c'è una correzione da registrare. Nel vault la pagina sui mod dice che il video del 2 ottobre è <em>«l'unica fonte che documenta l'API per intero»</em>. Non è così: <strong>le due lavagne sono queste, e sono di tre settimane prima</strong>. Fontanel le ha riusate.</p>
+<p>La prima si intitola <strong>«Eventi — dove intervenire con <code>on(event, matcher?, hook)</code>»</strong> e divide gli agganci in cinque colonne. <strong>Tool</strong>: <code>tool.call</code> (si può negare, cambiare il risultato, riscrivere l'input) e <code>tool.describe</code> (riscrivere la descrizione dello strumento) — su quest'ultimo fa un esempio che spiega perché è interessante: <em>«se hai letto la descrizione di un particolare strumento, vai ad aggiungerci un'altra istruzione o un'altra specifica»</em>. <strong>Prompt</strong>: <code>prompt.submit</code>, <code>prompt.context</code> (quando il contesto viene caricato nel modello), <code>prompt.section</code> (quando il system prompt viene assemblato), <code>skill.prompt</code> e <code>attribution.text</code>. <strong>Ciclo di vita</strong>: <code>engine.create</code>, <code>session.start</code>, <code>turn.start</code>, <code>turn.step</code>, <code>turn.complete</code>. <strong>Subagent</strong>: <code>agent.offer</code> — <em>«quando Claude Code va a proporre la realizzazione di un task tramite sotto-agente»</em>, cioè si può intercettare la proposta prima che venga fatta — e <code>agent.spawn</code>. <strong>UI</strong>: <code>ui.render</code>, <code>ui.resolve</code>, <code>ui.press/input/select</code>.</p>
+<p>In fondo alla lavagna c'è una nota che vale quanto il resto, perché descrive un sistema <strong>ricorsivo</strong>: <em>«ogni chiamata su <code>$</code> (<code>model.*</code>, <code>mcp.call</code>, <code>fs.*</code>, <code>process.run</code>, <code>http.fetch</code>, <code>store.*</code>) è a sua volta un evento per gli altri plugin»</em>. Quello che un hook fa, un altro hook può intercettarlo.</p>
+<p>La seconda si intitola <strong>«<code>$</code> — cosa hai a disposizione dentro un hook»</strong> e dichiara a schermo <strong>15 nouns · 47 metodi</strong>: <code>ui</code>, <code>audio</code>, <code>model</code>, <code>prompt</code>, <code>tool</code>, <code>agent</code>, <code>mcp</code>, <code>plugin</code>, <code>session</code>, <code>turn</code>, <code>fs</code>, <code>store</code>, <code>clock</code>, <code>http</code>, <code>process</code>. Fontanel non li legge uno per uno — <em>«sono tanti, non serve che li guardiamo tutti nel dettaglio»</em> — ma elenca cosa se ne ricava: richiamare l'interfaccia, generare audio, chiamare i modelli, inviare un prompt, richiamare strumenti, creare agenti, usare i server MCP, interagire con l'orario <em>«per schedulare determinate azioni»</em>, fare chiamate HTTP, interagire con i processi.</p>
+<p>E su una voce si ferma apposta, ed è la più interessante: <strong><code>store</code></strong>, cioè <em>«andare a salvare uno stato, una sorta di memoria tra le chiamate dell'hook, diventando quindi a tutti gli effetti un hook dinamico»</em>. È il pezzo che distingue un hook da uno script: <strong>può ricordare cosa è successo l'ultima volta</strong>.</p>
+<p>Chiude la parte teorica con una nota di buon senso: <em>«non dobbiamo tenere tutte queste informazioni a mente, perché Claude Code stesso sa benissimo come i suoi hook funzionano»</em> — si chiede a lui di costruirli.</p>
+<h2><code>hooks-audit</code>: la skill che legge il tuo CLAUDE.md e ti dice cosa togliere</h2>
+<p>A metà video presenta una skill scritta da lui, su GitHub con licenza MIT e un badge che dichiara il requisito: <strong>function hooks ≥ 2.1.263</strong>. Il README dice cosa fa meglio di qualunque parafrasi:</p>
+<blockquote><em>«<code>hooks-audit</code> è una skill per Claude Code che ti permette di trovare le regole scritte nel tuo <code>CLAUDE.md</code> che possono diventare <strong>function hooks</strong> — codice TypeScript eseguito dal motore di Claude Code <strong>prima che il modello veda la richiesta</strong> — e di implementarle, verificarle e rimuoverle dal file di istruzioni. La differenza con una regola scritta è che <strong>una regola scritta viene letta, pesata e a volte ignorata dal modello</strong>, mentre una function hook intercetta l'evento e <strong>decide da sola</strong>: nega il tool, chiede conferma a te, riscrive il comando, agisce senza avviare un turno.»</em></blockquote>
+<p>Sotto, una tabella a due colonne — «CLAUDE.md» e «plugin di function hooks» — che è il miglior riassunto possibile del metodo, <strong>ultima riga compresa</strong>:</p>
+<div class="tw"><table><thead><tr><th>Regola scritta</th><th>Diventa</th></tr></thead><tbody><tr><td>«MAI cancellare email»</td><td><code>tool.call</code> su <code>trash_*</code> → <code>{ deny }</code></td></tr><tr><td>«chiedi prima di un deploy»</td><td><code>tool.call</code> su <code>git push</code> → <code>$.ui.ask</code> → `deny \</td><td>next`</td></tr><tr><td>«Capture: X → aggiungi al TODO»</td><td><code>prompt.submit</code> → scrive il file → <code>{ drop }</code></td></tr><tr><td>«usa il python del venv»</td><td><code>tool.call</code> su Bash → riscrive il comando</td></tr><tr><td><strong>«rispondi in italiano»</strong></td><td><strong>resta nel <code>CLAUDE.md</code> (non è un evento)</strong></td></tr></tbody></table></div>
+<p>E la frase che accompagna la tabella: <em>«Ogni regola spostata nel plugin libera contesto a ogni turno e smette di dipendere dall'attenzione del modello. Le regole che richiedono giudizio — tono, lingua, decisioni di merito — <strong>restano dove sono: la skill le classifica come non trasformabili e lo dice</strong>.»</em></p>
+<p>La skill lavora in <strong>cinque fasi</strong>. La zero accerta i prerequisiti, e già lì c'è il limite più importante di tutto l'impianto: fra le cose da verificare c'è <em>«la presenza di altri agenti (Codex, bot headless) che leggono lo stesso <code>CLAUDE.md</code> <strong>ma non eseguono plugin</strong>»</em>. La prima è l'inventario: uno script estrae le righe-regola da <code>CLAUDE.md</code>, <code>AGENTS.md</code>, dagli hook già presenti nei settings, dalle skill e dalla documentazione, riconoscendo marcatori come 🔒, «MAI», «SEMPRE», «chiedi conferma prima di», «usa X invece di Y», «quando scrivo X». La seconda classifica ogni regola per tipo: divieto assoluto, divieto con eccezione umana, sostituzione, scorciatoia utente, post-azione, formato dei testi git, stato da monitorare, protezione di file, <strong>non trasformabile</strong>.</p>
+<p>L'obiettivo dichiarato a voce è doppio, e sono due benefici diversi: <em>«uno, risparmiare sul contesto, perché possiamo eliminare queste informazioni dal CLAUDE.md; due, rendere la regola deterministica, quindi verrà sempre eseguita, non solo quando il modello se la ricorda»</em>.</p>
+<h2>I tre hook costruiti in diretta</h2>
+<p><strong>Abilitazione.</strong> Si accende la funzione con <code>CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1</code> davanti al comando di avvio; poi diventa disponibile <strong><code>/plugin-authoring</code></strong>, il comando che li costruisce. (Nel video successivo del vault questa variabile risulterà <strong>ignorata</strong> dalla versione 2.1.287 in poi, perché i mod sono diventati attivi di default: qui lui gira su <strong>2.1.263</strong>, Opus 5 a sforzo medio, piano Max, nella cartella <code>~/Work/AIOS</code>.)</p>
+<p><strong>Primo hook — il todo che non costa niente.</strong> Il caso d'uso nasce da un fastidio minimo e per questo credibile: <em>«se chiedo di aggiungere qualcosa alla lista dei miei todo, non mi interessa che mi risponda "Ciao, grazie, ho aggiunto questa alla lista. Vuoi che faccia altro?"»</em>. Il prompt che dà a <code>/plugin-authoring</code> chiede un hook che blocchi l'uso del modello quando non serve, aggiunga la riga, incrementi il numero e risponda solo che l'ha fatto.</p>
+<p>La lavagna che confronta i due percorsi è intitolata <em>«Capture: chiamare Mario — dove finisce il testo che scrivi»</em>, con un sottotitolo che è la lezione: <strong>«la differenza non è la funzione, è quante volte viene chiamato il modello»</strong>. A sinistra, oggi: chiamata al modello 1 (legge il prompt e tutto il contesto) → chiamata allo strumento <code>Edit</code> sul file dei todo → chiamata al modello 2 («ok, aggiunto ai todo») → <em>«secondi di spinner + token, sulla finestra del piano, il messaggio resta in cronologia»</em>. In fondo: <strong>2 chiamate al modello + 1 tool call</strong>. A destra, con l'hook su <code>prompt.submit</code>: l'hook intercetta prima del modello → l'espressione regolare trova la corrispondenza, aggiunge la riga, mostra un avviso → <code>{ drop: true }</code>, il turno non parte → <em>«0 chiamate, 0 token, millisecondi, nessuna traccia in cronologia»</em>. In fondo: <strong>0 chiamate al modello</strong>.</p>
+<p>La prova a schermo è secca. Scrive <em>«aggiungi ai todo di lavoro video su functional hooks»</em> e il terminale risponde con una riga sola: <strong><code>Prompt dropped by a hook: Todo #17 → todos-work.md: lavoro video su functional hooks</code></strong>, con la barra di stato che segna <strong><code>ctx: 0%</code></strong> e <strong><code>$0.00</code></strong>. Il suo commento: <em>«il contesto è ancora zero, non abbiamo speso assolutamente nulla, perché non è neanche stato necessario caricare il system prompt: abbiamo intercettato l'esecuzione prima»</em>. Subito dopo chiede la lista dei todo — e quella sì che carica tutto, e il diciassettesimo è quello appena aggiunto.</p>
+<h3>Il codice vero dell'hook, aperto a schermo</h3>
+<p>È il pezzo che manca in tutti gli altri video sul tema, questo compreso se lo si guarda distrattamente: per una quindicina di secondi apre l'editor su <code>~/Work/AIOS/plugins/aios-guard/hooks/hooks.tsx</code>, con accanto le schede <code>hooks.json</code> e <code>plugin.json</code> — <strong>la stessa anatomia a due file più manifesto</strong> che il video sui mod descriverà a ottobre.</p>
+<p>Quello che si legge vale di più della demo. In testa alla funzione principale c'è un commento che è <strong>la decisione di progetto più importante dell'intero impianto</strong>:</p>
+<blockquote><em>«Riconosce solo frasi in cui la parola "todo" compare in una forma nota. Frasi con "todo" fuori pattern → <code>null</code> = <strong>il prompt va al modello come oggi</strong>.»</em></blockquote>
+<p>Cioè: l'hook <strong>non prova a capire</strong>. Ha un elenco chiuso di forme che sa gestire — in <code>parseTodo</code> ci sono due blocchi di espressioni regolari, uno per le chiusure («todo fatto X», «rimuovi/cancella/togli il todo X», «todo 12 fatto») e uno per le aggiunte («aggiungi/metti/segna/crea/salva un todo», «nuovo todo X») — e <strong>tutto ciò che non riconosce lo passa al modello, esattamente come prima</strong>. È il contrario di come si è tentati di scriverlo: non un filtro che intercetta tutto e ogni tanto sbaglia, ma <strong>una scorciatoia stretta con il percorso normale sempre aperto sotto</strong>. Chi scrive un hook proprio dovrebbe copiare questa forma prima di copiare qualunque altra cosa.</p>
+<p>Il resto è leggibile riga per riga anche da chi non programma: <code>parseLines</code> legge il file e ne ricava le voci numerate; <code>addTodo</code> usa <strong><code>$.fs.readFile</code> e <code>$.fs.writeFile</code></strong> — cioè gli stessi nomi della lavagna, visti all'opera — per riscrivere il file con la riga nuova e restituire il numero progressivo; <code>doneTodo</code> cancella la riga e rinumera.</p>
+<p><strong>Secondo hook — la status line con lo stato dei processi.</strong> Ha delle automazioni che partono ogni mattina verso le sette, fra cui quella che gli gestisce la posta: cerca le email senza risposta, prepara le bozze sulla base delle conversazioni passate, e <strong>estrae i «learnings» dalle correzioni che lui fa alle bozze</strong>, in modo che le successive assomiglino sempre di più a quelle che scriverebbe lui. Chiede un hook che gli mostri una barra <strong>sopra la casella del prompt</strong> con quattro informazioni. Il risultato:</p>
+<p><code>MailOS: run 07:01 ✓   [ Learnings MailOS: 0 ]   [ Meeting da smistare: 1 ]   [ Funnel attivi: 23 ]</code></p>
+<p>Si accende e si spegne con una scorciatoia da tastiera. È lo stesso meccanismo del <code>cache-meter</code> e del <code>quick-buttons</code> che compariranno nel video sui mod — stessa primitiva, <code>session.start</code> più <code>ui.render</code>, applicata a quello che a te serve sapere all'ingresso.</p>
+<p><strong>Terzo hook — il cancello prima del deploy.</strong> Il suo sito sta su un repository collegato a un servizio che ricostruisce e pubblica a <strong>ogni push</strong>, con un piano gratuito e quindi un numero limitato di ricostruzioni. L'hook intercetta e apre un dialogo a scelta multipla, con la domanda scritta parola per parola così:</p>
+<blockquote><em>«Questo prompt chiede di pubblicare il sito: ogni push su <code>workspace/website</code> scatena un deploy Netlify (piano gratuito, build limitati). Procedo fino al push?»</em> — <strong>1. Sì, push e deploy</strong> · <strong>2. No, solo preparare</strong> · <em>3. Type something</em> · <em>4. Chat about this</em></blockquote>
+<p>E la frase con cui lo commenta è il motivo per cui questo pattern conta: <em>«questo impedisce al modello <strong>o anche a me sbadatamente</strong> di scatenare un deploy quando non voglio farlo»</em>. Il guardrail non protegge solo dall'agente: protegge <strong>anche da te</strong>.</p>
+<h2>Il referto di <code>hooks-audit</code> sul suo sistema</h2>
+<p>L'ultimo minuto è la parte da copiare. Lancia la skill e produce un rapporto datato <strong>14 settembre 2026</strong>, che si apre con una fase zero di accertamento: versione <strong>2.1.263</strong>, variabile attiva, tipi della build corrente, plugin suo già caricato via symlink. E poi la riga che nessun altro video dice:</p>
+<blockquote><strong>Gli agenti che non sono Claude Code leggono il <code>CLAUDE.md</code> ma non eseguono i plugin.</strong> Vale per Codex, per i processi pianificati che girano da soli e per i bot senza interfaccia. Quindi <em>«le regole che valgono anche per loro si possono solo <strong>accorciare</strong>, mai rimuovere»</em>.</blockquote>
+<p>Poi i numeri. <strong>Baseline del contesto: <code>CLAUDE.md</code> = 39.655 byte, 506 righe, circa 9.657 token.</strong> <strong>Inventario: 99 candidati estratti</strong> (23.249 byte) dal <code>CLAUDE.md</code> (38 di quei candidati), dalle skill, dalla cartella del contesto, dalla documentazione e dai settings. Di questi, <strong>7 sono già coperti</strong> dal plugin che aveva costruito:</p>
+<div class="tw"><table><thead><tr><th>Regola</th><th>Hook</th></tr></thead><tbody><tr><td>Posta solo-bozze (modifica/scrittura file)</td><td><code>tool.call</code> → chiedi/nega</td></tr><tr><td>Posta solo-bozze (da terminale)</td><td><code>tool.call</code> → chiedi/nega</td></tr><tr><td>Cattura e chiusura dei todo</td><td><code>prompt.submit</code> → scarta il turno</td></tr><tr><td>Stato di posta, insegnamenti, meeting e funnel</td><td><code>session.start</code> + <code>ui.render AbovePrompt</code></td></tr><tr><td>Avviso quando una PR viene creata</td><td><code>ui.render ToolUse</code></td></tr><tr><td>Conferma sul push del sito (dal comando)</td><td><code>tool.call</code></td></tr><tr><td>Conferma sul push del sito (dall'intento nel prompt)</td><td><code>prompt.submit</code></td></tr></tbody></table></div>
+<p><strong>Restano 8 candidati</strong>, in una tabella ordinata per un criterio che vale la pena rubare: <strong>costo della violazione × verificabilità</strong>. Oltre alla regola, ogni riga dichiara <strong>da dove viene</strong> (file e numero di riga, o la memoria), di che <strong>tipo</strong> è e su quale <strong>evento</strong> andrebbe agganciata:</p>
+<ul>
+<li><strong>P1 — Mai cancellare le bozze di posta.</strong> La cancellazione è <strong>permanente</strong>, e la nota accanto dice: <em><strong>«3 bozze perse il 2026-09-08»</strong></em>. È un incidente vero. Fonte tripla: <code>CLAUDE.md:382</code>, un documento di sistema, la memoria. Proposta: <strong>deny secco, nessun dialogo</strong>.</li>
+<li><strong>P2 — Mai toccare i ticket veri dell'assistenza.</strong> Negare o chiedere conferma sugli strumenti di scrittura; <strong>la sola lettura passa</strong>.</li>
+<li><strong>P3 — Un solo server.</strong> Negare qualunque comando che contenga l'indirizzo o il nome del server sbagliato, via ssh, scp, curl o API.</li>
+<li><strong>P4 — Zero dati privati nei moduli pubblicabili.</strong> Dialogo di conferma su scrittura e modifica dentro quella cartella quando il contenuto contiene percorsi personali, chiavi API, email o il file del database; <strong>rifiuto = nega</strong>. Motivazione in due parole: <strong>«pubblicazione irreversibile»</strong>.</li>
+<li><strong>P5 — I file autogenerati non si modificano a mano</strong>; <strong>P6 — un <code>PRAGMA wal_checkpoint(TRUNCATE)</code> prima di committare il database</strong>, automatico e senza dialogo; <strong>P7 — riscrivere <code>python</code> sull'ambiente giusto</strong>; <strong>P8 — i README si scrivono con il comando dedicato</strong>, con la nota onesta che quel trigger è <em>«solo parzialmente verificabile»</em>.</li>
+</ul>
+<h3>La contro-sezione, che è la parte più onesta del video</h3>
+<p>In fondo al referto c'è un titolo che in nessun altro video sul tema compare: <strong>«Non hookabili (restano in <code>CLAUDE.md</code>)»</strong>. Quattro voci, e sono il motivo per cui questo non è un video entusiasta:</p>
+<ul>
+<li><strong>Missione, livelli, principi, KPI, tono, lingua di risposta</strong> → <em>«giudizio, non pattern»</em>.</li>
+<li><strong>Regole di stile dei documenti prodotti</strong> (quali campi in un report, cosa non mettere in un contratto) → <em>«giudizio sul contenuto»</em>.</li>
+<li><strong>«Sync totale fra locale e GitHub»</strong> → e qui la motivazione è la più fine di tutte: <em>«l'azione corretta è <strong>fare di più</strong>, non vietare; un hook può al massimo iniettare un promemoria dopo il commit. <strong>Vale anche per Codex</strong>»</em>. Cioè: <strong>un hook sa dire di no, non sa dire di sì</strong> — è bravo a impedire, pessimo a ricordarti di fare.</li>
+<li><strong>Quali strumenti usare per quale comando</strong> → <em>«dipendono dal contesto della richiesta»</em>.</li>
+</ul>
+<p>Messi insieme ai due limiti dichiarati altrove — gli altri agenti che non eseguono i plugin, e il «rispondi in italiano» che resta nel file perché non è un evento — ne esce il perimetro vero: <strong>si può rendere meccanico ciò che è un divieto su un pattern riconoscibile. Tutto il resto resta prosa, e la prosa resta in contesto.</strong></p>
+<p>La chiusa del video torna al punto: la regola sulle bozze <em>«è una regola che ho nel mio CLAUDE.md, che va a occupare contesto che potrei tranquillamente rimuovere e rendere soprattutto deterministica, in modo da impedire questo comportamento attraverso il codice»</em>.</p>
+<h2>Il dato che emerge solo mettendo insieme i due video</h2>
+<p>C'è un numero che questo video non dà e che si ottiene solo affiancandolo a <a href="stai-usando-claude-md-nel-modo-sbagliato-ecco-cosa-fare-2026-10-06.html">stai-usando-claude-md-nel-modo-sbagliato-ecco-cosa-fare-2026-10-06</a>, girato ventuno giorni dopo sullo stesso sistema.</p>
+<div class="tw"><table><thead><tr><th></th><th>14 settembre</th><th>5 ottobre</th></tr></thead><tbody><tr><td><code>CLAUDE.md</code></td><td><strong>39.655 byte · 506 righe · ~9.657 token</strong></td><td><strong>43 KB · 535 righe · ~11.000 token</strong></td></tr></tbody></table></div>
+<p><strong>In tre settimane il file è cresciuto di circa 3,3 KB e 29 righe</strong> — nonostante l'autore avesse appena fatto un audit che gli diceva di tagliare, avesse costruito la skill che fa l'audit, e avesse in memoria uno snellimento già approvato. Non è un'accusa: è <strong>la prova sperimentale della tesi</strong>. Un file di istruzioni che non ha un controllo meccanico sulla propria dimensione <strong>cresce</strong>, anche quando il proprietario sa benissimo che non dovrebbe e ha in mano gli strumenti per impedirlo. Per questo nel video successivo il rimedio proposto non è «sii più disciplinato» ma <strong>un tetto di dimensione verificato da uno script</strong>.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=hphGodvZ33w (Dario Fontanel, 17:36; pubblicato il 16/09/2026, visto il 06/10/2026)</li>
+<li>report grezzo con trascrizione completa, cinque fotogrammi di scena e diciotto a piena risoluzione (<code>hr_tNNN.jpg</code>, NNN = secondo del video): il post su X (t4), la issue #91870 (t14), lo schema degli hook standard (t130), la lavagna delle email (t215, t340), le due lavagne dell'API (t395, t430), il README di <code>hooks-audit</code> (t556), la scheda del repo (t605), <code>/plugin-authoring</code> (t640), <strong>il codice di <code>hooks.tsx</code> (t688)</strong>, la lavagna del conto delle chiamate (t700), il prompt intercettato (t760), la status line (t880), il dialogo sul deploy (t960) e il referto dell'audit con la contro-sezione (t1012, t1020)</li>
+<li>Capitoli dichiarati in descrizione: 00:00 Intro · 00:57 Hooks standard · 02:11 Functional hooks · 03:21 Esempio email · 05:26 Eventi e API · 08:16 Casi d'uso · 10:08 Hook todo · 13:17 Status line · 15:09 Hook deploy · 16:18 Hooks audit</li>
+<li>Concetti collegati: claude-skills (la genealogia hook → function hook → mod, e il plugin come contenitore), harness (l'interfaccia dell'agente che diventa programmabile), context-rot (la regola scritta che il modello dimentica a contesto degradato; e il file che cresce da solo), loop-engineering (regola scritta contro controllo meccanico; <strong>il perimetro di cosa non è trasformabile</strong>; il cancello umano prima dell'azione irreversibile), produttivita-claude-code (gli hook come guardrail), agent-memory (<code>store</code>: la memoria dell'hook fra una chiamata e l'altra), aios (il sistema su cui gira tutto)</li>
+<li>Entità: dario-fontanel, anthropic, claude-code</li>
+<li><strong>Video imparentati nel vault:</strong> <a href="i-claude-mods-cambiano-tutto-implementa-questi-3-2026-10-04.html">i-claude-mods-cambiano-tutto-implementa-questi-3-2026-10-04</a> (stesso autore, 2 ottobre — <strong>riusa queste due lavagne</strong> e racconta la promozione a produzione) e <a href="claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04.html">claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04</a> (Nate Herk, stesso annuncio). <strong>Correzione al vault:</strong> la pagina sui mod attribuiva a quel video l'unica documentazione completa dell'API; la fonte è invece <strong>questa</strong>, di tre settimane prima.</li>
+<li><strong>Omesso:</strong> la presentazione di sé a inizio video; il teaser iniziale sulla lavagna e il passaggio sulla sua pagina professionale; i saluti; l'invito alla community Skool <strong>AIA — AI Academy</strong> (gratuita, mostrata in chiusura con 4,9K membri — tre settimane dopo saranno 5,2K). <strong>Riassunta ma non riportata per esteso:</strong> la pagina della documentazione ufficiale scorsa fra 01:00 e 02:00 (riferimento degli hook, ciclo di vita a tre cadenze, diagramma del ciclo agentico).</li>
+<li><strong>Non verificato / da sapere:</strong> (1) i <strong>sottotitoli automatici italiani</strong> rendono «Claude Code» come <em>Clock Code / Clockcode / Clocode</em>, «hook» come <em>look / luke / huk</em>, «MCP» come <em>NCP</em> e «Netlify» come <em>Netrify</em>: tutto corretto qui leggendo lo schermo. (2) Il repo <code>hooks-audit</code> risulta <strong>privato</strong> nel fotogramma in cui lo mostra (badge «Private», 1 commit di un'ora prima, 0 stelle, nessun contributor): il link in descrizione potrebbe non aprirsi per chi guarda. Non verificabile dal video se sia stato reso pubblico dopo. (3) Il <strong>Community Update</strong> è firmato da chi ha aperto la issue, con badge <code>Contributor</code>: il testo lascia intendere un interno di Anthropic, ma a schermo <strong>non c'è scritto</strong>. (4) I numeri del referto — 99 candidati, 506 righe, 39.655 byte, 9.657 token, «3 bozze perse» — sono <strong>prodotti dall'agente sul proprio sistema</strong>, e nel video nessuno li ricontrolla. (5) L'incidente delle tre bozze è riportato dal referto, non raccontato a voce.</li>
+</ul>
+<blockquote>✅ <strong>Verificato da un secondo agente il 06/10/2026</strong>, con una trentina di fotogrammi riestratti fino a 2.800 px. Il nucleo misurabile — le due lavagne dell'API, le tre lavagne di flusso, la status line, il dialogo del deploy, i quattro giudizi sul repo e l'intero referto dell'audit, tabelle comprese — è risultato <strong>corretto, spesso al carattere</strong>. Sono state corrette <strong>quattro cose</strong>: la prima stesura dichiarava che <em>«nessun hook viene mostrato nel suo codice»</em> mentre <code>hooks.tsx</code> è a schermo per quindici secondi (ed è il pezzo migliore del video); accusava di «incoerenza non spiegata» il fatto che il repo dichiari Python mentre il README parla di TypeScript, quando il README stesso spiega che lo script dell'inventario è in Python e il TypeScript è il linguaggio degli hook <em>generati</em>; diceva che il video si apre su GitHub, mentre si apre su X; e attribuiva il video a Matt Pocock fra le entità, che qui <strong>non compare mai</strong> (contaminazione dall'altro riassunto dello stesso giorno). Aggiunte due sezioni che mancavano: il codice dell'hook e la contro-sezione «Non hookabili».</blockquote>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
