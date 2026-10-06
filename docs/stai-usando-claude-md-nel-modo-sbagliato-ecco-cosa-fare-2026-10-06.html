@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Stai Usando CLAUDE.md nel Modo Sbagliato (ecco cosa fare)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="Stai Usando CLAUDE.md nel Modo Sbagliato (ecco cosa fare)" src="https://i.ytimg.com/vi/govfriuhbRQ/hqdefault.jpg"><p class="muted">📖 19 min di lettura</p><p><strong>In sintesi:</strong> la tesi è una sola e sta tutta nei primi dieci secondi — <strong>il <code>CLAUDE.md</code> non è la bacheca dove si appendono le regole, è un costo fisso che paghi in ogni sessione</strong>, e quindi va tenuto il più piccolo possibile; le regole scritte a parole vanno <strong>estratte e trasformate in controlli meccanici</strong> (hook pre-commit e pre-push, <code>deny</code> nei settings, test, script) che l'agente non può aggirare perché non dipendono dalla sua buona volontà. Lo strumento è la skill <strong><code>/retro</code></strong> di <strong>Matt Pocock</strong>, appena promossa da sperimentale a produzione. Legge i log delle sessioni passate e propone miglioramenti <strong>all'ambiente di lavoro</strong> invece che al codice. La parte che vale il video è la seconda metà, dove Fontanel la lancia <strong>sul proprio lavoro vero del giorno prima</strong> e mostra il referto a schermo: il suo <code>CLAUDE.md</code> pesa <strong>43 KB, 535 righe, circa 11.000 token</strong>, caricati a ogni sessione, in ognuno dei <strong>17 sotto-agenti</strong> di quella giornata e a ogni messaggio del suo bot Telegram — e, sezione per sezione, <strong>solo 6-8 KB cambiano davvero il comportamento dell'agente</strong>. Il resto sono duplicati, esposizione e residui dello starter kit. Dei «plugin», ne consiglia <strong>uno solo e come pacchetto</strong>: quello di Matt Pocock, da cui nomina <code>/retro</code> e <code>/wayfinder</code>.</p>
+<h2>La tesi: il CLAUDE.md è un costo fisso, non una bacheca</h2>
+<p>Il video si apre senza preamboli, in faccia a camera, con l'accusa diretta: <em>«Se ogni volta che vuoi forzare un comportamento in Claude Code vai subito ad aggiungere un blocco di testo all'interno del CLAUDE.md, non stai seguendo l'approccio più efficace.»</em> La ragione è aritmetica e non psicologica: quel file <strong>viene iniettato a ogni sessione dentro il contesto</strong>, quindi ogni riga che aggiungi la paghi per sempre, in ogni conversazione, anche in quelle che con quella regola non c'entrano niente.</p>
+<p>La conseguenza che tira è doppia. Primo: <strong>usare il <code>CLAUDE.md</code> il meno possibile, per mantenerlo contenuto.</strong> Secondo, ed è la mossa vera: <strong>aggiungere quante più regole meccaniche possibile dentro il processo di sviluppo</strong>, cioè spostare il vincolo da una frase scritta — che l'agente può interpretare male, dimenticare o semplicemente saltare — a un controllo che vive nel codice e che <em>«quindi non può essere mai bypassato»</em>.</p>
+<p>Il resto del video serve a mostrare chi fa questo lavoro di traduzione al posto tuo, e su cosa.</p>
+<h2>Dove sta la retrospettiva: i sei passi dello spec-driven development</h2>
+<p>Prima di arrivare alla skill, Fontanel scopre una lavagna digitale già preparata, intitolata <strong>«Specs Driven Development (SDD)»</strong>, e precisa subito una cosa onesta: non è un'invenzione dei coding agent, è <em>«un modo di sviluppare che abbiamo da tantissimo tempo all'interno dell'ingegneria del software»</em>. Il suo pregio è che <strong>documenta a ogni passo dove sei arrivato e cosa vuoi raggiungere</strong>, così alla fine si può verificare di aver costruito quello che si voleva.</p>
+<p>I sei cerchi numerati sono: <strong>1 — Plan</strong>, con accanto <code>/wayfinder</code>, la skill (sempre di Pocock) che costruisce un piano di lavoro strutturato a partire dalle specifiche, già coperta in un suo video dedicato; <strong>2 — to-spec</strong>, il file che descrive riga per riga cosa si vuole costruire; <strong>3 — to-tickets</strong>, la rottura della specifica in blocchi di lavoro autoconsistenti; <strong>4 — implement</strong>; <strong>5 — code-review</strong>; <strong>6 — retro</strong>. Piccolo dettaglio che tradisce come è stata preparata la lavagna: il sesto cerchio porta inizialmente l'etichetta «code-review» come il quinto, e viene rinominato «retro» strada facendo; l'unica cosa tracciata davvero in diretta è il riquadro rosso che ci disegna attorno quando ci arriva.</p>
+<p>Il file di specifiche non resta un'astrazione: ne apre uno vero, <code>spec-v1.md</code>, nato il giorno prima mentre costruiva <strong>la demo di un CRM personale in locale</strong>. In testa c'è lo stato — <em>«approvata da Dario il 2026-10-04»</em> — e un rimando alla mappa su GitHub; poi le sezioni. <strong>«Cos'è e cosa non è»</strong> definisce il perimetro in positivo (un CRM a utente singolo che gira sul suo Mac, raccoglie chi compila un form o prenota una call, con lista, scheda, pipeline a stati, note, storico e promemoria) e soprattutto <strong>in negativo</strong>, con una riga «Fuori dalla v1» che elenca newsletter, invio di email dal CRM, tracciamento comportamentale, arricchimento da servizi esterni, più utenti, hosting online, import di contatti esistenti, <strong>unione di due schede</strong> e costruzione del sito. <strong>«Forma e stack»</strong> fissa le scelte tecniche con le relative motivazioni e un rimando a un ADR: web app aperta nel browser su <code>127.0.0.1</code>, senza login e non raggiungibile dalla rete; TypeScript ovunque, server Hono su Node 24 LTS e interfaccia React con Vite nello stesso progetto; database SQLite con Drizzle, con il file dei dati <strong>escluso da git fin dal primo commit</strong>; i segreti in un <code>.env</code> fuori dal versionamento; avvio a mano e nessun processo in background. <strong>«Modello dei dati»</strong> è una tabella entità per entità — Contatto, Invio, Prenotazione, Nota, Promemoria, Cambio di Stato, Scartato — con i campi e le regole (l'email è l'identificativo, unica e obbligatoria). Poi il dettaglio delle schermate, i limiti considerati accettabili e, dice lui, soprattutto <strong>le regole che permettono al coding agent di stabilire quando il lavoro è concluso</strong>: <em>«qui possiamo andare a descrivere esattamente cosa per noi significa un lavoro ultimato»</em>.</p>
+<p>Dalla specifica si passa ai <strong>ticket</strong>, e anche qui mostra il risultato vero: una issue su GitHub con tre blocchi — «Cosa costruire» (una riga di scopo più il rimando alla sezione della spec), «Criteri di accettazione» (quattro righe verificabili, del tipo <em>«la Nota compare nello Storico del Contatto, al suo posto nell'ordine di tempo»</em>) e <strong>«Bloccato da»</strong>, che punta a un'altra issue. È il punto su cui insiste di più: ogni ticket è un blocco <strong>autoconsistente</strong>, tracciabile da GitHub, Jira o anche da una documentazione in locale, e <strong>può essere bloccato da un ticket precedente o bloccante per uno successivo</strong>. Dopo l'implementazione viene la revisione del codice, che risponde a due domande distinte: <em>«è corretto?»</em> e <em>«è quello che avevamo chiesto?»</em>.</p>
+<p>Solo alla fine arriva la retrospettiva, e la sua definizione è la cosa da ricordare: <strong>l'obiettivo non è migliorare il codice scritto, ma il come il codice è stato scritto</strong>. Quali azioni l'agente ha dovuto compiere e si sarebbero potute evitare; quali errori ha fatto che un controllo a monte avrebbe intercettato; cosa si può fare in generale per aumentarne l'efficacia <em>«sulla base dei nostri usi»</em>. E non è obbligatorio chiamarla sul lavoro appena finito: <strong>Claude Code, Codex e gli altri coding agent tengono traccia in locale di tutte le conversazioni e di tutte le azioni</strong>, quindi la si può puntare su ieri, su una sessione specifica o su giorni passati.</p>
+<h2>Cosa cerca davvero <code>/retro</code>: sette categorie, e una regola per decidere</h2>
+<p>Qui Fontanel fa la cosa che lo distingue: <strong>apre il file</strong>. A schermo c'è <code>skills/engineering/retro/SKILL.md</code> nel repo <code>mattpocock/skills</code> — 44 righe, 4,27 KB, ultimo commit di due settimane prima. Nel frontmatter c'è <code>disable-model-invocation: true</code>: <strong>la skill non parte da sola, la devi chiamare tu</strong>.</p>
+<p>La promozione di cui parlava in apertura è documentata nel changelog che scorre a inizio video, e la voce è esplicita: <em>«Graduate <code>retro</code> into the Engineering bucket, so it ships in the Claude Code plugin, gets a docs page, and is routed by <code>ask-matt</code> as the last step of the main flow, after <code>code-review</code>»</em> — cioè la skill non solo esce dalla sperimentazione, ma entra <strong>nel pacchetto ufficiale</strong> e viene instradata automaticamente come <strong>ultimo passo del flusso principale</strong>. Lo stesso changelog contiene la definizione d'autore, che vale come sintesi migliore di qualunque parafrasi: <em>«<code>retro</code> guarda indietro a una sessione di lavoro e propone modifiche all'<strong>ambiente</strong> dell'agente invece che al codice: puntatori di navigazione, controlli automatici, standard di codice, file di indirizzo, economia degli strumenti, accesso alle informazioni. Classifica prima ogni reperto sugli standard: una violazione meccanica ottiene un controllo deterministico (una regola del linter, un hook pre-commit o un job di CI), e <code>CODING_STANDARDS.md</code> resta per i giudizi veri. Un repository senza guardrail è di per sé un reperto.»</em></p>
+<p>L'istruzione di sistema dentro la skill è una riga: <em>«The user has asked for a retrospective. You are suggesting improvements to the coding agent's <strong>environment</strong> to improve future runs.»</em> I passi sono quattro. Primo, caricare la skill <code>writing-for-agents</code> come guida di stile — e la si vede effettivamente eseguita durante la demo, quindi non è decorazione: il referto è scritto per essere letto da un agente, non solo da un umano. Secondo, leggere le fonti primarie della sessione indicata, <em>«il che può voler dire cercare nei log delle sessioni su questa macchina»</em>; se l'utente non ne specifica una, si usa quella corrente. Terzo, cercare candidati al miglioramento in <strong>sette categorie</strong>. Quarto, presentarli all'utente <strong>in ordine di gravità</strong>.</p>
+<p>Le sette categorie, dalla pagina: <strong>navigazione</strong> (quanto è stato facile per l'agente trovare i file giusti? ci sono dipendenze nascoste fra file? un «puntatore di navigazione» renderebbe le cose più semplici?); <strong>controlli automatici</strong>, dove la formulazione è più dura di quanto ci si aspetti — si legge prima il comando di controllo che il repository ha già, così che <em>«un controllo che esiste ma è scollegato o rotto in silenzio sia il reperto, non una reinvenzione»</em>, e soprattutto <strong>un repository senza guardrail è di per sé un reperto</strong>: <em>«un repo non lintato è un'occasione mancata permanente, non un valore di default neutro»</em>; <strong>standard di codice</strong>; <strong><code>AGENTS.md</code> globale</strong>, cioè quali istruzioni di indirizzo andrebbero spostate negli standard o nei controlli automatici, <em>«da usare quando l'<code>AGENTS.md</code> è particolarmente grande, nel repo o nello spazio globale dell'utente»</em>; <strong>economia degli strumenti</strong> (l'agente ha fatto chiamate costose che si potevano snellire? c'è un tool o un server MCP particolarmente inefficiente in token?); <strong>no-op</strong>, cioè istruzioni nei file di indirizzo <strong>che non cambiano il comportamento dell'agente</strong>, da cercare quando quei file sono grossi e ingombranti; e <strong>accesso alle informazioni</strong> (collegare i log del server di sviluppo, dare accesso in sola lettura a un servizio terzo), da usare quando all'agente è mancata un'informazione cruciale.</p>
+<p>Dentro la voce «standard di codice» c'è la regola che è il cuore teorico del video, e vale la pena riportarla com'è: <strong>si classifica prima la violazione</strong>. Se è <strong>meccanica</strong> — un pattern sintattico fisso, un'API vietata, una forma di import, una regola su dove sta un file — allora ottiene <strong>un controllo deterministico, punto</strong>: una regola nel linter del progetto, un nuovo hook pre-commit o un nuovo job di CI, <em>«a seconda di quale il linguaggio del repository e il guardrail già esistente rendono più economico»</em>. E poi la riga che vale da sola: <em>«Default to building the check over writing the rule»</em> — in dubbio, costruisci il controllo invece di scrivere la regola. Il file degli standard scritti si <strong>riserva ai giudizi veri</strong>: coerenza fra file, «somiglia allo stile circostante», tutto ciò per cui nessun guardrail potrebbe mai fare da sostituto.</p>
+<p>In coda alla pagina c'è una sezione di riferimento che spiega il perché: ogni lavoro passa per due fasi, implementazione e revisione; <strong>l'agente che implementa ha la pressione di contesto più alta</strong> (deve esplorare, scrivere, debuggare), <strong>quello che revisiona la più bassa</strong> perché riceve un diff e non ha bisogno di esplorare.</p>
+<h2>Come si installa, e qual è il «plugin» che consiglia</h2>
+<p>L'installazione la legge <strong>dal README del repository su GitHub</strong>, sezione <em>«Installation (30-second setup)»</em>, e lì c'è una distinzione che vale più delle due righe di comando: <strong>«due strade, due filosofie»</strong>. Il <strong>plugin di Claude Code</strong> installa l'intero insieme come <strong>pacchetto gestito e in sola lettura</strong>, che si aggiorna quando l'autore pubblica — <em>«ti abboni invece di forkare»</em>. Lo script <code>skills.sh</code> invece <strong>copia i file delle skill dentro il tuo progetto, modificabili</strong>, così puoi metterci le mani e farle tue. E l'avvertenza, che è il genere di cosa che si scopre solo sbagliando: <em>«scegline una: installarle tutte e due ti lascia ogni skill in doppia copia»</em>.</p>
+<p>La via del plugin sono due comandi: da terminale <code>claude plugins install mattpocock-skills</code>, oppure da dentro una sessione <strong><code>/plugin install mattpocock-skills</code></strong> — <em>«è nel marketplace ufficiale di Claude Code, quindi non c'è niente da aggiungere prima, e gli aggiornamenti arrivano da soli»</em>. Poi si lancia <strong><code>/setup-matt-pocock-skills</code></strong>, una volta per ogni repository, ed è l'unico comando che si vede digitato davvero nella barra del prompt. Il setup fa tre domande: <strong>quale sistema di ticket vuoi usare</strong> (GitHub, Linear o file in locale), <strong>quali etichette applichi ai ticket</strong> quando li smisti, e <strong>dove vuoi salvare i documenti</strong> che verranno creati. Nel README ci sono anche due sezioni chiuse per <em>«Codex e altri agenti»</em> e <em>«per chi vuole smanettare»</em>, che il video non apre. In descrizione lascia i due link diretti ai file: <code>skills/engineering/retro/SKILL.md</code> e <code>skills/engineering/wayfinder/SKILL.md</code>.</p>
+<p>Vale la pena essere precisi su cosa consiglia davvero, perché il video non è una rassegna: <strong>l'unico pacchetto che installa è quello di Matt Pocock</strong>, e dentro quel pacchetto nomina per nome solo <strong><code>/retro</code></strong> (il tema) e <strong><code>/wayfinder</code></strong> (la fase di piano). Gli altri passi dello schema — <code>to-spec</code>, <code>to-tickets</code>, <code>implement</code>, <code>code-review</code> — compaiono come nomi sulla lavagna, coerenti con le skill dello stesso autore, ma non li installa né li mostra in funzione.</p>
+<p>Prima di lanciare il comando si vede di sfuggita il suo pannello di utilizzo: <strong>465 sessioni, 35.038 messaggi, 6,8 miliardi di token, 37 giorni attivi</strong>, ora di punta le 18, modello preferito <strong>Opus 5.5</strong> — con la riga di colore sotto, <em>«hai usato ~25.265 volte più token di Moby-Dick»</em>. Il comando che digita è, letteralmente: <strong><code>/retro esegui il controllo su tutto il lavoro che è stato fatto ieri</code></strong>.</p>
+<h2>Il referto su una giornata vera: otto reperti più un mucchietto di minori</h2>
+<p>L'agente va a prendere da solo i transcript del giorno prima e li analizza. Il risultato è un documento a reperti numerati, ognuno con la stessa struttura — <em>cosa è successo</em>, a volte <em>rischio</em> o <em>stato</em>, e sempre <strong>un <code>Fix:</code></strong>. Sono otto reperti pieni più una nona voce raccoglitrice intitolata <strong>«Minori»</strong>, e sono tutti sul suo lavoro reale di produzione video e di automazione della posta.</p>
+<p><strong>1 — «La pipeline cut-heygen vive nelle cartelle delle produzioni».</strong> In <strong>3 produzioni su 4</strong> un sotto-agente è andato a pescare gli script di lavorazione (<code>pipeline0-3.sh</code>, <code>make_decisions.py</code>, <code>post_encode.py</code>, <code>make_qa.py</code>, e l'elenco a schermo prosegue) <strong>dalla cartella di una vecchia produzione</strong>, li ha copiati e adattati con <code>sed</code>; né la skill corrispondente né il file delle fasi li nominano. Il rischio è dichiarato in modo brutale: la compattazione <strong>ha già cancellato 924 file tracciati di vecchie produzioni</strong>, e se sparisce quella cartella il prossimo sotto-agente riscrive la pipeline da zero. Il fix è promuovere quegli strumenti dentro la cartella <code>scripts/</code> della skill, parametrici sull'identificativo, con un puntatore.</p>
+<p><strong>2 — «Nessun guardrail automatico».</strong> È quello che commenta più a lungo. Stato: nessun hook pre-commit, nessuna CI; il suo comando <code>/commit</code> lancia un solo script di controllo. I <strong>587 test pytest passano</strong> — li ha fatti girare la retrospettiva stessa, in 108 secondi — <em>«ma girano solo se l'agente se ne ricorda»</em>, e una seconda famiglia di test non la lancia nessuno. Peggio: il bug della posta corretto il giorno prima (una bozza agganciata a una reazione emoji, <strong>invisibile dentro Gmail</strong>) è stato sistemato con test nuovi che <strong>non sono ancora stati committati</strong>. Il fix proposto è pytest come passo obbligato del commit, oppure un hook. Il commento di Fontanel è la frase che riassume tutto il video: <em>«Non è più l'agente che va a eseguire i test ogni volta che chiamo la skill, ma i test vengono eseguiti a livello di codice, e quindi vengono eseguiti sempre: non c'è mai il rischio che qualcosa vada storto. E se mai un test non dovesse passare, allora il commit non viene eseguito.»</em></p>
+<blockquote>⚠️ <strong>Qui la voce e lo schermo non dicono la stessa cosa.</strong> Presentando il reperto, Fontanel dice: <em>«Al momento nella mia repo non ho un guardrail automatico, ho un set di test che vengono lanciati in automatico ogni volta che faccio commit.»</em> Ma il referto a schermo dice che <code>/commit</code> lancia <strong>solo</strong> lo script di controllo, e che i test <em>«girano solo se l'agente se ne ricorda»</em>. Delle due l'una: o «in automatico» per lui significa «dentro la skill <code>/commit</code>» — che è però esattamente il punto debole che il referto gli sta segnalando — oppure il referto è sbagliato. Nel video nessuno risolve la contraddizione.</blockquote>
+<p><strong>3 — Attese dei lavori lunghi.</strong> In <strong>5 sotto-agenti su 8</strong> il primo tentativo di aspettare è stato un <code>sleep 240; tail …</code>, <strong>bloccato dall'harness</strong>; uno ha poi chiamato il monitoraggio senza passargli uno schema. L'effetto a monte è il più insidioso: i sotto-agenti chiudevano il turno lasciando lavoro in background, e ogni volta la sessione principale si risvegliava per ripetere la stessa scheda — <strong>una dozzina di volte</strong> in una sessione, cinque in un'altra, sempre con esiti del tipo «Nessuna novità», «Invariato». Il fix non è un prompt migliore: è <strong>una riga nel file delle fasi</strong> che dica come si aspetta (un ciclo in primo piano con timeout lungo) e una riga nella skill che vieti il messaggio intermedio.</p>
+<p><strong>4 — Node ≥ 22 scoperto due volte nella stessa produzione.</strong> Il <code>node</code> di sistema è la <strong>versione 20</strong>, ma lo strumento di montaggio che usa vuole la <strong>22</strong>. Due agenti diversi, nella stessa produzione, hanno fallito e poi si sono messi a cercare a mano dove fosse installata la versione giusta — <em>«nessuna skill lo dice»</em>. Il fix è una riga: gli script che lanciano <code>npm</code> antepongono da soli la versione giusta al PATH. Fontanel lo chiama <em>«un fix deterministico»</em>, ed è l'esempio più semplice di regola che non ha senso scrivere a parole.</p>
+<p><strong>5 — «CLAUDE.md da 43 KB caricato ovunque»</strong>, cioè il titolo del video. Il costo dichiarato è <em>circa 11.000 token per ogni sessione, per ognuno dei 17 sotto-agenti di ieri e per ogni messaggio del bot Telegram</em>; il file di memoria ne aggiunge <strong>altri 14 KB</strong>. E la contraddizione è deliziosa: il file contiene una serie di tabelle descrittive per singola skill <strong>che la sua stessa regola finale vieta</strong>, e lo snellimento <em>«risulta già approvato in memoria, mai fatto»</em>. Cioè la decisione di dimagrire era stata presa, registrata nella memoria dell'agente, e nessuno l'aveva eseguita.</p>
+<p><strong>6 — Manca un lettore di transcript.</strong> Tre sessioni, il giorno prima, si erano scritte a mano un parser dei log — due per recuperare messaggi persi dopo un <code>/clear</code> dato per errore, una perché il documento di passaggio di consegne non conteneva le decisioni prese. Il fix è uno script unico, con un puntatore dentro le skill di handoff e di retrospettiva.</p>
+<p><strong>7 — Nessun comando per «bozza su questo thread».</strong> Per un follow-up di tre righe l'agente ha letto <strong>una guida di stile da 57 KB</strong> per intero, decodificato a mano i token dentro l'URL di Gmail e creato la bozza passando per una via privata. Il fix è doppio ed è istruttivo: <strong>una CLI dedicata</strong> per quell'operazione, e <strong>un indice in testa alla guida di stile</strong> che dica <em>«per un follow-up leggi solo Follow-up, Lingue, Anti-pattern»</em> — cioè si risolve un problema di token con un sommario, non con un prompt.</p>
+<p><strong>8 — «Gli intermedi delle produzioni sono tracciati in git».</strong> <strong>1.534 file</strong> tracciati sotto la cartella delle produzioni; dopo la compattazione un <code>git status</code> ha restituito <strong>81 KB</strong> di output, e l'agente ha speso <strong>tre chiamate</strong> solo per capire se quei 924 file cancellati li avesse causati un sotto-agente. Il fix è smettere di tracciare gli intermedi e tenere solo il manifesto, le ricevute e la QA — ma qui l'agente si ferma e scrive la cosa che lo distingue da un'automazione cieca: <strong>«è una decisione tua, perché tocca la regola "sync totale"»</strong>. Quando il rimedio confligge con una regola che l'umano ha scritto apposta, propone e <strong>non esegue</strong>.</p>
+<p><strong>9 — «Minori».</strong> Un gruppo di quattro reperti più piccoli: un comando di taglio lanciato fuori dal flusso e senza identificativo, con la fase registrata a ritroso in sei chiamate; una skill di sfocatura dei dati sensibili che <strong>cita come «collaudato» uno script OCR che nella skill non c'è</strong> — l'agente se l'è riscritto dentro una cartella di cache, quindi alla prima pulizia andrà perso; un foglio di calcolo creato in doppio su Drive e poi cestinato; e un rendering bloccato per <em>«no frame progress for 60000ms»</em> e rifatto a pezzi.</p>
+<h2>I 43 KB, sezione per sezione</h2>
+<p>Poi chiede all'agente di approfondire proprio il <code>CLAUDE.md</code>, e qui arriva la tabella che è il pezzo forte del video. L'intestazione dice: il file pesa <strong>43 KB, 535 righe, circa 11k token</strong>, e <strong>solo 6-8 KB cambiano davvero il comportamento dell'agente</strong>; il resto è duplicato di skill e documentazione, esposizione, o residuo dello starter kit.</p>
+<div class="tw"><table><thead><tr><th>Blocco</th><th>KB</th><th>Verdetto</th><th>Perché</th></tr></thead><tbody><tr><td>Albero del workspace</td><td>8,1</td><td><strong>Ridurre</strong></td><td>è una copia del filesystem, e non è mai stantia solo perché autogenerata: quasi tutto si ottiene con un <code>ls</code>; le annotazioni lunghe ripetono sezioni che ci sono già</td></tr><tr><td>Tabelle per singola skill (audit, lead, funnel, fatture, contratti, metriche, markdown, community)</td><td>~7</td><td><strong>Togliere</strong></td><td>nome e descrizione di ogni skill sono <strong>già in contesto</strong>; viola la regola scritta in fondo al file stesso</td></tr><tr><td>I tre sotto-sistemi: intelligence + posta + comandi</td><td>7,3</td><td><strong>Dietro un puntatore</strong></td><td>posta (doc da 20 KB) e comandi hanno già un documento dedicato: questa è una seconda copia. <strong>L'intelligence invece non ha un doc: vive solo qui</strong></td></tr><tr><td>Mission, cinque livelli, cinque principi, tre KPI, «What This Is», relazione, riepilogo di contesto</td><td>4,2</td><td><strong>Togliere</strong></td><td><em>«esposizione che non sposta nessuna decisione»</em>; sta già nella cartella del contesto</td></tr><tr><td>Claude Code e Codex</td><td>2,9</td><td><strong>Comprimere</strong></td><td>metà vale solo per Codex, e un documento di portabilità lo copre già</td></tr><tr><td>Dettagli di content-flow, deck, trial reel, trading</td><td>2,6</td><td><strong>Togliere</strong></td><td>dettaglio per singola skill</td></tr><tr><td><code>/install</code>, <code>/prime</code>, <code>/share</code>, Getting Started, Session Workflow</td><td>1,8</td><td><strong>Togliere</strong></td><td>descrizioni di skill e onboarding dello starter kit</td></tr><tr><td>Regole 🔒 e convenzioni non scritte</td><td>~6</td><td><strong>Tenere</strong></td><td><em>«Vedi sotto»</em> — rimanda a una sezione <strong>«Cosa tenere»</strong> che elenca le regole una per una, a partire da «nessun invio AI senza approvazione»</td></tr></tbody></table></div>
+<p>Il criterio che emerge è semplice e trasferibile: <strong>si taglia tutto ciò che è già altrove</strong> (nelle descrizioni delle skill, nei documenti di sistema, nella cartella del contesto) <strong>e tutto ciò che descrive invece di decidere</strong>; si tiene ciò che l'agente non potrebbe sapere in nessun altro modo e che gli cambia il comportamento. E quando un blocco è l'unica copia esistente di un'informazione — come succede per uno dei tre sotto-sistemi — non si cancella: <strong>si sposta in un documento e si lascia un puntatore</strong>.</p>
+<h2>Le regole che diventano controlli</h2>
+<p>La seconda tabella è l'applicazione pratica della tesi: <strong>tre colonne — la regola com'è scritta nel <code>CLAUDE.md</code>, com'è presidiata oggi, e il controllo meccanico proposto</strong>.</p>
+<div class="tw"><table><thead><tr><th>Regola scritta</th><th>Com'è presidiata oggi</th><th>Controllo proposto</th></tr></thead><tbody><tr><td>«Mai cancellare bozze Gmail, mai inviare»</td><td><strong>solo prosa</strong>: nei settings non c'è nessun <code>deny</code>, e il connettore Gmail espone comunque <code>delete_draft</code>, <code>trash_*</code>, <code>send_message</code>, <code>reply</code>, <code>forward</code></td><td>un <code>deny</code> su quei tool in <code>.claude/settings.json</code> <strong>versionato</strong> (così vale anche per il bot), più un test che fallisce se le chiamate di cancellazione o invio compaiono negli script fuori dall'unico file autorizzato, che cancella solo la propria bozza di prova</td></tr><tr><td>«Nessun agente invia senza approvazione (Commslayer)»</td><td>prosa, più il racconto dell'incidente passato</td><td><code>ask</code> sui tool che scrivono sui ticket, e un <strong>audit giornaliero della configurazione</strong> con avviso su Telegram se un flag di approvazione risulta disattivato. <em>«È esattamente ciò che l'incidente Adyro avrebbe intercettato il primo giorno»</em></td></tr><tr><td>«Commit = tutto + checkpoint WAL + albero + push»</td><td>passi in prosa dentro il comando <code>/commit</code></td><td>un hook <strong>pre-commit</strong> in una cartella versionata (<code>core.hooksPath=.githooks</code>) che fa checkpoint, rigenera l'albero, lancia i controlli e pytest; e un <strong>pre-push</strong> che rifiuta se il working tree è sporco. <strong>Vale anche per Codex</strong></td></tr><tr><td>«Push sul sito solo con conferma»</td><td>prosa, in due punti diversi</td><td>un <strong>pre-push</strong> nel sottomodulo che passa solo se una variabile è impostata, e la imposta l'agente <strong>dopo il tuo ok</strong></td></tr><tr><td>«Contenuto <code>aios-saas/</code> sanitizzato»</td><td>prosa; la «skill di pulizia» <strong>è pianificata e non esiste</strong></td><td>uno script che cerca percorsi assoluti, pattern di chiavi, email e <strong>nomi di lead e clienti presi dal database</strong>; da lanciare nel pre-commit e prima di ogni archivio</td></tr><tr><td>«Maintain This File»</td><td>prosa, che <strong>spinge ad aggiungere testo</strong></td><td>due controlli: <strong>un tetto di dimensione sul <code>CLAUDE.md</code></strong> (per esempio 10 KB) e la verifica che ogni documento di sistema sia elencato nell'indice. <em>«L'unica difesa meccanica contro il rigonfiamento»</em></td></tr></tbody></table></div>
+<p>Tre cose vanno notate qui, perché sono quelle che un lettore si porta a casa.</p>
+<p>La prima è che <strong>la regola numero uno non reggeva</strong>: lui aveva scritto «mai inviare email» nel <code>CLAUDE.md</code>, e commentando a voce ammette che l'agente <em>«non ha capito benissimo»</em> — perché negli script che gestiscono la sua posta <strong>non esiste alcuna funzione che permetta di inviare un'email</strong>, quindi il blocco è già a livello di codice. Claude gli propone comunque di mettere il <code>deny</code> nei settings; lui risponde che <strong>toglierà semplicemente la regola</strong>, perché è superflua: la difesa a monte c'è già. È un esempio pulito del fatto che una regola scritta può essere <strong>sia inefficace sia inutile allo stesso tempo</strong>, e l'unico modo per accorgersene è guardare il codice.</p>
+<p>La seconda è il caso del push sul sito, che gli interessa davvero: non vuole che il commit automatico su GitHub porti con sé il suo sito <strong>senza una sua approvazione</strong>. La soluzione non è scriverlo nel file: è un hook che <strong>non lascia passare il push finché un interruttore non viene acceso</strong>, e l'interruttore lo accende l'agente dopo l'ok.</p>
+<p>La terza è la sanificazione, che per chi pubblica materiale è il caso più concreto: ogni volta che condivide codice su YouTube o nella sua community deve rimuovere <strong>percorsi assoluti ai suoi file, chiavi API, email</strong>. Oggi è una procedura a mano; la proposta è uno script lanciato <strong>automaticamente dentro il pre-commit</strong>, così la sanificazione avviene prima del salvataggio e non dipende da chi si ricorda di farla. L'agente aggiunge anche di aver già <strong>fatto girare a mano una versione dello scanner</strong> sui moduli pubblicabili: zero percorsi assoluti, zero email, e <strong>un solo falso positivo</strong> — un segnaposto del tipo <code>your_token_here</code> dentro un file di installazione — da cui la nota che lo script avrà bisogno di una lista di segnaposto ammessi.</p>
+<h2>Il guadagno è composto</h2>
+<p>La chiusa è l'argomento economico, ed è quello che giustifica di fare la retrospettiva «a ogni singola sessione o blocco di lavoro»: <strong>si migliora in modo iterativo l'ambiente di lavoro</strong>, e procedendo <em>«vedremo un aumento di efficacia e una riduzione di consumi, proprio perché una volta che abbiamo sistemato un pattern l'abbiamo sistemato praticamente per sempre, a meno che non cambino le condizioni iniziali»</em>. Da qui la parola che usa: <strong>effetto composto</strong>.</p>
+<p>Vale la pena notare dove sta la leva. I reperti del referto non sono «l'agente ha scritto codice brutto»: sono <strong>un file caricato 17 volte invece di una, una versione di Node cercata due volte nello stesso giorno, un parser riscritto tre volte, una guida da 57 KB letta per intero per scrivere tre righe, 1.534 file inutili dentro git</strong>. Sono tutti sprechi strutturali, invisibili dall'interno di una singola sessione e ovvi dall'esterno di una giornata intera. È per questo che l'oggetto della retrospettiva è <strong>l'ambiente</strong>, non il risultato.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=govfriuhbRQ (Dario Fontanel, 10:28; pubblicato e visto il 06/10/2026)</li>
+<li>report grezzo con trascrizione completa, sei fotogrammi di scena e quindici fotogrammi a piena risoluzione (<code>hr_tNNN.jpg</code>, dove NNN è il secondo del video) delle schermate dense: il changelog con la promozione di <code>retro</code> (t32), la specifica del CRM (t140), la lavagna SDD (t200), la pagina <code>SKILL.md</code> (t358), la sezione «Installation» del README (t360), il pannello d'uso e il comando lanciato (t382), i reperti 1-9 del referto (t392, t396, t412, t438), la tabella dei 43 KB con la sezione «Cosa tenere» (t458, t478), la tabella delle regole da trasformare in controlli (t488, t540) e la community in chiusura (t622)</li>
+<li>Capitoli dichiarati dall'autore in descrizione: 00:00 Intro · 01:09 Spec-driven development · 04:10 Retrospective · 05:56 Esempio pratico · 07:33 CLAUDE.md · 08:07 Controlli meccanici · 09:39 Conclusioni</li>
+<li>Concetti collegati: spec-driven-prompting (i sei passi, e la retrospettiva come passo che chiude il cerchio), context-rot (il costo fisso del file iniettato a ogni sessione e in ogni sotto-agente), loop-engineering (regola a parole contro controllo meccanico: «costruisci il controllo invece di scrivere la regola»; e il reperto che si ferma e chiede quando tocca una regola dell'umano), claude-skills (il pacchetto di Pocock, pacchetto gestito contro file modificabili, <code>disable-model-invocation</code>), produttivita-claude-code (hook pre-commit e pre-push, <code>deny</code> nei settings), agent-memory (una decisione «approvata in memoria, mai fatta»)</li>
+<li>Entità: dario-fontanel, matt-pocock, claude-code, anthropic</li>
+<li><strong>Omesso:</strong> la presentazione di sé a inizio video (ingegnere informatico, dottorato in AI, esperienza in big tech e PMI italiane — il profilo sta già in dario-fontanel); il rimando a schermo al suo video su <code>/wayfinder</code>; le altre voci del changelog che scorre a inizio video (la skill <code>pr</code>, <code>implement-spec</code>, la rimozione di <code>resolving-merge-conflicts</code>, la rinomina di <code>CONTEXT.md</code> in <code>GLOSSARY.md</code>), che riguardano skill diverse da quella trattata; i saluti e l'invito alla community Skool <strong>AIA — AI Academy</strong> (gratuita, 5,2K membri, mostrata a schermo in chiusura).</li>
+<li><strong>Non verificato / da sapere:</strong> (1) i <strong>sottotitoli automatici italiani</strong> rendono «Claude Code» come <em>Clock Code</em>, <em>Clockcode</em>, <em>Cloco</em> e perfino <em>«la gente»</em> al posto di «l'agente», e «CLAUDE.md» come <em>Clod MD</em>, <em>Crud MD</em>, <em>CromD</em>: tutto corretto qui leggendo lo schermo, ma la trascrizione nel report grezzo va letta con quella chiave. (2) Il referto è <strong>prodotto dall'agente stesso sui propri log</strong>, quindi è una fonte di parte: i numeri (587 test, 108 secondi, 924 file, 1.534 file, 17 sotto-agenti, 43 KB, 11k token) sono quelli che l'agente dichiara, e nel video <strong>nessuno li ricontrolla</strong>. (3) Non si vede <strong>nessuna implementazione portata a termine</strong>: alla fine del video i tre comandi digitati sono «Implementa 1, 2 e 3», «prepara la riscrittura e mostrami la diff» e «sì preparali» — il video finisce prima che si veda un hook funzionante o un <code>CLAUDE.md</code> dimagrito. (4) La sezione <strong>«Cosa tenere»</strong>, che la tabella richiama, si intravede appena sotto il bordo: se ne legge solo la prima riga. Non si sa se dopo il gruppo «9. Minori» ci siano altri reperti: lo scroll non scende oltre. (5) Alcune celle delle due tabelle sono <strong>coperte dal riquadro della webcam</strong> in basso a destra: ricostruite incrociando fotogrammi diversi, ma due o tre parole restano illeggibili in ogni inquadratura. (6) Il sistema operativo personale mostrato è <strong>il suo</strong> (aios): i nomi di sotto-sistemi, skill e script che compaiono nel referto sono della sua installazione, non di Claude Code in generale.</li>
+</ul>
+<blockquote>✅ <strong>Verificato da un secondo agente il 06/10/2026</strong>, con fotogrammi estratti indipendentemente a 1280px e due ingrandimenti a 2800px. Sono state corrette <strong>sette affermazioni</strong>: il referto ha <strong>nove</strong> voci e non otto; il reperto 8 era leggibile per intero (la prima stesura dichiarava falsamente di non averlo visto) e così il titolo del reperto 1; lo script è <code>pipeline0-3.sh</code> e non <code>pipeline2-3.sh</code>; l'installazione è letta dal README di GitHub e non digitata nel prompt; il sotto-sistema senza documentazione è quello di intelligence, non quello dei comandi; la cella «Perché» dell'ultima riga della prima tabella dice «Vedi sotto» e non quello che la prima stesura le aveva attribuito; la promozione di <code>retro</code> è documentata alla lettera nel changelog, non solo affermata a voce. Dei circa trenta numeri controllati uno solo era errato.</blockquote>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
