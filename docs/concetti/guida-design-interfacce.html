@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Guida al design delle interfacce (UI/UX)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Concetti</a> · <a href="../index.html">Home</a></div>
+<h1>Guida al design delle interfacce (UI/UX)</h1>
+<p><strong>Gist:</strong> come si progetta una schermata che si capisce al primo sguardo e non sembra fatta in serie dall'AI. Questa pagina fonde <strong>13 video</strong> (visti il 12/10/2026) in un'unica trattazione: si parte da <strong>cosa vuole fare la persona</strong>, si costruisce con pochissimi ingredienti (gerarchia, spazio, tipografia, colore, coerenza), si <strong>toglie</strong> tutto ciò che non comunica niente e si aggiunge movimento solo dove spiega qualcosa. Le pagine sorelle: <a href="design-app-che-spiccano.html">design-app-che-spiccano</a> (le leve per far spiccare un'app) e <a href="psicologia-prodotto-retention.html">psicologia-prodotto-retention</a> (cosa fa tornare le persone).</p>
+<blockquote>Se cerchi la versione corta, il nocciolo è: <strong>decidi cosa conta e attenua tutto il resto.</strong> Quasi ogni regola qui sotto, dallo spazio al colore ai caratteri, è un modo diverso di fare questa sola cosa.</blockquote>
+<p>Due parole che tornano spesso: <strong>UI</strong> è l'interfaccia, cioè quello che si vede (bottoni, testi, colori); <strong>UX</strong> è l'esperienza, cioè come ci si muove dentro e se si riesce a fare quello per cui si è venuti.</p>
+<h2>Le otto regole su cui le fonti sono d'accordo</h2>
+<p>Prima del dettaglio, il quadro. Pur venendo da autori diversi, questi punti tornano in quasi tutti i video:</p>
+<ol>
+<li><strong>Parti dall'intento, non dall'aspetto.</strong> Prima chiediti cosa vuole fare la persona; aggiungi funzioni solo quando quell'intento si allarga.</li>
+<li><strong>Meno è meglio.</strong> Ogni elemento in più compete con gli altri; un'interfaccia da principiante si corregge quasi sempre togliendo.</li>
+<li><strong>Più spazio di quanto pensi.</strong> Gli spazi stretti sono il difetto più comune; lo spazio raggruppa e separa meglio delle linee e delle cornici.</li>
+<li><strong>Poche misure.</strong> Pochi caratteri, poche dimensioni del testo, pochi raggi d'angolo, pochi colori, scelti una volta e riusati.</li>
+<li><strong>Enfatizzare vuol dire attenuare il resto.</strong> Non si fa risaltare una cosa ingrandendola all'infinito, ma abbassando il volume di quello che le sta intorno.</li>
+<li><strong>Coerenza.</strong> Lo stesso componente deve avere lo stesso aspetto ovunque; le regole si infrangono solo di proposito.</li>
+<li><strong>Contenuto vero.</strong> Si progetta con dati reali e casi limite, mai con testo segnaposto o numeri finti.</li>
+<li><strong>Ogni effetto deve rispondere a una domanda.</strong> Ombre, sfumature e animazioni restano solo se mostrano una gerarchia, uno stato o aiutano a capire.</li>
+</ol>
+<h2>Prima la funzione, poi l'aspetto</h2>
+<p>L'idea più importante viene da <strong>Kole Jain</strong> ("How to think like a GENIUS UI/UX designer"). Esempio: un sito per affittare case vacanza, «non diverso da Airbnb». Il designer alle prime armi pensa subito a icone e card; chi ragiona bene parte dall'<strong>intento</strong>: la persona vuole cercare un alloggio, quindi serve una barra di ricerca, poi arricchita con destinazione, date e numero di viaggiatori. A quel punto viene la tentazione di aggiungere un'intestazione con una bella foto di sfondo, e la domanda da farsi è: <strong>«questo design fa qualcosa in più di prima?»</strong>. Se la risposta è no, non serve. Un sito però può avere più intenti: chi non sa dove andare vuole <strong>sfogliare</strong>, e solo allora si aggiungono l'elenco degli annunci e i filtri. La regola: caratteri, colori e icone cambiano l'estetica ma poco la funzione; <strong>si allarga la funzionalità solo quando si allarga l'intento</strong>.</p>
+<p><strong>Sajid</strong> ("The Easy Way to Design Top Tier Websites") dice la stessa cosa per i siti: l'errore comune è partire dall'intestazione e scendere, chiedendosi quante sezioni, quanto larghe, che bottoni. Sono troppi "come" che rallentano. Meglio chiedersi <strong>qual è la funzione chiave</strong>: per molti siti bastano un titolo, un campo e un bottone. E <strong>Kole Jain</strong> sulle dashboard ("EVERYTHING you need to know to build a Dashboard UI") la porta all'estremo: una dashboard brutta sembra «un cassetto svuotato sullo schermo»; <strong>se sembra richiedere un dottorato per usarla, è troppo complessa. Fai bene una cosa sola.</strong></p>
+<p><strong>Controllare il percorso completo.</strong> Il primo dei sette errori da principiante di Kole Jain ("7 UI/UX mistakes that SCREAM you're a beginner") è un <strong>percorso incompleto</strong>: nella sua app di ricette la schermata delle allergie offre sei scelte fisse, ma non c'è una ricerca per chi è allergico ad altro né un "Salta" per chi non ha allergie. Il metodo che consiglia è schizzare le schermate come riquadri su carta, per trovare i buchi presto. Le cose dimenticate più spesso: i link di navigazione, gli <strong>stati nascosti</strong> (cosa succede dopo un tocco, un errore, un'attesa) e le piccole interazioni.</p>
+<p><strong>Rispettare le convenzioni.</strong> Dopo «più di 30 anni di siti», dice Kole Jain, le persone si aspettano certe cose: l'informazione scorre dall'alto in basso e da sinistra a destra, la navigazione sta in alto, il bottone principale è vistoso. Si possono inventare layout nuovi, ma solo se servono meglio l'utente. Quello che separa il buono dal geniale è <strong>rispettare le aspettative e rendere il design proprio</strong> con un dettaglio, una micro-interazione o una funzione che altri non hanno. È la <strong>legge di Jakob</strong> (vedi sotto): le persone passano quasi tutto il tempo su altri siti e app, e si aspettano che il tuo funzioni allo stesso modo.</p>
+<h2>Le leggi della psicologia che stanno sotto</h2>
+<p>Due video elencano le "leggi della UX". <strong>Joseph Todaro</strong> legge una per una le 19 leggi del sito <em>Laws of UX</em>, con definizione e origine storica, ma senza esempi di interfacce. <strong>Saptarshi Prakash</strong> ne presenta 12 con esempi di app vere, ma senza fonti (e il video è del 2024). Messe insieme danno questa tabella:</p>
+<div class="tw"><table><thead><tr><th>Legge</th><th>Cosa dice</th><th>In un'interfaccia</th></tr></thead><tbody><tr><td><strong>Effetto estetica-usabilità</strong></td><td>Ciò che è bello sembra anche più facile da usare</td><td>In uno studio Hitachi del 1995 su 26 versioni di uno sportello bancomat, la bellezza giudicata andava d'accordo con la facilità <em>percepita</em> più che con quella reale</td></tr><tr><td><strong>Soglia di Doherty</strong></td><td>Nessuno dei due deve aspettare l'altro</td><td>Risposta sotto i <strong>400 millisecondi</strong> (studio IBM del 1982, invece dei 2.000 di allora); se serve attesa, barra di avanzamento o <strong>skeleton</strong>, cioè la sagoma grigia della pagina che sta arrivando</td></tr><tr><td><strong>Legge di Fitts</strong></td><td>Più un bersaglio è grande e vicino, più è facile da colpire</td><td>Le app più usate stanno in basso, vicino al pollice; i bottoni importanti grandi e con spazio intorno</td></tr><tr><td><strong>Legge di Hick</strong></td><td>Più scelte ci sono, più si impiega a decidere</td><td>Spezzare i compiti complessi in passi piccoli; Google 1998 pieno di link contro Google di oggi</td></tr><tr><td><strong>Legge di Jakob</strong></td><td>Le persone si aspettano che il tuo prodotto funzioni come quelli che già conoscono</td><td>Errori in rosso; menu dei negozi online tutti simili</td></tr><tr><td><strong>Legge di Miller</strong></td><td>La memoria di lavoro tiene circa 7 elementi, più o meno 2</td><td>Gruppi da 5-9 elementi; il checkout diviso in passi (indirizzo, riepilogo, pagamento) invece di un modulo unico</td></tr><tr><td><strong>Effetto gradiente dell'obiettivo</strong></td><td>Più ci si avvicina al traguardo, più si accelera</td><td>La barra dei passi in cima al checkout di Amazon</td></tr><tr><td><strong>Effetto Zeigarnik</strong></td><td>Le cose lasciate a metà si ricordano meglio</td><td>Le percentuali di completamento dei corsi su Udemy</td></tr><tr><td><strong>Effetto Von Restorff</strong></td><td>Fra cose simili, si ricorda quella diversa</td><td>Nelle pagine prezzi il piano "più popolare" è evidenziato e staccato dagli altri</td></tr><tr><td><strong>Legge di Prägnanz</strong></td><td>L'occhio riduce ciò che è complesso alla forma più semplice</td><td>Le istruzioni IKEA solo disegnate, senza testo</td></tr><tr><td><strong>Legge di Tesler</strong></td><td>Una parte di complessità non si elimina, si può solo spostare</td><td>Prenotare un volo chiede molti dati: non si tolgono, si <strong>precompilano</strong> con quelli già inseriti</td></tr><tr><td><strong>Effetto posizione nella serie</strong></td><td>Si ricordano meglio il primo e l'ultimo elemento</td><td>Le cose meno importanti vanno in mezzo alle liste</td></tr><tr><td><strong>Prossimità e somiglianza</strong> (Gestalt)</td><td>Ciò che è vicino, o che si somiglia, sembra fare gruppo</td><td>Su Amazon i rettangoli con bordo sono campi, quelli pieni di colore sono bottoni</td></tr><tr><td><strong>Regione comune e connessione</strong> (Gestalt)</td><td>Ciò che sta dentro lo stesso riquadro, o è unito da una linea, sembra collegato</td><td>Raggruppare funzioni affini con colore, linee o cornici</td></tr></tbody></table></div>
+<p>Le altre leggi della lista di Todaro sono più generali e non hanno un consiglio di design preciso: <strong>Pareto</strong> (l'80% degli effetti viene dal 20% delle cause: concentra lo sforzo dove aiuta più persone), <strong>Postel</strong> (accetta input in molte forme e restituisci risultati puliti), <strong>Occam</strong> (fra due spiegazioni ugualmente buone scegli la più semplice), <strong>Parkinson</strong> (un compito si allarga fino a riempire il tempo che gli dai).</p>
+<p>Un contrappunto utile su Tesler, citato da Todaro: quando un'app diventa più semplice, le persone non si fermano, provano compiti più complessi. La semplificazione sposta il problema, non lo chiude.</p>
+<h2>Gerarchia: decidere cosa conta</h2>
+<p>La <strong>gerarchia visiva</strong> è l'ordine in cui l'occhio legge la schermata. <strong>Arash</strong> ("UI Design Principles") elenca cinque leve: <strong>dimensione</strong> (più grande attira prima), <strong>colore</strong> (acceso e saturo attira più dello spento), <strong>allineamento</strong> (ciò che è allineato diversamente spicca), <strong>vicinanza</strong> (ciò che è vicino sembra collegato) e <strong>spazio vuoto</strong> (più aria intorno, più attenzione). Il suo esempio a schermo segna con le frecce l'ordine giusto: prima il titolo, poi il paragrafo, poi i bottoni.</p>
+<p><strong>Sajid</strong> aggiunge il metodo pratico in due video. Primo: <strong>enfatizzare vuol dire attenuare il resto</strong> ("The 80% of UI Design - Typography"). Bianco su nero è già il massimo contrasto possibile, quindi per far risaltare un titolo non lo si può rendere "più bianco": si abbassa la luminosità di tutto il resto. Nel suo esempio prova il testo secondario all'80%, al 40% (troppo fioco) e al 60%, che chiama il punto giusto. Secondo: <strong>parti piano</strong> ("The Easy Way to Design Top Tier Websites"). Chiediti qual è la prima cosa che la persona cerca, di solito il titolo, e intervieni in quest'ordine: prima il <strong>colore</strong>, poi il <strong>peso</strong> del carattere (più o meno grassetto), solo alla fine la <strong>dimensione</strong>. Poi rimpicciolisci la vista per guardare la schermata intera: se non si capisce a colpo d'occhio, cambi dimensione, scurisci o aggiungi spazio.</p>
+<p>Una distinzione che chiarisce molti dubbi, sempre di Sajid: <strong>la gerarchia del codice non è la gerarchia visiva.</strong> Nel codice di una pagina i titoli hanno un livello (h1, h2, h3…), ma non tutti i titoli di primo livello devono essere enormi. In una dashboard la scritta "Dashboard" può restare piccola, mentre il saldo del conto è l'elemento più grande, perché è quello che la persona cerca.</p>
+<p><strong>Griffin Wooldridge</strong> ("Why Every AI-Generated UI Looks the Same") mostra il difetto opposto: <strong>tutto uguale</strong>. Ogni sezione con la stessa intestazione centrata e tre colonne, ogni riquadro della stessa dimensione. La correzione è decidere: l'azione principale diversa da quella secondaria, la metrica critica con più spazio, un'impostazione che merita una sezione e un'altra che merita solo un interruttore. E <strong>Tim Gabe</strong> ("4 levels of UI/UX design"), nel suo livello più alto, aggiunge un trucco: riusare lo <strong>stesso segno visivo</strong> per collegare parti lontane, come un cerchio che pulsa sia sul grafico sia sull'indicatore del tempo che sta scadendo.</p>
+<h2>Spazio: più di quanto pensi</h2>
+<p>È il difetto più frequente nei lavori alle prime armi. <strong>Kole Jain</strong> ("7 UI/UX mistakes that SCREAM you're a beginner"): le interfacce dei principianti sono troppo strette, e <strong>su telefono serve più spazio verticale di quanto pensi</strong>. <strong>Sajid</strong> spiega perché ci si sbaglia: mentre disegni un elemento lo spazio ti sembra troppo, ma chi usa la schermata la scansiona tutta insieme. Il suo metodo è <strong>partire largo e togliere</strong>: in una scheda di un film parte con 40 pixel fra i pezzi, avvicina quelli che stanno insieme, scende a 20 («ancora tanto») e si ferma a 12 («perfetto»). Lo spazio dice cosa sta insieme: <strong>vicino = stesso gruppo, lontano = cose diverse</strong>.</p>
+<p><strong>Quali numeri usare.</strong> Le fonti convergono su una <strong>griglia di multipli di 4 o di 8</strong>. Tim Gabe la chiama <strong>griglia a 8 punti</strong>: ogni distanza divisibile per 8 o per 4, quindi 24 invece di 25, 12 invece di 11. Sajid mostra una scala pronta: <strong>4, 8, 12, 16, 20, 28, 40, 60, 100, 160, 240</strong> pixel. Nel codice usa i <strong>rem</strong> (una misura che segue la dimensione del testo scelta dall'utente: si divide il valore in pixel per 16) e le <strong>variabili CSS</strong>, cioè valori definiti una volta e riusati ovunque. Avvertenza sua: <strong>mai progettare con testo finto</strong> ("lorem ipsum"): la spaziatura giusta per una scheda può essere un disastro per un'altra, dipende dal contenuto vero.</p>
+<p>Due termini da sapere, spiegati da Arash: il <strong>padding</strong> è lo spazio <em>dentro</em> un elemento, fra il contenuto e il bordo; il <strong>margin</strong> è lo spazio <em>fuori</em>, fra un elemento e l'altro. Nei programmi come Figma, l'<strong>auto layout</strong> è la funzione che gestisce da sola questi spazi dentro un componente (Kole Jain lo usa per le card e per le etichette dei filtri). E un dettaglio che fa risparmiare lavoro, di Sajid: <strong>l'interlinea fa già da margine</strong>. Un titolo con interlinea un po' più ampia (nel suo esempio <code>1.4em</code>) non ha bisogno di spazio aggiunto sotto; e il testo piccolo vuole un'interlinea più ampia di quello grande.</p>
+<p>Un esempio misurato di quanto conti lo spazio viene dal confronto di <strong>Jack Roberts</strong> fra il sito del suo prodotto e quello di <strong>Linear</strong>, preso come riferimento: Linear separa le sezioni con <strong>96 pixel di spazio e nessuna linea</strong>, dove lui usava una linea a tutta larghezza.</p>
+<h2>Tipografia: poche misure, ben scelte</h2>
+<p>Sajid la chiama «il 20% del design che dà l'80% del risultato». Le regole, dalla più semplice:</p>
+<p><strong>Quanti caratteri.</strong> Arash: <strong>al massimo due</strong> (per esempio uno per i titoli e uno per il testo). Sajid in tutti i suoi esempi ne usa uno solo, Inter, e dice che va bene qualsiasi carattere popolare gratuito di Google Fonts.</p>
+<p><strong>Quante dimensioni e quanti pesi.</strong> Tim Gabe trova nella schermata del principiante sei dimensioni e quattro pesi, e corregge a <strong>quattro dimensioni e due pesi</strong>. Sajid va oltre: <strong>18, 16 e 14 pixel</strong> bastano, con peso e colore, per un'intera interfaccia (dice «per il 99% delle app», senza prove). Il suo metodo: scegli una <strong>base di 14 o 16 pixel</strong>, progetta tutto con quella, e quando serve vai <strong>2 pixel su o giù</strong>. Mostra anche che, con lo stesso testo a 16 pixel, basta cambiare peso e colore per creare tre livelli diversi. Il confronto di Jack Roberts con Linear misura la stessa cosa: il suo sito aveva <strong>17 dimensioni</strong> di testo, Linear <strong>8</strong>.</p>
+<p><strong>Sito o applicazione: due scale diverse.</strong> Kole Jain spiega perché i consigli sembrano contraddirsi. Una <strong>landing page</strong> (la pagina che presenta un prodotto) ha salti enormi: titolo a 125 pixel, poi 24, 18, 12. Una <strong>dashboard</strong> usa tante misure piccole e vicine: 20, 16, 14, 12, 10. È per questo che Sajid, nel video sui siti, mostra una scala con titoli a 4 rem (64 pixel), mentre nel video sulla tipografia, tutto su interfacce di app, consiglia di restare stretti.</p>
+<p><strong>Grande e grassetto stanca.</strong> Sajid: un numero grande e anche in grassetto è «spesso troppo aggressivo per gli occhi»; meglio ingrandirlo e abbassare il peso. E bisogna progettare per i numeri lunghi, non solo per quello dell'esempio.</p>
+<p><strong>I numeri.</strong> Tim Gabe, al livello senior: per i numeri grandi usa la versione <strong>monospaziata</strong> del carattere (cifre tutte larghe uguali, così non ballano quando cambiano) e mette i decimali più piccoli e in grigio.</p>
+<p><strong>Dettagli da Linear</strong> (dal confronto di Jack Roberts): il testo del corpo <strong>mai bianco puro</strong> (grigi chiari come <code>#d0d6e0</code> e <code>#8a8f98</code>), il peso dei titoli mai oltre 510, lettere un po' più strette nei titoli grandi.</p>
+<p><strong>Due divieti.</strong> Niente paragrafi centrati (Sajid). E niente misure in pixel fissi per il testo nel codice: con i rem, chi ha bisogno di caratteri più grandi può ingrandirli.</p>
+<h2>Colore: pochi, con un ruolo preciso</h2>
+<p><strong>La regola 60-30-10</strong> (Tim Gabe): <strong>60% di colore neutro</strong> (bianco o grigio chiaro), <strong>30% di un colore complementare</strong> (per esempio il nero), <strong>10% del colore del marchio</strong>. La schermata del principiante è l'inversione di questa regola: troppo rosso saturo, e <strong>quando tutto urla, niente viene ascoltato</strong>. Al livello intermedio il consiglio è usare <strong>sfumature più chiare e più scure di un solo colore</strong> invece di tanti colori. Al livello senior il rosso non sta più sul bottone principale (sembrerebbe un errore) ma solo dove serve: il grafico, l'icona delle ricompense, il tempo che scade.</p>
+<p><strong>Un accento per schermata.</strong> Dal confronto con Linear di Jack Roberts: il colore d'accento usato <strong>una volta per schermata</strong>, non in tre punti.</p>
+<p><strong>Il colore viene dal prodotto, non dalla moda.</strong> Griffin Wooldridge: l'AI usa sfumature viola e indaco su fondo scuro come scorciatoia per dire "moderno e tecnologico". Il colore giusto viene dalla <strong>personalità e dal contesto</strong> del prodotto: un'app di finanza, un'app di produttività e uno strumento per sviluppatori non dovrebbero avere la stessa tavolozza.</p>
+<p><strong>Il trucco HSL</strong> (Sajid). HSL è un modo di scrivere i colori con tre numeri: <strong>tonalità</strong> (da 0 a 360: 0 rosso, 120 verde, 240 blu), <strong>saturazione</strong> (100% acceso, 0% grigio) e <strong>luminosità</strong> (0 nero, 100 bianco). Il vantaggio è che per creare gerarchia basta muovere la luminosità: nelle interfacce scure <strong>ciò che è più chiaro sembra più importante</strong> (la scheda attiva al 100%, quelle inattive al 15%). E il <strong>tema chiaro si ottiene sottraendo la luminosità da 100</strong>: il nero (0) diventa bianco (100), un grigio al 15% diventa 85%, e così via, senza ridisegnare niente.</p>
+<p><strong>Controllare il contrasto.</strong> Sajid mostra di sfuggita un verificatore di contrasto: nero su bianco dà <strong>21:1</strong>, il massimo. Nessuna delle 13 fonti spiega le soglie minime per la leggibilità: è un buco della guida.</p>
+<h2>Coerenza: un piccolo sistema di regole</h2>
+<p>Il quarto errore da principiante di Kole Jain: <strong>componenti incoerenti</strong>. Angoli arrotondati in modo diverso, due barre di ricerca diverse, i bottoni "Indietro" e "Salta" disegnati in due modi. La correzione è uniformare: lui usa <strong>lo stesso raggio di 10 pixel</strong> per tutti i componenti piccoli (lo presenta come un dettaglio che quasi tutti trascurano; il valore è una sua scelta, l'importante è che sia uno solo), barre di ricerca identiche, bottoni gemelli uguali. In Figma: <strong>stili</strong> per i colori, <strong>variabili</strong> per le misure, <strong>componenti</strong> per gli elementi riusati. Arash mostra lo stesso con le schermate di accesso e registrazione: stessi colori, caratteri, spazi e icone in tutte e due. Il confronto con Linear di Jack Roberts misura anche questo: <strong>9 raggi d'angolo diversi contro 5</strong>.</p>
+<p>Il passo successivo è un <strong>design system</strong>, cioè l'elenco scritto delle scelte: dimensioni del testo, colori, bottoni, componenti, spazi. Sajid dice che per un sito semplice ne basta uno piccolo, fatto di poche voci, e che capiti i principi non serve nemmeno un framework CSS. Kole Jain aggiunge che il sistema deve somigliare al team: una startup ne vuole uno leggero, facile da cambiare; Google, con decine di prodotti e miliardi di utenti, ha Material Design, enorme e rigido. Il punto non è far sembrare tutto uguale ma dare a tutti un linguaggio comune, e <strong>una regola si infrange di proposito, mai per caso</strong>. Per i bottoni, Sajid suggerisce due tipi: <strong>primario e secondario</strong>.</p>
+<p><strong>Le icone</strong> (Kole Jain, errore 5). Tre problemi tipici: schede senza icone (bisogna leggere di più), icone di stili diversi nella stessa barra, icone senza etichetta. Le correzioni: <strong>una sola libreria</strong> con lo stesso spessore e lo stesso stile; un'icona al posto di una parola dove è chiara (il segnalibro al posto di "Salva"); <strong>le icone che tutti conoscono</strong> (casa, segnalibro, profilo) non vogliono etichetta, quelle oscure sì, o almeno un fumetto che si apre al tocco. Risorse citate: Flaticon (filtrando per spessore e angoli), e i plugin di Figma Feather e Phosphor. Stili diversi vanno bene solo in zone separate della schermata.</p>
+<h2>Togliere: ogni effetto deve dire qualcosa</h2>
+<p>La domanda di controllo più utile è di <strong>Griffin Wooldridge</strong>. Davanti a ogni effetto (vetro smerigliato, bordi luminosi, ombre pesanti, card che crescono al passaggio del mouse, forme che fluttuano, animazioni d'ingresso): <strong>comunica una gerarchia? mostra uno stato? aiuta a capire? rafforza il marchio?</strong> Se l'unica risposta vera è «fa figo», si semplifica.</p>
+<p><strong>Kole Jain</strong> traduce in correzioni pratiche. Sfumature di colore sui bottoni: di solito meglio nessuna, al limite variazioni dello stesso colore. Ombre: quelle predefinite di Figma sono troppo dure; invece di abbassarne l'opacità, si cambia il colore dell'ombra in un <strong>grigio chiaro e si alza molto la sfocatura</strong> (nel suo esempio sfocatura 30, colore <code>#D3D3D3</code>), oppure la si toglie. <strong>Elementi ridondanti</strong>: via le frecce accanto alle schede che si scorrono già col dito, via i bordi intorno ai filtri e alla barra di ricerca. La sua frase a schermo: <strong>"Less Noise = Better Design"</strong>.</p>
+<p><strong>Griffin</strong> aggiunge il tic più riconoscibile: <strong>tutto chiuso in un rettangolo arrotondato</strong>, anche <strong>card dentro card</strong>. Il consiglio: prova a togliere i contenitori e guarda se ti mancano; spesso spazio, allineamento e una linea sottile bastano. E <strong>Tim Gabe</strong> racconta come cambia l'occhio con l'esperienza: il principiante mette gradienti e sfocature ovunque, il junior insegue gli effetti di moda «con 45 strati di ombre», l'intermedio aggiunge ancora ma con gusto, il senior usa <strong>colori piatti e il minimo che comunica</strong>.</p>
+<p><strong>I grafici</strong> sono un caso a parte. Kole Jain: niente grafici strani che nessuno sa leggere. Una linea semplice, <strong>con le linee della griglia e i numeri sugli assi</strong>, «perché tutti se li dimenticano», più un riassunto (il totale) e un selettore del periodo. Nel suo esempio sbagliato, preso da Dribbble, le barre arrotondate a pillola e senza asse sono belle ma illeggibili: non si capisce dove finisce la barra né quanto vale, e ci sono 16 barre per 7 giorni.</p>
+<h2>Contenuto vero e casi limite</h2>
+<p><strong>Griffin Wooldridge</strong>, sesto segno dell'interfaccia fatta in serie: il <strong>contenuto generico</strong>. Slogan come "eleva il tuo flusso di lavoro", metriche e attività finte, nomi inventati, statistiche <strong>troppo tonde</strong> ("10K+ utenti", "99,9% di disponibilità", "assistenza 24/7"), la testimonianza di una "Sarah Chen, product lead di TechCorp". La correzione: <strong>dati reali, casi limite, immagini vere, etichette che significano qualcosa</strong>. Il suo esempio è un'app per prenotare posti barca, dove al posto del grafico generico c'è "Canoni di giugno: 8.412,60 $, 31 su 32 pagati, 1 in ritardo".</p>
+<p><strong>Kole Jain</strong> chiama "struttura dei contenuti" la stessa attenzione: prima decidi cosa mostrare (sulla scheda di un alloggio servono luogo, voto e prezzo; la descrizione la legge chi clicca), poi controlla i casi scomodi. Che succede con un nome di città lunghissimo che finisce sopra il prezzo? E con l'icona per salvare sopra una foto molto chiara? Si <strong>tronca il testo lungo</strong> e si mette <strong>un cerchio dietro l'icona</strong> per garantirne il contrasto. Nelle dashboard non va dimenticato lo <strong>stato vuoto</strong>, cioè cosa si vede quando non c'è ancora niente.</p>
+<p><strong>Le parole</strong> contano quanto i colori. Tim Gabe mette il testo al primo posto della sua lista: <strong>la chiarezza prima di tutto</strong>. Il principiante scrive quattro parole dove ne basta una e un bottone che non dice cosa fa; il senior <strong>dice di più con meno</strong> e non ripete ("Riscuoti" sotto un titolo che dice già "Ricompense"). Il trucco che suggerisce: fare uno screenshot della schermata e chiedere a un modello AI, con il contesto del progetto, un testo più chiaro e più corto. Sul testo che suona finto vedi anche <a href="ai-content-anti-slop.html">ai-content-anti-slop</a>.</p>
+<h2>Risposte e movimento</h2>
+<p><strong>Il bottone deve rispondere subito</strong> (Kole Jain, errore 7). Se la schermata successiva arriva con un attimo di ritardo, sembra che il tocco non sia stato registrato: il bottone diventa grigio al tocco; se l'attesa è lunga, una rotellina. Salvare qualcosa deve vedersi: l'icona si riempie e sulla scheda dei salvati compare un puntino. Nelle dashboard Kole Jain cita l'<strong>interfaccia ottimista</strong>: l'app dà per scontato che l'operazione riesca e la mostra subito (cancelli una mail in Gmail e sparisce all'istante). E il movimento sui grafici è sobrio: passando sopra si vede il numero esatto, le altre barre si attenuano.</p>
+<p><strong>Animazioni con una funzione</strong> (Kole Jain, "How to think like a GENIUS"). Il suo vecchio portfolio aveva animazioni «orribili» che non facevano niente. Quelle buone aggiungono chiarezza. Il suo esempio è la <strong>rivelazione progressiva</strong> (<em>progressive disclosure</em>): mostrare solo ciò che serve e rivelare il resto quando richiesto. Quando i link di navigazione diventano troppi, si raccolgono in un menu che si apre con un'animazione; quando l'app diventa soprattutto da sfogliare, la barra di ricerca si rimpicciolisce e si riapre al tocco. Due regole sue: un bottone "carica altri" è meglio dello <strong>scorrimento infinito</strong>, perché lascia il controllo e permette di arrivare al fondo della pagina; e i bottoni dovrebbero quasi sempre avere una piccola animazione, mentre gli effetti che dirottano lo scorrimento della pagina vanno usati quasi mai.</p>
+<p><strong>L'interfaccia come un film.</strong> Per <strong>Tim Gabe</strong> l'errore che resta anche ai senior è fermarsi alle <strong>schermate statiche</strong>. Con l'AI le app si moltiplicheranno, e il modo più facile di distinguersi sarà progettare l'esperienza «come un film», curando il passaggio da una schermata all'altra. Nel video "The Secret Behind Weirdly Addictive Apps" sviluppa l'idea con tre casi:</p>
+<ul>
+<li><strong>Duolingo</strong>: rispondere non dà solo un segno verde, ti fa sentire incoraggiato, corretto, applaudito; dal 2022 ha un sistema di animazione dei personaggi con espressioni del viso e labbra sincronizzate con l'audio.</li>
+<li><strong>Phantom</strong> (un portafoglio di criptovalute): nel 2023 ha rifatto il marchio con un fantasma animato come mascotte, per rendere la crypto «meno spaventosa e più umana».</li>
+<li><strong>Revolut</strong> (una banca online): grafici delle spese che reagiscono al dito con un leggero bagliore, la carta in 3D che gira e prende la luce.</li>
+</ul>
+<p>Le regole che ne tira: nei prodotti che si usano tutti i giorni (abitudini, diari) metti <strong>piccole reazioni</strong> (un rimbalzo, un bagliore, una scintilla), <strong>celebra le piccole vittorie</strong>, usa una <strong>mascotte con espressioni</strong> («le emozioni sono contagiose») e un'<strong>animazione del progresso</strong>. Nei settori che intimidiscono (finanza, salute, assicurazioni) <strong>la cura dei dettagli crea fiducia</strong>: ogni micro-interazione è un segnale che qualcuno ci ha pensato, e nella finanza, dice, la fiducia si traduce direttamente in quanto si spende. E va curato soprattutto <strong>il primo impatto</strong>: l'ingresso nell'app e i momenti di benvenuto. Il riferimento teorico che cita è il libro <em>Emotional Design</em> di Don Norman. Il dato più concreto che porta è su Phantom: dopo il rifacimento è arrivata seconda fra le app gratuite della categoria Utilità sull'App Store americano, davanti a WhatsApp e Instagram.</p>
+<blockquote>⚠️ <strong>Da prendere con cautela.</strong> Il titolo parla di app "che creano dipendenza", ma il video non tocca mai notifiche, ricompense casuali o manipolazione: parla di abitudini, serie di giorni e progresso solo attraverso l'animazione e la cura dei dettagli. Il confine con la manipolazione sta in <a href="psicologia-prodotto-retention.html">psicologia-prodotto-retention</a>. La causa non è provata: l'autore stesso ammette che Duolingo è cresciuto anche per nuove lingue e marketing. E i numeri non coincidono: a voce dice utenti giornalieri «da 14,2 a oltre 34 milioni in 2 anni», a schermo c'è scritto <strong>da 14,2 a 37,4 milioni fra il 2020 e il 2024</strong>.</blockquote>
+<p>Le stesse idee, viste dal lato delle app che spiccano, sono in <a href="design-app-che-spiccano.html">design-app-che-spiccano</a> §1.</p>
+<h2>Due casi specifici</h2>
+<h3>La dashboard</h3>
+<p>Il video di Kole Jain costruisce da zero un'app per gestire link accorciati. I pezzi:</p>
+<p><strong>La barra laterale è la spina dorsale del prodotto.</strong> Contiene ciò che serve ovunque: navigazione, profilo, ricerca. Ogni voce ha <strong>un'icona riconoscibile e un titolo corto</strong>, così funziona anche quando la barra si stringe e c'è posto per un numero di notifiche o un'etichetta "nuovo". La navigazione serve a ridurre la fatica mentale: voci raggruppate per affinità, <strong>Impostazioni e Aiuto in fondo</strong> (si usano poco), menu a tendina quando le voci crescono, e sempre uno <strong>stato attivo</strong> che dice dove sei.</p>
+<p><strong>La griglia</strong> è semplice: due colonne e due righe. In alto la cosa principale, sotto poche metriche. La <strong>barra superiore</strong> ospita le azioni importanti della pagina, come "Crea link". Nella sezione principale va <strong>ciò che conta per chi la usa</strong>: in un gestionale di progetti lo stato dei progetti, in un'app di finanza gli investimenti.</p>
+<p><strong>Dove aprire una cosa nuova</strong> è la scelta che si sbaglia più spesso:</p>
+<div class="tw"><table><thead><tr><th>Contenitore</th><th>Quando usarlo</th></tr></thead><tbody><tr><td><strong>Popover</strong> (riquadro che si apre vicino a un bottone)</td><td>Contesto semplice, non blocca: si può cliccare altrove senza conseguenze</td></tr><tr><td><strong>Modale</strong> (finestra sopra la pagina)</td><td>Compito più complesso ma legato alla pagina; blocca finché non confermi o annulli</td></tr><tr><td><strong>Toast</strong> (avviso che compare e sparisce)</td><td>Avvisare senza chiedere niente: conferme, errori</td></tr><tr><td><strong>Pagina nuova</strong></td><td>Contenuto grande o permanente; servono il tasto indietro o il percorso ("Link &gt; nome del link")</td></tr></tbody></table></div>
+<p>Dopo un modale, conviene un toast di conferma, perché mentre la finestra era aperta la pagina non si vedeva.</p>
+<p><strong>Quattro componenti bastano per quasi ogni pagina:</strong> liste e tabelle (una lista si separa con lo spazio, con linee sottili o con il colore; la tabella serve quando bisogna cercare, filtrare, ordinare), schede (con un bordo o con uno sfondo diverso: lui preferisce il bordo nel tema scuro e lo sfondo in quello chiaro, per gusto), campi di inserimento, linguette (<em>tab</em>, per avere più viste senza riempire la barra laterale, come fa Notion).</p>
+<h3>La schermata che chiede di pagare</h3>
+<p>Dal video di Tim Gabe sui <strong>paywall</strong>, la schermata dove l'app chiede l'abbonamento. La tesi: <strong>conta la struttura prima del prezzo</strong>. Quanti piani mostri, quale viene per primo e come funziona la prova possono spostare i ricavi più del numero sul cartellino. Quattro casi:</p>
+<ul>
+<li><strong>Mojo</strong> (editor di video): il paywall mostrava gli abbonamenti e, accanto, pacchetti di crediti per l'AI. Chi si sarebbe abbonato comprava invece un pacchetto piccolo e spendeva meno: i crediti erano una «via di fuga». Nascosti i crediti, senza toccare prezzi né testi: <strong>+14% di ricavi</strong> dai nuovi abbonamenti, chiaro in una settimana.</li>
+<li><strong>Built With Science</strong> (fitness): prima annuale e mensile affiancati; poi <strong>l'annuale per primo</strong>, il mensile a un tocco di distanza e la prova gratuita spiegata giorno per giorno. Chi sceglie l'annuale è passato <strong>da circa il 60% al 75-80%</strong>. Il principio è l'<strong>effetto predefinito</strong>: il piano mostrato per primo sembra la scelta normale.</li>
+<li><strong>Pregnancy+</strong>: una <strong>prova gratuita</strong> contro un prezzo d'ingresso scontato. Il team si aspettava vincesse lo sconto; ha vinto la prova, <strong>+140%</strong> di ricavi. Spiegazione dell'autore: chi ha usato l'app completa la sente già un po' sua.</li>
+<li><strong>Undertone</strong> (terapia): il vecchio paywall mostrava sfocati i riassunti delle sedute della persona. Il nuovo non sfoca niente e fa una sola domanda: quante sedute al mese ti servono? Regola: <strong>non nascondere dietro il muro qualcosa che è già della persona</strong>. Risultati numerici: nessuno.</li>
+</ul>
+<p>Il compito che propone: <strong>questa settimana, un test in cui il prezzo resta identico e cambia solo la struttura</strong> (nascondere un'opzione, cambiare il piano mostrato per primo). Quanto conti la frequenza lo dice il caso Pregnancy+: il team è passato da un test ogni tre mesi a tre o più al mese.</p>
+<blockquote>⚠️ Tutti i numeri sono di terze parti (articoli di Superwall, RevenueCat, Adapty), senza dimensione del campione né durata. Nel caso Built With Science sono cambiate più cose insieme, compreso uno sconto del 20% sull'annuale, quindi «nessuna vittoria è venuta dal prezzo» va preso con le pinze. Le spiegazioni psicologiche (troppe scelte, effetto predefinito, senso di possesso) sono interpretazioni dell'autore.</blockquote>
+<h2>Perché il design fatto con l'AI sembra tutto uguale (e come uscirne)</h2>
+<p><strong>Griffin Wooldridge</strong> apre con un esperimento: la stessa richiesta («fammi una landing page») data a sei strumenti diversi (Claude Code, Lovable, Replit, Figma Make, v0, bolt) produce <strong>la stessa pagina scura</strong> con lo stesso slogan. La sua spiegazione: <strong>l'AI sceglie la soluzione media per la categoria.</strong> Nessuno dei pattern è sbagliato in sé, il problema è usarli tutti insieme perché sono quelli predefiniti. I sette segni, in ordine:</p>
+<ol>
+<li>la <strong>tavolozza da AI</strong>: viola e indaco su fondo scuro, aloni sfocati, testo con riempimento sfumato;</li>
+<li><strong>tutto in un rettangolo arrotondato</strong>, card dentro card, stesso raggio enorme ovunque, icone in quadratini colorati;</li>
+<li>la <strong>composizione standard</strong>: etichetta a pillola, titolo gigante centrato, sottotitolo grigio, due bottoni; in una dashboard tre o quattro riquadri di numeri, un grafico grande, una griglia di card;</li>
+<li>la <strong>stessa gerarchia ovunque</strong>;</li>
+<li>la <strong>decorazione che non fa niente</strong>;</li>
+<li>il <strong>contenuto generico</strong>;</li>
+<li><strong>niente di specifico del prodotto</strong>, il più grave, quello a cui portano tutti gli altri.</li>
+</ol>
+<p>Il test per riconoscerlo è il <strong>cambio del logo</strong>: sostituisci logo e testi con quelli di un'altra azienda; se il design funziona ancora, è generico. E la domanda finale: <strong>«questo design potrebbe appartenere a qualunque prodotto della sua categoria?»</strong> Se sì, l'AI ti ha dato la soluzione media invece di quella specifica. Il suo consiglio pratico: <strong>non ricominciare da capo, comincia a prendere decisioni di design</strong> sul risultato che hai. Per farlo cita due risorse: <strong>Mobbin</strong>, un archivio di schermate di app vere, utile per vedere come 5-10 prodotti risolvono lo stesso problema (sponsor del video), e <strong>Impeccable</strong>, una skill che controlla un'interfaccia contro un catalogo di questi tic (su questo computer è installata, vedi <a href="skill-installate.html">skill-installate</a>).</p>
+<p><strong>Jack Roberts</strong> ("Turn Claude into a Design Genius... Just Watch") dà la stessa diagnosi da un altro lato: Claude fa design generico perché <strong>non ha mai visto design buono</strong>, e perché noi <strong>non sappiamo spiegargli cosa lo rende buono</strong>. La sua frase a schermo: «nessuno dice "la scala tipografica è sbagliata", dicono che sembra economico». I segnali che l'occhio controlla per primo, secondo lui, sono cinque: <strong>tipografia, immagini, gerarchia, colore e spaziatura</strong> (fra gli esempi a schermo: cinque stili di testo in una sola sezione d'apertura, dove ne basterebbero tre; tutti gli spazi identici; l'accento ovunque). Propone tre livelli:</p>
+<ol>
+<li><strong>Dargli un riferimento vero.</strong> Il sito <em>styles.refero.design</em> raccoglie gli stili di oltre 2.000 siti (colori con il loro codice e ruolo, caratteri, misure) in un formato che Claude legge. Incollando lo stile di Apple e chiedendo un sito per un frullato proteico, ottiene una pagina pulita senza fornire immagini. L'uso più furbo è il <strong>confronto spietato</strong>: si dà a Claude il proprio sito e lo stile di un sito di riferimento (lui usa Linear) e si chiede di elencare le differenze, «be ruthless». Ne esce la lista misurata citata in questa pagina: 17 dimensioni di testo contro 8, 9 raggi contro 5, testo bianco puro contro grigi chiari, accento in tre punti contro uno.</li>
+<li><strong>Un ciclo con critici indipendenti.</strong> Si dà a Claude un esempio da raggiungere (uno screenshot) e dei sotto-agenti che criticano il risultato finché non ci arriva. È lo schema generatore → verificatore di <a href="loop-engineering.html">loop-engineering</a> applicato al design.</li>
+<li><strong>Un ambiente di lavoro.</strong> Una libreria locale delle proprie immagini e delle <strong>"ricette di stile"</strong> (descrizione di tavolozza, luce e composizione con immagini di riferimento), per avere risultati coerenti fra un lavoro e l'altro.</li>
+</ol>
+<blockquote>⚠️ Del ciclo del livello 2 si vedono i risultati (due email rifatte da un esempio), non il contenuto della skill, che lui mette in descrizione; il metodo dice di averlo preso da un altro autore, che lo chiamava "gauntlet loop". L'ambiente del livello 3 si ottiene dalla sua community. Il sito che confronta con Linear è del suo prodotto, Glaido.</blockquote>
+<p>Altre skill e flussi contro il design generico (Taste Skill, Hallmark, il clona-e-remixa di Chase AI) sono in <a href="design-app-che-spiccano.html">design-app-che-spiccano</a> §6-7.</p>
+<h2>Il processo creativo</h2>
+<p><strong>Sajid</strong> chiude il video sui siti con cinque passi, perché «la creatività è un processo, non un lampo»:</p>
+<ol>
+<li><strong>Conoscere le basi</strong>, anche dai libri: cita <em>Refactoring UI</em> (degli autori di Tailwind CSS) e <em>Atomic Design</em> di Brad Frost, che dice abbiano influenzato molto il video.</li>
+<li><strong>Cercare ispirazione</strong>: siti dei migliori nel settore, la community di Figma, Mobbin.</li>
+<li><strong>Elaborare le idee</strong> guardando gli esempi <strong>da utente</strong> e annotando cosa ti piace. Esempio: per le testimonianze di un'app di finanza preferisce quelle con un volto umano e un linguaggio semplice, odia quelle generiche e senza emozione, e ne ricava l'idea di <strong>due o tre buone recensioni con ottime immagini e testo grande e in grassetto</strong> (l'esempio a schermo, Revolut, ne mostra una sola con una foto grande).</li>
+<li><strong>Staccare</strong>: pensare alle soluzioni senza mettersi al lavoro, fare altro; le idee arrivano al ritorno.</li>
+<li><strong>Non innamorarsi del proprio design</strong>: mostrarlo ad amici e colleghi, poi provarlo con persone vere e adattarlo. A volte si disegnano tre siti per trovare una buona sezione prezzi nel terzo. E alla fine: «smetti di pianificare, disegna».</li>
+</ol>
+<p>Lo stesso consiglio di guardare come altri risolvono lo stesso problema viene da Griffin («stesso problema, sei risposte»), con la precisazione che il punto <strong>non è copiare una schermata ma capire gli schemi e poi decidere</strong>. E la verifica minima, mostrare il lavoro ad amici o colleghi prima ancora che agli utenti, Sajid la ripete anche nel video sulla tipografia: è il modo più economico di scoprire se la gerarchia si legge.</p>
+<h2>⚠️ Dove le fonti non vanno d'accordo</h2>
+<blockquote>⚠️ WARN: <strong>quanto conta la scienza del colore.</strong> Arash dice di scegliere i colori «con la scienza», cioè con la ruota dei colori, senza spiegare come; Sajid dice che «non c'è vera scienza» e che la psicologia dei colori va lasciata perdere (bastano un colore scuro, uno chiaro e due per la personalità); Griffin dice che il colore deve venire dalla personalità del prodotto. Le tre posizioni si conciliano solo in parte: tutti e tre vogliono pochi colori con un ruolo chiaro; si dividono su come sceglierli.</blockquote>
+<blockquote>⚠️ WARN: <strong>sfumature e ombre.</strong> Kole Jain: di solito nessuna sfumatura, ombre quasi invisibili o assenti. Tim Gabe: al livello senior colori piatti. Sajid invece le ammette come <strong>eccezioni</strong> alla regola del "meno": ombre al posto dei bordi per far salire gli elementi importanti, una sfumatura leggera al posto di un colore pieno. La regola di Griffin (ogni effetto deve dire qualcosa) fa da arbitro: l'ombra che indica cosa è più vicino all'utente passa, quella messa per bellezza no.</blockquote>
+<blockquote>⚠️ WARN: <strong>quanto movimento.</strong> Kole Jain vuole animazioni solo con una funzione e quasi mai effetti sullo scorrimento; Tim Gabe vuole un'interfaccia «come un film», piena di piccole reazioni e cura. Sono meno lontani di quanto sembri: i suoi esempi (risposta a un tocco, progresso, una vittoria festeggiata) sono anch'essi funzionali. Il disaccordo vero è sul piacere fine a sé stesso.</blockquote>
+<blockquote>⚠️ WARN: <strong>la luminosità del testo secondario</strong>, anche dentro lo stesso video di Sajid: a voce sceglie il 60%, a schermo compaiono anche il 65% e il 70%. Sono valori scelti a occhio, non una regola.</blockquote>
+<p>Due semplificazioni da non prendere alla lettera, perché i video le presentano come regole: la <strong>legge di Miller</strong> (il "7 più o meno 2" è diventato un luogo comune; Todaro lo dà per certo senza sfumature, Prakash si limita a dire che la memoria è limitata e che i compiti vanno spezzati) e la <strong>legge di Hick</strong> (riguarda il tempo per decidere, non dice di togliere sempre opzioni: Prakash la riduce a «meno è meglio»).</p>
+<h2>Quanto fidarsi di questa pagina</h2>
+<ul>
+<li><strong>Quasi nessuno studio.</strong> Le uniche ricerche citate sono le origini storiche delle leggi (Todaro). I numeri dei paywall sono casi raccontati da terzi. Il resto è esperienza degli autori, presentata spesso come regola assoluta.</li>
+<li><strong>Sponsor e interessi.</strong> <strong>Mobbin</strong> sponsorizza 4 video su 13 (Griffin, i due di Kole Jain sul ragionamento e sulle dashboard, quello di Sajid sui siti): il consiglio di guardare schermate di app vere è sensato, ma ha uno sponsor dietro. Il video di Sajid sulla tipografia è sponsorizzato da Brilliant. Tim Gabe vende i servizi della sua agenzia in tutti e tre i suoi video. Jack Roberts vende la sua community, e il prodotto che confronta con Linear è suo.</li>
+<li><strong>Esempi inventati.</strong> Quasi tutti gli esempi "prima e dopo" sono schermate disegnate dagli autori stessi (l'app di ricette di Kole Jain, quella di case vacanza, la dashboard dei link, le aziende finte di Griffin), costruite per mostrare l'errore.</li>
+<li><strong>Sottotitoli automatici.</strong> Diversi nomi propri (studiosi delle leggi della UX, nomi di agenzie) vengono da sottotitoli automatici e sono stati ricostruiti; dove contava, i numeri sono stati letti dai fotogrammi.</li>
+<li><strong>Come è stata fatta.</strong> Ogni video è stato guardato da un agente separato (fotogrammi più trascrizione) che ha scritto una scheda di appunti; la guida è stata scritta da quelle schede e poi controllata da due verificatori indipendenti contro le trascrizioni e fotogrammi estratti da loro. Esito: 96 punti controllati, 87 giusti; nessun numero, misura o codice colore sbagliato, ma un consiglio attribuito agli autori sbagliati, una citazione ricostruita male e alcune frasi più nette o più caute del video. Tutto corretto prima della pubblicazione. Su questo computer ci sono già due skill che applicano molte di queste regole: <code>ui-design-principles</code> e <code>impeccable</code>.</li>
+</ul>
+<h2>Fonti</h2>
+<p>Tutti visti il 12/10/2026. Il report grezzo di ciascuno (trascrizione e fotogrammi) sta in <code>raw/watched/</code>.</p>
+<ul>
+<li><strong>Griffin Wooldridge</strong>, "Why Every AI-Generated UI Looks the Same" (prima "7 Signs Your UI Looks AI-Generated"), 7:18 — https://www.youtube.com/watch?v=XKDfs9xTzfw — report</li>
+<li><strong>Tim Gabe</strong>, "How Top Apps Scientifically Design Paywalls That Convert", 4:04 — https://www.youtube.com/watch?v=qJ4qYhTqAz0 — report</li>
+<li><strong>Joseph Todaro</strong>, "The Laws of UX - 19 Psychological Design Principles", 10:04 — https://www.youtube.com/watch?v=fYs2Mdyasuc — report</li>
+<li><strong>Saptarshi Prakash</strong>, "12 UI/UX Laws You MUST KNOW" (2024), 7:44 — https://www.youtube.com/watch?v=wELfwQmtnvo — report</li>
+<li><strong>Tim Gabe</strong>, "4 levels of UI/UX design (and BIG mistakes to avoid)", 15:34 — https://www.youtube.com/watch?v=86PGRyQjdzQ — report</li>
+<li><strong>Arash</strong> (DesignWithArash), "UI Design Principles | Everything You Need To Know", 5:27 — https://www.youtube.com/watch?v=NTmh8l-Xl4c — report</li>
+<li><strong>Kole Jain</strong>, "How to think like a GENIUS UI/UX designer", 5:31 — https://www.youtube.com/watch?v=HE4rLEQpiXY — report</li>
+<li><strong>Kole Jain</strong>, "7 UI/UX mistakes that SCREAM you're a beginner", 7:17 — https://www.youtube.com/watch?v=AH_ugxmLeUM — report</li>
+<li><strong>Kole Jain</strong>, "EVERYTHING you need to know to build a Dashboard UI in 8 minutes", 8:24 — https://www.youtube.com/watch?v=B7k5rOgmOGY — report</li>
+<li><strong>Tim Gabe</strong>, "The Secret Behind Weirdly Addictive Apps", 12:01 — https://www.youtube.com/watch?v=Du2lkZ_cux8 — report</li>
+<li><strong>Jack Roberts</strong>, "Turn Claude into a Design Genius... Just Watch", 17:55 — https://www.youtube.com/watch?v=NAumQObJEwM — report</li>
+<li><strong>Sajid</strong>, "The Easy Way to Design Top Tier Websites", 11:54 — https://www.youtube.com/watch?v=qyomWr_C_jA — report</li>
+<li><strong>Sajid</strong>, "The 80% of UI Design - Typography", 12:24 — https://www.youtube.com/watch?v=9-oefwZ6Z74 — report</li>
+</ul>
+<p><strong>Omesso da tutti:</strong> sponsor (Mobbin, Brilliant), inviti a consulenze, community e corsi a pagamento, richieste di iscrizione, rimandi ad altri video.</p>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
