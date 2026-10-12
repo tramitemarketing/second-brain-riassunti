@@ -113,6 +113,8 @@ th { background: #f4f6f8; font-weight: 700; }
 <p>Invece di inventare la struttura, fai analizzare a Claude i <strong>top 3 risultati</strong> per quella keyword (non Reddit) e prendine la <strong>media</strong> — lunghezza, numero di H2, immagini — come "formula vincente" da cui partire. Nel Facebook ads è l'equivalente del <strong>creative flywheel</strong> (vedi <a href="facebook-ads-con-claude.html">facebook-ads-con-claude</a>): parti dagli ad che già vincono e ne generi variazioni, invece di ripartire da zero. Tesi di fondo: <strong>SEO è una black box</strong> con 200+ segnali, ma il segnale n.1 resta il contenuto buono, perché Google vuole tenere gli utenti per servirgli ads.</p>
 <h2>Mossa 3 — il filtro umano finale</h2>
 <p>Dal corso Facebook ads, la cautela più importante: questi strumenti <strong>esaltano</strong> ciò che già fai, non ti sostituiscono. Prima di far partire soldi veri (spesa ads) o migliaia di pagine, <strong>deve</strong> esserci un controllo umano. Automazione senza filtro = account gonfio di roba scadente ("death loop") o ban di Google per contenuto di massa. La velocità dell'AI va incanalata, non lasciata correre.</p>
+<h2>Uno strumento già pronto: Humanizer</h2>
+<p>Per chi non ha tempo di costruirsi il file sulla propria voce c'è <strong>Humanizer</strong> (repo <code>blader/humanizer</code>), che Nate Herk dice di usare su ogni prodotto (i-tried-100-github-repos-for-claude-these-6-are-the-best-2026-10-12). È costruito su <strong>la guida che i redattori di Wikipedia usano per riconoscere il testo generato dall'AI</strong> (ne ha parlato The Verge, gennaio 2026) e caccia i tic noti: la struttura "non questo, ma quello", le frasi di preparazione, <strong>le cose sempre a gruppi di tre</strong>, le parole gonfiate. Si usa sul testo finito (<code>/humanizer</code> + il testo, per esempio una cold email): tiene il significato e toglie quello che fa perdere fiducia. Non sostituisce la Mossa 1: corregge i tic generici, non ti dà la tua voce.</p>
 <h2>Lo stesso problema sul design</h2>
 <p>Lo slop non è solo testuale: sul <strong>frontend</strong> i pattern sono censiti (gradiente viola/blu, carte con icone giganti, form fotocopia) e vengono combattuti con skill dedicate — vedi la sezione "skill anti-slop per il web design" in <a href="design-app-che-spiccano.html">design-app-che-spiccano</a> (Impeccable, Taste Skill, Hallmark e il design.md).</p>
 <h2>Fonti</h2>
@@ -120,6 +122,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>claude-code-seo-50000-clicks-2026-07-16 (2026-07-16) — file voice/humor, "steal from the SERP", content is king</li>
 <li>master-claude-for-marketing-full-course-2026-07-16 (Brock, 2026-07-16) — email voice skill</li>
 <li>claude-facebook-ads-full-course-2026-07-16 (The Moonlighters, 2026-07-16) — creative flywheel, filtro umano</li>
+<li>i-tried-100-github-repos-for-claude-these-6-are-the-best-2026-10-12 (Nate Herk, 2026-10-11) — Humanizer e la guida di Wikipedia contro il testo da AI</li>
 </ul>
 <script>
 window.SB = (function () {

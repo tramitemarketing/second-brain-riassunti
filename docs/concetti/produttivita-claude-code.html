@@ -122,6 +122,7 @@ th { background: #f4f6f8; font-weight: 700; }
 </ul>
 <h2>Fargli controllare il proprio lavoro</h2>
 <p>Il pezzo più utile: infilare i <strong>controlli dentro la todo-list</strong> di Claude. Dopo "costruisci il sito" → "fai uno screenshot e verifica" → "apri i DevTools di Chrome e controlla che non ci siano errori". La qualità sta nel piano, non dopo. Perno tecnico: <strong>Claude vede le immagini</strong> e sa <strong>pilotare il browser</strong> (DevTools). Un autore fa fare 3 giri di costruzione+screenshot <em>prima</em> di mostrargli la prima versione. È il <a href="loop-engineering.html">generatore→verificatore</a> applicato al codice.</p>
+<p><strong>Prima di consegnare a un cliente</strong>, la coppia proposta da Nate Herk (i-tried-100-github-repos-for-claude-these-6-are-the-best-2026-10-12), perché Claude dice volentieri "funziona" senza aver cliccato i bottoni: <strong>Playwright CLI</strong> apre un browser vero, usa l'app come un cliente e scrive test da rieseguire; <strong>Claude Security</strong>, il plugin di Anthropic, manda una squadra di agenti a cercare buchi, <strong>altri agenti provano a smentirli</strong> e resta un report in linguaggio semplice di ciò che è sopravvissuto. Due precauzioni per il backend: il connettore <strong>Supabase in sola lettura</strong>, e prima del lancio <strong>entrare come utente di prova e controllare di non vedere i dati degli altri</strong>; di Stripe installare <strong>solo la skill "stripe best practices"</strong>, non il plugin intero, che potrebbe spingere Stripe in ogni scelta di fornitore. Al cliente non interessano i test: gli interessa che il modulo funzioni e che i dati non escano.</p>
 <h2>Lavorare in parallelo</h2>
 <ul>
 <li><strong>Sotto-agenti</strong>: agenti isolati con memoria propria che lavorano in contemporanea e riferiscono al thread principale (che resta pulito). Trucco costi: farli girare su <strong>Haiku</strong> (piccolo, economico) tenendo <strong>Opus</strong> sul thread principale — es. un sotto-agente Haiku spulcia 100k token di articoli e restituisce 4 righe.</li>
@@ -155,6 +156,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>claude-code-mods-are-game-changers-set-up-these-5-now-2026-10-04 (Nate Herk, 2026-10-04) — collision-guard, goal-meter, recording-mode</li>
 <li>i-tested-codexs-500-mo-ultrafast-what-you-need-to-know-2026-10-04 (Nate Herk, 2026-10-04) — il consumo settimanale misurato in percentuale</li>
 <li>stai-usando-claude-md-nel-modo-sbagliato-ecco-cosa-fare-2026-10-06 (Dario Fontanel, 2026-10-06) — la scala dei guardrail: deny nei settings, pre-commit, pre-push come cancello umano, test, audit della configurazione</li>
+<li>i-tried-100-github-repos-for-claude-these-6-are-the-best-2026-10-12 (Nate Herk, 2026-10-11) — Playwright CLI e Claude Security prima della consegna; Supabase in sola lettura; solo la skill di Stripe</li>
 </ul>
 <script>
 window.SB = (function () {

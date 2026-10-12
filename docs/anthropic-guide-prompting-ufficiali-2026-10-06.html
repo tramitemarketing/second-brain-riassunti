@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Le guide ufficiali di Anthropic sul prompting (Opus 5, Opus 5.5, Fable 5, Fable 5.1, Sonnet 5.5) lette per intero</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<p class="muted">📖 24 min di lettura</p><p><strong>In sintesi:</strong> sono le sette pagine ufficiali di Anthropic sul prompting, scaricate il 06/10/2026: la guida generale, la panoramica e cinque guide <strong>per modello</strong> (Opus 5, Opus 5.5, Fable 5, Fable 5.1, Sonnet 5.5). Il messaggio comune: i modelli nuovi seguono bene istruzioni brevi, quindi <strong>serve meno scaffolding</strong>, ma ogni modello ha <strong>abitudini sue</strong> da correggere con una frase mirata. Opus 5 si verifica da solo (non dirgli di ricontrollare) e delega troppo; Opus 5.5 parte da effort <strong>medium</strong> e può fermarsi nei giri non presidiati; Fable 5 ha bisogno di un <strong>verificatore separato</strong> nei lavori lunghi e va bene con un sistema di memoria; Fable 5.1 scrive meno aggiornamenti e a volte si ferma prima di finire; Sonnet 5.5 a effort basso a volte dice «fatto» <strong>senza lanciare un test</strong>. Le «8 regole» di Beggiato (<a href="anthropic-8-nuove-regole-prompt-claude-5-2026-09-23.html">anthropic-8-nuove-regole-prompt-claude-5-2026-09-23</a>) reggono quasi tutte, ma <strong>la regola 1 vale solo per Opus 5 e 5.5</strong>, la regola 2 è appena accennata e la regola 6 dice il contrario per Fable 5. Le frasi-istruzione ufficiali, in inglese, sono la parte preziosa: si possono copiare così come sono.</p>
+<h2>La panoramica (overview)</h2>
+<p>Poche righe, ma contano. Prima di toccare un prompt la guida pretende tre cose: «A clear definition of the success criteria for your use case», «Some ways to empirically test against those criteria» e «A first draft prompt you want to improve». Poi avverte: «Not every success criteria or failing eval is best solved by prompt engineering. For example, you can sometimes improve latency and cost more easily by selecting a different model.» Il resto rimanda alla pagina generale, definita «the living reference». Il tutorial su GitHub è scritto per Claude 3: dove differisce dalla guida, vale la guida.</p>
+<h2>La guida generale (best practices)</h2>
+<p>È una tabella dei modelli (ognuno con la sua pagina) seguita dalle tecniche valide per tutti. Una regola di lettura importante: «Where a technique names a specific model, treat it as measured on that model and re-check it against your own evals before applying it to another.»</p>
+<p><strong>Chiarezza e contesto.</strong> «Think of Claude as a brilliant but new employee who lacks context on your norms and workflows.» La regola d'oro: «Show your prompt to a colleague with minimal context on the task and ask them to follow it. If they'd be confused, Claude will be too.» Il perché va scritto: invece di «NEVER use ellipses», «Your response will be read aloud by a text-to-speech engine, so never use ellipses since the text-to-speech engine will not know how to pronounce them». E «Claude is smart enough to generalize from the explanation.» Se vuoi più del minimo, chiedilo: «If you want "above and beyond" behavior, explicitly request it». Sui passaggi la guida è sfumata: usa elenchi di passi «when the order or completeness of steps matters», ma per il ragionamento «Prefer general instructions over prescriptive steps. A prompt like "think thoroughly" often produces better reasoning than a hand-written step-by-step plan.»</p>
+<p><strong>Esempi e struttura.</strong> Gli esempi sono «one of the most reliable ways» di guidare formato e tono: da 3 a 5, rilevanti, diversi tra loro, dentro tag <code>&amp;lt;example&amp;gt;</code>. I tag XML servono quando il prompt mischia istruzioni, contesto ed esempi. Un ruolo di una frase nel system prompt già aiuta.</p>
+<p><strong>Documenti lunghi: dati in cima, domanda in fondo.</strong> Per input oltre i 20.000 token: «Place your long documents and inputs near the top of your prompt, above your query, instructions, and examples.» E la nota: «Queries at the end can improve response quality by up to 30 percent in tests». Per i lavori sui documenti si chiede di citare prima i passaggi rilevanti («Ground responses in quotes») e poi ragionare su quelli.</p>
+<p><strong>Formato e stile.</strong> Dì cosa fare, non cosa evitare («Your response should be composed of smoothly flowing prose paragraphs» invece di «Do not use markdown»). Lo stile del prompt contagia l'output: togliere il markdown dal prompt riduce il markdown nella risposta. I modelli recenti sono più diretti e meno prolissi; Opus 5 fa eccezione (più lungo) e Fable 5.1 all'opposto scrive meno aggiornamenti.</p>
+<p><strong>Uso degli strumenti.</strong> «If you say "can you suggest some changes," Claude will sometimes provide suggestions rather than implementing them.» Per ottenere l'azione scrivi «Change this function to improve its performance». Ci sono due blocchi opposti da copiare: <code>&amp;lt;default_to_action&amp;gt;</code> (agisci invece di suggerire) e <code>&amp;lt;do_not_act_before_instructions&amp;gt;</code> (nel dubbio informa, non modificare). Per le chiamate parallele c'è il blocco <code>&amp;lt;use_parallel_tool_calls&amp;gt;</code>. Se i prompt vecchi gridavano «CRITICAL: You MUST use this tool», con i modelli nuovi si scrive normale: «Use this tool when...».</p>
+<p><strong>Pensiero e verifica.</strong> Dai modelli 4.6 in poi vale il pensiero adattivo, e l'effort è la leva. Una riga cruciale sull'autoverifica: «Ask Claude to self-check. Append something like "Before you finish, verify your answer against [test criteria]." This catches errors reliably, especially for coding and math. Claude Opus 5 is the exception: it verifies its own work well without explicit instruction». Quindi la guida generale <strong>raccomanda</strong> la verifica per i modelli in genere e fa <strong>un'eccezione</strong> per Opus 5. Se un prompt chiede di scrivere il ragionamento nella risposta (per esempio in tag <code>&amp;lt;thinking&amp;gt;</code>), può essere rifiutato: «a prompt that asks the model to write out its reasoning ... may be declined».</p>
+<p><strong>Sistemi agentici.</strong> Per i lavori su più finestre di contesto: primo giro per preparare il quadro (test, script di avvio), poi iterare su una lista. Test in formato strutturato, per esempio <code>tests.json</code>, con la frase «It is unacceptable to remove or edit tests because this could lead to missing or buggy functionality.» Note di avanzamento in testo libero, <strong>git come registro dello stato</strong>, ripartire da una finestra nuova invece di compattare quando conviene, e dare strumenti di verifica (browser, computer use). Contro il troppo zelo, il blocco «Avoid over-engineering. Only make changes that are directly requested or clearly necessary». Contro i test «piegati»: «Tests are there to verify correctness, not to define the solution.» Contro le invenzioni: «Never speculate about code you have not opened.» Prima di azioni difficili da annullare: chiedere conferma (cancellare, <code>git push --force</code>, <code>--no-verify</code>). Per la ricerca: criteri di successo chiari, più ipotesi in competizione, note di fiducia. Sui sotto-agenti: «Watch for overuse», con il blocco per dire quando valgono la pena (lavori paralleli, contesto isolato) e quando no (passi sequenziali, un solo file).</p>
+<p><strong>Migrazione.</strong> Niente prefill sull'ultimo turno dal 4.6 in poi; i blocchi di pensiero vanno rimandati <strong>identici</strong> e la storia della conversazione deve essere solo in aggiunta (dettagli sotto, in Fable 5.1).</p>
+<h2>Prompting Claude Opus 5</h2>
+<p>Opus 5 è fatto per il lavoro agentico lungo e va già bene con i prompt di Opus 4.8. Rende meglio così: «it performs best when given the complete task specification up front and left to run». È forte nella revisione del codice, ma attenzione: se scrivi «only report high-severity issues» o «be conservative», «the model may follow that instruction literally and report less; ask it to report everything and filter in a separate pass instead». Ha una finestra da 1 milione di token e, a effort <code>low</code> e <code>medium</code>, dà qualità alta con molti meno token. Si parte dal default <code>high</code> e si usa <code>xhigh</code> per il lavoro più esigente. Coordina bene i sotto-agenti: «with effective writer-verifier patterns and few cases of agents overwriting each other's work».</p>
+<p><strong>Lunghezza.</strong> «lowering effort can reduce thinking volume without reliably shortening the visible response. To control response length, prompt for it explicitly.» Frase da copiare: «Keep responses focused, brief, and concise. Keep disclaimers and caveats short, and spend most of the response on the main answer.» I documenti scritti su file sono più lunghi del necessario: «Match the length of written documents to what the task needs: cover the substance, but do not pad with filler sections, redundant summaries, or boilerplate.» Racconta molto mentre lavora: si regola descrivendo il ritmo voluto («lead with the outcome: your first sentence should answer "what happened"»), e gli esempi positivi funzionano meglio dei divieti.</p>
+<p><strong>Verifica e ambito.</strong> È il passo più citato: «Claude Opus 5 verifies its own work without being told to. If your prompt contains explicit verification instructions ("include a final verification step for any non-trivial task," "use a subagent to verify"), remove them: instructions like these cause over-verification on Claude Opus 5, and removing them reduces wasted tokens with no loss in quality. The same applies to legacy harness scaffolding that adds separate verification steps.» Può anche allargare il compito, quindi per i lavori stretti: «Deliver what was asked, at the scope intended. Make routine judgment calls yourself, and check in only when different readings of the request would lead to materially different work. ... say so in a sentence and continue with the task as asked rather than quietly narrowing, widening, or transforming it.»</p>
+<p><strong>Sotto-agenti.</strong> «Delegation pays off on genuinely independent, sizeable tracks of work, but it multiplies cost and time when applied to small tasks.» La frase da copiare: «Delegate to a subagent only for large tasks that are genuinely independent and parallelizable, such as a wide multi-file investigation. Do not delegate work you can finish yourself in a handful of tool calls, and do not use subagents to verify or double-check your own work. If one subagent can complete the task, use one rather than several, and keep spawn counts low.» I tetti <strong>deterministici</strong> in Claude Code e nell'Agent SDK sono le variabili <code>CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH</code> e <code>CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS</code> e l'opzione <code>max_budget_usd</code>; servono Claude Code 2.1.217 o successivo. Con un system prompt personalizzato l'istruzione di delega non c'è: va scritta a mano.</p>
+<p><strong>Autocorrezione.</strong> «Avoid instructing re-checks it already performs ("double-check your answer," "re-verify before responding"); like verification instructions, these compound with the model's own behavior and add cost without improving results.» E per limitare il racconto delle correzioni: «Only correct an earlier statement when the error would change the user's code, conclusions, or decisions. State corrections plainly and briefly, then continue the task.»</p>
+<p><strong>Pensiero spento.</strong> Opus 5 si può usare con il pensiero disattivato solo fino a effort <code>high</code>; in quel caso possono comparire chiamate agli strumenti scritte come testo o tag XML interni. La cura principale è tenere il pensiero acceso e abbassare l'effort («thinking enabled at <code>low</code> effort performs better than thinking disabled at similar cost»). Chiedere di scrivere il ragionamento nella risposta può essere rifiutato (<code>reasoning_extraction</code>): meglio «a short explanation of the answer or a summary of the actions taken».</p>
+<h2>Prompting Claude Opus 5.5</h2>
+<p>Genera token più del 30% più in fretta di Opus 5 e finisce lo stesso compito con meno token. I prompt per Opus 5 vanno bene così e «the patterns in Prompting Claude Opus 5 remain a reasonable starting point»: la pagina non ripete il divieto sulla verifica, lo eredita.</p>
+<p><strong>Effort.</strong> «Start at <code>medium</code>, the default on Claude Opus 5.5 (Claude Opus 5 defaults to <code>high</code>), set it explicitly, and test several levels against your own evals.» A <code>medium</code> Opus 5.5 pareggia o batte Opus 5 a <code>high</code> su codice e lavoro di conoscenza, in meno passi. Ma a parità di livello pensa di più per turno, soprattutto a <code>xhigh</code> e <code>max</code>. Tre regole: lasciare spazio in <code>max_tokens</code> (il pensiero conta); «Reserve <code>xhigh</code> and <code>max</code> for work where you've measured a quality gain»; e «To get less thinking, lower the effort level first. Lowering effort reduces thinking, and with it cost and latency, more reliably than prompt instructions do.» Cambiare l'effort tra una richiesta e l'altra svuota la cache del prompt: per un solo turno c'è il cambio per messaggio (beta).</p>
+<p><strong>Giri non presidiati (Unattended agentic runs).</strong> Su compiti lunghi con più parti, Opus 5.5 aggiorna l'utente e a volte chiude il turno con del testo senza chiamare strumenti: «An unattended agent loop that treats such a turn as the end of the task stops running there.» La cura è nel loop: «Treat a text-only end of turn as a report rather than as proof the task is done. Keep the task's parts in a checklist the model updates, such as a to-do tool or a file. If a turn ends with items still open and no blocker stated, send a short user message naming them». In alternativa: dichiarare la condizione di fine all'inizio e far controllare la conversazione, a ogni fine turno, da <strong>un modello più piccolo e separato</strong>, che restituisce il motivo come messaggio successivo. Poi il tetto: «stop after two or three automatic continuations on the same task rather than repeating them indefinitely, so that a run that is genuinely stuck ends and can be reviewed.» Se è ancora in corso qualcosa (un comando, un sotto-agente) non è finito. Esempio di messaggio: «Your task list still has open items: migrate the remaining two endpoints and update their tests. Continue with them. If one is blocked, say what is blocking it.» C'è anche un paragrafo di sistema da aggiungere in fondo al system prompt <strong>dalla prima richiesta</strong>, che elenca i quattro modi di finire male (riassunto che annuncia il passo dopo; offerta di continuare; lista di decisioni che non bloccano niente; «questo è un buon punto per fare rapporto»). Stop voluti: «the ones where nothing can move without them, or where the thing blocking you is deliberately protected from you». Limiti dichiarati: «keep your own confirmation step for risky or irreversible actions, and leave the addition out of human-in-the-loop applications», e si spendono un po' più token.</p>
+<p><strong>Più agenti: il budget di tempo.</strong> «Claude Opus 5.5 pays close attention to information about elapsed time». Se sai stimare la durata, aggiungi a ogni messaggio una riga tipo <code>elapsed 340s / 1200s</code>. Il modello si regola e di solito finisce prima. Senza una stima: mostra solo il tempo trascorso e scrivi «Time matters here: do not spend time that can be avoided, and the earlier a correct result is obtained, the better.» Nei test di Anthropic le squadre di agenti con budget hanno finito prima di un agente singolo, con qualità comparabile. Un budget stretto è diverso da un effort più basso: «lowering effort reduces the work itself, whereas a budget mostly keeps more agents working in parallel». Ma il budget è consultivo, per un blocco vero serve un timeout tuo, e sotto pressione può cercare e verificare un po' meno.</p>
+<p><strong>Altro.</strong> Nei chat, togliere le frasi «pensa con attenzione» fa partire le risposte prima; e per i turni successivi: «Once you have answered something, treat that answer as done» (ma non dove il modello deve riesaminare, e può ridurre l'abitudine di segnalare da solo un proprio errore). Nei flussi su più app: «Before taking any action, explore broadly with tool calls: list and open the emails, documents, spreadsheet tabs and records across the available apps that could be relevant to this task». Il testo incollato dall'utente va marcato con tag con ID casuale per resistere alle iniezioni. Per il frontend: la frase «avoid a generic AI look» cambia solo un difetto con un altro; funziona elencare i pattern da evitare (sfondo crema, parole in corsivo nei titoli, etichette «01/02/03», pillole). Per grafici e schemi densi servono strumenti per ritagliare e ingrandire. Gli aggiornamenti tra una chiamata e l'altra arrivano come blocchi <code>thinking</code>, vuoti di default: serve <code>display: "updates"</code>.</p>
+<h2>Prompting Claude Fable 5 (e Mythos 5)</h2>
+<p>Pensato per problemi lunghi, ambigui, da ore o giorni. «Teams seeing the best outcomes apply Claude Fable 5 to their hardest unsolved problems; testing it only on simpler workloads tends to undersell its capability range.» I turni durano minuti, quindi vanno adattati timeout e indicatori, o va controllato in modo asincrono.</p>
+<p><strong>Effort.</strong> «Use <code>high</code> as the default for most tasks, with <code>xhigh</code> for the most capability-sensitive workloads and <code>medium</code> or <code>low</code> for routine work. Lower effort settings on Claude Fable 5 still perform well and often exceed <code>xhigh</code> performance on prior models.» A effort alto può deliberare più del necessario, ma «higher effort often produces excellent verification behavior, sophisticated reasoning, and the most rigorous output». Contro il tidying non richiesto c'è il blocco «Don't add features, refactor, or introduce abstractions beyond what the task requires.»</p>
+<p><strong>Istruzioni brevi.</strong> Segue bene: «a brief instruction rather than enumerating each behavior by name». Frasi da copiare: contro il troppo pensare, «When you have enough information to act, act. ... If you are weighing a choice, give a recommendation, not an exhaustive survey. This does not apply to thinking blocks.»; per la concisione, «Lead with the outcome. ... Being readable and being concise are different things, and readability matters more.» e «The way to keep output short is to be selective about what you include ... not to compress the writing into fragments, abbreviations, arrow chains like A → B → fails, or jargon.»; per i punti di sosta, «Pause for the user only when the work genuinely requires them: a destructive or irreversible action, a real scope change, or input that only they can provide. If you hit one of these, ask and end the turn, rather than ending on a promise.»</p>
+<p><strong>Progressi veri.</strong> «Before reporting progress, audit each claim against a tool result from this session. Only report work you can point to evidence for; if something is not yet verified, say so explicitly. Report outcomes faithfully: if tests fail, say so with the output; if a step was skipped, say that». Nei test di Anthropic questo «nearly eliminated fabricated status reports even on tasks designed to elicit them».</p>
+<p><strong>Confini.</strong> Può fare azioni non chieste (una mail, un backup di git). Blocco: «When the user is describing a problem, asking a question, or thinking out loud rather than requesting a change, the deliverable is your assessment. Report your findings and stop. Don't apply a fix until they ask for one.» E prima di comandi che cambiano lo stato: controllare che le prove sostengano proprio quell'azione.</p>
+<p><strong>Sotto-agenti.</strong> Qui il tono è opposto a Opus 5: «Use subagents frequently, provide explicit guidance about when delegation is appropriate, and prefer asynchronous communication». I sotto-agenti di lunga durata, che tengono il loro contesto, fanno risparmiare tempo e costi grazie alle letture di cache. Frase: «Delegate independent subtasks to subagents and keep working while they run. Intervene if a subagent goes off track or is missing relevant context.»</p>
+<p><strong>Sistema di memoria.</strong> Rende bene se può registrare lezioni dai giri precedenti, anche solo in un file Markdown: «Store one lesson per file with a one-line summary at the top. Record corrections and confirmed approaches alike, including why they mattered. Don't save what the repo or chat history already records; update an existing note rather than creating a duplicate; delete notes that turn out to be wrong.» Per avviarlo dalla storia: «Reflect on the previous sessions we've had together. Use subagents to identify core themes and lessons, and store them in [X]. Make sure you know to reference [X] for future use.»</p>
+<p><strong>Fermate premature.</strong> Raramente, a fondo sessione, chiude con «I'll now run X» senza farlo, o chiede un permesso inutile. Basta «continue». Per le pipeline autonome c'è il blocco «You are operating autonomously. The user is not watching in real time and cannot answer questions mid-task, so asking "Want me to…?" or "Shall I…?" will block the work. ... Before ending your turn, check your last paragraph. If it is a plan, an analysis, a question, a list of next steps, or a promise about work you have not done ("I'll…", "let me know when…"), do that work now with tool calls.» Se l'harness mostra un conto alla rovescia dei token, il modello può proporre di chiudere la sessione: meglio non mostrarlo, o aggiungere «You have ample context remaining. Do not stop, summarize, or suggest a new session on account of context limits.»</p>
+<p><strong>Il perché e la leggibilità.</strong> «Claude Fable 5 tends to perform better when it understands the intent behind a request». Modello: «I'm working on [the larger task] for [who it's for]. They need [what the output enables]. With that in mind: [request].» Sulla leggibilità del riepilogo finale: «Terse shorthand is fine between tool calls. Your final summary is different: it's for a reader who didn't see any of that», con apertura sull'esito e frasi complete. Per gli agenti lunghi è descritto uno strumento <code>send_to_user</code> per consegnare testo alla lettera senza chiudere il turno; da solo non basta, serve una riga nel system prompt che dica quando usarlo.</p>
+<p><strong>Cambi consigliati allo scaffolding (Recommended scaffolding changes).</strong> Quattro punti utili. Partire dalla cima della difficoltà: «Pick a task harder than what you'd assign to prior models, and have Claude Fable 5 scope it, ask clarifying questions, and execute.» Rendere esplicita l'autoverifica nei lavori lunghi: «Separate, fresh-context verifier subagents tend to outperform self-critique. For long-running tasks, instruct: <code>Establish a method for checking your own work at an interval of [X] as you build. Run this every [X interval], verifying your work with subagents against the specification.</code>» Rifare le skill: «Skills developed for prior models are often too prescriptive for Claude Fable 5 and can degrade output quality.» E non chiedere di riprodurre il ragionamento (rischio <code>reasoning_extraction</code>).</p>
+<h2>Prompting Claude Fable 5.1 (e Mythos 5.1)</h2>
+<p>I prompt di Fable 5 vanno bene così. Differenze: capacità maggiori a ogni livello, soprattutto in alto.</p>
+<p><strong>Effort.</strong> «Start at the default effort level, <code>high</code>, then test the other levels». «At <code>medium</code>, results roughly match Claude Fable 5 at lower cost, so step down to <code>medium</code> or <code>low</code> where your evals show quality holds.» A <code>low</code>, spesso è competitivo con Opus e Sonnet sul costo per compito ma con punteggi più alti. Rifare la prova anche se l'avevi fatta su Fable 5: «effort level names don't correspond to the same amount of thinking across models». A <code>low</code> cerca meno sul web (risponde a memoria): si alza l'effort per quei turni oppure si scrive che un nome non riconosciuto con certezza è «the thing to verify: search before answering». A <code>xhigh</code> e <code>max</code> può scrivere due volte un testo lungo (prima nel pensiero, poi nella risposta): meglio <code>high</code>, oppure dire che tutto conta per un solo limite di token e di non fare due bozze.</p>
+<p><strong>Aggiornamenti.</strong> Scrive <strong>meno</strong> aggiornamenti tra le chiamate di Fable 5. Prima: controllare che il client li riceva (<code>display: "updates"</code>). Poi: togliere le frasi del tipo «hold all findings for the final response». Se servono: «Before you start, say in a line what you're about to do; brief updates while you work help the user follow along. Close with a short recap that stands on its own».</p>
+<p><strong>Finire il compito (Finish the whole task).</strong> Può descrivere il passo dopo invece di farlo («Next, I'll …») o chiedere permesso per cose già chieste («Shall I apply this?»). Due blocchi da usare insieme. Il primo (autonomia): «The opening sentence, which tells the model the user isn't watching, carries much of the effect. Keep it as written.» Contiene anche l'eccezione: se l'utente sta descrivendo un problema o chiedendo, il prodotto è la valutazione, non la modifica. Il secondo dice che la richiesta <strong>è</strong> l'ambito: «The user's request — or the plan they approved — sets the scope, and the scope is the deliverable: don't quietly narrow, widen, or swap it.» E: «A step you have decided on is something to run, not to announce: describing the next step and ending the turn leaves it undone until the user replies.» Costo dichiarato: il blocco «can also make the model less likely to ask about ambiguous requests, so check that trade-off on your own tasks.»</p>
+<p><strong>Ambito e test.</strong> Può aggiungere correzioni vicine o troppi test. Il blocco chiede di segnalare nel riepilogo, non di correggere, i problemi preesistenti, e di fare «roughly one focused test per stated behavior». Poi: modifiche mirate invece di riscrivere interi file («surgically edit a file rather than rewrite the entire thing»).</p>
+<p><strong>Scrittura.</strong> La prosa può essere più densa (frasi lunghe, pochi a capo). Istruzione ufficiale contro la <strong>prosa manierata</strong> («mannered prose»): «Mannered prose substitutes metaphor and flourish for direct statement. ... The phrases exist to display the writer, not to convey the idea, and readers can tell. ... The fix is to say what you mean. When a literal phrase is available, use it.» Versione corta: «Please remove all mannered prose.» Va messa, preferibilmente, nel messaggio dell'utente. Nei chat formatta <strong>meno</strong> degli altri (meno grassetti, meno liste): vanno tolte le vecchie regole anti-formattazione, o sostituite con «Use lists and bullet points when asked to, or when the content is multifaceted enough that they help with clarity.» Quando riassume documenti può copiare passaggi senza virgolette: rimedio, un esempio completo corretto nel system prompt.</p>
+<p><strong>Storia della conversazione solo in aggiunta.</strong> Per i conti creati dal 31/08/2026 i blocchi di pensiero valgono solo nella conversazione che li ha prodotti: se cambi qualcosa <strong>prima</strong> di essi (prompt di sistema, strumenti, turni precedenti) la richiesta dà errore 400 o il blocco viene scartato. Quindi: promemoria per turno come messaggi di sistema «turn-scoped»; niente riscrittura di <code>system</code> o <code>tools</code>; compattare lato server. Compattazione lato client: istruzione con sei punti da preservare (problemi e come risolti; opzioni scartate e perché; richieste, decisioni, vincoli «stated exactly»; a che punto siamo; cosa è aperto; dettagli difficili da ricostruire). Costando meno le letture di cache, compattare presto potrebbe non convenire più.</p>
+<p><strong>Altro.</strong> Chiamate parallele implicite: una riga, «First privately list what you need next; then request every item that doesn't depend on another's result in this one response.» Falsi positivi dei filtri di sicurezza: chiedere «Are there any bugs in this program?» invece di «Does this program compile without errors?»; evitare base64 negli output degli strumenti. Il capo-agente non deve aspettare i sotto-agenti: se lavora mentre girano, il tempo medio scende a parità di qualità e di costo. Per le immagini dense: strumenti per ritagliare e ingrandire.</p>
+<h2>Prompting Claude Sonnet 5.5</h2>
+<p>Per il lavoro lungo più difficile la guida stessa dice che «an Opus model is the better choice».</p>
+<p><strong>Effort.</strong> I livelli sono ricalibrati rispetto a Sonnet 5. «Start at <code>high</code>, the default on the Claude API, unless your workload is agentic or latency-sensitive. For agentic coding and multistep tool use, start at <code>medium</code> for well-specified tasks and move to <code>high</code> for harder or longer ones. For chat and other latency-sensitive work, start at <code>medium</code> or <code>low</code>». Di nuovo: «Reserve <code>xhigh</code> and <code>max</code> for work where you've measured a quality gain, because thinking and replies get much longer there.» Dire al modello «pensa meno» non funziona: «Asking it in the system prompt to think less doesn't reliably reduce its thinking.» Si abbassa l'effort.</p>
+<p><strong>Iniziativa e ambito.</strong> A <code>low</code> e <code>medium</code>, nei lavori di codice, a volte si ferma per chiedere. Blocco da copiare: «Keep working until everything the user asked for is done, and only stop to ask when you can't go on without the user or before a risky step.» più «When the work the user asked for is done and checked, stop and report. Don't add features, tests, files, docs or refactors that weren't asked for.» Costo: sessioni più lunghe a quei livelli. Di default aggiunge test e piccoli file coerenti con il repo. A <code>xhigh</code>/<code>max</code> è molto minuzioso e può avviare <strong>suoi giri di revisione</strong>, anche con sotto-agenti: «When the work the user asked for is done and its checks pass, stop and report. Don't start extra rounds of review or hardening on your own, and don't launch reviewer sub-agents unless the user asked for a review.» Nei test a <code>max</code> questo ha tolto i sotto-agenti revisori e <strong>tagliato il costo di circa un terzo, senza cambiare la qualità</strong>. Per le richieste aperte: «When the user asks for ideas, options or a plan, give them that and stop.»</p>
+<p><strong>Verifica sul codice.</strong> Di solito controlla prima di dire fatto, ma «At <code>low</code> effort, though, it sometimes reports a change as done without running a check that exercises it.» (esempio: salta i test perché mancano le dipendenze). Paragrafo ufficiale: «When you change code that can be run, built, or type-checked, run a real check that exercises the change before reporting it done: the project's tests, type-checker, or build, or the changed command itself. A syntax-only check, or a check command that failed to start, does not count ... Only if no real check can run here, say which one you did not run and why instead of reporting the change as done.» A <code>low</code> rende i controlli saltati rari, con un costo appena più alto.</p>
+<p><strong>Risposte JSON su compiti di ragionamento.</strong> Senza pensiero può sbagliare. Con il pensiero adattivo basta in fondo al system prompt «Think the problem through before you answer.» (a <code>high</code> porta quasi al livello di <code>xhigh</code>); oppure <code>xhigh</code>. Il pensiero «between_tools» è il livello più basso e non va usato per compiti di ragionamento senza strumenti. Con JSON in prompt si legge l'<strong>ultimo</strong> valore JSON della risposta.</p>
+<p><strong>Altro.</strong> Aggiornamenti silenziosi come in Opus 5.5 (<code>display: "updates"</code>; promemoria «The user hasn't heard from you in a while — say in a few words what you're doing, then continue.» dopo circa cinque passi muti, al massimo due o tre volte). Nei chat risponde a memoria quando una ricerca coglierebbe dettagli cambiati: «Use the search tool to check specifics that may have changed since your training ... even when you feel confident.» Un messaggio dell'utente a metà lavoro può essere scambiato per iniezione: non mettere mai testo dell'utente dentro un blocco <code>tool_result</code>, non aggiungere conti alla rovescia dopo ogni strumento. A volte sbaglia maiuscole/minuscole nel nome di uno strumento: l'harness deve essere tollerante o rispondere con <code>is_error</code> e il nome esatto. Cinque categorie di rifiuto (<code>cyber</code>, <code>bio</code>, <code>frontier_llm</code>, <code>reasoning_extraction</code>, <code>general_harms</code>).</p>
+<h2>Le otto regole di Beggiato contro le guide</h2>
+<p><strong>Regola 1, «non chiedere di ricontrollare»: confermata, ma solo per Opus 5 e 5.5; non vale in generale.</strong> Per Opus 5 è letterale: «remove them» e «Avoid instructing re-checks it already performs». Per Opus 5.5 la pagina non lo ripete, lo eredita dal rimando a Opus 5, e aggiunge che nei chat conviene togliere le frasi «pensa con attenzione». <strong>Non vale per Sonnet 5.5 a effort basso</strong>, che a volte dice fatto senza test e per cui la guida dà un paragrafo che <strong>impone</strong> il controllo reale. <strong>Non vale in generale</strong>: la guida generale consiglia «verify your answer against [test criteria]» e mette Opus 5 come eccezione. Per Fable 5 raccomanda l'opposto: verifica esplicita a intervalli, con sotto-agenti. Beggiato la presenta come regola dei «modelli nuovi»: è più stretta di così.</p>
+<p><strong>Regola 2, «fatti intervistare»: solo accennata.</strong> C'è una riga in Fable 5: «have Claude Fable 5 scope it, ask clarifying questions, and execute». Niente guida all'intervista, niente documento di Thariq, niente skill: quelle cose vengono da lui (o da altri), non dalle sette pagine. Una sfumatura che lui non dice: per i giri autonomi la guida vuole l'opposto a metà lavoro («asking "Want me to…?" ... will block the work») e Fable 5.1 avvisa che il blocco «can also make the model less likely to ask about ambiguous requests». Quindi l'intervista va fatta <strong>prima</strong>, non durante. Il «test di leggibilità» che lui attribuisce alla skill doc-coauthoring trova qui un equivalente nella regola d'oro («Show your prompt to a colleague with minimal context»).</p>
+<p><strong>Regola 3, «compito completo subito, senza dettare i passaggi»: confermata in parte.</strong> Per Opus 5 è letterale: «performs best when given the complete task specification up front and left to run». «Senza passaggi»: la guida dice di preferire istruzioni generali ai piani passo-passo per il ragionamento, e che le skill vecchie sono «often too prescriptive» per Fable 5; ma anche che gli elenchi numerati servono «when the order or completeness of steps matters». Lo schema a otto sezioni (tipo di compito, perché, materiale, paletti...) <strong>non è nella guida</strong>: è della sua skill. La guida ha un modello più corto, quello del «perché» (vedi regola 8). In più c'è ciò che lui non dice: dati lunghi in cima e domanda in fondo.</p>
+<p><strong>Regola 4, «controlla che abbia finito»: confermata, e la guida ne dice di più.</strong> I due pezzi sono quasi letterali in Fable 5 (il blocco «check your last paragraph» e l'audit dei progressi). Fable 5.1 ha un testo più lungo con l'ambito come consegna. Opus 5.5 aggiunge ciò che manca nel video: la <strong>checklist</strong>, il <strong>modello piccolo separato</strong> che controlla la condizione di fine, il <strong>tetto di due o tre continuazioni</strong>, l'attesa di ciò che è ancora in corso, e l'avvertenza di tenere una conferma per le azioni rischiose.</p>
+<p><strong>Regola 5, «l'effort non decide la lunghezza»: confermata solo per Opus 5.</strong> È letterale in quella pagina. Per Fable 5 l'istruzione è un'altra («readability matters more» e niente frammenti), per Fable 5.1 il problema è opposto (meno aggiornamenti, prosa densa) e in Opus 5.5 e Sonnet 5.5 è l'effort la leva più affidabile per il <strong>pensiero</strong> (non per la lunghezza visibile). Quindi la regola va letta per modello.</p>
+<p><strong>Regola 6, «un tetto ai sotto-agenti»: confermata per Opus 5, contraddetta per Fable 5.</strong> Opus 5: tetto, e anche «do not use subagents to verify or double-check your own work». Fable 5: «Use subagents frequently». La guida non parla di «tre sotto-agenti divisi per angolo»: dice «If one subagent can complete the task, use one rather than several». Ha i tetti deterministici (variabili d'ambiente e <code>max_budget_usd</code>) che lui non cita.</p>
+<p><strong>Regola 7, «sistema di memoria»: confermata, quasi letterale.</strong> Il blocco «Store one lesson per file with a one-line summary at the top...» è di Fable 5. Beggiato dice «invece di prompt lunghi»: la guida non lo dice, dice che Fable 5 «performs particularly well» con quel file. Le due lezioni della sua demo sono sue. La guida aggiunge l'avvio dalla storia passata con sotto-agenti e, in generale, git e note di avanzamento come stato.</p>
+<p><strong>Regola 8, «spiega il perché»: confermata.</strong> In Fable 5 («Give the reason, not only the request») con il modello pronto da riempire; anche nella guida generale con l'esempio del sintetizzatore vocale.</p>
+<p><strong>Cosa la guida dice e lui no.</strong> Verificatore separato a contesto pulito per i lavori lunghi (Fable 5); l'effort per modello (Opus 5.5 parte da <code>medium</code>, Fable 5.1 e Sonnet 5.5 da <code>high</code>) e il consiglio di non usare <code>xhigh</code>/<code>max</code> senza un guadagno misurato; il budget di tempo per più agenti; la prosa manierata; documenti in cima e domanda in fondo; i confini («Report your findings and stop»); la storia solo in aggiunta; la compattazione; i test «uno per comportamento»; il paragrafo di verifica reale per Sonnet 5.5.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Pagine ufficiali, copiate in guida generale, panoramica, Opus 5, Opus 5.5, Fable 5, Fable 5.1, Sonnet 5.5. Scaricate il 06/10/2026.</li>
+<li>Concetti collegati: loop-engineering (chiude il WARN sull'autoverifica), spec-driven-prompting, model-routing (effort per modello), agent-memory (la memoria di Fable 5).</li>
+<li>Riassunto che questo mette alla prova: <a href="anthropic-8-nuove-regole-prompt-claude-5-2026-09-23.html">anthropic-8-nuove-regole-prompt-claude-5-2026-09-23</a>. Video imparentato: <a href="how-anthropic-engineers-prompt-fable-2026-07-21.html">how-anthropic-engineers-prompt-fable-2026-07-21</a>.</li>
+<li><strong>Omesso, di proposito:</strong> i blocchi di codice di esempio nei vari linguaggi (il lungo ciclo di chiamate in Python, TypeScript, C#, Go, Java, PHP, Ruby di Fable 5.1); le note sui parametri dell'API e sulle intestazioni beta; i dettagli dei rifiuti dei filtri di sicurezza (biologia, cybersicurezza) e del <code>reasoning_extraction</code> oltre alla riga che li riguarda; il pensiero spento e i suoi artefatti (tag XML nell'output); la gestione dei nomi sbagliati degli strumenti e la lettura del JSON in Sonnet 5.5; i dettagli della visione (strumenti di ritaglio); le sezioni di migrazione dai modelli 4.x, il prefill, LaTeX, il frontend di Opus 4.5/4.6; il blocco per l'identità del modello.</li>
+<li><strong>Da sapere:</strong> (1) sono guide di prodotto in evoluzione, scaricate in una data precisa: nomi dei modelli e livelli di effort cambiano. (2) La guida dice «treat it as measured on that model»: ogni numero (30%, un terzo del costo) è di Anthropic su suoi test, non verificato da noi. (3) Quando scrivo «la guida non lo dice» intendo nelle sette pagine che ho letto; Beggiato può aver letto altre pagine (per esempio la guida di Sonnet 5 o i documenti di Thariq) che qui non ci sono.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>

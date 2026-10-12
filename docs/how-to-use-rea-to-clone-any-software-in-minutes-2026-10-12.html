@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>How To Use REA To Clone Any Software In Minutes</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%222%22%20y%3D%2211%22%20width%3D%2260%22%20height%3D%2242%22%20rx%3D%2211%22%20fill%3D%22%23e8262d%22/%3E%3Cpath%20d%3D%22M26%2022.5%2044%2032%2026%2041.5z%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1.1rem 1.1rem 4rem;
+  font: 1.05rem/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 44rem; margin-inline: auto; color: #1a1a1a; background: #fbfbfa; }
+
+a { color: #1a5fb4; text-decoration: none; } a:hover { text-decoration: underline; }
+h1 { font-size: 1.7rem; line-height: 1.25; margin: .2rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2rem 0 .6rem; } h3 { font-size: 1.1rem; margin: 1.4rem 0 .5rem; }
+p { margin: .7rem 0; }
+blockquote { margin: 1rem 0; padding: .2rem 0 .2rem 1rem; border-left: 3px solid #d0d0d0; color: #555; }
+code { background: #ececec; padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+hr { border: none; border-top: 1px solid #e2e2e2; margin: 2rem 0; }
+ul, ol { margin: .7rem 0; padding-left: 1.4rem; } li { margin: .25rem 0; }
+.topbar { margin-bottom: 1.5rem; padding-bottom: .8rem; border-bottom: 1px solid #e2e2e2; }
+.topbar a { font-weight: 600; }
+.muted { color: #6b7075; font-size: .92rem; }
+.tag { display: inline-block; background: #eceff3; color: #4a5560; font-size: .72rem;
+  font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+  padding: .12rem .45rem; border-radius: .4rem; margin-bottom: .35rem; }
+.card { display: block; border: 1px solid #e6e6e6; background: #fff; border-radius: .7rem;
+  padding: .9rem 1rem; margin: .7rem 0; }
+.card:hover { text-decoration: none; border-color: #9ab8e0; }
+.card h2 { margin: 0 0 .2rem; font-size: 1.15rem; } .card .muted { display: block; }
+.card .desc { margin: .35rem 0 0; }
+.btn { display: inline-block; margin: .5rem 0; padding: .55rem 1rem; background: #1a5fb4;
+  color: #fff !important; border-radius: .5rem; font-weight: 600; font-size: .95rem; }
+.btn:hover { background: #154c92; text-decoration: none; }
+
+/* --- tendina "lo so gia": contenuto ripiegato, si apre se serve --- */
+details.gia { border: 1px solid #e6e6e6; border-radius: .6rem; background: #fafafa;
+  padding: .1rem .9rem; margin: 1rem 0; }
+details.gia > summary { cursor: pointer; padding: .6rem 0; font-weight: 600;
+  font-size: .95rem; color: #6b7075; list-style: none; }
+details.gia > summary::-webkit-details-marker { display: none; }
+details.gia > summary::before { content: "▸ "; color: #9aa0a6; }
+details.gia[open] > summary::before { content: "▾ "; }
+details.gia > summary:hover { color: #1a5fb4; }
+details.gia[open] { background: transparent; }
+details.gia > *:last-child { margin-bottom: .8rem; }
+/* --- copertine dei video --- */
+.cover { display: block; width: 100%; max-width: 100%; border-radius: .7rem;
+  margin: 0 0 1.2rem; background: #ececec; aspect-ratio: 16/9; object-fit: cover; }
+.card { display: flex; gap: .85rem; align-items: flex-start; }
+.card .thumb { flex: 0 0 6.6rem; width: 6.6rem; aspect-ratio: 16/9; border-radius: .45rem;
+  object-fit: cover; background: #ececec; }
+.card .txt { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 30rem) { .card .thumb { flex-basis: 5.2rem; width: 5.2rem; } }
+.tw { overflow-x: auto; margin: 1rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { border: 1px solid #e2e2e2; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+th { background: #f4f6f8; font-weight: 700; }
+
+/* --- lettura: barra di avanzamento, pillola, spunte di sezione --- */
+#rp { position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: #1a5fb4; z-index: 50; transition: width .3s ease; }
+#rd { position: fixed; right: .8rem; bottom: .8rem; z-index: 50;
+  background: rgba(255,255,255,.94); border: 1px solid #e2e2e2; border-radius: 2rem;
+  padding: .4rem .8rem; font-size: .82rem; font-weight: 700; color: #4a5560;
+  box-shadow: 0 2px 10px rgba(0,0,0,.09); cursor: pointer; user-select: none; }
+#rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.sec { border: none; background: none; cursor: pointer; font-size: .78rem; font-weight: 700;
+  color: #6b7075; padding: .1rem .45rem; margin-left: .5rem; border-radius: 1rem;
+  vertical-align: middle; }
+.sec:hover { background: #eceff3; color: #4a5560; }
+.sec.ok { color: #1a7f37; }
+.pill { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .03em;
+  padding: .1rem .45rem; border-radius: 1rem; margin-left: .4rem; vertical-align: middle;
+  background: #eceff3; color: #4a5560; }
+.pill.done { background: #1a7f37; color: #fff; }
+.card.read { opacity: .72; }
+/* i temi scuri vanno DOPO le regole chiare: a parita' di peso vince
+   l'ultima scritta, altrimenti il chiaro le sovrascrive tutte */
+@media (prefers-color-scheme: dark) {
+  body { color: #e6e6e6; background: #17181a; }
+  a { color: #7db3ff; } blockquote { border-color: #3a3d42; color: #b8bcc2; }
+  code { background: #2a2c30; } hr { border-color: #2a2c30; }
+  .card { background: #1e2023; border-color: #2a2c30; } .muted { color: #9aa0a6; }
+  .tag { background: #2a2c30; color: #cbd0d6; }
+  .btn { background: #2b6fd6 !important; } .btn:hover { background: #3f7fe0 !important; }
+  details.gia { border-color: #2a2c30; background: #1c1e21; }
+  details.gia > summary { color: #9aa0a6; }
+  details.gia > summary:hover { color: #7db3ff; }
+  details.gia[open] { background: transparent; }
+  th, td { border-color: #2a2c30; } th { background: #24262a; } }
+@media (prefers-color-scheme: dark) {
+  #rd { background: rgba(30,32,35,.94); border-color: #2a2c30; color: #cbd0d6; }
+  #rd.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+  .sec { color: #9aa0a6; } .sec:hover { background: #2a2c30; color: #cbd0d6; }
+  .sec.ok { color: #4ac26b; } .pill { background: #2a2c30; color: #cbd0d6; }
+  .pill.done { background: #1a7f37; color: #fff; } }
+</style>
+</head>
+<body>
+<div class="topbar"><a href="index.html">← Tutti i riassunti</a></div>
+<img class="cover" loading="lazy" alt="How To Use REA To Clone Any Software In Minutes" src="https://i.ytimg.com/vi/FnB9tHKBJXQ/hqdefault.jpg"><p class="muted">📖 7 min di lettura</p><p><strong>In sintesi:</strong> <strong>REA</strong> (<em>reverse-engineer-anything</em>) è un repository su GitHub che insegna a un agente AI a <strong>smontare un programma fino al livello binario</strong> (app desktop, giochi, siti, app mobili) per raccogliere prove di come funziona davvero, e poi usarle per <strong>costruirne un clone molto più fedele</strong>; l'autore lo installa in pochi minuti, con un solo prompt a Claude Code si fa un clone locale di <strong>Wispr Flow</strong> (la sua app di dettatura) e chiude con la tesi che <strong>il codice non è più il vantaggio competitivo: lo sono marchio, utenti e dati</strong>.</p>
+<h2>Che cos'è REA e perché ha fatto rumore</h2>
+<p>Il video si apre dicendo che, se vuoi far reverse-engineerare un'applicazione a un'AI <strong>con la massima accuratezza</strong>, devi guardare il repository <code>reverse-engineer-anything</code>, che sullo schermo compare come <code>morluto / rea</code>. L'autore dice che ha superato le <strong>60.000 stelle</strong> su GitHub in un paio di giorni dalla pubblicazione; la scheda a schermo è più precisa e segna <strong>70,9k stelle e 14,9k fork</strong>, con un grafico piatto da luglio che schizza quasi in verticale a inizio ottobre ("couple of days"). Aggiunge che la gente lo ha già usato per clonare programmi come Adobe Premiere e Photoshop. Il punto che trova più interessante è l'ampiezza: REA lavora su <strong>applicazioni desktop, giochi, applicazioni web, perfino applicazioni mobili</strong>. Le animazioni dell'apertura lo mostrano: una griglia di icone di programmi con un mirino rosso sopra Photoshop, poi pannelli dedicati a giochi, ad app web e ad app mobili.</p>
+<p>La definizione data a voce è semplice. Se vedi una funzione che ti piace in un'app desktop, web o mobile, REA <strong>scende al livello binario</strong>, capisce come l'app funziona davvero e dà all'AI <strong>molto più contesto</strong> per costruire un risultato più preciso. L'autore lo collega a qualcosa che il suo pubblico già conosce, lo <strong>spec-driven development</strong>: se vuoi che un'AI costruisca con la massima accuratezza serve più contesto, e il contesto è la chiave. Per clonare qualcosa, dice, bisogna dare <strong>più evidenza</strong> su come l'applicazione funziona dietro le quinte, e questo è esattamente ciò che REA prova a fare. Un grafico animato nell'apertura mostra l'idea: una barra bassa "Without evidence" contro una altissima "With REA", con l'etichetta "highest" (è un'illustrazione, non una misura).</p>
+<h2>Come funziona: una skill che guida gli strumenti MCP</h2>
+<p>Il modo in cui REA è fatto, spiegato dall'autore, è questo: lo si può trattare come una <strong>skill</strong>, e questa skill ha <strong>molti MCP</strong> (i connettori che danno strumenti all'agente). Fa gli esempi di <strong>Hopper</strong> per il desktop, di un <strong>JavaScript/browser</strong> per le applicazioni web, e dice che esistono anche quelli per mobile, per hardware e altro. REA è quindi la skill che <strong>insegna all'agente AI come usare questi strumenti</strong> e come raccogliere da solo le informazioni dall'applicazione.</p>
+<p>Lo schema che mostra a schermo, intitolato "How REA works", lo rende concreto: un <strong>Agent</strong> fa una domanda ("asks") a <strong>REA</strong>, indicato come MCP; REA smista il lavoro a cinque strumenti, cioè <strong>Hopper, Ghidra, IDA, JS analyser e Browser</strong>; tutti producono <strong>Evidence</strong> (prove), e i risultati ("findings") tornano all'agente. Una seconda schermata, "What REA can read", elenca cosa può leggere: app desktop e giochi, JavaScript ed Electron, siti web, APK Android, app .NET, firmware; poi la catena "Claude + REA", "How it works", "Build". Un'altra animazione mostra gli agenti compatibili, tra cui Claude Code, Codex e Cursor, con la dicitura "More context".</p>
+<h2>Installazione passo per passo</h2>
+<p>Il primo passo è eseguire il comando di setup nel proprio terminale. Prima l'autore consiglia di controllare la versione di Node con <code>node -v</code>: serve la <strong>versione 24 o superiore</strong>; per aggiornare, sul suo Mac, usa <code>brew upgrade node</code>. La pagina del README a schermo, sezione "Quick start", riporta il comando <code>npx rea-agents setup</code>, con la frase che vanno scelti gli agenti, riviste le modifiche proposte e approvate; il setup aggiunge il server MCP di REA e le istruzioni di workflow corrispondenti, con copie di backup della configurazione, e poi <strong>l'agente va riavviato</strong>. Il README dice che il setup supporta Claude Code, Codex, Cursor, Gemini CLI e altri.</p>
+<p>Lanciato il comando, il terminale chiede quale agente usare: l'autore sceglie <strong>Claude Code e Codex</strong> (e ricorda che si può scegliere OpenCode o un altro harness). Il passo successivo è l'<strong>installazione di Hopper</strong> per l'analisi binaria profonda. Qui spiega il perché: normalmente uno sviluppatore scrive il codice sorgente e il sorgente fa funzionare l'applicazione; nel reverse engineering si parte al contrario, quindi REA usa <strong>Hopper come strumento di terze parti</strong> che analizza che cosa fa l'applicazione e ne traduce i requisiti in una forma che l'agente AI può usare per ricostruirla. Risponde sì all'installazione e il programma propone <strong>cinque modifiche</strong> (installare il provider di analisi profonda Hopper e aggiungere REA e le skill di reverse engineering ai suoi agenti di codifica); le approva tutte.</p>
+<p>Subito dopo si apre <strong>Hopper Disassembler</strong>, con una finestra di licenza: l'autore clicca su <strong>"Try the Demo"</strong> (la versione di prova) e poi fa un controllo automatico. Il terminale mostra che tutto è installato: analisi profonda, accesso degli agenti, workflow di reverse engineering. La schermata finale elenca gli agenti rilevati e abilitati (Claude Code, Claude Desktop, Codex), cosa si può fare adesso (analisi profonda con Hopper, workflow guidati installati, il comando da riga di comando <code>npx rea-agents analyze /path/to/app</code>, un esempio di prompt "Explain how a feature works in /path/to/app") e la riga conclusiva <strong>"REA is ready for local app analysis"</strong>.</p>
+<h2>La demo: clonare Wispr Flow con un solo prompt</h2>
+<p>L'app da clonare è <strong>Wispr Flow</strong> (nei sottotitoli automatici scritto "Whisper flow"; a schermo si vede il sito ufficiale "Don't type, just speak"), un programma <strong>voice-to-text</strong> che l'autore dice di usare ogni giorno sul desktop: con un clic sull'icona o con una scorciatoia trasforma in testo quello che dici, e sa anche trascrivere gli appunti delle riunioni.</p>
+<p>Apre Claude Code e incolla un prompt già preparato, di <strong>quattro righe</strong>, che vale la pena riportare per intero perché è costruito bene: "<em>Find Wispr Flow in my Desktop folder. Use REA to inspect the app. Use its official website as background. / Trace how it captures speech, gets transcription results, and inserts text into other apps. / Explain what you can prove from the app files, what you infer, and what remains hidden. / Then propose a small working version I could build, including any services it would need.</em>" Cioè: <strong>ispeziona l'app con REA</strong> usando il sito come contesto, <strong>segui il percorso</strong> cattura della voce → trascrizione → inserimento del testo nelle altre app, <strong>separa ciò che è provato dai file da ciò che è dedotto e da ciò che resta nascosto</strong>, e solo alla fine <strong>proponi</strong> una piccola versione funzionante con i servizi che servirebbero. Poi lo lascia lavorare. Il video salta all'app finita.</p>
+<p>Il risultato, mostrato aprendo l'app sul suo desktop, è un <strong>clone esatto</strong> (le sue parole) di Wispr Flow. Nella schermata principale, che si chiama "Utter" con la dicitura "Local", compaiono tutte le dettature passate: nel pannello si leggono, per esempio, <strong>1.996 parole totali, 135 parole al minuto</strong>, e un elenco di dettature della giornata con orario e bottoni per riascoltare, copiare e cancellare. La sezione <strong>Notetaker</strong> mostra le trascrizioni delle riunioni (a schermo una "Meeting - Oct 10, 8:47 AM"), divise tra "You" e "Others", con un pulsante per riprendere; l'autore dice che si può rivedere l'intera trascrizione o riprendere la registrazione. Poi imposta la <strong>scorciatoia Option+1</strong>, avvia una nuova dettatura e mostra che il testo compare. Prova anche due lingue: detta una frase in cinese ("Jintian shi Zhouliu") e si vede che inglese e cinese convivono nello stesso input; la cronologia ha infatti righe in cinese accanto a righe in inglese.</p>
+<p>L'autore sottolinea due cose: l'app è <strong>molto veloce</strong>, e la trascrizione avviene <strong>in locale</strong> sulla sua macchina, quindi la voce non passa da internet; nell'app si legge "Your voice stays on your Mac". Nel terminale di Claude Code, mostrato a schermo, l'agente spiega come ottiene la trascrizione: <strong>non usa Wispr Flow</strong>, usa uno strumento vocale gratuito chiamato <strong>Whisper</strong>, fatto da OpenAI, che gira sul Mac stesso; ha messo una versione più grande e più intelligente, e un breve test ha impiegato <strong>meno di mezzo secondo</strong>. L'agente dice anche di aver trasformato l'app in una vera applicazione nella cartella Applications, chiede di approvare il permesso di <strong>Accessibility</strong> di macOS e chiama il progetto <strong>WFlow</strong>. Nella stessa schermata si legge che la sessione era su <strong>Opus 5.5</strong>, con 271k token usati e un costo cumulativo di <strong>7,65 dollari</strong>: sono i numeri della sessione mostrata, non necessariamente del solo prompt iniziale.</p>
+<h2>La tesi: il codice non è più il fossato</h2>
+<p>Chiusa la demo, l'autore dà la sua opinione, "my two cents": pensa che tutto questo sia <strong>rivoluzionario</strong>, perché ormai <strong>il codice di un'applicazione non è più il fossato</strong> (<em>moat</em>, cioè ciò che ti protegge dai concorrenti). Il fossato sono <strong>il marchio e gli utenti reali, e i dati</strong>. Come esempio cita <strong>PhotoCraft</strong> (nei sottotitoli "Photo Graph"), diventato virale da poco, che secondo lui clona l'intera suite di Adobe, cioè Premiere, Photoshop e il resto, <strong>scritta interamente in Rust</strong>, più veloce di altri linguaggi, e riesce a farlo "uno a uno" con molti strumenti usati ogni giorno. Sullo schermo si vede la pagina di PhotoCraft con la scritta "Get PhotoCraft with the Launcher" e la frase del sito "Layers, masks, adjustment layers... in a native app written entirely in Rust. Open source, offline, and yours.": che sia <strong>scritto in Rust</strong> lo dice quindi il sito stesso, mentre che sia un <strong>clone fedele della suite Adobe</strong> resta un'affermazione a voce dell'autore (la grafica "1:1" con le icone di Ps, Pr, Lr e Ae è un'illustrazione, non una prova).</p>
+<p>La conseguenza pratica che ne trae è di <strong>costruire marketing migliore e brand migliori</strong>: un marchio forte, dice, è l'unica cosa che i cloni non possono portarti via.</p>
+<h2>Fonti e note</h2>
+<ul>
+<li>Video: https://www.youtube.com/watch?v=FnB9tHKBJXQ (Eric Tech, 9:03; pubblicato l'11/10/2026, visto il 12/10/2026)</li>
+<li>report grezzo con trascrizione e fotogrammi</li>
+<li>Concetti collegati: claude-skills, mcp-connectors, harness, spec-driven-prompting</li>
+<li>Entità: Eric Tech, REA, Hopper, Claude Code, Codex, Wispr Flow</li>
+<li><strong>Omesso:</strong> due spot per la sua community a pagamento (uno a metà video, con la presentazione di sé come ex senior AI software engineer in grandi aziende e l'elenco dei contenuti del corso; uno nel finale), il rimando a un altro suo video su 40 skill di marketing, un inserto pubblicitario di un servizio di automazione (n8n) visto a schermo, le richieste di iscrizione e like.</li>
+<li><strong>Non verificato / da sapere:</strong> (1) tutto viene da questo solo video: non ho controllato il repository né il README oltre quanto mostrato; (2) i <strong>sottotitoli automatici</strong> scrivono "Whisper flow", "claw code", "Photo Graph": ho corretto leggendo lo schermo; (3) l'app clonata appare con due nomi (<strong>Utter</strong> nell'interfaccia, <strong>WFlow</strong> nel terminale); (4) la demo gira su <strong>macOS</strong> (si vede <code>brew</code>, Option+1, Accessibility) e non è detto che il procedimento valga uguale su Windows; (5) il video <strong>non mostra il lavoro dell'agente</strong> tra il prompt e l'app finita, quindi non si sa quanto tempo sia servito né quanto sia fedele il clone oltre ciò che si vede; (6) stelle e fork (70,9k e 14,9k) sono quelli della scheda animata del video, non li ho controllati su GitHub; (7) clonare app commerciali con strumenti come Hopper può avere implicazioni di licenza e diritto d'autore che il video non discute.</li>
+</ul>
+<script>
+window.SB = (function () {
+  var API = 'https://brain-sync.tramitemarketing-it.workers.dev';
+  function url() { return API + '/state'; }
+  return {
+    attivo: !!API,
+    prendi: function () {
+      if (!API) return Promise.resolve(null);
+      return fetch(url(), { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .catch(function () { return null; });
+    },
+    manda: function (page, n, b, finale) {
+      if (!API) return;
+      var dati = JSON.stringify({ page: page, n: n, b: b });
+      try {
+        fetch(url(), {
+          method: 'POST', body: dati, keepalive: !!finale,
+          headers: { 'Content-Type': 'application/json' }
+        }).catch(function () {});
+      } catch (e) {}
+    },
+    commenta: function (testo) {
+      if (!API) return Promise.resolve(false);
+      return fetch(API + '/commenti', {
+        method: 'POST',
+        body: JSON.stringify({ slug: location.pathname, testo: testo }),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(function (r) { return r.ok; }).catch(function () { return false; });
+    }
+  };
+})();
+
+
+(function () {
+  var KEY = 'sb2:' + location.pathname;
+  var WPS = 4;             // parole al secondo (~240 wpm)
+  var MIN = 0.7, MAX = 6;  // secondi per blocco: minimo e tetto
+  var PASS = 0.5;          // se l'ho letto almeno a metà e sono andato oltre, conta
+  var IDLE = 120000;       // fermo da 2 min = non sta leggendo
+  var DONE = 0.9;          // 90% dei contenuti = letto
+
+  var nodes = [].slice.call(document.querySelectorAll('p, li, blockquote'))
+    .filter(function (n) { return !n.closest('.topbar') && n.textContent.trim().length > 1; });
+  if (nodes.length < 3) return;
+
+  var words = nodes.map(function (n) {
+    return Math.max(1, n.textContent.trim().split(/\s+/).length);
+  });
+  var need = words.map(function (w) {
+    return Math.min(MAX, Math.max(MIN, w / WPS));
+  });
+  var total = words.reduce(function (a, b) { return a + b; }, 0);
+  var acc = words.map(function () { return 0; });
+  var read = words.map(function () { return false; });
+
+  // ripristina lo stato salvato (se la pagina non è cambiata)
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s && s.n === nodes.length && typeof s.b === 'string') {
+      for (var i = 0; i < nodes.length; i++) read[i] = s.b.charAt(i) === '1';
+    }
+  } catch (e) {}
+
+  var bar = document.createElement('div'); bar.id = 'rp';
+  var dot = document.createElement('div'); dot.id = 'rd';
+  document.body.appendChild(bar); document.body.appendChild(dot);
+
+  // spunte di sezione: ogni h2 governa i blocchi fino all'h2 successivo
+  var secs = [];
+  var heads = [].slice.call(document.querySelectorAll('h2'));
+  heads.forEach(function (h) {
+    var idx = [];
+    for (var i = 0; i < nodes.length; i++) {
+      if (h.compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) {
+        var prev = null;
+        for (var k = 0; k < heads.length; k++) {
+          if (heads[k].compareDocumentPosition(nodes[i]) & Node.DOCUMENT_POSITION_FOLLOWING) prev = heads[k];
+        }
+        if (prev === h) idx.push(i);
+      }
+    }
+    if (!idx.length) return;
+    var b = document.createElement('button');
+    b.className = 'sec'; b.type = 'button';
+    b.title = 'Segna questa sezione come letta / non letta';
+    h.appendChild(b);
+    var sec = { el: b, idx: idx };
+    b.addEventListener('click', function () {
+      var allRead = idx.every(function (i) { return read[i]; });
+      idx.forEach(function (i) { read[i] = !allRead; acc[i] = allRead ? 0 : need[i]; });
+      paint(); save();
+    });
+    secs.push(sec);
+  });
+
+  function pct() {
+    var w = 0;
+    for (var i = 0; i < nodes.length; i++) if (read[i]) w += words[i];
+    return w / total;
+  }
+  function paint() {
+    var p = pct();
+    bar.style.width = (p * 100).toFixed(1) + '%';
+    var done = p >= DONE;
+    dot.textContent = done ? '✓ Letto' : Math.round(p * 100) + '%';
+    dot.className = done ? 'done' : '';
+    secs.forEach(function (s) {
+      var ok = s.idx.every(function (i) { return read[i]; });
+      s.el.className = ok ? 'sec ok' : 'sec';
+      s.el.textContent = ok ? '✓' : '○';
+    });
+  }
+  function bits() {
+    var b = '';
+    for (var i = 0; i < nodes.length; i++) b += read[i] ? '1' : '0';
+    return b;
+  }
+  var saveT = 0, syncT = 0, ultimo = '';
+  function save(finale) {
+    var b = bits();
+    clearTimeout(saveT);
+    saveT = setTimeout(function () {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          v: 2, n: nodes.length, b: b, p: Math.round(pct() * 100), t: Date.now()
+        }));
+      } catch (e) {}
+    }, 400);
+    // verso il server: di rado, per non consumare la quota gratuita
+    if (!window.SB || !SB.attivo || b === ultimo) return;
+    if (finale) { ultimo = b; SB.manda(location.pathname, nodes.length, b, true); return; }
+    clearTimeout(syncT);
+    syncT = setTimeout(function () {
+      ultimo = b;
+      SB.manda(location.pathname, nodes.length, b, false);
+    }, 8000);
+  }
+
+  // all'apertura: unisco i progressi già fatti su altri dispositivi
+  if (window.SB && SB.attivo) {
+    SB.prendi().then(function (st) {
+      if (!st || !st.pages) return;
+      var r = st.pages[location.pathname];
+      if (!r || r.n !== nodes.length) return;
+      var cambiato = false;
+      for (var i = 0; i < nodes.length; i++) {
+        if (r.b.charAt(i) === '1' && !read[i]) { read[i] = true; acc[i] = need[i]; cambiato = true; }
+      }
+      if (cambiato) { paint(); save(); }
+    });
+  }
+
+  // quali blocchi sono nella fascia centrale dello schermo (dove si legge davvero)
+  var visible = Object.create(null);
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var i = nodes.indexOf(en.target);
+      if (i < 0) return;
+      if (en.isIntersecting) visible[i] = 1; else delete visible[i];
+    });
+  }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+  nodes.forEach(function (n) { io.observe(n); });
+
+  var last = Date.now();
+  ['scroll', 'mousemove', 'keydown', 'touchstart', 'wheel', 'click'].forEach(function (ev) {
+    addEventListener(ev, function () { last = Date.now(); }, { passive: true });
+  });
+
+  setInterval(function () {
+    if (document.hidden || Date.now() - last > IDLE) return;
+    var changed = false, i;
+    for (i in visible) {
+      i = +i;
+      if (read[i]) continue;
+      acc[i] += 0.25;
+      if (acc[i] >= need[i]) { read[i] = true; changed = true; }
+    }
+    // blocco letto almeno a metà e ormai scorso sopra la fascia di lettura:
+    // è il comportamento di chi legge un paragrafo e prosegue.
+    for (i = 0; i < nodes.length; i++) {
+      if (read[i] || acc[i] < need[i] * PASS) continue;
+      if (nodes[i].getBoundingClientRect().bottom < innerHeight * 0.25) {
+        read[i] = true; changed = true;
+      }
+    }
+    if (changed) { paint(); save(); }
+  }, 250);
+
+  dot.addEventListener('click', function () {
+    var all = pct() >= DONE;
+    for (var i = 0; i < nodes.length; i++) { read[i] = !all; acc[i] = all ? 0 : need[i]; }
+    paint(); save();
+  });
+  dot.title = 'Tocca per segnare tutto come letto / non letto';
+
+  paint();
+  addEventListener('beforeunload', function () { save(true); });
+  addEventListener('visibilitychange', function () { if (document.hidden) save(true); });
+})();
+
+(function () {
+  if (!window.SB || !SB.attivo || !SB.commenta) return;
+  var btn = document.createElement('button');
+  btn.textContent = '💬';
+  btn.title = 'Lascia un commento-istruzione per Claude';
+  btn.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:60;width:48px;height:48px;border-radius:24px;border:none;font-size:22px;background:#2b6cb0;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);cursor:pointer';
+  var box = document.createElement('div');
+  box.style.cssText = 'position:fixed;right:16px;bottom:72px;z-index:60;display:none;width:min(92vw,340px);background:#1c2733;border:1px solid #33475b;border-radius:12px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.5)';
+  box.innerHTML = '<textarea rows="4" placeholder="Scrivi a Claude: es. salva questo prompt come prompt-XXX e aggiungilo alla skill prompt" style="width:100%;box-sizing:border-box;background:#111a22;color:#eee;border:1px solid #33475b;border-radius:8px;padding:8px;font:inherit"></textarea>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end;align-items:center">' +
+    '<span data-esito style="font-size:13px;color:#9fb3c8"></span>' +
+    '<button data-invia style="background:#2b6cb0;color:#fff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit">Invia</button></div>';
+  document.body.appendChild(btn); document.body.appendChild(box);
+  var ta = box.querySelector('textarea'), esito = box.querySelector('[data-esito]');
+  btn.onclick = function () {
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+    if (box.style.display === 'block') ta.focus();
+  };
+  box.querySelector('[data-invia]').onclick = function () {
+    var t = ta.value.trim(); if (!t) return;
+    esito.textContent = '…';
+    SB.commenta(t).then(function (ok) {
+      esito.textContent = ok ? 'Salvato ✓ Claude lo legge al prossimo /watch' : 'Errore, riprova';
+      if (ok) ta.value = '';
+    });
+  };
+})();
+</script>
+</body>
+</html>
