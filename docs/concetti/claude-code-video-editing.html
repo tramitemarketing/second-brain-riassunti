@@ -148,6 +148,22 @@ th { background: #f4f6f8; font-weight: 700; }
 <p>Il riepilogo che ne dà lui stesso a ottobre (i-tried-100-github-repos-for-claude-these-6-are-the-best-2026-10-12, posizione n.1 della sua top 10): Hyperframes è di <strong>HeyGen</strong>, è open source, Claude costruisce il video <strong>in HTML e animazioni</strong> e Hyperframes lo <strong>rende in MP4 sul tuo computer, senza costi per render</strong>. Conosce <strong>Remotion</strong>, che fa la stessa cosa, ma con Hyperframes dice di aver avuto più successo. Sopra ci costruisce skill sue (intro YouTube, reel, video per corsi, pubblicità), e il lavoro da vendere è il <strong>pacchetto contenuti mensile</strong>, per esempio 20 clip con sottotitoli al mese per una palestra.</p>
 <h2>Quale modello monta meglio (2026-10)</h2>
 <p>Prova sul campo con lo stack Hyperframes: su <strong>tre compiti di montaggio</strong> (sizzle reel da 105 GB via Frame.io, reel Instagram, reel animato personale) <strong>Opus 5.5 vince tutti e tre</strong> contro GPT-6 Astra, e li rivince contro GPT-6 Sol (i-tested-opus-5-5-vs-gpt-6-astra-on-12-real-use-cases-2026-10-04, i-tested-opus-5-5-vs-gpt-6-sol-on-10-real-use-cases-2026-10-04). La diagnosi è precisa e utile perché dice <em>cosa</em> manca all'altro: Astra «fa bene vision, screenshot e B-roll, ma <strong>l'energia e la creatività non c'erano</strong>», e soprattutto <strong>non sincronizza sui beat</strong> della musica. Il montaggio è il caso-limite del criterio di <a href="model-routing.html">model-routing</a>: nessuna specifica chiusa, tutto giudizio — quindi il modello con più gusto vince, e vale la spesa.</p>
+<h2>Mettere la propria faccia in un video modello: il flusso a 11 passi (Sirio, ottobre 2026)</h2>
+<p>Una pipeline diversa dalle altre di questa pagina: non monta, <strong>sostituisce le persone</strong> di un video con le tue foto, rifacendo da sé l'effetto Genjutsu di Higgsfield (dear-higgsfield-i-reverse-engineered-you-in-12-hours-2026-10-12). Gira con un agente (nel video <strong>Codex</strong>), una chiave <strong>Replicate</strong> e una del provider di Seedance 2.5 (Enhancor). Gli 11 passi:</p>
+<ol>
+<li>si carica il video e se ne tiene l'audio per la fine;</li>
+<li><strong>Demucs</strong> separa le voci dalla musica;</li>
+<li><strong>Rubber Band</strong> alza le voci di tre semitoni;</li>
+<li><strong>Depth Anything</strong> fa il video di profondità (vicino chiaro, lontano scuro: restano le sagome, spariscono i volti);</li>
+<li><strong>SAM 3</strong> ritaglia le persone fotogramma per fotogramma;</li>
+<li>le sagome vanno sopra lo sfondo originale;</li>
+<li>le voci alzate di tono vengono incorporate;</li>
+<li><strong>controlli tu</strong> la maschera prima di spendere;</li>
+<li>Seedance fa la bozza a 480p;</li>
+<li>si butta l'audio di Seedance e si rimette la colonna sonora originale;</li>
+<li>approvi e generi il 1080p.</li>
+</ol>
+<p>Tre dettagli riusabili. <strong>Primo, il cancello prima di spendere:</strong> il passo 8 non lascia generare finché non hai guardato la maschera, e il 1080p non parte mai senza chiedertelo, perché «gli agenti sono imprevedibili» e una maschera bucata fa buttare soldi. <strong>Secondo, i due errori del primo tentativo e le correzioni:</strong> una mappa di profondità non sa com'è la stanza, quindi si fa descrivere all'agente l'ambiente da uno screenshot («non descrivere le persone») e lo si aggiunge al prompt come sezione <em>Scene</em>; e il modello «ricalca il contorno» (gli dava il corpo dell'attore), quindi si ritagliano le persone di profondità e si appoggiano sopra il video vero. <strong>Terzo, la variante veloce:</strong> al posto di profondità e ritaglio si disegna una <strong>face mesh</strong> di Google MediaPipe (478 punti, salvati in <code>face_landmarks.json</code>); va meglio con una sola persona che parla in camera. I prompt sono a sezioni (<em>Editing Goal</em>, ruolo del video sorgente, ruolo delle foto, <em>Scene</em>, <em>Timeline Inheritance</em>) e i file vanno passati a Seedance come <strong>link</strong> (server temporanei come Catbox), non come file. Il progetto è gratuito e si installa dando all'agente la cartella e «leggi il README e configuralo». Avvertenza: il flusso serve ad aggirare il filtro di Seedance su volti e musica famosi (vedi <a href="aggregatori-modelli-creativi.html">aggregatori-modelli-creativi</a>), e il video non discute diritti né termini d'uso.</p>
 <h2>Fonti</h2>
 <ul>
 <li>how-i-fully-automated-my-video-editing-2026-07-16 (2026-07-16) — stack WhisperX + HyperFrames</li>
@@ -159,6 +175,7 @@ th { background: #f4f6f8; font-weight: 700; }
 <li>opus-5-5-just-changed-video-editing-forever-2026-09-27 (Nate Herk) — Opus 5.5 in Claude Code, un solo prompt, sei esempi, skill da video d'ispirazione</li>
 <li>i-tested-opus-5-5-vs-gpt-6-astra-on-12-real-use-cases-2026-10-04 (Nate Herk) e i-tested-opus-5-5-vs-gpt-6-sol-on-10-real-use-cases-2026-10-04 (2026-10-04) — Opus 5.5 vince tutti i compiti di montaggio; ad Astra mancano energia e sincronizzazione sui beat</li>
 <li>i-tried-100-github-repos-for-claude-these-6-are-the-best-2026-10-12 (Nate Herk, 2026-10-11) — Hyperframes: render locale senza costi, confronto con Remotion, il pacchetto contenuti mensile</li>
+<li>dear-higgsfield-i-reverse-engineered-you-in-12-hours-2026-10-12 (Sirio, 2026-10-09) — sostituire le persone di un video: flusso a 11 passi (Demucs, Rubber Band, Depth Anything, SAM 3, Seedance), cancello di approvazione, variante face mesh</li>
 </ul>
 <script>
 window.SB = (function () {
